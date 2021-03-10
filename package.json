@@ -1,5 +1,5 @@
 {
-  "name": "terminusdb-live-pattern-libary",
+  "name": "terminusdb-live-pattern-library",
   "private": true,
   "devDependencies": {
     "lerna": "^4.0.0"
