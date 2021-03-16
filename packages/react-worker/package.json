@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb-live/react-worker",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "react hook library for manage terminusdb live workers",
   "main": "src/index",
   "module": "es6/index",
