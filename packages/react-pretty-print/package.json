@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb-live/react-pretty-print",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "pretty printer",
   "main": "src/index",
   "module": "es6/index",
@@ -36,9 +36,9 @@
   "repository": {},
   "author": "terminusdb group",
   "peerDependencies": {
+    "@terminusdb-live/react-worker": "^0.1.0",
     "react": "^16.10.3",
-    "react-dom": "^16.10.3",
-    "@terminusdb-live/react-worker": "^0.1.0"
+    "react-dom": "^16.10.3"
   },
   "dependencies": {
     "classnames": "^2.2.5",
