@@ -1,3 +1,12 @@
+<<<<<<< HEAD
 /node_modules
 
 packages/prettyPrintJSON/node_modules
+=======
+packages/*/node_modules
+packages/*/dist
+packages/*/es6
+
+node_modules/
+lerna-debug.log
+>>>>>>> 961b238834418cafaadbe3369fab5e07a6124bb5
