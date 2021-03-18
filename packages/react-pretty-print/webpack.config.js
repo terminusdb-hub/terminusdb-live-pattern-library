@@ -11,16 +11,28 @@ module.exports = {
                 },
             },
         ]
-    },
+    },   
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'pretty_print_json.min.js',
-        sourceMapFilename: 'pretty_print_json.min.js.map',
+        filename: 'react-pretty-print.min.js',
+        sourceMapFilename: 'react-pretty-print.min.js.map',
         libraryTarget: 'umd',
-        library: 'PrettyPrintJson',
+        library: 'ReactPrettyPrint',
+    },
+    resolve: {
+      alias: {
+        "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js')
+      },
+      extensions: ['.js', '.jsx', '.json'],
     },
     externals: {
-    react: {
+    '@terminusdb-live/react-worker': {
+        root: 'ReactWorker',
+        commonjs2: '@terminusdb-live/react-worker',
+        commonjs: '@terminusdb-live/react-worker',
+        amd: 'ReactWorker',
+    },
+    'react': {
       root: 'React',
       commonjs2: 'react',
       commonjs: 'react',
