@@ -1,6 +1,6 @@
 {
-  "name": "@terminusdb-live/react-worker",
-  "version": "0.1.1",
+  "name": "@terminusdb-live/react-chart",
+  "version": "0.1.0",
   "description": "react hook library for manage terminusdb live workers",
   "main": "src/index",
   "module": "es6/index",
@@ -54,6 +54,7 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
     "@babel/plugin-proposal-function-bind": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/plugin-transform-react-jsx": "^7.13.12",
     "@babel/plugin-transform-regenerator": "^7.12.13",
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/polyfill": "^7.6.0",
