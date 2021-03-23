@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = env => ({
+module.exports = {
     entry: './src/index.js',
     module: {
         rules: [
@@ -14,14 +14,15 @@ module.exports = env => ({
     },   
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: `${env.filename}.min.js`,
-        sourceMapFilename: `${env.filename}.min.js.map`,
+        filename: 'react-chart.min.js',
+        sourceMapFilename: 'react-chart.min.js.map',
         libraryTarget: 'umd',
-        library: env.libname,
+        library: 'ReactChart',
     },
     resolve: {
       alias: {
-        "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js')
+        "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
+        "@terminusdb/terminusdb-react-chart":path.resolve('../../../terminusdb-react-chart/src/index.js')
       },
       extensions: ['.js', '.jsx', '.json'],
     },
@@ -51,4 +52,4 @@ module.exports = env => ({
       amd: 'prop-types',
     }
   },
-})
+}

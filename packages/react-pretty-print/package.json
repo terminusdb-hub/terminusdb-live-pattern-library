@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js'",
-    "build": "npm run build-es6 && webpack --mode production",
+    "build": "npm run build-es6 && webpack --mode production --env filename=react-pretty-print --env libname=ReactPrettyPrint",
     "demo": "webpack-dev-server --progress --port 3030 --host localhost --content-base demo --inline --config demo/webpack.config.js",
     "test": "exit 0",
     "lint": "eslint src",
@@ -101,5 +101,6 @@
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"
   },
-  "license": "APACHE"
+  "license": "APACHE",
+  "gitHead": "aa081c438b01f552aaad466229baee35c0299ff5"
 }
