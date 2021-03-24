@@ -43,6 +43,7 @@
     "axios": "^0.21.1",
     "classnames": "^2.2.5",
     "core-js": "^3.4.2",
+    "moment": "^2.29.1",
     "prop-types": "^15.6.0"
   },
   "devDependencies": {
