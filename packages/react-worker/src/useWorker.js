@@ -12,7 +12,7 @@ export const useWorker = (startData,onloadEndPoint,useGroup) => {
         async function onLoad(componentName,endPoint){
             try{
                 const result = await axiosHub.get(onloadEndPoint)
-                formatResult(result)
+                formatResult(result.data)
                 //setDataProvider(result)
             }catch(err){
                 console.log(err)
@@ -24,6 +24,7 @@ export const useWorker = (startData,onloadEndPoint,useGroup) => {
    }, [onloadEndPoint])
 
    function formatResult(result){
+       
        if(result){
         const formattedTmp=[]
         
@@ -37,7 +38,7 @@ export const useWorker = (startData,onloadEndPoint,useGroup) => {
             formattedTmp.push(obj) 
         })*/
 
-        const groupBy = [];
+        let groupBy = [];
         if(useGroup  === true){
         result.forEach( el =>{
            const userName=el['UserName']
