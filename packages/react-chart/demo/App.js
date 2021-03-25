@@ -13,8 +13,8 @@ const App= (props) =>{
     console.log(mom.format('YYYY-MM-DD ddd'))
       //}
 
-    //const start=[{"TimeStamp":"2021-03-16T00:00:00.000Z","Commit_num":9,"Commit_numTool":{"Cheukting":9}},{"TimeStamp":"2021-03-17T00:00:00.000Z","Commit_num":15,"Commit_numTool":{"Cheukting":13,"GavinMendelGleason":2}},{"TimeStamp":"2021-03-18T00:00:00.000Z","Commit_num":3,"Commit_numTool":{"Cheukting":3}},{"TimeStamp":"2021-03-23T00:00:00.000Z","Commit_num":18,"Commit_numTool":{"Cheukting":16,"github-actions[bot]":2}}]
-    return <ReactChart onLoad="https://hub-dev.dcm.ist/api/workers/admin/a15d7h1616496639611"  config={configData}/>
+    const start=[{"TimeStamp":"2021-03-16T00:00:00.000Z","Commit_num":9,"Commit_numTool":{"Cheukting":9}},{"TimeStamp":"2021-03-17T00:00:00.000Z","Commit_num":15,"Commit_numTool":{"Cheukting":13,"GavinMendelGleason":2}},{"TimeStamp":"2021-03-18T00:00:00.000Z","Commit_num":3,"Commit_numTool":{"Cheukting":3}},{"TimeStamp":"2021-03-23T00:00:00.000Z","Commit_num":18,"Commit_numTool":{"Cheukting":16,"github-actions[bot]":2}}]
+    return <ReactChart startData={start}  config={configData}/>
   //onLoad="https://hub-dev.dcm.ist/api/workers/admin/a15d7h1616496639611"
 }
 
