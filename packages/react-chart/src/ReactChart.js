@@ -6,7 +6,7 @@ export const ReactChart = (props) =>{
     const startData= props.startData || []
     const config=props.config || {}
     
-    const {onChange,error,loading,dataProvider} = useWorker(startData,props.onLoad)
+    const {onChange,error,loading,dataProvider} = useWorker(startData,props.onLoad,true)
 
     
 //only for test the style in external file

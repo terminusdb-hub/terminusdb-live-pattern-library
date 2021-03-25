@@ -1,7 +1,7 @@
 import React, { useState,useEffect} from "react";
 import   axios  from "axios"
 
-export const useWorker = (startData,onloadEndPoint) => {
+export const useWorker = (startData,onloadEndPoint,useGroup) => {
   const axiosHub=axios.create();
   const startDataTmp=startData || []
   const [dataProvider,setDataProvider] = useState(startDataTmp)
@@ -24,10 +24,10 @@ export const useWorker = (startData,onloadEndPoint) => {
    }, [onloadEndPoint])
 
    function formatResult(result){
-       if(result.data && result.data.bindings){
+       if(result){
         const formattedTmp=[]
         
-        result.data.bindings.forEach(item=>{
+       /* result.data.bindings.forEach(item=>{
             //console.log("___item____",item)
             const obj={}
             Object.keys(item).forEach(key=>{
@@ -35,10 +35,11 @@ export const useWorker = (startData,onloadEndPoint) => {
                 obj[key]=item[key]['@value']
             })
             formattedTmp.push(obj) 
-        })
+        })*/
 
-        const groupBy = {};
-        formattedTmp.forEach( el =>{
+        const groupBy = [];
+        if(useGroup  === true){
+        result.forEach( el =>{
            const userName=el['UserName']
            const commit_num=el['Commit_num']
            if(!groupBy[el['TimeStamp']]){          
@@ -53,6 +54,9 @@ export const useWorker = (startData,onloadEndPoint) => {
                 groupBy[el['TimeStamp']]['Commit_num'] = com_value
            }
         })
+      }else{
+        groupBy=result
+      }
 
        // console.log("___GROUP____",groupBy)
 
@@ -68,7 +72,7 @@ export const useWorker = (startData,onloadEndPoint) => {
           "2020-11-25T00:00:00": 388
         }
       },*/
-        console.log(JSON.stringify(Object.values(groupBy)))
+        //console.log(JSON.stringify(Object.values(groupBy)))
         setDataProvider(Object.values(groupBy))
        }
 
