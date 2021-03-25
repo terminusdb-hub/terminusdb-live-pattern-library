@@ -40,6 +40,7 @@
     "react-dom": "^16.10.3"
   },
   "dependencies": {
+    "@terminusdb/terminusdb-react-chart": "file:../../../terminusdb-react-chart",
     "axios": "^0.21.1",
     "classnames": "^2.2.5",
     "core-js": "^3.4.2",
