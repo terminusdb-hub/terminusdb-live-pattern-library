@@ -1,10 +1,11 @@
 import React, { useState,useEffect} from "react";
 import   axios  from "axios"
 
-export const useWorker = (startData,onloadEndPoint) => {
+export const useGroupWorker = (startDataGroup,onloadEndPoint,useGroup) => {
   const axiosHub=axios.create();
-  const startDataTmp=startData || []
-  const [dataProvider,setDataProvider] = useState(startDataTmp)
+  const startDataTmp=startDataGroup || {}
+  const [dataProviderGroup,setDataProvider] = useState(startDataTmp)
+  const [needUpdate,setNeedUpdate]= useState()
   const [error,setError]= useState('')
   const [loading,setOnLoading]= useState(false)
 
@@ -22,12 +23,6 @@ export const useWorker = (startData,onloadEndPoint) => {
         }
       if(onloadEndPoint)onLoad()
    }, [onloadEndPoint])
-
-
-   useEffect(() => {
-      setDataProvider(startData)
-      //if(onloadEndPoint)onLoad()
-   }, [startData])
 
    function formatResult(result){
        
@@ -61,34 +56,30 @@ export const useWorker = (startData,onloadEndPoint) => {
                 groupBy[el['TimeStamp']]['Commit_num'] = com_value
            }
         })
+        return Object.values(groupBy)
       }else{
-        groupBy=result
+        return result
       }
-
-       // console.log("___GROUP____",groupBy)
-
-       
-
-
-        /*
-        "Date": "2020-11-25T00:00:00",
-      "Commit":{value:56, tooltip:{anna:45,ddkkfk}}
-      "0Days": {
-        "value": 388,
-        "tooltip": {
-          "2020-11-25T00:00:00": 388
-        }
-      },*/
-        //console.log(JSON.stringify(Object.values(groupBy)))
-        setDataProvider(Object.values(groupBy))
-       }
+    }
 
    }
-   
-   async function onChange(endPoint){
+   //post ok
+   async function onChange(endPoint,payload,resultVarName){
+    try{
+      const result = await axiosHub.post(endPoint,payload)
+      const resFormat=formatResult(result.data)
+      const dataProvider = dataProviderGroup
+      dataProvider[resultVarName]=resFormat
+      setDataProvider(dataProvider)
+      setNeedUpdate(Date.now())
+    }catch(err){
+          console.log(err)
+    }finally{
 
+    }
    }
 
-   return {dataProvider,onChange,error,loading}
+   return {dataProviderGroup,onElementChange:onChange,error,loading}
 }
+
   

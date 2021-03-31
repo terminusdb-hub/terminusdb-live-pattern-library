@@ -9,19 +9,20 @@ module.exports = {
                 use:{
                     loader: "babel-loader",
                 },
-            }
+            },
         ]
     },   
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: `react-pretty-print.min.js`,
-        sourceMapFilename: 'react-pretty-print.min.js.map',
+        filename: 'tdb-react-group.min.js',
+        sourceMapFilename: 'tdb-react-group.min.js.map',
         libraryTarget: 'umd',
-        library: 'ReactPrettyPrint',
+        library: 'TDBReactGroup',
     },
     resolve: {
       alias: {
         "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
+        "@terminusdb-live/react-pretty-printer":path.resolve('../react-pretty-printer/src/index.js'),
         react: path.resolve('./node_modules/react')
       },
       extensions: ['.js', '.jsx', '.json'],
@@ -32,6 +33,12 @@ module.exports = {
         commonjs2: '@terminusdb-live/react-worker',
         commonjs: '@terminusdb-live/react-worker',
         amd: 'ReactWorker',
+    },
+    '@terminusdb-live/react-pretty-printer': {
+      root: 'ReactPrettyPrint',
+      commonjs2: '@terminusdb-live/react-pretty-printer',
+      commonjs: '@terminusdb-live/react-pretty-printer',
+      amd: 'ReactPrettyPrint',
     },
     'react': {
       root: 'React',
