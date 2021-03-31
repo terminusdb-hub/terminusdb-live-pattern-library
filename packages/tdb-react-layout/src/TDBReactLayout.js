@@ -1,7 +1,6 @@
 import React from "react"
 import {useWorker} from "@terminusdb-live/react-worker"
-import {CounterWidget} from "./Card"
-import {Col, Row} from '@themesberg/react-bootstrap';
+import {Row} from '@themesberg/react-bootstrap';
 import {TDBReactCard} from '@terminusdb-live/tdb-react-layout';
 
 export const TDBReactLayout = (props) =>{

@@ -19,3 +19,12 @@ div.icon-shape svg {
      font-size: 2rem; 
 }
 
+
+div.tdb-btn-group-vertical {
+    display: inline-grid;
+}
+
+div.tdb-btn-group-horizontal{
+    display: initial;
+}
+
