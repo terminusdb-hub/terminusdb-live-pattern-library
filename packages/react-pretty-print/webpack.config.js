@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = env => ({
+module.exports = {
     entry: './src/index.js',
     module: {
         rules: [
@@ -9,19 +9,20 @@ module.exports = env => ({
                 use:{
                     loader: "babel-loader",
                 },
-            },
+            }
         ]
     },   
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: `${env.filename}.min.js`,
-        sourceMapFilename: `${env.filename}.min.js.map`,
+        filename: `react-pretty-print.min.js`,
+        sourceMapFilename: 'react-pretty-print.min.js.map',
         libraryTarget: 'umd',
-        library: env.libname,
+        library: 'ReactPrettyPrint',
     },
     resolve: {
       alias: {
-        "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js')
+        "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
+        react: path.resolve('./node_modules/react')
       },
       extensions: ['.js', '.jsx', '.json'],
     },
@@ -51,4 +52,4 @@ module.exports = env => ({
       amd: 'prop-types',
     }
   },
-})
+}
