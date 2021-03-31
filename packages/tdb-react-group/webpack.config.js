@@ -40,6 +40,12 @@ module.exports = {
       commonjs: '@terminusdb-live/react-pretty-printer',
       amd: 'ReactPrettyPrint',
     },
+    '@terminusdb-live/react-chart': {
+      root: 'ReactChart',
+      commonjs2: '@terminusdb-live/react-chart',
+      commonjs: '@terminusdb-live/react-chart',
+      amd: 'ReactChart',
+    },
     'react': {
       root: 'React',
       commonjs2: 'react',

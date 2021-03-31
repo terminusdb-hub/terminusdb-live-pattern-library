@@ -41,6 +41,7 @@
     "react-dom": "^16.10.3"
   },
   "dependencies": {
+    "@terminusdb-live/react-chart": "file:../react-chart",
     "@terminusdb-live/react-pretty-print": "file:../react-pretty-print",
     "classnames": "^2.2.5",
     "core-js": "^3.10.0",

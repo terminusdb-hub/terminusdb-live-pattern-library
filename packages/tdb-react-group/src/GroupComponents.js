@@ -5,13 +5,16 @@ import {PortalComponent} from './PortalComponent'
 //import {JsonPrint} from './Child'
 import {Button} from 'react-bootstrap'
 import {JsonPrint} from '@terminusdb-live/react-pretty-print'
+import {ReactChart} from "@terminusdb-live/react-chart"
 
 export const GroupComponents = (props) =>{
     const startData= props.startData || {}
     const config=props.config || []
 
     //to be review server side compilation
-    const componentMatch= {"ReactPrettyPrint.JsonPrint":JsonPrint}
+    const componentMatch= {"ReactPrettyPrint.JsonPrint":JsonPrint,
+                           "ReactChart.ReactChart":ReactChart}
+
 
     const {dataProviderGroup,onElementChange,error,loading} = useGroupWorker(startData)
 
@@ -26,11 +29,12 @@ export const GroupComponents = (props) =>{
     const conf0=config['0']['lib_name']
 
     return config.map((component,index)=>{
-            const dataP= dataProviderGroup[component['resultVarName']] || {hello:'start'}
+            const dataP= component.startData || dataProviderGroup[component['resultVarName']] || []
 
             return el(PortalComponent, {key:`portal__${index}`, component:`component___${index}`}, [
             el(componentMatch[component.lib_name], { key:`el__${index}`, onChangeFunction:onElementChange, 
                                                      startData: dataP,
+                                                     config:component.config,
                                                      resultVarName:component.resultVarName, 
                                                      onChangeEndPoint:component.onChangeEndPoint }, null)])
     })

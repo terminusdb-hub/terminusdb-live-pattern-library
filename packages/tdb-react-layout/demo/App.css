@@ -8,6 +8,10 @@ font-size: 0.85em;
 font-weight: 600;
 }
 
+.bg-custom-blue{
+    background: #051a31;
+}
+
 .cursor-pointer{
   cursor : pointer;
 }
