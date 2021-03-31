@@ -1,16 +1,4 @@
 
-body{
-color: #4a5073;
-background: #E3EBF6;
-}
-.recharts-cartesian-axis-ticks{
-font-size: 0.85em;
-font-weight: 600;
-}
-
-.cursor-pointer{
-  cursor : pointer;
-}
 
 
 div.icon {
@@ -29,5 +17,14 @@ div.icon-shape {
 
 div.icon-shape svg {
      font-size: 2rem; 
+}
+
+
+div.tdb-btn-group-vertical {
+    display: inline-grid;
+}
+
+div.tdb-btn-group-horizontal{
+    display: initial;
 }
 
