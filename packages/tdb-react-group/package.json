@@ -43,6 +43,8 @@
   "dependencies": {
     "@terminusdb-live/react-chart": "file:../react-chart",
     "@terminusdb-live/react-pretty-print": "file:../react-pretty-print",
+    "@terminusdb-live/tdb-react-button": "file:../tdb-react-button",
+    "@terminusdb-live/tdb-react-layout": "file:../tdb-react-layout",
     "classnames": "^2.2.5",
     "core-js": "^3.10.0",
     "prop-types": "^15.6.0",

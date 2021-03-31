@@ -46,6 +46,18 @@ module.exports = {
       commonjs: '@terminusdb-live/react-chart',
       amd: 'ReactChart',
     },
+    '@terminusdb-live/tdb-react-layout': {
+      root: 'TDBReactLayout',
+      commonjs2: '@terminusdb-live/tdb-react-layout',
+      commonjs: '@terminusdb-live/tdb-react-layout',
+      amd: 'TDBReactLayout',
+    },
+    '@terminusdb-live/tdb-react-button': {
+      root: 'TDBReactButton',
+      commonjs2: '@terminusdb-live/tdb-react-button',
+      commonjs: '@terminusdb-live/tdb-react-button',
+      amd: 'TDBReactButton',
+    },
     'react': {
       root: 'React',
       commonjs2: 'react',

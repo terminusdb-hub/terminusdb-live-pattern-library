@@ -6,6 +6,9 @@ import {PortalComponent} from './PortalComponent'
 import {Button} from 'react-bootstrap'
 import {JsonPrint} from '@terminusdb-live/react-pretty-print'
 import {ReactChart} from "@terminusdb-live/react-chart"
+import {TDBReactLayout} from "@terminusdb-live/tdb-react-layout"
+import {TDBReactButtonGroup} from "@terminusdb-live/tdb-react-button"
+
 
 export const GroupComponents = (props) =>{
     const startData= props.startData || {}
@@ -13,7 +16,10 @@ export const GroupComponents = (props) =>{
 
     //to be review server side compilation
     const componentMatch= {"ReactPrettyPrint.JsonPrint":JsonPrint,
-                           "ReactChart.ReactChart":ReactChart}
+                           "ReactChart.ReactChart":ReactChart,
+                           "TDBReactLayout.TDBReactLayout":TDBReactLayout,
+                           "TDBReactButton.TDBReactButtonGroup":TDBReactButtonGroup
+                          }
 
 
     const {dataProviderGroup,onElementChange,error,loading} = useGroupWorker(startData)
@@ -33,7 +39,7 @@ export const GroupComponents = (props) =>{
 
             return el(PortalComponent, {key:`portal__${index}`, component:`component___${index}`}, [
             el(componentMatch[component.lib_name], { key:`el__${index}`, onChangeFunction:onElementChange, 
-                                                     startData: dataP,
+                                                     startData: dataP, onLoad: component.onLoad,
                                                      config:component.config,
                                                      resultVarName:component.resultVarName, 
                                                      onChangeEndPoint:component.onChangeEndPoint }, null)])
