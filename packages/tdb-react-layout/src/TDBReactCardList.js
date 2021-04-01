@@ -1,5 +1,4 @@
 import React from "react"
-import {Card, Col} from '@themesberg/react-bootstrap';
 
 export const TDBReactCardList=(props) => {
 
@@ -8,27 +7,21 @@ export const TDBReactCardList=(props) => {
 
     const iconName=`fas ${config.icon} fa-1x m-4` 
 
-    return <Col xl={config.size} >
-        <Card border="light" className="shadow-sm">
-            <Card.Body>
-                <div className="d-flex align-items-center justify-content-between border-bottom border-light pb-3">
-                    <div>
+    return <div className="d-flex align-items-center justify-content-between border-bottom border-light pb-3">
+        <div>
 
-                        <h6>
-                            <i class={iconName}></i>
-                            <span ml={4} class="ml-4">
-                                {config.title}
-                            </span>
-                        </h6>
-                    </div>
-                    <div>
-                        {/*<Card.Link href="#" className="text-primary fw-bold">
-                            {data}
-                        </Card.Link>*/}
-                        <h4 className="text-primary fw-bold">{data}</h4>
-                    </div>
-                </div>
-            </Card.Body>
-        </Card>
-    </Col>;
+            <h6>
+                <i class={iconName}></i>
+                <span ml={4} class="ml-4">
+                    {config.title}
+                </span>
+            </h6>
+        </div>
+        <div>
+            {/*<Card.Link href="#" className="text-primary fw-bold">
+                {data}
+            </Card.Link>*/}
+            <h4 className="text-primary fw-bold">{data}</h4>
+        </div>
+    </div>
 }

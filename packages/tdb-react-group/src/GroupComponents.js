@@ -8,6 +8,7 @@ import {JsonPrint} from '@terminusdb-live/react-pretty-print'
 import {ReactChart} from "@terminusdb-live/react-chart"
 import {TDBReactLayout} from "@terminusdb-live/tdb-react-layout"
 import {TDBReactNav} from "@terminusdb-live/tdb-react-layout"
+import {TDBReactCardList} from "@terminusdb-live/tdb-react-layout"
 
 
 export const GroupComponents = (props) =>{

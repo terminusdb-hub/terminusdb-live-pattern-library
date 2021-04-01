@@ -15,7 +15,7 @@ const App= (props) =>{
             {id: "PullRequests",  title:"Pull Requests" , icon: "fa-code-branch"},
             {id: "Issues",  title:"Issues" , icon: "fa-exclamation-triangle"}]
     }
-
+ 
     let configCardList = {
         display: "List",
         size: 2,
@@ -42,8 +42,8 @@ const App= (props) =>{
             config={configCard}/>
         <TDBReactLayout onLoad="https://hub-dev.dcm.ist/api/workers/admin/tkrvdo1617178357567" 
             config={configCardList}/>
-        <TDBReactNav onLoad="https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409" 
-            config={repoConfig}/>
+        {<TDBReactNav onLoad="https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409" 
+            config={repoConfig}/>}
     </React.Fragment>
     
 }

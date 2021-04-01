@@ -1,8 +1,9 @@
 import React from "react"
 import {useWorker} from "@terminusdb-live/react-worker"
-import {Row, Col} from '@themesberg/react-bootstrap';
+import {Row} from '@themesberg/react-bootstrap';
 import {TDBReactCard} from './TDBReactCard'
 import {TDBReactCardList} from './TDBReactCardList'  
+import {Card} from '@themesberg/react-bootstrap';
   
 export const TDBReactLayout = (props) =>{
     if(!props.config)return ''
@@ -35,7 +36,11 @@ export const TDBReactLayout = (props) =>{
         }
         //<Row className="justify-content-md-center">
         return <React.Fragment>
-            {display == "List" && <>{children}</>}
+            {display == "List" && <Card border="light" className="shadow-sm">
+                <Card.Body>
+                    {children}
+                </Card.Body>
+            </Card>}
             {display == "Card" && 
             <Row className="d-flex justify-content-between"> 
                 {children}

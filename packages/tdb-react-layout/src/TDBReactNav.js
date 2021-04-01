@@ -1,12 +1,11 @@
 import React from "react"
 import {useWorker} from "@terminusdb-live/react-worker"
-import {Col, Nav} from '@themesberg/react-bootstrap'
+import {Nav} from '@themesberg/react-bootstrap'
 
 export const TDBReactNav= (props) =>{
     
     const startData= props.startData || []
     const config = props.config.navLinks || {}
-    
     
     const display = props.config.display || "Vertical"
     //var displayCss;
@@ -24,7 +23,8 @@ export const TDBReactNav= (props) =>{
                 let repoId = dataProvider[key].Repository
                 if(repoId == id){
                     let label = dataProvider[key].Label
-                    return {title: label, id: repoId, icon: curItem.icon, size: curItem.size}
+                    let iconName=`fas ${curItem.icon} fa-1x m-2`
+                    return {title: label, id: repoId, iconName: iconName, size: curItem.size}
                 }
             }
             return {}
@@ -34,24 +34,16 @@ export const TDBReactNav= (props) =>{
             let id = config[key].id 
             let extracted = extractFromBindings(id, config[key])
             navLinks.push(
-                <Nav.Link href="/home">{extracted.title}</Nav.Link>
+                <Nav.Link href="/home" key={`Link_${extracted.title}4`}>
+                    <i className={extracted.iconName}/>
+                    {extracted.title}
+                </Nav.Link>
             )
-
-            /*
-            <li className="nav-item">
-                    <TDBReactButton config={extracted} key={`tdbButton_${extracted.title}`}/>
-                </li>
-                */
         }
 
-        /*return <React.Fragment>
-            <ul className={displayCss}>
-                {buttons}
-            </ul>
-        </React.Fragment>*/
         return <Nav defaultActiveKey="/home" className="flex-column">
-        {navLinks}
-    </Nav>
+            {navLinks}
+        </Nav>
     } 
 
     return <div>LOADING</div> 
