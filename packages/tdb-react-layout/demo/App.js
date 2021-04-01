@@ -10,21 +10,21 @@ const App= (props) =>{
     let configCard = {
         display: "Card",
         size: 2,
-        cards: [{id: "Stars", title:"Stars" , icon: faStar},
-            {id: "Commits",  title:"Commits" , icon: faWaveSquare},
-            {id: "Forks",  title:"Forks" , icon: faShareAlt},
-            {id: "PullRequests",  title:"Pull Requests" , icon: faCodeBranch},
-            {id: "Issues",  title:"Issues" , icon: faExclamationTriangle}]
+        cards: [{id: "Stars", title:"Stars" , icon: "fa-star"},
+            {id: "Commits",  title:"Commits" , icon: "fa-wave-square"},
+            {id: "Forks",  title:"Forks" , icon: "fa-share-alt"},
+            {id: "PullRequests",  title:"Pull Requests" , icon: "fa-code-branch"},
+            {id: "Issues",  title:"Issues" , icon: "fa-exclamation-triangle"}]
     }
 
     let configCardList = {
         display: "List",
         size: 2,
-        cards: [{id: "Stars", title:"Stars" , icon: faStar},
-            {id: "Commits",  title:"Commits" , icon: faWaveSquare},
-            {id: "Forks",  title:"Forks" , icon: faShareAlt},
-            {id: "PullRequests",  title:"Pull Requests" , icon: faCodeBranch},
-            {id: "Issues",  title:"Issues" , icon: faExclamationTriangle}]
+        cards: [{id: "Stars", title:"Stars" , icon:"fa-star"},
+            {id: "Commits",  title:"Commits" , icon: "fa-wave-square"},
+            {id: "Forks",  title:"Forks" , icon: "fa-share-alt"},
+            {id: "PullRequests",  title:"Pull Requests" , icon: "fa-code-branch"},
+            {id: "Issues",  title:"Issues" , icon: "fa-exclamation-triangle"}]
     }
 
     return <React.Fragment>

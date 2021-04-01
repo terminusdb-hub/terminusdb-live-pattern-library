@@ -1,7 +1,7 @@
 import React, { useState,useEffect} from "react";
 import   axios  from "axios"
 
-export const useWorker = (startData,onloadEndPoint) => {
+export const useWorker = (startData,onloadEndPoint,useGroup) => {
   const axiosHub=axios.create();
   const startDataTmp=startData || []
   const [dataProvider,setDataProvider] = useState(startDataTmp)
@@ -24,10 +24,10 @@ export const useWorker = (startData,onloadEndPoint) => {
    }, [onloadEndPoint])
 
 
-   useEffect(() => {
+   /*useEffect(() => {
       setDataProvider(startData)
       //if(onloadEndPoint)onLoad()
-   }, [startData])
+   }, [startData])*/
 
    function formatResult(result){
        

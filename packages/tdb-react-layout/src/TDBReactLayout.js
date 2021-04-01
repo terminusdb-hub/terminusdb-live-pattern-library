@@ -1,9 +1,11 @@
 import React from "react"
 import {useWorker} from "@terminusdb-live/react-worker"
 import {Row, Col} from '@themesberg/react-bootstrap';
-import {TDBReactCard, TDBReactCardList} from '@terminusdb-live/tdb-react-layout';
-
+import {TDBReactCard} from './TDBReactCard'
+import {TDBReactCardList} from './TDBReactCardList'  
+  
 export const TDBReactLayout = (props) =>{
+    if(!props.config)return ''
     const startData= props.startData || []
     const config=props.config.cards || {}
     const display=props.config.display || 'Card'

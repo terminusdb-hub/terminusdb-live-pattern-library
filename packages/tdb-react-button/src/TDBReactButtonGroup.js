@@ -10,14 +10,15 @@ export const TDBReactButtonGroup= (props) =>{
     const config = props.config.buttons || {}
     const display = props.config.display || "Vertical"
     var displayCss;
-    (display == "Vertical") ? displayCss = "tdb-btn-group-vertical" : displayCss = "tdb-btn-group-horizontal" 
+    (display == "Vertical") ? displayCss = "nav flex-column" : displayCss = "nav flex" 
 
     const {onChange, error, loading, dataProvider} = useWorker(startData, props.onLoad, false)
 
     let buttons=[]
+    
+    console.log(JSON.stringify(dataProvider,null,4))
 
     if(dataProvider.length>0){
-
         function extractFromBindings(id, curItem){
             for(var key in dataProvider){
                 let repoId = dataProvider[key].Repository
@@ -32,13 +33,17 @@ export const TDBReactButtonGroup= (props) =>{
         for (var key in config) {
             let id = config[key].id 
             let extracted = extractFromBindings(id, config[key])
-            buttons.push(<TDBReactButton config={extracted} key={`tdbButton_${extracted.title}`}/>)
+            buttons.push(
+            <li className="nav-item">
+                <TDBReactButton config={extracted} key={`tdbButton_${extracted.title}`}/>
+            </li>
+            )
         }
 
         return <React.Fragment>
-            <Col xl={2} className={displayCss}>
+            <ul className={displayCss}>
                 {buttons}
-            </Col>
+            </ul>
         </React.Fragment>
     }
 
