@@ -7,7 +7,7 @@ import {Button} from 'react-bootstrap'
 import {JsonPrint} from '@terminusdb-live/react-pretty-print'
 import {ReactChart} from "@terminusdb-live/react-chart"
 import {TDBReactLayout} from "@terminusdb-live/tdb-react-layout"
-import {TDBReactButtonGroup} from "@terminusdb-live/tdb-react-button"
+import {TDBReactNav} from "@terminusdb-live/tdb-react-layout"
 
 
 export const GroupComponents = (props) =>{
@@ -18,7 +18,7 @@ export const GroupComponents = (props) =>{
     const componentMatch= {"ReactPrettyPrint.JsonPrint":JsonPrint,
                            "ReactChart.ReactChart":ReactChart,
                            "TDBReactLayout.TDBReactLayout":TDBReactLayout,
-                           "TDBReactButton.TDBReactButtonGroup":TDBReactButtonGroup
+                           "TDBReactLayout.TDBReactNav":TDBReactNav
                           }
 
 

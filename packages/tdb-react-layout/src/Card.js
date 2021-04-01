@@ -7,6 +7,7 @@ export const CardWidget = (props) => {
 
 	let data=props.dataProvider || 0
 	let config=props.config || {}
+	const iconName=`fas ${config.icon} fa-2x`
 
 	return (
 		<Card border="light" className="shadow-sm">
@@ -14,7 +15,8 @@ export const CardWidget = (props) => {
 				<Row className="d-block d-xl-flex align-items-center">
 					<Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
 						<div className={`icon icon-shape icon-md rounded me-4 me-sm-0`}>
-							<FontAwesomeIcon icon={config.icon} />
+							{/*<FontAwesomeIcon icon={config.icon} />*/}	
+							<h6><i class={iconName}/></h6>
 						</div>
 						<div className="d-sm-none">
 						<h5>{config.title}</h5>

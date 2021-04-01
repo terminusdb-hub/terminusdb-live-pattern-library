@@ -1,7 +1,6 @@
 import React, { Component, useState,useRef } from 'react';
 import {TDBReactLayout} from '@terminusdb-live/tdb-react-layout';
-import {faStar, faWaveSquare, faShareAlt, faCodeBranch, faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
-
+import {TDBReactNav} from '@terminusdb-live/tdb-react-layout';
 import "./App.css"
 
 const App= (props) =>{
@@ -27,11 +26,24 @@ const App= (props) =>{
             {id: "Issues",  title:"Issues" , icon: "fa-exclamation-triangle"}]
     }
 
+    let repoConfig = {
+        display: "Vertical",
+        navLinks:[{id: "terminusdb:///data/Repository_327894826", icon: 'fa-window-maximize', size: "sm"},
+            {id: "terminusdb:///data/Repository_262082824", icon: 'fa-window-maximize', size: "sm"},
+            {id: "terminusdb:///data/Repository_329969626", icon: 'fa-window-maximize', size: "sm"},
+            {id: "terminusdb:///data/Repository_204949228", icon: 'fa-window-maximize', size: "sm"},
+            {id: "terminusdb:///data/Repository_208302966", icon: 'fa-window-maximize', size: "sm"},
+            {id: "terminusdb:///data/Repository_198466472", icon: 'fa-window-maximize', size: "sm"}
+        ]
+    }
+
     return <React.Fragment>
         <TDBReactLayout onLoad="https://hub-dev.dcm.ist/api/workers/admin/tkrvdo1617178357567" 
             config={configCard}/>
         <TDBReactLayout onLoad="https://hub-dev.dcm.ist/api/workers/admin/tkrvdo1617178357567" 
             config={configCardList}/>
+        <TDBReactNav onLoad="https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409" 
+            config={repoConfig}/>
     </React.Fragment>
     
 }

@@ -28,9 +28,25 @@ let configCard = {
         {id: "Issues",  title:"Issues" , icon: "fa-exclamation-triangle"}]
 }
 
-const datap = [ {lib_name:"TDBReactButton.TDBReactButtonGroup",
-                config:configRepo,
-                onLoad:"https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409"},
+let repoConfig = {
+    display: "Vertical",
+    navLinks:[{id: "terminusdb:///data/Repository_327894826", icon: 'fa-window-maximize', size: "sm"},
+        {id: "terminusdb:///data/Repository_262082824", icon: 'fa-window-maximize', size: "sm"},
+        {id: "terminusdb:///data/Repository_329969626", icon: 'fa-window-maximize', size: "sm"},
+        {id: "terminusdb:///data/Repository_204949228", icon: 'fa-window-maximize', size: "sm"},
+        {id: "terminusdb:///data/Repository_208302966", icon: 'fa-window-maximize', size: "sm"},
+        {id: "terminusdb:///data/Repository_198466472", icon: 'fa-window-maximize', size: "sm"}
+    ]
+}
+
+
+const datap = [ {
+                    lib_name:'TDBReactLayout.TDBReactNav',
+                    resultVarName:null,
+                    config:repoConfig,startData:[],
+                    onLoad:"https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409"     
+                },
+
                 {lib_name:'TDBReactLayout.TDBReactLayout',
                 resultVarName:null,
                 config:configCard,startData:[],

@@ -33,10 +33,11 @@ export const TDBReactLayout = (props) =>{
                 children.push(<TDBReactCard config={cConfig} key={`Count_${key}`} dataProvider={data}/>)
             else children.push(<TDBReactCardList config={cConfig} key={`Count_List_${key}`} dataProvider={data}/>)
         }
-        
+        //<Row className="justify-content-md-center">
         return <React.Fragment>
             {display == "List" && <>{children}</>}
-            {display == "Card" && <Row className="justify-content-md-center">
+            {display == "Card" && 
+            <Row className="d-flex justify-content-between"> 
                 {children}
             </Row>}
         </React.Fragment>
