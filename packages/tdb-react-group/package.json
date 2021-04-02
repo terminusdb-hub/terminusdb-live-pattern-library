@@ -45,7 +45,7 @@
     "@terminusdb-live/react-pretty-print": "file:../react-pretty-print",
     "@terminusdb-live/tdb-react-button": "file:../tdb-react-button",
     "@terminusdb-live/tdb-react-layout": "file:../tdb-react-layout",
-    "classnames": "^2.2.5",
+    "classnames": "^2.3.0",
     "core-js": "^3.10.0",
     "prop-types": "^15.6.0",
     "react-bootstrap": "^1.5.2"

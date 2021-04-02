@@ -1,7 +1,6 @@
 import React from "react"
 import {useWorker} from "@terminusdb-live/react-worker"
 import {TDBReactButton} from "./TDBReactButton"
-import {Col} from '@themesberg/react-bootstrap'
 
 export const TDBReactButtonGroup= (props) =>{
 
