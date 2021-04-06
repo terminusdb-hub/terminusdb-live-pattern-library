@@ -14,6 +14,15 @@ export const TDBReactNav= (props) =>{
     const {onChange, error, loading, dataProvider} = useWorker(startData, props.onLoad, false)
 
     let navLinks=[]
+
+    const onClick = (id) =>{
+        if(!props.onChangeEndPoint) return 
+        if(props.onChangeFunction){
+          props.onChangeFunction(props.onChangeEndPoint,{id:id},props.resultVarName)
+        }else{
+          onChange(props.onChangeEndPoint)
+        }
+    }
     
     console.log(JSON.stringify(dataProvider,null,4))
 
@@ -29,7 +38,6 @@ export const TDBReactNav= (props) =>{
             }
             return {}
         }
-    
         for (var key in config) {
             let id = config[key].id 
             let extracted = extractFromBindings(id, config[key])
@@ -41,9 +49,9 @@ export const TDBReactNav= (props) =>{
             )
         }
 
-        return <Nav defaultActiveKey="/home" className="flex-column">
-            {navLinks}
-        </Nav>
+        return <Nav onSelect={(selectedKey)=>{onClick(selectedKey)}} defaultActiveKey="/home" className="flex-column">
+                    {navLinks}
+               </Nav>
     } 
 
     return <div>LOADING</div> 

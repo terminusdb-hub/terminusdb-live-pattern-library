@@ -24,10 +24,10 @@ export const useWorker = (startData,onloadEndPoint,useGroup) => {
    }, [onloadEndPoint])
 
 
-   /*useEffect(() => {
+   useEffect(() => {
       setDataProvider(startData)
       //if(onloadEndPoint)onLoad()
-   }, [startData])*/
+   }, [startData])
 
    function formatResult(result){
        

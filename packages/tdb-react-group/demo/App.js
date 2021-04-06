@@ -41,14 +41,16 @@ let repoConfig = {
 
 const datap = [ {
                     lib_name:'TDBReactLayout.TDBReactNav',
-                    resultVarName:null,
+                    resultVarName:'allEvents',
+                    onChangeEndPoint:"https://hub-dev.dcm.ist//api/workers/admin/tkrvdo1617178357567",
                     config:repoConfig,startData:[],
                     onLoad:"https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409"     
                 },
 
                 {lib_name:'TDBReactLayout.TDBReactLayout',
                 resultVarName:null,
-                config:configCard,startData:[],
+                resultVarName:'allEvents',
+                config:configCard,startData:null,
                 onLoad:"https://hub-dev.dcm.ist/api/workers/admin/tkrvdo1617178357567"     
                 },
 
