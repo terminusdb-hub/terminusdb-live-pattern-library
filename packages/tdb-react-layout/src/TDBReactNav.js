@@ -17,7 +17,7 @@ export const TDBReactNav= (props) =>{
     
     console.log(JSON.stringify(dataProvider,null,4))
 
-    if(dataProvider.length>0){
+    if(config){
         function extractFromBindings(id, curItem){
             for(var key in dataProvider){
                 let repoId = dataProvider[key].Repository
@@ -34,7 +34,7 @@ export const TDBReactNav= (props) =>{
             let id = config[key].id 
             let extracted = extractFromBindings(id, config[key])
             navLinks.push(
-                <Nav.Link href="/home" key={`Link_${extracted.title}4`}>
+                <Nav.Link href="/home" key={`Link_${extracted.title}4`} className="d-flex">
                     <i className={extracted.iconName}/>
                     {extracted.title}
                 </Nav.Link>

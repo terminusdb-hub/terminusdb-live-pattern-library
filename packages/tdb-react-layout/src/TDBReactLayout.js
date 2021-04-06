@@ -6,7 +6,8 @@ import {TDBReactCardList} from './TDBReactCardList'
 import {Card} from '@themesberg/react-bootstrap';
   
 export const TDBReactLayout = (props) =>{
-    if(!props.config)return ''
+    if(!props.config) return ''
+    
     const startData= props.startData || []
     const config=props.config.cards || {}
     const display=props.config.display || 'Card'
@@ -16,7 +17,7 @@ export const TDBReactLayout = (props) =>{
 
     let children=[]
 
-    if(dataProvider.length>0){
+    if(config){
         function extractFromBindings(id){
             for(var key in dataProvider[0]){
                 if(key == id){
