@@ -9,33 +9,52 @@ module.exports = {
        }),
     ],
     module: {
-        rules: [
-            {
-                test: /\.js$|jsx/,
-                use:{
-                    loader: "babel-loader",
-                },
-            },
-            {
-              test: /\.(css|less)$/,
-              use: [
-                MiniCssExtractPlugin.loader,
-                'css-loader', 'less-loader'
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader:"babel-loader",
+            options:{
+              presets: [
+                ["@babel/preset-env"],
+                "@babel/preset-react"
               ],
-            },
-            {
-              test: /\.(svg|jpg|gif|png)$/,
-              use: [
-                {
-                  loader: 'file-loader',
-                  options: {
-                    name: 'assets/images/[name].[ext]',
-                  }
-                }
-              ]
             }
-        ]
-    },
+          },
+        },
+        {
+          test: /\.(css)$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader'
+          ],
+        },
+        {
+          test: /\.(svg|jpg|gif|png)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: 'assets/images/[name].[ext]',
+              }
+            }
+          ]
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                outputPath: (url, resourcePath, context) => {
+                  return `assets/fonts/${path.basename(resourcePath)}`;
+                }
+              }
+            }
+          ]
+        }]
+      },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'tdb-react-date-picker.min.js',
