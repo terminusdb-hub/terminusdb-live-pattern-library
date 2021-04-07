@@ -7,12 +7,16 @@ export const useWorker = (startData,onloadEndPoint,useGroup) => {
   const [dataProvider,setDataProvider] = useState(startDataTmp)
   const [error,setError]= useState('')
   const [loading,setOnLoading]= useState(false)
+  //const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+  const conf = {groupKey:"TimeStamp",
+                    tooltipKey:"UserName", 
+                    groupValues:["Commit_num","Star_num"]}  
 
-   useEffect(() => { 
+  useEffect(() => { 
         async function onLoad(componentName,endPoint){
             try{
                 const result = await axiosHub.get(onloadEndPoint)
-                formatResult(result.data)
+                formatResult(conf,result.data)
                 //setDataProvider(result)
             }catch(err){
                 console.log(err)
@@ -29,57 +33,70 @@ export const useWorker = (startData,onloadEndPoint,useGroup) => {
       //if(onloadEndPoint)onLoad()
    }, [startData])
 
-   function formatResult(result){
+
+   //function formatItem(element,)
+
+    /**
+       * Group groups rows that have the same values into summary rows, 
+       * for example we use this formatting with the chart component,  
+       * @param {object} element 
+       * @param {string} groupkey 
+       * @param {string} valueName  
+       * @param {string} tooltipKey 
+       * @param {object} groupBy 
+       * @example
+       * const groupBy = {}
+       * const element = {Commits: 6, 
+       *                  TimeStamp: "2021-03-26T00:00:00.000Z", 
+       *                  UserName: "Rossi"}
+       * addValue(element,"TimeStamp","Commits","UserName",groupBy)
+       */
+        
+      const addValue = (element, groupkey, valueName, tooltipKey, groupBy) =>{
+        const toolKey=element[tooltipKey]
+        const value=element[valueName]
+        let val_tot= value;
+        const groupValue=element[groupkey]
+        
+        //group for a specific paramters es Timestamp
+        if(!groupBy[groupValue]){ 
+           groupBy[groupValue]= {}
+           groupBy[groupValue][groupkey]= groupValue
+        }
+
+        if(value){
+          const valueNameTool = `${valueName}Tool`
+          if(groupBy[groupValue][valueName]){
+            val_tot = groupBy[groupValue][valueName] + value
+          } else{
+            groupBy[groupValue][valueNameTool] = {}
+          }
+          groupBy[groupValue][valueName] = val_tot
+          groupBy[groupValue][valueNameTool][toolKey] = value
+      }      
+     }
+  
+
+   function formatResult(config,result){
        
        if(result){
-        const formattedTmp=[]
-        
-       /* result.data.bindings.forEach(item=>{
-            //console.log("___item____",item)
-            const obj={}
-            Object.keys(item).forEach(key=>{
-                
-                obj[key]=item[key]['@value']
-            })
-            formattedTmp.push(obj) 
-        })*/
-
         let groupBy = [];
         if(useGroup  === true){
-        result.forEach( el =>{
-           const userName=el['UserName']
-           const commit_num=el['Commit_num']
-           if(!groupBy[el['TimeStamp']]){          
-                groupBy[el['TimeStamp']]= {TimeStamp:el['TimeStamp'], 
-                                           Commit_num:commit_num,
-                                           Commit_numTool:{}}
-                groupBy[el['TimeStamp']]['Commit_numTool'][userName] = commit_num           
-               
-           }else{
-                const com_value = groupBy[el['TimeStamp']]['Commit_num'] + commit_num;
-                groupBy[el['TimeStamp']]['Commit_numTool'][userName] = commit_num
-                groupBy[el['TimeStamp']]['Commit_num'] = com_value
-           }
+
+       
+        
+        //data format
+        result.forEach( element =>{
+          console.log(element)
+           conf.groupValues.forEach((valueName)=>{
+                addValue(element, config.groupKey, valueName, config.tooltipKey, groupBy)
+           })
         })
+           
+        
       }else{
         groupBy=result
       }
-
-       // console.log("___GROUP____",groupBy)
-
-       
-
-
-        /*
-        "Date": "2020-11-25T00:00:00",
-      "Commit":{value:56, tooltip:{anna:45,ddkkfk}}
-      "0Days": {
-        "value": 388,
-        "tooltip": {
-          "2020-11-25T00:00:00": 388
-        }
-      },*/
-        //console.log(JSON.stringify(Object.values(groupBy)))
         setDataProvider(Object.values(groupBy))
        }
 
