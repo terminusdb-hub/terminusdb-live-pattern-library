@@ -5,7 +5,7 @@ import {Col} from '@themesberg/react-bootstrap';
 export const TDBReactCard = (props) =>{
     const config=props.config || {}
 
-    return  <Col xl={2}>
+    return  <Col className={"flex-grow-1 mr-1"}>
         <CardWidget config={config} dataProvider={props.dataProvider}/>
     </Col>
 }

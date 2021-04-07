@@ -15,9 +15,7 @@ export const TDBReactButtonGroup= (props) =>{
 
     let buttons=[]
     
-    console.log(JSON.stringify(dataProvider,null,4))
-
-    if(dataProvider.length>0){
+    if(config){
         function extractFromBindings(id, curItem){
             for(var key in dataProvider){
                 let repoId = dataProvider[key].Repository

@@ -42,8 +42,28 @@ const App= (props) =>{
             config={configCard}/>
         <TDBReactLayout onLoad="https://hub-dev.dcm.ist/api/workers/admin/tkrvdo1617178357567" 
             config={configCardList}/>
-        {<TDBReactNav onLoad="https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409" 
-            config={repoConfig}/>}
+        
+        <div class="container-fluid ">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-custom-blue sidebar">
+                    <div class="sidebar-sticky p-4">
+                        <div class="nav-item mb-3">
+                        <a href="https://terminusdb.com" class="nav-link">
+                            <span>
+                                <img src="https://terminusdb.com/img/logos/logo.svg" class="logo_img"/>
+                            </span>
+                        </a>
+                        </div>
+                        <div class="flex-column mt-3" id="component___0">
+                                    <TDBReactNav onLoad="https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409" 
+                        config={repoConfig}/> 
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        {/*<TDBReactNav onLoad="https://hub-dev.dcm.ist/api/workers/admin/6dd5z1617187654409" 
+            config={repoConfig}/>*/}
     </React.Fragment>
     
 }

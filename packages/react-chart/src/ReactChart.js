@@ -10,7 +10,7 @@ export const ReactChart = (props) =>{
 
     
 //only for test the style in external file
-    if(dataProvider.length>0){
+    if(config){
         return  <ChartComponent config={config} dataProvider={dataProvider} />
     }
     return <div>LOADING</div>

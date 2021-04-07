@@ -10,7 +10,7 @@ export const TDBReactTable = (props) =>{
 
 
 //only for test the style in external file
-    if(dataProvider.length>0){
+    if(config){
         return  <TableComponent columns={config.columns} data={dataProvider} />
     }
     return <div>LOADING</div>
