@@ -8,11 +8,13 @@ const  config =
 "rules":[
 {"pattern":{"scope":"Line","variables":["Star_num"]},"rule":{"label":"Star_numTool","showLabel":false, "dot":true,"strokeWidth":"3px","stroke":"#f5b759","fill":"#f5b759","type":"monotone", "dotR":"20"}},
 {"pattern":{"scope":"Line","variables":["Issue_num"]},"rule":{"label":"Issue_numTool","showLabel":false, "dot":true,"strokeWidth":"3px","stroke":"#1e90ff","fill":"#1e90ff","type":"monotone", "dotR":"20"}},
+{"pattern":{"scope":"Line","variables":["Fork_num"]},"rule":{"label":"Fork_numTool","showLabel":false, "dot":true,"strokeWidth":"3px","stroke":"red","fill":"red","type":"monotone", "dotR":"20"}},
 
+{"pattern":{"scope":"Line","variables":["PullRequest_num"]},"rule":{"label":"PullRequest_numTool","showLabel":false, "dot":true,"strokeWidth":"3px","stroke":"green","fill":"green","type":"monotone", "dotR":"20"}},
 
 {"pattern":{"scope":"Line","variables":["Commit_num"]},"rule":{"label":"Commit_numTool","showLabel":false, "dot":true,"strokeWidth":"3px","stroke":"#05a677","fill":"#05a677","type":"monotone", "dotR":"20"}},
 {"pattern":{"scope":"XAxis","variables":["TimeStamp"]},"rule":{"labelRotate":-40,"label":"Day","labelDateOutput":"YYYY-MM-DD ddd","padding":{"left":20,"right":20}}},{"pattern":{"scope":"YAxis"},"rule":{"type":"number","domain":["dataMin","dataMax  + 10"]}},
-{"pattern":{"scope":"Legend"},"rule":{"layout":'vertical',"align":"left","payload":[{"value":"Commits","color":"#05a677","id":"Commit_num"},{"value":"Stars","color":"#f5b759"}]}}]}
+{"pattern":{"scope":"Legend"},"rule":{"layout":'vertical',"align":"left","payload":[{"value":"Commits","color":"#05a677","id":"Commit_num"},{"value":"Stars","color":"#f5b759"},{"value":"Issue_num","color":"#1e90ff"},{"value":"Fork_num","color":"red"},{"value":"PullRequest_num","color":"green"}]}}]}
 
 
 let configCard = {
@@ -46,7 +48,6 @@ let repoConfig = {
     ]
 }
 
-
 const datap = [ {
                     lib_name:'TDBReactLayout.TDBReactNav',
                     resultVarName:'allEvents',
@@ -62,9 +63,12 @@ const datap = [ {
                 onLoad:"https://hub-dev.dcm.ist/api/workers/admin/tkrvdo1617178357567"     
                 },
 
-                {lib_name:'ReactChart.ReactChart',
-                resultVarName:null,
-                config:config,startData:null,onLoad:"http://localhost:4242/api/workers/admin/a15d7h1616496639611"},
+                {
+                lib_name:'ReactChart.ReactChart',
+                resultVarName:"chartDataP",
+                config:config,
+                startData:null,
+                onLoad:"http://localhost:4242/api/workers/admin/a15d7h1616496639611"},
 
                 {
                     lib_name:'TDBReactLayout.TDBReactLayout',
@@ -75,7 +79,11 @@ const datap = [ {
 
                 //{lib_name:'ReactPrettyPrint.JsonPrint',resultVarName:'result001',config:{}},
                 {lib_name:"ReactPrettyPrint.JsonPrint",resultVarName:'result001',
-                onChangeEndPoint:'https://hub-dev.dcm.ist/api/workers/admin/a15d7h1616496639611'}]
+                onChangeEndPoint:'https://hub-dev.dcm.ist/api/workers/admin/a15d7h1616496639611'},
+
+               // {lib_name:"TDBReactDatePicker.TDBReactDatePicker",resultVarName:'chartDataP',
+               // onChangeEndPoint:"http://localhost:4242/api/workers/admin/a15d7h1616496639611"}
+            ]
 
 
                 

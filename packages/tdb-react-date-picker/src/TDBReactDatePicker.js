@@ -7,7 +7,6 @@ import React, { useState } from "react"
 //import {useWorker} from "@terminusdb-live/react-worker"
 
 
-
 export const  TDBReactDatePicker = (props) =>{
     const startData= props.startData || []
     const config=props.config || {}

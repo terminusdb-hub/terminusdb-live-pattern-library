@@ -22,7 +22,6 @@ module.exports = {
     resolve: {
       alias: {
         "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
-        "@terminusdb-live/react-pretty-printer":path.resolve('../react-pretty-printer/src/index.js'),
         react: path.resolve('./node_modules/react')
       },
       extensions: ['.js', '.jsx', '.json'],
@@ -39,6 +38,12 @@ module.exports = {
       commonjs2: '@terminusdb-live/react-pretty-printer',
       commonjs: '@terminusdb-live/react-pretty-printer',
       amd: 'ReactPrettyPrint',
+    },
+    '@terminusdb-live/tdb-react-date-picker': {
+      root: 'TBDReactDatePicker',
+      commonjs2: '@terminusdb-live/tdb-react-date-picker',
+      commonjs: '@terminusdb-live/tdb-react-date-picker',
+      amd: 'TBDReactDatePicker',
     },
     '@terminusdb-live/react-chart': {
       root: 'ReactChart',

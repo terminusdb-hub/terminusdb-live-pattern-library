@@ -3,12 +3,12 @@ import React from "react"
 import {useGroupWorker} from "@terminusdb-live/react-worker"
 import {PortalComponent} from './PortalComponent'
 //import {JsonPrint} from './Child'
-import {Button} from 'react-bootstrap'
 import {JsonPrint} from '@terminusdb-live/react-pretty-print'
 import {ReactChart} from "@terminusdb-live/react-chart"
 import {TDBReactLayout} from "@terminusdb-live/tdb-react-layout"
 import {TDBReactNav} from "@terminusdb-live/tdb-react-layout"
-import {TDBReactCardList} from "@terminusdb-live/tdb-react-layout"
+//import {TDBReactCardList} from "@terminusdb-live/tdb-react-layout"
+//import {TDBReactDatePicker} from "@terminusdb-live/tdb-react-date-picker"
 
 
 export const GroupComponents = (props) =>{
@@ -19,7 +19,8 @@ export const GroupComponents = (props) =>{
     const componentMatch= {"ReactPrettyPrint.JsonPrint":JsonPrint,
                            "ReactChart.ReactChart":ReactChart,
                            "TDBReactLayout.TDBReactLayout":TDBReactLayout,
-                           "TDBReactLayout.TDBReactNav":TDBReactNav
+                           "TDBReactLayout.TDBReactNav":TDBReactNav,
+                          // "TDBReactDatePicker.TDBReactDatePicker":TDBReactDatePicker
                           }
 
 
