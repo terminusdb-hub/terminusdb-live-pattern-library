@@ -1,5 +1,7 @@
 import React from 'react'
 import {GroupComponents} from '@terminusdb-live/tdb-react-group'
+import TerminusClient from '@terminusdb/terminusdb-client'
+import {CodeEditor} from '@terminusdb/terminusdb-react-components'
 
 //const dataProvider= [{"Commit_num":9,"TimeStamp":"2021-03-16T00:00:00.000Z","UserName":"Cheukting"},{"Commit_num":13,"TimeStamp":"2021-03-17T00:00:00.000Z","UserName":"Cheukting"},{"Commit_num":2,"TimeStamp":"2021-03-17T00:00:00.000Z","UserName":"GavinMendelGleason"},{"Commit_num":4,"TimeStamp":"2021-03-18T00:00:00.000Z","UserName":"Cheukting"},{"Commit_num":16,"TimeStamp":"2021-03-23T00:00:00.000Z","UserName":"Cheukting"},{"Commit_num":2,"TimeStamp":"2021-03-23T00:00:00.000Z","UserName":"github-actions[bot]"},{"Commit_num":11,"TimeStamp":"2021-03-24T00:00:00.000Z","UserName":"Cheukting"},{"Commit_num":18,"TimeStamp":"2021-03-25T00:00:00.000Z","UserName":"Cheukting"},{"Commit_num":1,"TimeStamp":"2021-03-25T00:00:00.000Z","UserName":"KittyJose"},{"Commit_num":3,"TimeStamp":"2021-03-25T00:00:00.000Z","UserName":"github-actions[bot]"},{"Commit_num":1,"TimeStamp":"2021-03-26T00:00:00.000Z","UserName":"Francesca-Bit"}]
 
@@ -16,6 +18,7 @@ const  config =
 {"pattern":{"scope":"XAxis","variables":["TimeStamp"]},"rule":{"labelRotate":-40,"label":"Day","labelDateOutput":"YYYY-MM-DD ddd","padding":{"left":20,"right":20}}},{"pattern":{"scope":"YAxis"},"rule":{"type":"number","domain":["dataMin","dataMax  + 10"]}},
 {"pattern":{"scope":"Legend"},"rule":{"layout":'vertical',"align":"left","payload":[{"value":"Commits","color":"#05a677","id":"Commit_num"},{"value":"Stars","color":"#f5b759"},{"value":"Issue_num","color":"#1e90ff"},{"value":"Fork_num","color":"red"},{"value":"PullRequest_num","color":"green"}]}}]}
 
+const client = new TerminusClient.WOQLClient("https://127.0.0.1:6363")
 
 let configCard = {
     display: "Card",
@@ -101,7 +104,8 @@ const datap = [ {
 
 
 const App= (props) =>{  
-    return <GroupComponents config={datap}/>
+    return <GroupComponents config={datap}><CodeEditor/>
+    </GroupComponents>
     //onLoad="https://hub-dev.dcm.ist/api/workers/admin/a15d7h1616496639611"
 }
 
