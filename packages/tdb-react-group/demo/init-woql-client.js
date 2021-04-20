@@ -20,10 +20,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 try {
                     await dbClient.connect(opts)
                     setWoqlClient(dbClient)
+                    if(opts.db) dbClient.db(opts.db)
                 } catch (err) {
                     console.log("__CONNECT_ERROR__",err)
-                    setConnecting(false)
-                    setLoading(false)
                 }
             }
         }

@@ -7,7 +7,6 @@ export const TDBReactButton= (props) =>{
     const iconName=config.icon ? `fas ${config.icon} fa-2x m-4` : null
 
     function handleOnClick(e) {
-      console.log("e.target.id", e.target.id)
       if(props.onClick) props.onClick(e.target.id)
     }
 

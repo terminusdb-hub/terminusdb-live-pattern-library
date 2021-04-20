@@ -2,11 +2,9 @@ import {useState, useEffect} from 'react'
 
 function useHook(woqlClient, startQuery) {
     const query = startQuery || false
-    const [woql, setWoqlQuery] = useState(query)
-    const [report, setReport] = useState()
-    const [bindings, setBindings] = useState()
+    //const [report, setReport] = useState()
     const [result, setResult] = useState()
-    const [loading, setLoading] = useState()
+    //const [loading, setLoading] = useState()
 
     const [cmsg, setCMsg] = useState('Update Query from Console Query Page')
 
