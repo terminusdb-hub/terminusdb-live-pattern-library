@@ -26,7 +26,6 @@ export const View = (props) => {
         rowCount,
     } = ControlledQueryHook(woqlClient, woqlQuery, false, 20)
 
-
     return <React.Fragment>
         <TDBReactButton 
             config={RUN_QUERY_CONFIG} 
@@ -35,13 +34,20 @@ export const View = (props) => {
             languages={['js', 'json']} 
             currentLanguage={"js"} 
             setWOQLQuery={setWOQLQuery} 
+            editable={true}
             setMainError={(e) => handleError(e)}/>
         {<WOQLTable
             result={result}
             freewidth={true}
             view={resultView.json()}
-            limit={20}
+            limit={limit}
+            start={start}
+            orderBy={orderBy} 
+            setLimits={changeLimits}
+            setOrder={changeOrder}
             query={woqlQuery}
+            loading={loading}
+            totalRows={rowCount}
         />}
     </React.Fragment>
     
