@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState} from "react"
 import {useWorker} from "@terminusdb-live/react-worker"
 import {TDBReactButton} from "./TDBReactButton"
 
@@ -6,43 +6,40 @@ export const TDBReactButtonGroup= (props) =>{
 
     
     const startData= props.startData || []
-    const config = props.config.buttons || {}
-    const display = props.config.display || "Vertical"
-    var displayCss;
-    (display == "Vertical") ? displayCss = "nav flex-column" : displayCss = "nav flex" 
+    const config = props.config || []
+    const variant = config.variant || "primary"
+    const qName = config.queryName || "Class library"
+
 
     const {onChange, error, loading, dataProvider} = useWorker(startData, props.onLoad, false)
 
-    let buttons=[]
-    
-    if(config){
-        function extractFromBindings(id, curItem){
-            for(var key in dataProvider){
-                let repoId = dataProvider[key].Repository
-                if(repoId == id){
-                    let label = dataProvider[key].Label
-                    return {title: label, id: repoId, icon: curItem.icon, size: curItem.size}
-                }
+    const [buttons, setButtons]=useState([])
+
+    useEffect(() => {
+        let btns = []
+        for(var key in dataProvider){
+            if (qName == "Class library") {
+                let name = dataProvider[key]["Class Name"]
+                let id = dataProvider[key]["Class ID"]
+                let description = dataProvider[key]["Description"]
+                let bConfig = {title: description, id: id, label: name, key: `Buttons_${id}`, variant: variant}
+                btns.push(<TDBReactButton config={bConfig} onClick={props.onClick}/>)
             }
-            return {}
+            else if (qName == "Property library") {
+                let name = dataProvider[key]["Property Name"]["@value"]
+                let id = dataProvider[key]["Property ID"]
+                let description = dataProvider[key]["Property Description"]
+                let bConfig = {title: description, id: id, label: name, key: `Buttons_${id}`, variant: variant}
+                btns.push(<TDBReactButton config={bConfig} onClick={props.onClick}/>)
+            }
         }
-    
-        for (var key in config) {
-            let id = config[key].id 
-            let extracted = extractFromBindings(id, config[key])
-            buttons.push(
-            <li className="nav-item">
-                <TDBReactButton config={extracted} key={`tdbButton_${extracted.title}`}/>
-            </li>
-            )
-        }
+        
+        setButtons(btns)
+    }, [dataProvider])
 
-        return <React.Fragment>
-            <ul className={displayCss}>
-                {buttons}
-            </ul>
-        </React.Fragment>
+
+    if(dataProvider){
+        return <React.Fragment>{buttons}</React.Fragment>
     }
-
-    return <div>LOADING</div> 
+    return <React.Fragment>LOADING</React.Fragment> 
 }

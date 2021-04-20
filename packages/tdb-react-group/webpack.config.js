@@ -24,6 +24,7 @@ module.exports = {
         "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
         react: path.resolve('./node_modules/react')
       },
+      fallback: {"https": false},
       extensions: ['.js', '.jsx', '.json'],
     },
     externals: {
