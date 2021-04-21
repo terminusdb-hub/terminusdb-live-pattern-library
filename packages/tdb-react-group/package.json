@@ -43,6 +43,7 @@
   "dependencies": {
     "@terminusdb/terminusdb-client": "file:../../../terminusdb-client",
     "@terminusdb/terminusdb-react-components": "file:../../../terminusdb-react-components",
+    "@themesberg/react-bootstrap": "^1.4.1",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.0",
     "react": "^16.10.3",

@@ -1,10 +1,9 @@
-import {CURRENT_DATABASE} from "../Components/constants.js"
 import TerminusClient from '@terminusdb/terminusdb-client'
 
 
 export const getPropertiesOfClass = (id) => {
-    let WOQL=TerminusClient.WOQL
     if(!id) return null
+    let WOQL=TerminusClient.WOQL
 
     return WOQL.select("v:Property ID","v:Property Name","v:Property Domain","v:Property Type","v:Property Range","v:Property Description").and(
         WOQL.quad("v:Property ID", "type", "v:OWL Type", "schema/main"),
@@ -31,6 +30,15 @@ export const getPropertiesOfClass = (id) => {
             WOQL.eq("v:Property Description", "")
         )
     )
+}
+
+export const getPropertyRelation = (id) => {
+    if(!id) return
+    let WOQL=TerminusClient.WOQL
+
+    return WOQL.triple("v:Domain", id, "v:Range").
+        triple("v:Domain", "type", "v:Domain Type").
+        quad("v:Domain Type", "label", "v:Domain Label", "schema/main")
 }
 
 

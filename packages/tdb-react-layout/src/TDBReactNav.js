@@ -24,7 +24,7 @@ export const TDBReactNav= (props) =>{
         }
     }
     
-    console.log(JSON.stringify(dataProvider,null,4))
+    //console.log(JSON.stringify(dataProvider,null,4))
 
     if(config){
         function extractFromBindings(id, curItem){

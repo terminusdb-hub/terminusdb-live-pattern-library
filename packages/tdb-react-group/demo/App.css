@@ -16,6 +16,20 @@ font-weight: 600;
   cursor : pointer;
 }
 
+div.container-background {
+  background-color: #E5E5E5;
+}
+
+div.pallet {
+  padding: 10px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.table th {
+  color: #00C08B !important;
+  border: 0 !important
+}
 
 div.icon {
     color: #00C08B;

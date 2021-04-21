@@ -4,7 +4,10 @@ import {Button} from '@themesberg/react-bootstrap';
 export const TDBReactButton= (props) =>{
     let config=props.config || {}
     let size=config.size || "sm" 
-    const iconName=config.icon ? `fas ${config.icon} fa-2x m-4` : null
+    var icCss
+    if(config.icon && config.label) icCss="me-2"
+    else icCss=""
+    const iconName=config.icon ? `${config.icon} ${icCss}` : null
 
     function handleOnClick(e) {
       if(props.onClick) props.onClick(e.target.id)

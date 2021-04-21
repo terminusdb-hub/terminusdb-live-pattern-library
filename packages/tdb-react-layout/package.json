@@ -51,6 +51,7 @@
     "moment": "^2.29.1",
     "namor": "^2.0.2",
     "prop-types": "^15.6.0",
+    "re-resizable": "^6.9.0",
     "style-loader": "^2.0.0"
   },
   "devDependencies": {

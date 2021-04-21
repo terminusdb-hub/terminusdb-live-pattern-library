@@ -1,17 +1,15 @@
 import React, {useState} from "react"
-import {WOQLEditorControlled, WOQLTable, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {RUN_QUERY_CONFIG} from './constants.js'
+import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
+import {TDBReactButton, TDBReactResizable, TDBReactDropDownButtons} from '@terminusdb-live/tdb-react-layout'
+import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, LANGUAGE_LIST} from './constants.js'
 import {WOQLClientObj} from '../init-woql-client'
 import {handleRunQuery, handleError} from '../Functions/Actions'
-import {resultViewConfig} from "../Functions/ViewConfig"
+import {Results} from "./Results"
 
 export const View = (props) => {
     const [woqlQuery, setWOQLQuery]=useState(props.query)
-    const [resultView, setResultView]=useState(resultViewConfig)
     const {woqlClient} = WOQLClientObj()
-
-    console.log("woqlQuery",woqlQuery)
+    const initQuery = props.interactiveQuery || ''
 
     const {
         updateQuery,
@@ -26,29 +24,63 @@ export const View = (props) => {
         rowCount,
     } = ControlledQueryHook(woqlClient, woqlQuery, false, 20)
 
+   
+    const handleLanguageSwitcher = (lang)=> {
+        setLanguage(lang)
+    }
+    
+
+    /* 
+    limit(1).triple("v:Domain", "scm:stargazers_count", "v:Range")
+    */
+
+    /*
+limit(1).quad( "scm:stargazers_count", "label", "v:Domain Label", "schema/main").
+triple("v:Domain", "scm:stargazers_count", "v:MAKE")
+
+
+    */
+
     return <React.Fragment>
-        <TDBReactButton 
-            config={RUN_QUERY_CONFIG} 
-            onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
-        <WOQLEditorControlled 
-            languages={['js', 'json']} 
-            currentLanguage={"js"} 
-            setWOQLQuery={setWOQLQuery} 
-            editable={true}
-            setMainError={(e) => handleError(e)}/>
-        {<WOQLTable
-            result={result}
-            freewidth={true}
-            view={resultView.json()}
-            limit={limit}
-            start={start}
-            orderBy={orderBy} 
-            setLimits={changeLimits}
-            setOrder={changeOrder}
-            query={woqlQuery}
-            loading={loading}
-            totalRows={rowCount}
-        />}
+
+        <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
+            <div className="pallet">
+                <TDBReactButton 
+                    config={RUN_QUERY_CONFIG} 
+                    onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
+                <TDBReactButton 
+                    config={SAVE_QUERY_CONFIG}/>
+                <TDBReactDropDownButtons
+                    config={LANGUAGE_LIST}
+                    onChange={handleLanguageSwitcher}
+                    variant="dark"/>
+                <WOQLEditorControlled 
+                    languages={LANGUAGE_LIST}
+                    customLanguateSwitcher={true} 
+                    currentLanguage={"js"}  
+                    setWOQLQuery={setWOQLQuery} 
+                    editable={true}
+                    setMainError={(e) => handleError(e)}/>
+            </div>
+        </TDBReactResizable>
+
+        <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
+            {result && <div className="pallet">
+                <Results result={result}
+                    freewidth={true}
+                    limit={limit}
+                    start={start}
+                    orderBy={orderBy} 
+                    setLimits={changeLimits}
+                    setOrder={changeOrder}
+                    query={woqlQuery}
+                    loading={loading}
+                    totalRows={rowCount}
+                    updateQuery={updateQuery}
+                />
+            </div>}
+        </TDBReactResizable>
+        
     </React.Fragment>
     
 }
