@@ -16,14 +16,38 @@ font-weight: 600;
   cursor : pointer;
 }
 
+.nav-labels {
+  color: #eaedf2;
+}
+
+.transparant {
+  background: transparent;
+}
+
+/*accordian*/
+.sidebar-accordian{
+  background: transparent!important;
+  color: #eaedf2 !important;
+}
+
+.accordion-button:not(.collapsed){
+  background: #2e3650 !important;
+  color: #eaedf2 !important;
+}
+
 div.container-background {
-  background-color: #E5E5E5;
+  background-color: #E3EBF6;
 }
 
 div.pallet {
   padding: 10px;
   background: #fff;
   border-radius: 4px;
+}
+
+div.editor-pallet{
+  border-radius: 4px;
+  border: 1px solid #ced4da;
 }
 
 .table th {

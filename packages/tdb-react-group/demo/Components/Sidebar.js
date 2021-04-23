@@ -1,41 +1,39 @@
-import React, {useEffect, useState} from 'react';
-import {TDBReactButtonGroup} from '@terminusdb-live/tdb-react-layout';
-import {DOCUMENT_CLASS_BUTTONS_CONFIG, PROPERTY_BUTTONS_CONFIG} from "./constants.js"
-import {WOQLClientObj} from '../init-woql-client'
-import {useHook} from "./hook"
-import {getPropertiesOfClass, getPropertyRelation} from "../Queries/GeneralQueries"
+import React from 'react';
+import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout';
+import {DatabaseButtons} from "./DatabaseButtons"
+import {SampleQueries} from "./SampleQueries"
 
-export const Sidebar= (props) =>{
+export const Sidebar= ({setInteractiveQuery, setInteractiveQueryString}) =>{
 
-    const {woqlClient} = WOQLClientObj()
-
-    const [query, setQuery]=useState(false)
-    const [properties, setProperties]=useState(false)
-    const [propertyResults]=useHook(woqlClient, query)
-
-    useEffect(()=> {
-        setProperties(propertyResults)
-    }, [propertyResults])
-
-    const handleClassButtonClick = (id) => {
-        let q = getPropertiesOfClass(id)
-        setQuery(q)
-    }
-
-    const handlePropertyClick = (property) => {
-        let q = getPropertyRelation(property)
-        if(props.setInteractiveQuery) props.setInteractiveQuery(q)
-    }
-
-
-    return <React.Fragment>
-        <div className="flex-column mt-3">
-            <TDBReactButtonGroup  onLoad="https://hub-dev.dcm.ist/api/workers/admin/cg6zav1618490058380" config={DOCUMENT_CLASS_BUTTONS_CONFIG} onClick={handleClassButtonClick}/>
-        </div>
-        {properties &&
-            <div className="flex-column mt-3">
-                <TDBReactButtonGroup startData={properties} config={PROPERTY_BUTTONS_CONFIG} onClick={handlePropertyClick}/>
+    let accordianObject = 
+    [
+        {
+            id: 1,
+            eventKey: "panel-1",
+            title: "Database",
+            description: <DatabaseButtons setInteractiveQuery={setInteractiveQuery} setInteractiveQueryString={setInteractiveQueryString}/>
+        },
+        {
+            id: 2,
+            eventKey: "panel-2",
+            title: "Sample Queries",
+            description: <SampleQueries/>
+        },
+        {
+            id: 3,
+            eventKey: "panel-3",
+            title: "Saved Queries",
+            description: <div className="flex-column mt-3">
+                "HELLO"
             </div>
         }
+    ]
+
+    return <React.Fragment>
+
+        <TDBReactAccordian
+            defaultKey="panel-1"
+            data={accordianObject} />
+
     </React.Fragment>
     }

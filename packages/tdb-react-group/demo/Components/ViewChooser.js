@@ -1,6 +1,7 @@
 import React from "react"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {TABLE_VIEW_BUTTON_CONFIG, GRAPH_VIEW_BUTTON_CONFIG, GRAPH_VIEW, TABLE_VIEW} from "./constants"
+import {TDBReactButtonGroup} from '@terminusdb-live/tdb-react-layout'
+import {VIEW_SWITCHER_BUTTON_GROUP} from "./constants"
+import {Row, Col} from "@themesberg/react-bootstrap"
 
 export const ViewChooser=(props) =>{
 
@@ -8,9 +9,13 @@ export const ViewChooser=(props) =>{
         if(props.onClick) props.onClick(view)
     }
 
+
     return  <React.Fragment>
-        <TDBReactButton config={TABLE_VIEW_BUTTON_CONFIG} onClick={(e) => handleClick(TABLE_VIEW)}/>
-        <TDBReactButton config={GRAPH_VIEW_BUTTON_CONFIG} onClick={(e) => handleClick(GRAPH_VIEW)}/>
+        <Row>
+            <Col className="d-flex justify-content-md-end">
+                <TDBReactButtonGroup config={VIEW_SWITCHER_BUTTON_GROUP} onClick={handleClick}/>
+            </Col>
+        </Row>
     </React.Fragment>
     
 }

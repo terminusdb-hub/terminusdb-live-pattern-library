@@ -5,10 +5,11 @@ import {View} from "./View"
 export const QueryPage = (props) => {
 
     const [interactiveQuery, setInteractiveQuery]=useState(false)
+    const [interactiveQueryString, setInteractiveQueryString]=useState(false)
 
     return <React.Fragment>
         <nav className="col-md-2 vh-100 d-flex flex-column d-md-block bg-custom-blue sidebar">
-            <div className="sidebar-sticky p-4">
+            <div className="sidebar-sticky">
                 <div className="nav-item mb-3">
                     <a href="https://terminusdb.com" className="nav-link">
                         <span>
@@ -16,11 +17,13 @@ export const QueryPage = (props) => {
                         </span>
                     </a>
                 </div>
-                <Sidebar setInteractiveQuery={setInteractiveQuery}/>
+                <Sidebar setInteractiveQuery={setInteractiveQuery}
+                    setInteractiveQueryString={setInteractiveQueryString}/>
             </div>
             </nav>
             <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <View interactiveQuery={interactiveQuery}/>
+                <View interactiveQuery={interactiveQuery}
+                    interactiveQueryString={interactiveQueryString}/>
             </main>
     </React.Fragment>
     

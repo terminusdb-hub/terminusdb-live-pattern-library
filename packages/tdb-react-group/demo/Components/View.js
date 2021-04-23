@@ -1,15 +1,17 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
-import {TDBReactButton, TDBReactResizable, TDBReactDropDownButtons} from '@terminusdb-live/tdb-react-layout'
-import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, LANGUAGE_LIST} from './constants.js'
+import {TDBReactButton, TDBReactResizable, TDBReactTextArea, TDBReactButtonGroup} from '@terminusdb-live/tdb-react-layout'
+import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP} from './constants.js'
 import {WOQLClientObj} from '../init-woql-client'
 import {handleRunQuery, handleError} from '../Functions/Actions'
 import {Results} from "./Results"
+import {Row, Col} from '@themesberg/react-bootstrap';
 
 export const View = (props) => {
     const [woqlQuery, setWOQLQuery]=useState(props.query)
     const {woqlClient} = WOQLClientObj()
     const initQuery = props.interactiveQuery || ''
+    const initQueryString = props.interactiveQueryString || ''
 
     const {
         updateQuery,
@@ -28,39 +30,43 @@ export const View = (props) => {
     const handleLanguageSwitcher = (lang)=> {
         setLanguage(lang)
     }
+
+    useEffect(() => {
+        handleRunQuery(initQuery, updateQuery, "default Commit msg")
+    }, [initQuery])
+
+
     
-
-    /* 
-    limit(1).triple("v:Domain", "scm:stargazers_count", "v:Range")
-    */
-
-    /*
-limit(1).quad( "scm:stargazers_count", "label", "v:Domain Label", "schema/main").
-triple("v:Domain", "scm:stargazers_count", "v:MAKE")
-
-
-    */
 
     return <React.Fragment>
 
         <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
             <div className="pallet">
-                <TDBReactButton 
-                    config={RUN_QUERY_CONFIG} 
-                    onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
-                <TDBReactButton 
-                    config={SAVE_QUERY_CONFIG}/>
-                <TDBReactDropDownButtons
-                    config={LANGUAGE_LIST}
-                    onChange={handleLanguageSwitcher}
-                    variant="dark"/>
-                <WOQLEditorControlled 
-                    languages={LANGUAGE_LIST}
-                    customLanguateSwitcher={true} 
-                    currentLanguage={"js"}  
-                    setWOQLQuery={setWOQLQuery} 
-                    editable={true}
-                    setMainError={(e) => handleError(e)}/>
+                <Row>
+                    <Col md={10}>
+                        <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
+                    </Col>
+                    <Col md={2}>
+                        <TDBReactButton 
+                            config={RUN_QUERY_CONFIG} 
+                            onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
+                        <TDBReactButton 
+                            config={SAVE_QUERY_CONFIG}/>
+                        
+                        <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
+                    </Col>
+                </Row>
+                
+                <div className="editor-pallet">
+                    <WOQLEditorControlled 
+                        languages={LANGUAGE_LIST}
+                        customLanguateSwitcher={true} 
+                        startLanguage={"js"}  
+                        setWOQLQuery={setWOQLQuery} 
+                        editable={true}
+                        initcontent={initQueryString}
+                        setMainError={(e) => handleError(e)}/>
+                </div>
             </div>
         </TDBReactResizable>
 

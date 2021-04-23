@@ -1,11 +1,13 @@
 
 body{
-color: #4a5073;
-background: #E3EBF6;
+    color: #4a5073;
+    background: #E3EBF6;
+    letter-spacing: 0.88px;
 }
+
 .recharts-cartesian-axis-ticks{
-font-size: 0.85em;
-font-weight: 600;
+    font-size: 0.85em;
+    font-weight: 600;
 }
 
 .bg-custom-blue{
@@ -33,5 +35,9 @@ div.icon-shape {
 
 div.icon-shape svg {
      font-size: 2rem; 
+}
+
+.nav-labels {
+    color: #fff !important
 }
 

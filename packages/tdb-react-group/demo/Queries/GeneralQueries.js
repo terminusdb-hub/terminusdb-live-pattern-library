@@ -1,5 +1,5 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-
+import {shortenURL} from "../Functions/Utils"
 
 export const getPropertiesOfClass = (id) => {
     if(!id) return null
@@ -37,8 +37,17 @@ export const getPropertyRelation = (id) => {
     let WOQL=TerminusClient.WOQL
 
     return WOQL.triple("v:Domain", id, "v:Range").
-        triple("v:Domain", "type", "v:Domain Type").
-        quad("v:Domain Type", "label", "v:Domain Label", "schema/main")
+        triple("v:Domain", "type", "v:Domain Type")
+}
+
+export const getPropertyRelationQueryString = (id) => {
+    if(!id) return
+    let short=shortenURL(id)
+    console.log("short", short)
+
+    return `triple("v:Domain", "${short}", "v:Range").
+        triple("v:Domain", "type", "v:Domain Type")`
+        //quad("v:Domain Type", "label", "v:Domain Label", "schema/main")
 }
 
 

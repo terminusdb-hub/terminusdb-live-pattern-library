@@ -1,45 +1,29 @@
-import React, { useEffect, useState} from "react"
-import {useWorker} from "@terminusdb-live/react-worker"
+import React from "react"
+import {ButtonGroup, Button} from '@themesberg/react-bootstrap';
 import {TDBReactButton} from "./TDBReactButton"
 
-export const TDBReactButtonGroup= (props) =>{
+export const TDBReactButtonGroup = (props) => {
 
-    
-    const startData= props.startData || []
-    const config = props.config || []
-    const variant = config.variant || "primary"
-    const qName = config.queryName || "Class library"
+    let config = props.config || []
 
 
-    const {onChange, error, loading, dataProvider} = useWorker(startData, props.onLoad, false)
+    const Buttons = ({item, variant, size, onClick, key}) => {
+        var icCss
+        if(item.icon && item.label) icCss="me-2"
+        else icCss=""
+        let iconName=item.icon ? `${item.icon} ${icCss}` : null
 
-    const [buttons, setButtons]=useState([])
+        function handleOnClick(e, onClick) {
+            if(onClick) onClick(e.target.id)
+          }
 
-    useEffect(() => {
-        let btns = []
-        for(var key in dataProvider){
-            if (qName == "Class library") {
-                let name = dataProvider[key]["Class Name"]
-                let id = dataProvider[key]["Class ID"]
-                let description = dataProvider[key]["Description"]
-                let bConfig = {title: description, id: id, label: name, key: `Buttons_${id}`, variant: variant}
-                btns.push(<TDBReactButton config={bConfig} onClick={props.onClick}/>)
-            }
-            else if (qName == "Property library") {
-                let name = dataProvider[key]["Property Name"]["@value"]
-                let id = dataProvider[key]["Property ID"]
-                let description = dataProvider[key]["Property Description"]
-                let bConfig = {title: description, id: id, label: name, key: `Buttons_${id}`, variant: variant}
-                btns.push(<TDBReactButton config={bConfig} onClick={props.onClick}/>)
-            }
-        }
-        
-        setButtons(btns)
-    }, [dataProvider])
-
-
-    if(dataProvider){
-        return <React.Fragment>{buttons}</React.Fragment>
+        return <Button title={item.title} variant={variant} size={size} id={item.id} onClick={(e) => handleOnClick(e, onClick)}>
+            {iconName && <i class={iconName}/>}
+            {item.label}
+        </Button>
     }
-    return <React.Fragment>LOADING</React.Fragment> 
+
+    return <ButtonGroup>
+        {config.buttons.map(d => <Buttons key={`button-${d.id}`} item={d} onClick={props.onClick} variant={config.variant} size={config.size}/>)}
+    </ButtonGroup>
 }

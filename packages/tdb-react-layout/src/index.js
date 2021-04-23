@@ -4,5 +4,8 @@ export { TDBReactCardList } from './TDBReactCardList'
 export { TDBReactNav } from './TDBReactNav'
 export { TDBReactButton } from './TDBReactButton'
 export { TDBReactButtonGroup } from './TDBReactButtonGroup'
+export {TDBReactWorkerButtonGroup} from "./TDBReactWorkerButtonGroup.js"
 export { TDBReactResizable } from './TDBReactResizable'
 export { TDBReactDropDownButtons } from './TDBReactDropDownButtons'
+export { TDBReactTextArea } from './TDBReactTextArea'
+export { TDBReactAccordian } from './TDBReactAccordian'
