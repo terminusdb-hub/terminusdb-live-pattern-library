@@ -50,4 +50,8 @@ export const getPropertyRelationQueryString = (id) => {
         //quad("v:Domain Type", "label", "v:Domain Label", "schema/main")
 }
 
+export const getClassesLib = () => {
+    return `lib().classes()`
+} 
+
 

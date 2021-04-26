@@ -3,7 +3,9 @@ import {QueryPane} from "./QueryPane"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {NEW_PANE_CONFIG} from "./constants"
 
-export const View = () => {
+export const View = ({interactiveQueryString}) => {
+
+    console.log("interactiveQueryString", interactiveQueryString)
 
     const QueryPaneBox = (props) => {
         const {qp, setQp} = props.pstate;
@@ -13,7 +15,7 @@ export const View = () => {
                 <TDBReactButton config={NEW_PANE_CONFIG} 
                     onClick={() => { setQp([...qp, qp.length]) }}
                 />
-                <QueryPane/>
+                <QueryPane id={props.id}/>
           </div>
         );
     }

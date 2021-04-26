@@ -1,16 +1,19 @@
 import React, {useState, useEffect} from "react"
 import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {TDBReactButton, TDBReactResizable, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
-import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
+import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, COPY_BUTTON_CONFIG, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
 import {WOQLClientObj} from '../init-woql-client'
 import {handleRunQuery, handleError} from '../Functions/Actions'
 import {Results} from "./Results"
 
-
-export const QueryPane = ({query, interactiveQuery, interactiveQueryString}) => {
+export const QueryPane = ({id, query}) => {
     const [woqlQuery, setWOQLQuery]=useState(query)
     const {woqlClient} = WOQLClientObj()
     const [isExpanded, setExpanded] = useState(true)
+
+    console.log("id of query pane", id)
+    console.log("woqlQuery in query pane", woqlQuery)
+
 
     const {
         updateQuery,
@@ -55,6 +58,11 @@ export const QueryPane = ({query, interactiveQuery, interactiveQueryString}) => 
                 config={SAVE_QUERY_CONFIG} 
                 onClick={handleLanguageSwitcher}/>
 
+            <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
+
+            <TDBReactButton config={COPY_BUTTON_CONFIG} />
+
+
             {isExpanded && <TDBReactButton 
                 config={COLLAPSE_BUTTON_GROUP} 
                 onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
@@ -62,8 +70,6 @@ export const QueryPane = ({query, interactiveQuery, interactiveQueryString}) => 
             {!isExpanded && <TDBReactButton 
                 config={UNCOLLAPSE_BUTTON_GROUP} 
                 onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-            
-            <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
 
             <TDBReactCollapse isExpanded={isExpanded}>
                 <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>

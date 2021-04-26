@@ -14,8 +14,22 @@ export const TDBReactButton= (props) =>{
       if(props.onClick) props.onClick(e.target.id)
     }
 
-    return <Button className={"m-1" + css} key={`Buttons_${config.title}`} size={size} variant={config.variant} title={config.title} id={config.id} onClick={handleOnClick}>
-      {iconName && <i class={iconName}/>}
-      {config.label}
-    </Button>
+    return <React.Fragment>
+        {(config.type == "link") && <Button className={"mr-1 mb-1 m-1" + css} 
+          key={`Buttons_${config.title}`} 
+          size={size} 
+          variant={config.variant} 
+          title={config.title}
+          id={config.id} 
+          bsPrefix="text" 
+          href="#primary" 
+          onClick={handleOnClick}>
+            {iconName && <i class={iconName}/>}
+            {config.label}
+        </Button>}
+        {(config.type != "link") && <Button className={"mr-1 mb-1 m-1" + css} key={`Buttons_${config.title}`} size={size} variant={config.variant} title={config.title} id={config.id} onClick={handleOnClick}>
+          {iconName && <i class={iconName}/>}
+          {config.label}
+        </Button>}
+    </React.Fragment>
 }

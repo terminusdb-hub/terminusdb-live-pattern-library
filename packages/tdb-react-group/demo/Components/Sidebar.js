@@ -11,18 +11,21 @@ export const Sidebar= ({setInteractiveQuery, setInteractiveQueryString}) =>{
             id: 1,
             eventKey: "panel-1",
             title: "Database",
+            icon: "fas fa-database",
             description: <DatabaseButtons setInteractiveQuery={setInteractiveQuery} setInteractiveQueryString={setInteractiveQueryString}/>
         },
         {
             id: 2,
             eventKey: "panel-2",
+            icon: "fas fa-heart",
             title: "Sample Queries",
-            description: <SampleQueries/>
+            description: <SampleQueries setInteractiveQuery={setInteractiveQuery} setInteractiveQueryString={setInteractiveQueryString}/>
         },
         {
             id: 3,
             eventKey: "panel-3",
             title: "Saved Queries",
+            icon: "fas fa-map-pin",
             description: <div className="flex-column mt-3">
                 "HELLO"
             </div>

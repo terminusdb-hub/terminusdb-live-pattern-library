@@ -9,12 +9,19 @@ export const PROPERTY_LABEL_CONFIG = {color: "#ddd", label: "Properties"}
 // button to run query 
 export const RUN_QUERY_CONFIG = {label:"Run", title: "Run Query", icon: "fas fa-play", variant: "outline-primary", size:"sm"}
 // button to save query 
-export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite", icon: "far fa-star", variant: "outline-primary", size:"sm"}
+export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite", icon: "far fa-clipboard", variant: "outline-primary", size:"sm"}
 // button to get new query pane
 export const NEW_PANE_CONFIG = {label:"New", title: "Add New Query Pane", icon: "fas fa-plus", variant: "primary", size:"sm"}
 // button to collapse a pane
 export const COLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-up", variant: "outline-primary", size:"sm"}
 export const UNCOLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-down", variant: "outline-primary", size:"sm"}
+// button to copy
+export const COPY_BUTTON_CONFIG={label:"Copy", title: "Copy", icon: "far fa-clipboard", variant: "outline-primary", size:"sm"}
+
+// link buttons for standard queries
+export const GET_CLASSES_LINK={label:"Get classes", title: "Get Classes", type: "link", variant: "light", size:"sm"}
+export const GET_PROPERTIES_LINK={label:"Get Properties", title: "Get Properties", type: "link", variant: "light", size:"sm"}
+export const GET_DOCUMENT_METADATA_LINK={label:"Get Document Meta data", title: "Get Properties", type: "link", variant: "light", size:"sm"}
 
 
 //views to see results
@@ -27,6 +34,7 @@ export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "outline-primary", size: 
 export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "outline-primary", size: "sm", buttons: [
     {icon: "fas fa-border-none", id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
     {icon: "fas fa-bezier-curve", id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW}]}
+
 
 //text area for commit msg 
 export const COMMIT_TEXT_AREA = { placeholder:"Add an optional description for update", icon: "far fa-envelope"}

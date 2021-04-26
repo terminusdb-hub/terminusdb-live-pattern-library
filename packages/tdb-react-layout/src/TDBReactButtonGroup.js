@@ -1,6 +1,5 @@
 import React from "react"
 import {ButtonGroup, Button} from '@themesberg/react-bootstrap';
-import {TDBReactButton} from "./TDBReactButton"
 
 export const TDBReactButtonGroup = (props) => {
 
@@ -23,7 +22,7 @@ export const TDBReactButtonGroup = (props) => {
         </Button>
     }
 
-    return <ButtonGroup>
+    return <ButtonGroup className="mr-1 ml-1">
         {config.buttons.map(d => <Buttons key={`button-${d.id}`} item={d} onClick={props.onClick} variant={config.variant} size={config.size}/>)}
     </ButtonGroup>
 }

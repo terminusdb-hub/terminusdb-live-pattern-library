@@ -6,13 +6,14 @@ export const TDBReactAccordian = (props) => {
     const { defaultKey, data = [], className = "" } = props;
 
     const AccordionItem = (item) => {
-        const { eventKey, title, description } = item;
-  
+        const { eventKey, title, description, icon } = item;
+        let iconName = `me-2 ${icon}`
         return (
             <Accordion.Item className="transparant" eventKey={eventKey}>
             <Accordion.Button variant="link" className="w-100 d-flex justify-content-between sidebar-accordian">
                 <span className="h6 mb-0 fw-bold">
-                {title}
+                    {iconName && <i className={iconName}/>}
+                    {title}
                 </span>
             </Accordion.Button>
             <Accordion.Body>

@@ -2,10 +2,11 @@ import React, {useState, useEffect} from "react"
 import { Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
 
 export const TDBReactDropDownButtons = (props) => {
-    const [list, setList] = useState(props.config)
+    let config=props.config || {}
+    const [list, setList] = useState(config.list)
     const [dropdownList, setDropdownList] = useState([])
     const [selected, setSelected]=useState(list[0])
-    const variant=props.variant || "primary"
+    const variant=config.variant || "primary"
 
     useEffect(() => { 
         let extracted=[]
