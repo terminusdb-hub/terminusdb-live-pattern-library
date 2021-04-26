@@ -1,92 +1,134 @@
 import React, {useState, useEffect} from "react"
-import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
-import {TDBReactButton, TDBReactResizable, TDBReactTextArea, TDBReactButtonGroup} from '@terminusdb-live/tdb-react-layout'
-import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP} from './constants.js'
-import {WOQLClientObj} from '../init-woql-client'
-import {handleRunQuery, handleError} from '../Functions/Actions'
-import {Results} from "./Results"
-import {Row, Col} from '@themesberg/react-bootstrap';
+import {QueryPane} from "./QueryPane"
+import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
+import {NEW_PANE_CONFIG} from "./constants"
 
-export const View = (props) => {
-    const [woqlQuery, setWOQLQuery]=useState(props.query)
-    const {woqlClient} = WOQLClientObj()
-    const initQuery = props.interactiveQuery || ''
-    const initQueryString = props.interactiveQueryString || ''
+export const View = () => {
 
-    const {
-        updateQuery,
-        changeOrder,
-        changeLimits,
-        woql,
-        result,
-        limit,
-        start,
-        orderBy,
-        loading,
-        rowCount,
-    } = ControlledQueryHook(woqlClient, woqlQuery, false, 20)
+    const QueryPaneBox = (props) => {
+        const {qp, setQp} = props.pstate;
 
-   
-    const handleLanguageSwitcher = (lang)=> {
-        setLanguage(lang)
+        return (
+            <div id={props.id}>
+                <TDBReactButton config={NEW_PANE_CONFIG} 
+                    onClick={() => { setQp([...qp, qp.length]) }}
+                />
+                <QueryPane/>
+          </div>
+        );
     }
 
+    const NewQueryPane = () => {
+        const [qp, setQp] = useState([0]);
+        return qp.map(m => <QueryPaneBox key={m} id={`queryPane_${m}`}
+            qpNumber={m}
+            pstate={{qp, setQp}}/>
+        );
+    }
+
+    return (
+        <React.Fragment>
+            <NewQueryPane/>
+        </React.Fragment>
+    )
+
+}
+
+/*
+
+export const View = (props) => {
+
+    const QueryPaneBox = (props) => {
+        const {qp, setQp} = props.pstate;
+
+        return (
+            <div id={props.id}>
+                <QueryPane/>
+                <TDBReactButton config={NEW_PANE_CONFIG} 
+                    onClick={() => { setQp([...qp, qp.length]) }}
+                />
+          </div>
+        );
+    }
+
+    const NewQueryPane = () => {
+        const [qp, setQp] = useState([0]);
+        return qp.map(m => <QueryPaneBox key={m} id={`queryPane_${m}`}
+            qpNumber={m}
+            pstate={{qp, setQp}}/>
+        );
+    }
+
+    return (
+        <React.Fragment>
+            <NewQueryPane/>
+        </React.Fragment>
+    )
+
+}
+
+*/
+ 
+/*export const View = ({interactiveQueryString, interactiveQuery, setWOQLQuery, woqlQuery}) => {
+
+    const [qp, setQp] = useState([{setWOQLQuery: setWOQLQuery, woqlQuery: woqlQuery}]);
+    let initQuery=interactiveQuery || ''
+    let initQueryString=interactiveQueryString || ''
+    const [runQuery, setRunQuery] = useState(woqlQuery)
+
+    console.log("woqlQuery", woqlQuery)
+
     useEffect(() => {
-        handleRunQuery(initQuery, updateQuery, "default Commit msg")
-    }, [initQuery])
+        if(initQuery) {
+            setQp(arr => [...arr, {initQuery: initQuery, 
+                initQueryString: initQueryString, 
+                setWOQLQuery:setWOQLQuery,
+                woqlQuery: woqlQuery
+            }])
+        }
+        
+    }, [initQuery]) 
+
+    useEffect(() => {
+        
+    },[woqlQuery])
+
+    const QueryPaneBox = ({id, initQueryString, initQuery, woqlQuery, setWOQLQuery}) => {
+        return (
+            <div id={id}>
+                <QueryPane initQueryString={initQueryString} initQuery={initQuery} woqlQuery={woqlQuery} setWOQLQuery={setWOQLQuery}/>     
+            </div>
+        )
+    }
+
+    
+    const NewQueryPane = ({qp, setQp}) => {
+
+        console.log("qp", qp)
+
+    
+
+        return qp.slice(0).reverse().map(m => <QueryPaneBox key={m} id={`queryPaneBox_${m}`}
+            qpNumber={m}
+            initQuery={m.initQuery}
+            initQueryString={m.initQueryString}
+            woqlQuery={m.woqlQuery}
+            setWOQLQuery={m.setWOQLQuery}
+            pstate={{qp, setQp}}/>
+        )
+    }
 
 
+    console.log('runQuery', runQuery)
+ 
     
 
     return <React.Fragment>
-
-        <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
-            <div className="pallet">
-                <Row>
-                    <Col md={10}>
-                        <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
-                    </Col>
-                    <Col md={2}>
-                        <TDBReactButton 
-                            config={RUN_QUERY_CONFIG} 
-                            onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
-                        <TDBReactButton 
-                            config={SAVE_QUERY_CONFIG}/>
-                        
-                        <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
-                    </Col>
-                </Row>
-                
-                <div className="editor-pallet">
-                    <WOQLEditorControlled 
-                        languages={LANGUAGE_LIST}
-                        customLanguateSwitcher={true} 
-                        startLanguage={"js"}  
-                        setWOQLQuery={setWOQLQuery} 
-                        editable={true}
-                        initcontent={initQueryString}
-                        setMainError={(e) => handleError(e)}/>
-                </div>
-            </div>
-        </TDBReactResizable>
-
-        <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
-            {result && <div className="pallet">
-                <Results result={result}
-                    freewidth={true}
-                    limit={limit}
-                    start={start}
-                    orderBy={orderBy} 
-                    setLimits={changeLimits}
-                    setOrder={changeOrder}
-                    query={woqlQuery}
-                    loading={loading}
-                    totalRows={rowCount}
-                    updateQuery={updateQuery}
-                />
-            </div>}
-        </TDBReactResizable>
-        
+        <div className={"d-flex justify-content-end mr-3"}>
+            <TDBReactButton config={NEW_PANE_CONFIG} onClick={() => { setQp(arr => [...arr, {setWOQLQuery: setWOQLQuery,
+                woqlQuery: woqlQuery}]) }}/>  
+        </div>
+        <NewQueryPane setQp={setQp} qp={qp} />
     </React.Fragment>
-    
-}
+
+}  */

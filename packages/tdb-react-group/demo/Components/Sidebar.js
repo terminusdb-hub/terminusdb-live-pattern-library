@@ -30,10 +30,8 @@ export const Sidebar= ({setInteractiveQuery, setInteractiveQueryString}) =>{
     ]
 
     return <React.Fragment>
-
         <TDBReactAccordian
             defaultKey="panel-1"
             data={accordianObject} />
-
     </React.Fragment>
     }

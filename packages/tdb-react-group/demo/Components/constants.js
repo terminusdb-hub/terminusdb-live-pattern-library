@@ -10,10 +10,16 @@ export const PROPERTY_LABEL_CONFIG = {color: "#ddd", label: "Properties"}
 export const RUN_QUERY_CONFIG = {label:"Run", title: "Run Query", icon: "fas fa-play", variant: "outline-primary", size:"sm"}
 // button to save query 
 export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite", icon: "far fa-star", variant: "outline-primary", size:"sm"}
+// button to get new query pane
+export const NEW_PANE_CONFIG = {label:"New", title: "Add New Query Pane", icon: "fas fa-plus", variant: "primary", size:"sm"}
+// button to collapse a pane
+export const COLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-up", variant: "outline-primary", size:"sm"}
+export const UNCOLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-down", variant: "outline-primary", size:"sm"}
+
 
 //views to see results
-export const TABLE_VIEW = "Table"
-export const GRAPH_VIEW = "Graph"
+export const TABLE_VIEW = "TABLE"
+export const GRAPH_VIEW = "GRAPH"
 
 //button group for language switcher 
 export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "outline-primary", size: "sm", buttons: [{id: "JS", title: "JS", label: "JS"}, {id: "JSON", title: "JSON", label: "JSON"}]}

@@ -6,6 +6,7 @@ export const QueryPage = (props) => {
 
     const [interactiveQuery, setInteractiveQuery]=useState(false)
     const [interactiveQueryString, setInteractiveQueryString]=useState(false)
+    const [woqlQuery, setWOQLQuery]=useState(false)
 
     return <React.Fragment>
         <nav className="col-md-2 vh-100 d-flex flex-column d-md-block bg-custom-blue sidebar">
@@ -22,11 +23,18 @@ export const QueryPage = (props) => {
             </div>
             </nav>
             <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <View interactiveQuery={interactiveQuery}
-                    interactiveQueryString={interactiveQueryString}/>
+                <View setWOQLQuery={setWOQLQuery}
+                    woqlQuery={woqlQuery}/>
             </main>
     </React.Fragment>
-    
 }
+
+
+/*
+<View interactiveQuery={interactiveQuery}
+                    interactiveQueryString={interactiveQueryString}
+                    setWOQLQuery={setWOQLQuery}
+                    woqlQuery={woqlQuery}/>
+*/
 
 
