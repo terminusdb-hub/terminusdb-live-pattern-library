@@ -10,3 +10,7 @@ export const isArray = (arr) => {
 export const shortenURL=(url) => {
     return TerminusClient.UTILS.shorten(url)
 }
+
+export const covertStringToId = (str) => {
+    return "doc:" + str.replace(/ /g, "_")
+}

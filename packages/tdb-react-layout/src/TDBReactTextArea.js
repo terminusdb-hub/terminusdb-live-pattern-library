@@ -11,16 +11,18 @@ export const TDBReactTextArea = (props) =>{
     else icCss=""
     const iconName=config.icon ? `${config.icon} ${icCss}` : null
 
-    function handleOnClick(e) {
-      if(props.onClick) props.onClick(e.target.id)
+    function handleOnChange(e) {
+      if(props.onChange) props.onChange(e.target.value)
     }
+
+    
 
     return <Form>
       <Form.Group className="mb-3">
         {label && <Form.Label>{label}</Form.Label>}
         <InputGroup>
           {/*iconName && <i class={iconName}/>*/}
-          <Form.Control type={type} placeholder={placeholder} />
+          <Form.Control type={type} placeholder={placeholder} onChange={(e) => handleOnChange(e)}/>
         </InputGroup>
       </Form.Group>
     </Form>

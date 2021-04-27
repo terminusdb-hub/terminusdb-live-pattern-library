@@ -1,15 +1,21 @@
 import React, {useState, useEffect} from "react"
 import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {TDBReactButton, TDBReactResizable, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
-import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, COPY_BUTTON_CONFIG, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
+import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, SAVE_QUERY_NAME_TEXT_AREA, COPY_BUTTON_CONFIG, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
 import {WOQLClientObj} from '../init-woql-client'
-import {handleRunQuery, handleError} from '../Functions/Actions'
+import {handleRunQuery, handleError, handleSaveQuery} from '../Functions/Actions'
 import {Results} from "./Results"
+import {Row, Col} from "@themesberg/react-bootstrap"
+import {useHook} from "./hook"
 
 export const QueryPane = ({id, qpaneQuery, setQp, qp}) => {
     const [woqlQuery, setWOQLQuery]=useState(qpaneQuery)
     const {woqlClient} = WOQLClientObj()
     const [isExpanded, setExpanded] = useState(true)
+    const [saveQuery, setSaveQuery] = useState()
+    const [saveQueryName, setSaveQueryName] = useState()
+
+    let dp = useHook(woqlClient, saveQuery)
 
     const {
         updateQuery,
@@ -39,33 +45,54 @@ export const QueryPane = ({id, qpaneQuery, setQp, qp}) => {
         setLanguage(lang)
     }
 
+    const handleSaveQueryNameOnChange = (name, setSaveQueryName) => {
+        if(setSaveQueryName) setSaveQueryName(name)
+    }
+
+    
+
 
     return <React.Fragment>
 
         
         <div className="pallet mb-3 mt-3">
-            <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
+            <Row>
+                    <Col md={2}> 
+                        <TDBReactButton 
+                            config={RUN_QUERY_CONFIG} 
+                            onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
+                        
+                        <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
+                    </Col>
+                    
+                    <Col md={3}> 
+                        <TDBReactTextArea config={SAVE_QUERY_NAME_TEXT_AREA} 
+                            onChange={(e) => handleSaveQueryNameOnChange(e, setSaveQueryName)}/>
+                    </Col>
 
-            <TDBReactButton 
-                config={RUN_QUERY_CONFIG} 
-                onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
-            
-            <TDBReactButton 
-                config={SAVE_QUERY_CONFIG} 
-                onClick={handleLanguageSwitcher}/>
+                    <Col md={1}> 
+                        <TDBReactButton 
+                            config={SAVE_QUERY_CONFIG} 
+                            onClick={(e) => handleSaveQuery(woqlQuery, setSaveQuery, saveQueryName)}/>
+                    </Col>
+                
+                    <Col md={4}> 
+                        <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
+                    </Col>
 
-            <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
+                    <Col md={2}> 
+                        <TDBReactButton config={COPY_BUTTON_CONFIG} />
 
-            <TDBReactButton config={COPY_BUTTON_CONFIG} />
+                        {isExpanded && <TDBReactButton 
+                            config={COLLAPSE_BUTTON_GROUP} 
+                            onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
 
-
-            {isExpanded && <TDBReactButton 
-                config={COLLAPSE_BUTTON_GROUP} 
-                onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-            
-            {!isExpanded && <TDBReactButton 
-                config={UNCOLLAPSE_BUTTON_GROUP} 
-                onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
+                        {!isExpanded && <TDBReactButton 
+                            config={UNCOLLAPSE_BUTTON_GROUP} 
+                            onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
+                    </Col>
+                
+            </Row>
 
             <TDBReactCollapse isExpanded={isExpanded}>
                 <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>

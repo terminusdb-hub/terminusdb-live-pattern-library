@@ -1,5 +1,5 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {shortenURL} from "../Functions/Utils"
+import {shortenURL, covertStringToId} from "../Functions/Utils"
 
 export const getPropertiesOfClass = (id) => {
     if(!id) return null
@@ -41,7 +41,42 @@ export const getPropertyRelation = (id) => {
 }
 
 export const getClassesLib = () => {
-    return `lib().classes()`
+    let WOQL=TerminusClient.WOQL
+
+    return WOQL.lib().classes()
 } 
+
+export const getPropertiesLib = () => {
+    let WOQL=TerminusClient.WOQL
+
+    return WOQL.lib().properties()
+} 
+
+export const getDocumentMetadataLib = () => {
+    let WOQL=TerminusClient.WOQL
+
+    return WOQL.lib().document_metadata()
+} 
+
+// query to store query object in query library database
+export const storeQueries = (query, saveQueryName) => {
+    let WOQL=TerminusClient.WOQL
+    let obj={}
+    if(query) obj=query.query 
+    if(saveQueryName) obj["@id"] = covertStringToId(saveQueryName)
+    return WOQL.using("admin/woql-library").update_object(obj)
+}
+
+export const getStoredQueriesNames = () => {
+    let WOQL=TerminusClient.WOQL
+
+    return WOQL.using("admin/woql-library").triple("v:Query Name", "type", "woql:Triple")
+}
+
+export const getStoredQueryObject = (id) => {
+    if(!id) return
+    let WOQL=TerminusClient.WOQL
+    return WOQL.read_object(id, "v:Query Object")
+}
 
 

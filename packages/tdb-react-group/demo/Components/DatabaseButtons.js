@@ -16,6 +16,7 @@ export const DatabaseButtons = ({setInteractiveQuery}) => {
     const [properties, setProperties]=useState(false)
     const [propertyResults]=useHook(woqlClient, query)
 
+
     useEffect(()=> {
         setProperties(propertyResults)
     }, [propertyResults])

@@ -10,14 +10,22 @@ export const ResultController=(props) =>{
     }
 
     return  <React.Fragment>
-        <TDBReactButtonGroup config={VIEW_SWITCHER_BUTTON_GROUP} onClick={handleClick}/>
-        {props.isExpanded && <TDBReactButton 
-            config={COLLAPSE_BUTTON_GROUP} 
-            onClick={() => props.setExpanded((prevExpanded) => !prevExpanded)}/>}
-        
-        {!props.isExpanded && <TDBReactButton 
-            config={UNCOLLAPSE_BUTTON_GROUP} 
-            onClick={() => props.setExpanded((prevExpanded) => !prevExpanded)}/>}
+        <Row>
+            <Col md={2}>
+                <TDBReactButtonGroup config={VIEW_SWITCHER_BUTTON_GROUP} onClick={handleClick}/>
+            </Col>
+            <Col md={9}>
+            </Col>
+            <Col md={1}>
+                {props.isExpanded && <TDBReactButton 
+                    config={COLLAPSE_BUTTON_GROUP} 
+                    onClick={() => props.setExpanded((prevExpanded) => !prevExpanded)}/>}
+                
+                {!props.isExpanded && <TDBReactButton 
+                    config={UNCOLLAPSE_BUTTON_GROUP} 
+                    onClick={() => props.setExpanded((prevExpanded) => !prevExpanded)}/>}
+            </Col>
+        </Row>
     </React.Fragment>
     
 }

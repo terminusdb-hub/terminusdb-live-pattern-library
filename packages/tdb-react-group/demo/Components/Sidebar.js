@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout';
 import {DatabaseButtons} from "./DatabaseButtons"
 import {SampleQueries} from "./SampleQueries"
+import {SavedQueries} from "./SavedQueries"
+
+
+import {DATABASE_TAB, SAVED_QUERIES, SAMPLE_QUERIES} from "./constants"
 
 export const Sidebar= ({setInteractiveQuery}) =>{
 
@@ -10,7 +14,7 @@ export const Sidebar= ({setInteractiveQuery}) =>{
         {
             id: 1,
             eventKey: "panel-1",
-            title: "Database",
+            title: DATABASE_TAB,
             icon: "fas fa-database",
             description: <DatabaseButtons setInteractiveQuery={setInteractiveQuery}/>
         },
@@ -18,17 +22,15 @@ export const Sidebar= ({setInteractiveQuery}) =>{
             id: 2,
             eventKey: "panel-2",
             icon: "fas fa-heart",
-            title: "Sample Queries",
+            title: SAMPLE_QUERIES,
             description: <SampleQueries setInteractiveQuery={setInteractiveQuery}/>
         },
         {
             id: 3,
             eventKey: "panel-3",
-            title: "Saved Queries",
+            title: SAVED_QUERIES,
             icon: "fas fa-map-pin",
-            description: <div className="flex-column mt-3">
-                "HELLO"
-            </div>
+            description: <SavedQueries setInteractiveQuery={setInteractiveQuery}/>
         }
     ]
 
