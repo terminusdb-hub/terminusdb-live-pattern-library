@@ -3,7 +3,7 @@ import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout';
 import {DatabaseButtons} from "./DatabaseButtons"
 import {SampleQueries} from "./SampleQueries"
 
-export const Sidebar= ({setInteractiveQuery, setInteractiveQueryString}) =>{
+export const Sidebar= ({setInteractiveQuery}) =>{
 
     let accordianObject = 
     [
@@ -12,14 +12,14 @@ export const Sidebar= ({setInteractiveQuery, setInteractiveQueryString}) =>{
             eventKey: "panel-1",
             title: "Database",
             icon: "fas fa-database",
-            description: <DatabaseButtons setInteractiveQuery={setInteractiveQuery} setInteractiveQueryString={setInteractiveQueryString}/>
+            description: <DatabaseButtons setInteractiveQuery={setInteractiveQuery}/>
         },
         {
             id: 2,
             eventKey: "panel-2",
             icon: "fas fa-heart",
             title: "Sample Queries",
-            description: <SampleQueries setInteractiveQuery={setInteractiveQuery} setInteractiveQueryString={setInteractiveQueryString}/>
+            description: <SampleQueries setInteractiveQuery={setInteractiveQuery}/>
         },
         {
             id: 3,

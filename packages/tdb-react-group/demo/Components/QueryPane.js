@@ -6,14 +6,10 @@ import {WOQLClientObj} from '../init-woql-client'
 import {handleRunQuery, handleError} from '../Functions/Actions'
 import {Results} from "./Results"
 
-export const QueryPane = ({id, query}) => {
-    const [woqlQuery, setWOQLQuery]=useState(query)
+export const QueryPane = ({id, qpaneQuery, setQp, qp}) => {
+    const [woqlQuery, setWOQLQuery]=useState(qpaneQuery)
     const {woqlClient} = WOQLClientObj()
     const [isExpanded, setExpanded] = useState(true)
-
-    console.log("id of query pane", id)
-    console.log("woqlQuery in query pane", woqlQuery)
-
 
     const {
         updateQuery,
@@ -26,23 +22,23 @@ export const QueryPane = ({id, query}) => {
         orderBy,
         loading,
         rowCount,
-    } = ControlledQueryHook(woqlClient, query, false, 20)
+    } = ControlledQueryHook(woqlClient, woqlQuery, false, 20)
 
-    
-
-    console.log("woqlQuery", woqlQuery)
+    useEffect(() => {
+        let tqp = qp
+        for (var i=0; i< tqp.length; i++) {
+            if(tqp[i].index == id) {
+                tqp[i].woqlQuery=woqlQuery
+            }
+        }
+        setQp(tqp)
+    }, [woqlQuery])
 
    
     const handleLanguageSwitcher = (lang)=> {
         setLanguage(lang)
     }
 
-    /*useEffect(() => {
-        if(!initQuery) return
-        handleRunQuery(initQuery, updateQuery, "default Commit msg")
-    }, [initQuery])  */
-
-    //initcontent={initQueryString}
 
     return <React.Fragment>
 
@@ -79,6 +75,7 @@ export const QueryPane = ({id, query}) => {
                             customLanguateSwitcher={true} 
                             startLanguage={"js"}  
                             setWOQLQuery={setWOQLQuery} 
+                            initcontent={JSON.stringify(woqlQuery)}
                             query={woqlQuery}
                             editable={true}
                             setMainError={(e) => handleError(e)}/>

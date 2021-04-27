@@ -40,16 +40,6 @@ export const getPropertyRelation = (id) => {
         triple("v:Domain", "type", "v:Domain Type")
 }
 
-export const getPropertyRelationQueryString = (id) => {
-    if(!id) return
-    let short=shortenURL(id)
-    console.log("short", short)
-
-    return `triple("v:Domain", "${short}", "v:Range").
-        triple("v:Domain", "type", "v:Domain Type")`
-        //quad("v:Domain Type", "label", "v:Domain Label", "schema/main")
-}
-
 export const getClassesLib = () => {
     return `lib().classes()`
 } 

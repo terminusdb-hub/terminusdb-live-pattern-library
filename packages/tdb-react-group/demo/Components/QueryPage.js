@@ -1,11 +1,22 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Sidebar} from "./Sidebar"
 import {View} from "./View"
 
 export const QueryPage = (props) => {
 
     const [interactiveQuery, setInteractiveQuery]=useState(false)
-    const [interactiveQueryString, setInteractiveQueryString]=useState(false)
+
+    const [woqlQuery, setWOQLQuery]=useState()
+    const [qp, setQp] = useState([{index: 0, woqlQuery: woqlQuery, setWOQLQuery: setWOQLQuery}])
+
+    useEffect(() => {
+        if (interactiveQuery) {
+            setQp(arr => [...arr, {index: qp.length, 
+                woqlQuery: interactiveQuery, 
+                setWOQLQuery: setWOQLQuery}])
+        }
+    }, [interactiveQuery])
+
 
     return <React.Fragment>
         <nav className="col-md-2 vh-100 d-flex flex-column d-md-block bg-custom-blue sidebar">
@@ -17,12 +28,11 @@ export const QueryPage = (props) => {
                         </span>
                     </a>
                 </div>
-                <Sidebar setInteractiveQuery={setInteractiveQuery}
-                    setInteractiveQueryString={setInteractiveQueryString}/>
+                <Sidebar setInteractiveQuery={setInteractiveQuery}/>
             </div>
             </nav>
             <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <View interactiveQueryString={interactiveQueryString}/>
+                <View setQp={setQp} qp={qp} setWOQLQuery={setWOQLQuery}/>
             </main>
     </React.Fragment>
 }

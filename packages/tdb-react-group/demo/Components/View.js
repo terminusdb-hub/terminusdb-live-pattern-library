@@ -3,36 +3,50 @@ import {QueryPane} from "./QueryPane"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {NEW_PANE_CONFIG} from "./constants"
 
-export const View = ({interactiveQueryString}) => {
-
-    console.log("interactiveQueryString", interactiveQueryString)
+export const View = ({setQp, qp, setWOQLQuery}) => {
+    
 
     const QueryPaneBox = (props) => {
-        const {qp, setQp} = props.pstate;
 
         return (
             <div id={props.id}>
+
                 <TDBReactButton config={NEW_PANE_CONFIG} 
-                    onClick={() => { setQp([...qp, qp.length]) }}
+                    onClick={() => { setQp(arr => [...arr, {index: props.qp.length, 
+                        woqlQuery: undefined, 
+                        setWOQLQuery: props.setWOQLQuery}]) 
+                    }}
                 />
-                <QueryPane id={props.id}/>
+
+                <QueryPane id={props.pstate.index} 
+                    qpaneQuery={props.pstate.woqlQuery} 
+                    setQp={setQp}
+                    qp={qp}
+                    setQPaneQuery={props.pstate.setWOQLQuery}/>
+
           </div>
-        );
+        )
     }
 
-    const NewQueryPane = () => {
-        const [qp, setQp] = useState([0]);
-        return qp.map(m => <QueryPaneBox key={m} id={`queryPane_${m}`}
-            qpNumber={m}
-            pstate={{qp, setQp}}/>
-        );
+    const NewQueryPane = ({setQp, qp, setWOQLQuery, setPaneNumber}) => {
+        
+        
+        return qp.map(m => <QueryPaneBox key={m} 
+            id={`queryPane_${m}`}
+            setQp={setQp}
+            qp={qp}
+            setWOQLQuery={setWOQLQuery}
+            pstate={m}/>
+        )
+
     }
 
     return (
         <React.Fragment>
-            <NewQueryPane/>
+            <NewQueryPane setQp={setQp} qp={qp} setWOQLQuery={setWOQLQuery} />
         </React.Fragment>
     )
+
 
 }
 

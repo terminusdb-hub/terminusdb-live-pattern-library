@@ -3,11 +3,11 @@ import React, {useState, useEffect} from 'react';
 import {WOQLClientObj} from '../init-woql-client'
 import {TDBReactWorkerButtonGroup} from '@terminusdb-live/tdb-react-layout';
 import {DOCUMENT_CLASS_BUTTONS_CONFIG, PROPERTY_BUTTONS_CONFIG, DOCUMENT_CLASS_LABEL, PROPERTIES_LABEL, NO_PROPERTIES} from "./constants.js"
-import {getPropertiesOfClass, getPropertyRelation, getPropertyRelationQueryString} from '../Queries/GeneralQueries'
+import {getPropertiesOfClass, getPropertyRelation} from '../Queries/GeneralQueries'
 import {isArray, shortenURL} from "../Functions/Utils"
 import {useHook} from "./hook"
 
-export const DatabaseButtons = ({setInteractiveQuery, setInteractiveQueryString}) => {
+export const DatabaseButtons = ({setInteractiveQuery}) => {
 
     const {woqlClient} = WOQLClientObj()
 
@@ -28,9 +28,7 @@ export const DatabaseButtons = ({setInteractiveQuery, setInteractiveQueryString}
 
     const handlePropertyClick = (property) => {
         let q = getPropertyRelation(property)
-        let iq = getPropertyRelationQueryString(property)
         if(setInteractiveQuery) setInteractiveQuery(q)
-        if(setInteractiveQueryString) setInteractiveQueryString(iq)
     }
 
     return <React.Fragment>
