@@ -16,6 +16,8 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
     const [saveQuery, setSaveQuery] = useState()
     const [saveQueryName, setSaveQueryName] = useState()
 
+    const [editorContent, setEditorContent] = useState(false)
+
     let dp = useHook(woqlClient, saveQuery)
 
 
@@ -35,13 +37,17 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
     } = ControlledQueryHook(woqlClient, woqlQuery, false, 20)
 
     useEffect(() => {
-        let tqp = qp
-        for (var i=0; i< tqp.length; i++) {
-            if(tqp[i].index == id) {
-                tqp[i].woqlQuery=woqlQuery
+        if(woqlQuery) {
+            let tqp = qp
+            for (var i=0; i< tqp.length; i++) {
+                if(tqp[i].index == id) {
+                    tqp[i].woqlQuery=woqlQuery
+                }
             }
+            setQp(tqp)
+            setEditorContent(woqlQuery.prettyPrint("js"))
         }
-        setQp(tqp)
+        
     }, [woqlQuery])
 
    
@@ -52,6 +58,9 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
     const handleSaveQueryNameOnChange = (name, setSaveQueryName) => {
         if(setSaveQueryName) setSaveQueryName(name)
     }
+
+
+    
 
 
     return <React.Fragment>
@@ -72,6 +81,7 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
                         onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
                 </Col>
             </Row>
+
             <TDBReactCollapse isExpanded={qpIsExpanded}>
                 <div className="pallet mb-3 mt-3">
                     <Row>
@@ -123,7 +133,7 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
                                     customLanguateSwitcher={true} 
                                     startLanguage={"js"}  
                                     setWOQLQuery={setWOQLQuery} 
-                                    initcontent={JSON.stringify(woqlQuery, null, 2)}
+                                    initcontent={editorContent}
                                     query={woqlQuery}
                                     editable={true}
                                     setMainError={(e) => handleError(e)}/>

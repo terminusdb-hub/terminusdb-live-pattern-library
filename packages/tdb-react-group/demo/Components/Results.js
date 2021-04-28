@@ -10,7 +10,7 @@ export const Results = ({result, limit, start, orderBy, changeOrder, woqlQuery, 
     const [graphConfig, setGraphConfig]=useState(graphViewConfig(result.bindings))
     const [tableConfig, setTableConfig]=useState(tableViewConfig())
     const [currentView, setCurrentView]=useState(TABLE_VIEW)
-    const [isExpanded, setExpanded] = useState(true)
+    const [isExpanded, setExpanded] = useState(true) 
 
     return <React.Fragment> 
         <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>

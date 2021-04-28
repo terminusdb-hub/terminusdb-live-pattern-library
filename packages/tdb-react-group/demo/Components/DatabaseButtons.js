@@ -28,7 +28,7 @@ export const DatabaseButtons = ({setInteractiveQuery}) => {
     }
 
     const handlePropertyClick = (property) => {
-        let q = getPropertyRelation(property)
+        let q = getPropertyRelation(property, currentClass)
         if(setInteractiveQuery) setInteractiveQuery(q)
     }
 
