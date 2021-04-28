@@ -30,10 +30,10 @@ export const QueryPage = (props) => {
                 </div>
                 <Sidebar setInteractiveQuery={setInteractiveQuery}/>
             </div>
-            </nav>
-            <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <View setQp={setQp} qp={qp} setWOQLQuery={setWOQLQuery}/>
-            </main>
+        </nav>
+        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <View setQp={setQp} qp={qp} setWOQLQuery={setWOQLQuery}/>
+        </main>
     </React.Fragment>
 }
 

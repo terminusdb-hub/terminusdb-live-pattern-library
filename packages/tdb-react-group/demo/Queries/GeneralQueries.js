@@ -58,25 +58,79 @@ export const getDocumentMetadataLib = () => {
     return WOQL.lib().document_metadata()
 } 
 
+
+/*
+let j = {
+  "@id": "doc:Worker_useful_test",
+  "@type": "scm:Worker",
+  "rdfs:comment": {
+    "@type": "xsd:string",
+    "@value": "my test query"
+  },
+  "rdfs:label": {
+    "@type": "xsd:string",
+    "@value": "my test query"
+  },
+  "scm:DatabaseID": {
+    "@type": "xsd:string",
+    "@value": "Kitty_Bikes"
+  },
+  "scm:query": {
+    "@type": "xsd:string",
+    "@value": "triple(\"v:X\", \"v:Y\", \"v:Z\")"
+  }
+}
+
+update_object(j)
+
+*/
 // query to store query object in query library database
 export const storeQueries = (query, saveQueryName) => {
     let WOQL=TerminusClient.WOQL
-    let obj={}
-    if(query) obj=query.query 
-    if(saveQueryName) obj["@id"] = covertStringToId(saveQueryName)
-    return WOQL.using("admin/woql-library").update_object(obj)
+    let id = covertStringToId(saveQueryName)
+    var json
+    
+    if(query) {
+        let q = query.query
+        json = {
+            "@id": id,
+            "@type": "scm:Worker",
+            "rdfs:comment": {
+              "@type": "xsd:string",
+              "@value": saveQueryName
+            },
+            "rdfs:label": {
+              "@type": "xsd:string",
+              "@value": saveQueryName
+            },
+            "scm:DatabaseID": {
+              "@type": "xsd:string",
+              "@value": "Kitty_Bikes"
+            },
+            "scm:query": {
+              "@type": "xsd:string",
+              "@value": JSON.stringify(q)
+            }
+          }
+    }
+    return WOQL.using("admin/live").update_object(json)
 }
 
 export const getStoredQueriesNames = () => {
     let WOQL=TerminusClient.WOQL
 
-    return WOQL.using("admin/woql-library").triple("v:Query Name", "type", "woql:Triple")
+    return WOQL.using("admin/live").triple("v:Worker", "type", "scm:Worker").
+        triple("v:Worker", "DatabaseID", "Kitty_Bikes").
+        triple("v:Worker", "query", "v:Query").
+        triple("v:Worker", "label", "v:Query Name")
+    
 }
 
 export const getStoredQueryObject = (id) => {
     if(!id) return
     let WOQL=TerminusClient.WOQL
-    return WOQL.read_object(id, "v:Query Object")
+    return WOQL.using("admin/live").triple(id, "query", "v:Query")
+    
 }
 
 

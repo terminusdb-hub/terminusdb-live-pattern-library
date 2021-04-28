@@ -19,6 +19,7 @@ export const View = ({setQp, qp, setWOQLQuery}) => {
                 />
 
                 <QueryPane id={props.pstate.index} 
+                    name={props.name}
                     qpaneQuery={props.pstate.woqlQuery} 
                     setQp={setQp}
                     qp={qp}
@@ -33,6 +34,7 @@ export const View = ({setQp, qp, setWOQLQuery}) => {
         
         return qp.slice(0).reverse().map(m => <QueryPaneBox key={m.index} 
             id={`queryPane_${m.index}`}
+            name={`Query Pane ${m.index + 1}`}
             setQp={setQp}
             qp={qp}
             setWOQLQuery={setWOQLQuery}

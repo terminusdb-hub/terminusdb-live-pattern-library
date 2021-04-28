@@ -16,8 +16,6 @@ export const NEW_PANE_CONFIG = {label:"New", title: "Add New Query Pane", icon: 
 // button to collapse a pane
 export const COLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-up", variant: "outline-primary", size:"sm"}
 export const UNCOLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-down", variant: "outline-primary", size:"sm"}
-// button to copy
-export const COPY_BUTTON_CONFIG={label:"Copy", title: "Copy", icon: "far fa-clipboard", variant: "outline-primary", size:"sm"}
 
 // link buttons for standard queries
 export const GET_CLASSES_LINK={label:"Get Classes", title: "Get Classes", type: "link", variant: "light", size:"sm"}
@@ -28,6 +26,8 @@ export const GET_DOCUMENT_METADATA_LINK={label:"Get Document Meta data", title: 
 export const TABLE_VIEW = "TABLE"
 export const GRAPH_VIEW = "GRAPH"
 
+//button group for query actions
+export const ACTIONS_QUERY_BUTTON_GROUP={variant: "outline-primary", size: "sm", buttons: [{id: "Copy", title: "Copy Script", icon: "far fa-clipboard"}, {id: "Import", title: "Import Script", icon: "fas fa-arrow-up"}, {id: "Export", title: "Export Script", icon: "fas fa-arrow-down"}]}
 //button group for language switcher 
 export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "outline-primary", size: "sm", buttons: [{id: "JS", title: "JS", label: "JS"}, {id: "JSON", title: "JSON", label: "JSON"}]}
 //button group for view chooser
