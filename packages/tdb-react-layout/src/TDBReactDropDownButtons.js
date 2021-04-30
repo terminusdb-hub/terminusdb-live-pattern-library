@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import { Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
-
+ 
 export const TDBReactDropDownButtons = (props) => {
     let config=props.config || {}
     const [list, setList] = useState(config.list)
@@ -24,7 +24,7 @@ export const TDBReactDropDownButtons = (props) => {
     }, [list])
     
     return  <React.Fragment>
-        <Dropdown drop={"fas faAngleDown"} as={ButtonGroup} className="me-2 mb-2">
+        <Dropdown drop={"fas faAngleDown"} as={ButtonGroup} className="me-2 mb-2 ml-3">
             <Button variant={variant}>{selected}</Button>
             <Dropdown.Toggle split variant={variant}>
                 <i class={"fas faAngleDown"}/>

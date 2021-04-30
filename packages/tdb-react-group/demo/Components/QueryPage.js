@@ -19,7 +19,7 @@ export const QueryPage = (props) => {
 
 
     return <React.Fragment>
-        <nav className="col-md-2 vh-100 d-flex flex-column d-md-block bg-custom-blue sidebar">
+        <nav className="col-md-2 vh-100 position-fixed d-flex flex-column d-md-block bg-custom-blue sidebar">
             <div className="sidebar-sticky">
                 <div className="nav-item mb-4 mt-4 d-flex justify-content-center">
                     <a href="https://terminusdb.com" className="nav-link">
@@ -36,13 +36,5 @@ export const QueryPage = (props) => {
         </main>
     </React.Fragment>
 }
-
-
-/*
-<View interactiveQuery={interactiveQuery}
-                    interactiveQueryString={interactiveQueryString}
-                    setWOQLQuery={setWOQLQuery}
-                    woqlQuery={woqlQuery}/>
-*/
 
 

@@ -65,11 +65,11 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
 
     return <React.Fragment>
 
-        <div className="query-pane-pallet mb-3 mt-3">
+        <div className="query-pane-pallet mb-3 mt-3 mr-4">
 
             <Row>
                 <Col md={11}>
-                    <h1 className="h5 primary">{name}</h1>
+                    <h1 className="h5 ml-3">{name}</h1>
                 </Col>
                 <Col md={1}>
                     {qpIsExpanded && <TDBReactButton 
@@ -84,25 +84,25 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
 
             <TDBReactCollapse isExpanded={qpIsExpanded}>
                 <div className="pallet mb-3 mt-3">
-                    <Row>
-                            <Col md={2}> 
+                    <div className="d-flex justify-content-start">
+                            <div> 
                                 <TDBReactButton 
                                     config={RUN_QUERY_CONFIG} 
                                     onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
                                 
                                 <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
-                            </Col>
+                            </div>
                             
-                            <   Col md={3}> 
+                            <Col md={3}> 
                                 <TDBReactTextArea config={SAVE_QUERY_NAME_TEXT_AREA} 
                                     onChange={(e) => handleSaveQueryNameOnChange(e, setSaveQueryName)}/>
                             </Col>
 
-                            <Col md={1}> 
+                            <div> 
                                 <TDBReactButton 
                                     config={SAVE_QUERY_CONFIG} 
                                     onClick={(e) => handleSaveQuery(woqlQuery, setSaveQuery, saveQueryName)}/>
-                            </Col>
+                            </div>
                         
                             <Col md={4}> 
                                 <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
@@ -110,10 +110,9 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
 
                             
 
-                            <Col md={2}> 
+                            <div> 
                             
                                 <TDBReactButtonGroup config={ACTIONS_QUERY_BUTTON_GROUP}/>
-
                                 {isExpanded && <TDBReactButton 
                                     config={COLLAPSE_BUTTON_GROUP} 
                                     onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
@@ -121,9 +120,9 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
                                 {!isExpanded && <TDBReactButton 
                                     config={UNCOLLAPSE_BUTTON_GROUP} 
                                     onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-                            </Col>
+                            </div>
                         
-                    </Row>
+                    </div>
 
                     <TDBReactCollapse isExpanded={isExpanded}>
                         

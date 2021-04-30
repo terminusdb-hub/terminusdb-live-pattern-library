@@ -14,3 +14,9 @@ export const shortenURL=(url) => {
 export const covertStringToId = (str) => {
     return "doc:" + str.replace(/ /g, "_")
 }
+
+export const convertToWOQL = (str) => {
+    const myj = JSON.parse(str)
+    let WOQL=TerminusClient.WOQL
+    return WOQL.json(myj)
+}

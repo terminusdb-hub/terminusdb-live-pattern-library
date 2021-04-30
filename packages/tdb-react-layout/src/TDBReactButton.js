@@ -1,5 +1,6 @@
 import React from "react"
 import {Button} from '@themesberg/react-bootstrap';
+import {TDBReactBadge} from "./TDBReactBadge"
 
 export const TDBReactButton= (props) =>{
     let config=props.config || {}
@@ -9,6 +10,7 @@ export const TDBReactButton= (props) =>{
     else icCss=""
     const iconName=config.icon ? `${config.icon} ${icCss}` : null
     let css = props.className || ''
+    
 
     function handleOnClick(e) {
       if(props.onClick) props.onClick(e.target.id)
@@ -30,6 +32,7 @@ export const TDBReactButton= (props) =>{
         {(config.type != "link") && <Button className={"mr-1 mb-1 m-1" + css} key={`Buttons_${config.title}`} size={size} variant={config.variant} title={config.title} id={config.id} onClick={handleOnClick}>
           {iconName && <i class={iconName}/>}
           {config.label}
+          {props.badge && <TDBReactBadge title={config.count}/>}
         </Button>}
     </React.Fragment>
 }

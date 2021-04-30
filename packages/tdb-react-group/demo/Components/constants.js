@@ -12,7 +12,7 @@ export const RUN_QUERY_CONFIG = {label:"Run", title: "Run Query", icon: "fas fa-
 // button to save query 
 export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite", icon: "far fa-star", variant: "outline-primary", size:"sm"}
 // button to get new query pane
-export const NEW_PANE_CONFIG = {label:"New", title: "Add New Query Pane", icon: "fas fa-plus", variant: "primary", size:"sm"}
+export const NEW_PANE_CONFIG = {label:"New Query Pane", title: "Add New Query Pane", icon: "fas fa-plus", variant: "primary", size:"sm"}
 // button to collapse a pane
 export const COLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-up", variant: "outline-primary", size:"sm"}
 export const UNCOLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-down", variant: "outline-primary", size:"sm"}
@@ -26,14 +26,19 @@ export const GET_DOCUMENT_METADATA_LINK={label:"Get Document Meta data", title: 
 export const TABLE_VIEW = "TABLE"
 export const GRAPH_VIEW = "GRAPH"
 
+// download controllers for result views
+export const TABLE_RESULT_CONTROLLER = {variant: "outline-primary", list:["Save as .csv", "Save as .txt", "Save as .json"]}
+export const GRAPH_RESULT_CONTROLLER = {variant: "outline-primary", list:["Save as .png", "Save as .svg"]}
+
+
 //button group for query actions
 export const ACTIONS_QUERY_BUTTON_GROUP={variant: "outline-primary", size: "sm", buttons: [{id: "Copy", title: "Copy Script", icon: "far fa-clipboard"}, {id: "Import", title: "Import Script", icon: "fas fa-arrow-up"}, {id: "Export", title: "Export Script", icon: "fas fa-arrow-down"}]}
 //button group for language switcher 
 export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "outline-primary", size: "sm", buttons: [{id: "JS", title: "JS", label: "JS"}, {id: "JSON", title: "JSON", label: "JSON"}]}
 //button group for view chooser
 export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "outline-primary", size: "sm", buttons: [
-    {icon: "fas fa-border-none", id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
-    {icon: "fas fa-bezier-curve", id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW}]}
+    {/*icon: "fas fa-border-none",*/ id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
+    {/*icon: "fas fa-bezier-curve",*/ id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW}]}
 
 
 //text area for commit msg 

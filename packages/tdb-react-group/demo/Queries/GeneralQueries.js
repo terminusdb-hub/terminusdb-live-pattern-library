@@ -1,6 +1,30 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {shortenURL, covertStringToId} from "../Functions/Utils"
 
+
+export const getDocumentClasses = () => {
+    let WOQL=TerminusClient.WOQL
+    return WOQL.lib().document_classes()
+      .eq("v:Class ID", "v:Class")
+      .count("v:Count", WOQL.triple("v:Class Count", "type", "v:Class"))
+    //return WOQL.lib().document_classes()
+}
+
+
+/*
+
+count("v:Count_bikes", triple("v:A", "type", "scm:Station")).
+  count("v:Count_jounrey", triple("v:B", "type", "scm:Journey"))
+
+  count("v:Count_bikes", triple("v:A", "type", "scm:Station")).eq("v:D", "scm:Station").
+count("v:Count_journey", triple("v:M", "type", "scm:Journey")).eq("v:J", "scm:Journey")
+
+lib().document_classes().eq("v:Class ID", "v:A").
+count("v:Count_Something", triple("v:SOMETHING", "type", "v:A"))
+
+  */
+
+
 export const getPropertiesOfClass = (id) => {
     if(!id) return null
     let WOQL=TerminusClient.WOQL
@@ -36,7 +60,11 @@ export const getPropertyRelation = (id, domain) => {
     if(!id) return
     let WOQL=TerminusClient.WOQL
 
-    return WOQL.select("v:Start", "v:Start_Label", "v:End", "v:End_Label", "v:Property").and(
+    return WOQL.triple("v:Domain", id, "v:Range").
+      triple("v:Domain", "label", "v:Domain Label").
+      quad(id, "label", "v:Range Label", "schema/main")
+
+    /*return WOQL.select("v:Start", "v:Start_Label", "v:End", "v:End_Label", "v:Property").and(
       WOQL.triple("v:Journey", "type", domain),
       WOQL.triple("v:Journey", "start_station", "v:Start"),
       WOQL.opt().triple("v:Start", "label", "v:Start_Label"),
@@ -44,7 +72,7 @@ export const getPropertyRelation = (id, domain) => {
       WOQL.opt().triple("v:End", "label", "v:End_Label"),
       WOQL.triple("v:Journey", "journey_bicycle", "v:Bike"),
       WOQL.triple("v:Journey", id, "v:Property")
-    )
+    ) */
 
     /*return WOQL.select("v:Start_Label","v:Duration", "v:End_Label").and(
       WOQL.triple("v:Journey", "type", "scm:Journey"),
@@ -59,9 +87,9 @@ export const getPropertyRelation = (id, domain) => {
         triple("v:Domain", "type", "v:Domain Type") */
 }
 
+
 export const getClassesLib = () => {
     let WOQL=TerminusClient.WOQL
-
     return WOQL.lib().classes()
 } 
 
@@ -108,7 +136,7 @@ export const storeQueries = (query, saveQueryName) => {
     let WOQL=TerminusClient.WOQL
     let id = covertStringToId(saveQueryName)
     var json
-    
+    console.log("query", query)
     if(query) {
         let q = query.query
         json = {
@@ -151,5 +179,15 @@ export const getStoredQueryObject = (id) => {
     return WOQL.using("admin/live").triple(id, "query", "v:Query")
     
 }
+
+
+/* dataproperty
+
+let propertId = "scm:stargazers_count"
+
+triple("v:Domain", propertId, "v:Range").triple("v:Domain", "label", "v:Domain Label")
+
+
+*/
 
 

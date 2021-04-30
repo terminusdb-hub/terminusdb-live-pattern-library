@@ -22,8 +22,13 @@ export const SampleQueries = ({setInteractiveQuery}) => {
 
     
     return <div className="d-grid">
+        <h5 className="nav-labels mb-3 mt-3">{"SCHEMA QUERIES"}</h5>
         <TDBReactButton config={GET_CLASSES_LINK} onClick={(e) => handleQuery(GET_CLASSES_LINK)}/>
         <TDBReactButton config={GET_PROPERTIES_LINK} onClick={(e) => handleQuery(GET_PROPERTIES_LINK)}/>
+        <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
+        <h5 className="nav-labels mb-3 mt-3">{"DOCUMENT QUERIES"}</h5>
         <TDBReactButton config={GET_DOCUMENT_METADATA_LINK} onClick={(e) => handleQuery(GET_DOCUMENT_METADATA_LINK)}/>
+        <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
+        <h5 className="nav-labels mb-3 mt-3">{"IMPORT QUERIES"}</h5>
     </div>
 }

@@ -9,7 +9,7 @@ ReactDOM.render(
         server: "https://hub-dev-server.dcm.ist",
         key: "THISISAVERYSTRONGPASSWORDFOROURTESTLMAOSHOULDBECHANGED",
         user: "admin",
-        db: "Kitty_Bikes"
+        db: "GitHub_Metrics"
     }}>
         <App />
     </WOQLClientProvider>

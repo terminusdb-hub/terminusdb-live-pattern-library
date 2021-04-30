@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {WOQLClientObj} from '../init-woql-client'
 import {TDBReactWorkerButtonGroup} from '@terminusdb-live/tdb-react-layout';
 import {DOCUMENT_CLASS_BUTTONS_CONFIG, PROPERTY_BUTTONS_CONFIG, DOCUMENT_CLASS_LABEL, PROPERTIES_LABEL, NO_PROPERTIES} from "./constants.js"
-import {getPropertiesOfClass, getPropertyRelation} from '../Queries/GeneralQueries'
+import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../Queries/GeneralQueries'
 import {isArray, shortenURL} from "../Functions/Utils"
 import {useHook} from "./hook"
 
@@ -12,14 +12,34 @@ export const DatabaseButtons = ({setInteractiveQuery}) => {
     const {woqlClient} = WOQLClientObj()
 
     const [currentClass, setCurrentClass] = useState(false)
+    const [classQuery, setClassQuery] = useState(false)
     const [query, setQuery]=useState(false)
     const [properties, setProperties]=useState(false)
+    const [classes, setClasses]=useState(false)
     const [propertyResults]=useHook(woqlClient, query)
+    const [classesResults]=useHook(woqlClient, classQuery)
 
+    useEffect(() => {
+        if(woqlClient){
+            let q = getDocumentClasses()
+            setClassQuery(q)
+        }
+    }, [woqlClient])
 
     useEffect(()=> {
-        setProperties(propertyResults)
+        if(propertyResults) {
+            setProperties(propertyResults)
+        }
+        
     }, [propertyResults])
+
+    useEffect(()=> {
+        if(classesResults){
+            console.log("classesResults",classesResults)
+            setClasses(classesResults)
+        }
+        
+    }, [classesResults])
 
     const handleClassButtonClick = (id) => {
         let q = getPropertiesOfClass(id)
@@ -31,12 +51,14 @@ export const DatabaseButtons = ({setInteractiveQuery}) => {
         let q = getPropertyRelation(property, currentClass)
         if(setInteractiveQuery) setInteractiveQuery(q)
     }
-
+    
     return <React.Fragment>
         <h5 className="nav-labels">{DOCUMENT_CLASS_LABEL}</h5>
         <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
         <div className="flex-column mt-3 mb-5">
-            <TDBReactWorkerButtonGroup  onLoad="https://hub-dev.dcm.ist/api/workers/admin/cg6zav1618490058380" config={DOCUMENT_CLASS_BUTTONS_CONFIG} onClick={handleClassButtonClick}/>
+            {/*<TDBReactWorkerButtonGroup  onLoad="https://hub-dev.dcm.ist/api/workers/admin/cg6zav1618490058380" config={DOCUMENT_CLASS_BUTTONS_CONFIG} onClick={handleClassButtonClick}/>*/}
+            <TDBReactWorkerButtonGroup startData={classes} config={DOCUMENT_CLASS_BUTTONS_CONFIG} onClick={handleClassButtonClick}/>
+            
         </div>
         
         {isArray(properties) && <React.Fragment>

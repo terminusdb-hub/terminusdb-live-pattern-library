@@ -19,11 +19,12 @@ export const TDBReactWorkerButtonGroup= (props) =>{
         let btns = []
         for(var key in dataProvider){
             if (qName == "Class library") {
-                let name = dataProvider[key]["Class Name"]
+                let name = dataProvider[key]["Class Name"]["@value"]
                 let id = dataProvider[key]["Class ID"]
                 let description = dataProvider[key]["Description"]
-                let bConfig = {title: description, id: id, label: name, key: `Buttons_${id}`, variant: variant}
-                btns.push(<TDBReactButton config={bConfig} onClick={props.onClick}/>)
+                let count = dataProvider[key]["Count"]["@value"]
+                let bConfig = {title: description, id: id, label: name, key: `Buttons_${id}`, variant: variant, count: count}
+                btns.push(<TDBReactButton config={bConfig} onClick={props.onClick} badge={true}/>)
             }
             else if (qName == "Property library") {
                 let name = dataProvider[key]["Property Name"]["@value"]

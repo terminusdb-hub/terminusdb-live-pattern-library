@@ -27,22 +27,26 @@ export const tableViewConfig= () => {
 }
 */
 
+/*
+triple("v:Domain", propertId, "v:Range").
+triple("v:Domain", "label", "v:Domain Label").
+quad(propertId, "label", "v:Range Label", "schema/main")*/
 
 export const graphViewConfig = (result) => { 
     const graph=TerminusClient.View.graph();
     graph.height(800).width("1500")
 
     graph.show_force(true)
-    graph.edges(["Start", "End"])
+    graph.edges(["Domain", "Range Label"])
 
-    graph.edge("Start", "End").size(2).text("Property").arrow({width: 50, height: 20})
+    graph.edge("Domain", "Range Label").size(2).text("Range").arrow({width: 50, height: 20})
         .icon({label: true, color: [109,98,100], size: 0.8})
       
-    graph.node("End").size(30).text("End_Label").color([27,153,139, 0.3]).icon({label: true, color: [109,98,100]})
-    graph.node("Start").size(30).text("Start_Label").color([97,218,251, 0.3]).icon({label: true, color: [109,98,100]})
+    graph.node("Range Label").size(30).text("Range Label").color([27,153,139, 0.3]).icon({label: true, color: [109,98,100]})
+    graph.node("Domain").size(30).text("Domain Label").color([97,218,251, 0.3]).icon({label: true, color: [109,98,100]})
    
-    graph.node("Start").collisionRadius(100)
-    graph.node("End").collisionRadius(100)
+    graph.node("Domain").collisionRadius(100)
+    graph.node("Range Label").collisionRadius(100)
 
 
 
