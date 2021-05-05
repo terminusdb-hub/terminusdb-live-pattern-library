@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout';
 import {DatabaseButtons} from "./DatabaseButtons"
 import {SampleQueries} from "./SampleQueries"

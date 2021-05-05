@@ -1,5 +1,5 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-
+import {arrayEquals} from "./Utils"
 
 export const tableViewConfig= () => {
     const tabConfig= TerminusClient.View.table();
@@ -32,24 +32,36 @@ triple("v:Domain", propertId, "v:Range").
 triple("v:Domain", "label", "v:Domain Label").
 quad(propertId, "label", "v:Range Label", "schema/main")*/
 
+
+function propertyRelationType (result) {
+    let tmp = [], propArray = ["Domain", "Domain Label", "Range", "Range Label"]
+    for(var key in result[0]) {
+        tmp.push(key)
+    }
+    return arrayEquals(tmp, propArray)
+}
+
 export const graphViewConfig = (result) => { 
+
+   
     const graph=TerminusClient.View.graph();
     graph.height(800).width("1500")
 
     graph.show_force(true)
-    graph.edges(["Domain", "Range Label"])
 
-    graph.edge("Domain", "Range Label").size(2).text("Range").arrow({width: 50, height: 20})
-        .icon({label: true, color: [109,98,100], size: 0.8})
-      
-    graph.node("Range Label").size(30).text("Range Label").color([27,153,139, 0.3]).icon({label: true, color: [109,98,100]})
-    graph.node("Domain").size(30).text("Domain Label").color([97,218,251, 0.3]).icon({label: true, color: [109,98,100]})
+    if(propertyRelationType(result)){
+        graph.edges(["Domain", "Range Label"])
+
+        graph.edge("Domain", "Range Label").size(2).text("Range").arrow({width: 50, height: 20})
+            .icon({label: true, color: [109,98,100], size: 0.8})
+        
+        graph.node("Range Label").size(30).text("Range Label").color([27,153,139, 0.3]).icon({label: true, color: [109,98,100]})
+        graph.node("Domain").size(30).text("Domain Label").color([97,218,251, 0.3]).icon({label: true, color: [109,98,100]})
+    
+        graph.node("Domain").collisionRadius(100)
+        graph.node("Range Label").collisionRadius(100)
+    }
    
-    graph.node("Domain").collisionRadius(100)
-    graph.node("Range Label").collisionRadius(100)
-
-
-
 
     let graphConfig = graph.create(null);
     graphConfig.setResult(result);

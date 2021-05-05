@@ -15,7 +15,7 @@ export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite",
 export const NEW_PANE_CONFIG = {label:"New Query Pane", title: "Add New Query Pane", icon: "fas fa-plus", variant: "primary", size:"sm"}
 // button to collapse a pane
 export const COLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-up", variant: "outline-primary", size:"sm"}
-export const UNCOLLAPSE_BUTTON_GROUP={label:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-down", variant: "outline-primary", size:"sm"}
+export const UNCOLLAPSE_BUTTON_GROUP={label:"Open", title: "Open Pane", icon: "fas fa-chevron-down", variant: "outline-primary", size:"sm"}
 
 // link buttons for standard queries
 export const GET_CLASSES_LINK={label:"Get Classes", title: "Get Classes", type: "link", variant: "light", size:"sm"}
@@ -32,7 +32,15 @@ export const GRAPH_RESULT_CONTROLLER = {variant: "outline-primary", list:["Save 
 
 
 //button group for query actions
-export const ACTIONS_QUERY_BUTTON_GROUP={variant: "outline-primary", size: "sm", buttons: [{id: "Copy", title: "Copy Script", icon: "far fa-clipboard"}, {id: "Import", title: "Import Script", icon: "fas fa-arrow-up"}, {id: "Export", title: "Export Script", icon: "fas fa-arrow-down"}]}
+export const ACTIONS_QUERY_BUTTON_GROUP_WITH_COLLAPSE={variant: "outline-primary", size: "sm", 
+    buttons: [{id: "Copy", title: "Copy Script", icon: "far fa-clipboard"}, 
+        {id: "Import", title: "Import Script", icon: "fas fa-arrow-up"}, 
+        {id: "Export", title: "Export Script", icon: "fas fa-arrow-down"},
+        {id:"Collapse", title: "Collapse Pane", icon: "fas fa-chevron-up"}
+    ]}
+    
+
+
 //button group for language switcher 
 export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "outline-primary", size: "sm", buttons: [{id: "JS", title: "JS", label: "JS"}, {id: "JSON", title: "JSON", label: "JSON"}]}
 //button group for view chooser

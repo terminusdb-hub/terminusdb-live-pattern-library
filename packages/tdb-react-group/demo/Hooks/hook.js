@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 
+
 function useHook(woqlClient, startQuery) {
     const query = startQuery || false
     //const [report, setReport] = useState()

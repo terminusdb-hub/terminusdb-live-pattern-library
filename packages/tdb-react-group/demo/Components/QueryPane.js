@@ -1,27 +1,25 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
-import {TDBReactButton, TDBReactResizable, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
+import {TDBReactButton, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
 import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, ACTIONS_QUERY_BUTTON_GROUP, SAVE_QUERY_NAME_TEXT_AREA, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
-import {WOQLClientObj} from '../init-woql-client'
 import {handleRunQuery, handleError, handleSaveQuery} from '../Functions/Actions'
 import {Results} from "./Results"
 import {Row, Col} from "@themesberg/react-bootstrap"
-import {useHook} from "./hook"
+import {QueryPaneControl} from "../Hooks/QueryPageControl"
 
 export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
-    const [woqlQuery, setWOQLQuery]=useState(qpaneQuery)
-    const {woqlClient} = WOQLClientObj()
-    const [isExpanded, setExpanded] = useState(true)
-    const [qpIsExpanded, setQpExpanded] = useState(true)
-    const [saveQuery, setSaveQuery] = useState()
-    const [saveQueryName, setSaveQueryName] = useState()
 
-    const [editorContent, setEditorContent] = useState(false)
-
-    let dp = useHook(woqlClient, saveQuery)
-
-
-    console.log("woqlQuery", woqlQuery  )
+    const {setWOQLQuery,
+        woqlQuery,
+        setExpanded,
+        isExpanded,
+        setQpExpanded,
+        qpIsExpanded,
+        setSaveQuery,
+        setSaveQueryName,
+        saveQueryName,
+        editorContent,
+        woqlClient} = QueryPaneControl(id, name, qpaneQuery, setQp, qp)
 
     const {
         updateQuery,
@@ -36,21 +34,6 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
         rowCount,
     } = ControlledQueryHook(woqlClient, woqlQuery, false, 20)
 
-    useEffect(() => {
-        if(woqlQuery) {
-            let tqp = qp
-            for (var i=0; i< tqp.length; i++) {
-                if(tqp[i].index == id) {
-                    tqp[i].woqlQuery=woqlQuery
-                }
-            }
-            setQp(tqp)
-            setEditorContent(woqlQuery.prettyPrint("js"))
-        }
-        
-    }, [woqlQuery])
-
-   
     const handleLanguageSwitcher = (lang)=> {
         setLanguage(lang)
     }
@@ -58,9 +41,6 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
     const handleSaveQueryNameOnChange = (name, setSaveQueryName) => {
         if(setSaveQueryName) setSaveQueryName(name)
     }
-
-
-    
 
 
     return <React.Fragment>
@@ -141,7 +121,7 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
                     </TDBReactCollapse>
                 </div> 
 
-        
+         
                 {result && <div className="pallet mb-3">
                     <Results result={result}
                         freewidth={true}

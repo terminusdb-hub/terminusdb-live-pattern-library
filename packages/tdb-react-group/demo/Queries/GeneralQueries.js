@@ -56,7 +56,7 @@ export const getPropertiesOfClass = (id) => {
     )
 }
 
-export const getPropertyRelation = (id, domain) => {
+export const getPropertyRelation = (id) => {
     if(!id) return
     let WOQL=TerminusClient.WOQL
 

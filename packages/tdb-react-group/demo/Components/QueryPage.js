@@ -1,22 +1,14 @@
-import React, {useEffect, useState} from "react"
+import React from "react"
 import {Sidebar} from "./Sidebar"
 import {View} from "./View"
+import {QueryPageControl} from "../Hooks/QueryPageControl"
 
 export const QueryPage = (props) => {
-
-    const [interactiveQuery, setInteractiveQuery]=useState(false)
-
-    const [woqlQuery, setWOQLQuery]=useState()
-    const [qp, setQp] = useState([{index: 0, woqlQuery: woqlQuery, setWOQLQuery: setWOQLQuery}])
-
-    useEffect(() => {
-        if (interactiveQuery) {
-            setQp(arr => [...arr, {index: qp.length, 
-                woqlQuery: interactiveQuery, 
-                setWOQLQuery: setWOQLQuery}])
-        }
-    }, [interactiveQuery])
-
+   
+    const {setInteractiveQuery,
+        setQp,
+        qp,
+        setWOQLQuery} = QueryPageControl()
 
     return <React.Fragment>
         <nav className="col-md-2 vh-100 position-fixed d-flex flex-column d-md-block bg-custom-blue sidebar">
