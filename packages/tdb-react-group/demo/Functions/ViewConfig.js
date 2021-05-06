@@ -49,6 +49,8 @@ export const graphViewConfig = (result) => {
 
     graph.show_force(true)
 
+    console.log("result", result)
+
     if(propertyRelationType(result)){
         graph.edges(["Domain", "Range Label"])
 
@@ -61,6 +63,12 @@ export const graphViewConfig = (result) => {
         graph.node("Domain").collisionRadius(100)
         graph.node("Range Label").collisionRadius(100)
     }
+    else {
+        for (var item in result[0]){
+            graph.node(item).color([27,153,139, 0.3]).size(30).text(item).icon({label: true, color: [109,98,100]})
+        }
+    }
+    
    
 
     let graphConfig = graph.create(null);

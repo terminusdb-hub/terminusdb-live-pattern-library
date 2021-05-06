@@ -3,9 +3,9 @@ import { Form, InputGroup } from '@themesberg/react-bootstrap';
 
 export const TDBReactTextArea = (props) =>{
     let config=props.config || {}
-    let label=props.config.label || null
+    let label=props.config.label || ""
     let type=props.config.type || "text"
-    let placeholder=props.config.placeholder || null
+    let placeholder=props.config.placeholder || ""
     var icCss
     if(config.icon && config.label) icCss="me-2"
     else icCss=""

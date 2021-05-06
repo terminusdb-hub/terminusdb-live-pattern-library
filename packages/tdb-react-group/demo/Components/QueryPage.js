@@ -1,14 +1,17 @@
-import React from "react"
+import React, {useState} from "react"
 import {Sidebar} from "./Sidebar"
 import {View} from "./View"
 import {QueryPageControl} from "../Hooks/QueryPageControl"
 
 export const QueryPage = (props) => {
-   
-    const {setInteractiveQuery,
+    
+    const [interactiveQuery, setInteractiveQuery]=useState(false)
+    
+    /*const {setInteractiveQuery,
+        interactiveQuery,
         setQp,
         qp,
-        setWOQLQuery} = QueryPageControl()
+        setWOQLQuery} = QueryPageControl() */
 
     return <React.Fragment>
         <nav className="col-md-2 vh-100 position-fixed d-flex flex-column d-md-block bg-custom-blue sidebar">
@@ -24,7 +27,8 @@ export const QueryPage = (props) => {
             </div>
         </nav>
         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <View setQp={setQp} qp={qp} setWOQLQuery={setWOQLQuery}/>
+            {/*<View setQp={setQp} qp={qp} setWOQLQuery={setWOQLQuery}/>*/}
+            <View interactiveQuery={interactiveQuery}/>
         </main>
     </React.Fragment>
 }

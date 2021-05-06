@@ -6,7 +6,7 @@ import {handleRunQuery, handleError, handleSaveQuery} from '../Functions/Actions
 import {Results} from "./Results"
 import {Row, Col} from "@themesberg/react-bootstrap"
 import {QueryPaneControl} from "../Hooks/QueryPageControl"
-
+ 
 export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
 
     const {setWOQLQuery,
@@ -120,8 +120,7 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp}) => {
                     
                     </TDBReactCollapse>
                 </div> 
-
-         
+                
                 {result && <div className="pallet mb-3">
                     <Results result={result}
                         freewidth={true}
