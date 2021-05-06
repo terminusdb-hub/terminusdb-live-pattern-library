@@ -1,18 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
-import {GroupComponents} from '@terminusdb-live/tdb-react-group'
-// ES modules
-//import ReactDOMServer from 'react-dom/server';
-// CommonJS
-var ReactDOMServer = require('react-dom/server');
+/*import App from "./App";*/
+import App from "./App"
+import {WOQLClientProvider} from './init-woql-client'
 
-const datap = [{lib_name:'ReactPrettyPrint.JsonPrint',resultVarName:'result001',config:{}},
-                {lib_name:"ReactPrettyPrint.JsonPrint",resultVarName:'result001',
-                onChangeEndPoint:'https://hub-dev.dcm.ist/api/workers/admin/a15d7h1616496639611'}]
-
-
-//}
-
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <WOQLClientProvider params={{
+        server: "https://hub-dev-server.dcm.ist",
+        key: "THISISAVERYSTRONGPASSWORDFOROURTESTLMAOSHOULDBECHANGED",
+        user: "admin",
+        db: "GitHub_Metrics"
+    }}>
+        <App />
+    </WOQLClientProvider>
+    , document.getElementById('root'));
+/*ReactDOM.render(<App />, document.getElementById('root'));*/

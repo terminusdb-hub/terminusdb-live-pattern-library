@@ -1,48 +1,28 @@
 import React from "react"
-import {useWorker} from "@terminusdb-live/react-worker"
-import {TDBReactButton} from "./TDBReactButton"
+import {ButtonGroup, Button} from '@themesberg/react-bootstrap';
 
-export const TDBReactButtonGroup= (props) =>{
+export const TDBReactButtonGroup = (props) => {
 
-    
-    const startData= props.startData || []
-    const config = props.config.buttons || {}
-    const display = props.config.display || "Vertical"
-    var displayCss;
-    (display == "Vertical") ? displayCss = "nav flex-column" : displayCss = "nav flex" 
+    let config = props.config || []
 
-    const {onChange, error, loading, dataProvider} = useWorker(startData, props.onLoad, false)
 
-    let buttons=[]
-    
-    if(config){
-        function extractFromBindings(id, curItem){
-            for(var key in dataProvider){
-                let repoId = dataProvider[key].Repository
-                if(repoId == id){
-                    let label = dataProvider[key].Label
-                    return {title: label, id: repoId, icon: curItem.icon, size: curItem.size}
-                }
-            }
-            return {}
-        }
-    
-        for (var key in config) {
-            let id = config[key].id 
-            let extracted = extractFromBindings(id, config[key])
-            buttons.push(
-            <li className="nav-item">
-                <TDBReactButton config={extracted} key={`tdbButton_${extracted.title}`}/>
-            </li>
-            )
-        }
+    const Buttons = ({item, variant, size, onClick, key}) => {
+        var icCss
+        if(item.icon && item.label) icCss="me-2"
+        else icCss=""
+        let iconName=item.icon ? `${item.icon} ${icCss}` : null
 
-        return <React.Fragment>
-            <ul className={displayCss}>
-                {buttons}
-            </ul>
-        </React.Fragment>
+        function handleOnClick(e, onClick) {
+            if(onClick) onClick(e.target.id)
+          }
+
+        return <Button title={item.title} variant={variant} size={size} id={item.id} onClick={(e) => handleOnClick(e, onClick)}>
+            {iconName && <i class={iconName}/>}
+            {item.label}
+        </Button>
     }
 
-    return <div>LOADING</div> 
+    return <ButtonGroup className="mr-1 ml-1">
+        {config.buttons.map(d => <Buttons key={`button-${d.id}`} item={d} onClick={props.onClick} variant={config.variant} size={config.size}/>)}
+    </ButtonGroup>
 }

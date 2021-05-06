@@ -39,7 +39,7 @@ module.exports = {
         use: {
           loader:"babel-loader",
           options:{
-            "sourceType": "unambiguous",
+            sourceType: "unambiguous",
             presets: [
               ["@babel/preset-env"],
               "@babel/preset-react"
@@ -201,5 +201,4 @@ module.exports = (env, argv) => ({
       }]
     },
 });*/
-
 

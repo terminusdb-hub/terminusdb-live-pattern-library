@@ -51,7 +51,11 @@
     "moment": "^2.29.1",
     "namor": "^2.0.2",
     "prop-types": "^15.6.0",
+    "re-resizable": "^6.9.0",
     "react-bootstrap": "^1.5.2",
+    "react-collapsed": "^3.0.2",
+    "react-color": "^2.19.3",
+    "react-sizeme": "^3.0.1",
     "react-split-pane": "^0.1.92",
     "style-loader": "^2.0.0"
   },
