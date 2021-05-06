@@ -44,6 +44,7 @@
     "classnames": "^2.2.5",
     "prop-types": "^15.6.0",
     "react": "^16.10.3",
+    "react-bootstrap": "^1.5.2",
     "react-dom": "^16.10.3"
   },
   "devDependencies": {
@@ -63,10 +64,9 @@
     "less-loader": "^8.1.1",
     "react-hot-loader": "^4.13.0",
     "style-loader": "^2.0.0",
-    "webpack": "^5.31.0",
-    "webpack-bundle-analyzer": "^4.4.0",
-    "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "license": "APACHE",
   "gitHead": "aa081c438b01f552aaad466229baee35c0299ff5"
