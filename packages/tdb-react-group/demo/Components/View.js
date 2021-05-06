@@ -6,39 +6,27 @@ import {QueryPaneObj} from "../Hooks/queryPaneContext"
 import { NavItem } from "@themesberg/react-bootstrap"
 
 
-export const View = ({interactiveQuery, setQp, qp, setWOQLQuery}) => {
+export const View = (props) => {
 
     const {queryPaneList,addQueryPane} = QueryPaneObj()
-    //console.log("interactiveQuery",interactiveQuery)
-    /*arr => [...arr, {index: props.qp.length, 
-                        woqlQuery: undefined, 
-                        setWOQLQuery: props.setWOQLQuery}]*/
    
     const QueryPaneBox = (props) => {
-        //const {qp, setQp} = props.pstate
-
         return (
             <div id={props.id}>
                 <TDBReactButton config={NEW_PANE_CONFIG} 
-                    onClick={() => { addQueryPane()}} // setQp([...qp, qp.length]) }}
+                    onClick={() => {addQueryPane()}} 
                 />
-                <QueryPane id={props.id} queryObj={props.queryObj}/>
+                <QueryPane id={props.id} queryObj={props.queryObj} name={props.name}/>
                 
           </div>
         )
     }
 
     const NewQueryPane = (props) => {
-        return queryPaneList.map(item=>
-        <QueryPaneBox key={item.id} id={item.id} queryObj={item}/>
-
+        return queryPaneList.slice(0).reverse().map(item=>
+            <QueryPaneBox key={item.id} id={item.id} queryObj={item} name={`Query Pane ${item.index}`}/>
         )
-        /*const [qp, setQp] = useState([0]);
-        
-        return qp.slice(0).reverse().map(m => <QueryPaneBox key={m} id={`queryPane_${m}`}
-            qpNumber={m}
-            pstate={{qp, setQp}}/>
-        )*/
+       
      }
 
     return (<React.Fragment>

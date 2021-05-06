@@ -7,10 +7,9 @@ import {Results} from "./Results"
 import {Row, Col} from "@themesberg/react-bootstrap"
 import {QueryPaneControl} from "../Hooks/QueryPageControl"
  
-export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
+export const QueryPane = ({id, name, queryObj}) => {
 
-    const myquery = queryObj.query;
-//qpaneQuery
+
     const {setWOQLQuery,
         woqlQuery,
         setExpanded,
@@ -21,12 +20,10 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
         setSaveQueryName,
         saveQueryName,
         editorContent,
-        woqlClient} = QueryPaneControl(id, name, myquery, setQp, qp)
+        woqlClient} = QueryPaneControl(id, queryObj.query)
     
-    const setWOQLQueryTmp =(query)=>{
-        //I update the contest data
+    const handleWOQLQueryChange =(query)=>{
         queryObj['query']=query
-
         setWOQLQuery(query)
     }
 
@@ -120,7 +117,7 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
                                     languages={LANGUAGE_LIST}
                                     customLanguateSwitcher={true} 
                                     startLanguage={"js"}  
-                                    setWOQLQuery={setWOQLQueryTmp} 
+                                    setWOQLQuery={handleWOQLQueryChange} 
                                     initcontent={editorContent}
                                     query={woqlQuery}
                                     editable={true}

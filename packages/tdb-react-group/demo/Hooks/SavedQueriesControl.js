@@ -6,7 +6,7 @@ import {getStoredQueriesNames} from "../Queries/GeneralQueries"
 import {WOQLClientObj} from '../init-woql-client'
 import {isArray} from "../Functions/Utils"
 
-export const SavedQueriesControl = (setInteractiveQuery) => {
+export const SavedQueriesControl = (addQueryPane) => {
 
     const {woqlClient} = WOQLClientObj()
     const [savedQueryId, setSavedQueryId] = useState(false)
@@ -41,7 +41,7 @@ export const SavedQueriesControl = (setInteractiveQuery) => {
                 
             }
             let woqlQuery=convertToWOQL(qd)
-            setInteractiveQuery(woqlQuery)
+            addQueryPane(woqlQuery)
         }
     }, [dataProviderQueryObject])
 

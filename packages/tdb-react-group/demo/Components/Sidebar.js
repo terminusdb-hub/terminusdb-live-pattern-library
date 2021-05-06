@@ -6,7 +6,7 @@ import {SavedQueries} from "./SavedQueries"
 
 import {DATABASE_TAB, SAVED_QUERIES, SAMPLE_QUERIES} from "./constants"
 
-export const Sidebar= ({setInteractiveQuery}) =>{
+export const Sidebar= (props) =>{
 
     let accordianObject = 
     [
@@ -15,21 +15,21 @@ export const Sidebar= ({setInteractiveQuery}) =>{
             eventKey: "panel-1",
             title: DATABASE_TAB,
             icon: "fas fa-database",
-            description: <DatabaseButtons setInteractiveQuery={setInteractiveQuery}/>
+            description: <DatabaseButtons/>
         },
         {
             id: 2,
             eventKey: "panel-2",
             icon: "fas fa-heart",
             title: SAMPLE_QUERIES,
-            description: <SampleQueries setInteractiveQuery={setInteractiveQuery}/>
+            description: <SampleQueries/>
         },
         {
             id: 3,
             eventKey: "panel-3",
             title: SAVED_QUERIES,
             icon: "fas fa-map-pin",
-            description: <SavedQueries setInteractiveQuery={setInteractiveQuery}/>
+            description: <SavedQueries/>
         }
     ]
 

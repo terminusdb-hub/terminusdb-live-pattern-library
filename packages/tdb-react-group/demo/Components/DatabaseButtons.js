@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {TDBReactWorkerButtonGroup} from '@terminusdb-live/tdb-react-layout';
 import {DOCUMENT_CLASS_BUTTONS_CONFIG, PROPERTY_BUTTONS_CONFIG, DOCUMENT_CLASS_LABEL, PROPERTIES_LABEL, NO_PROPERTIES} from "./constants.js"
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../Queries/GeneralQueries'
@@ -7,7 +7,7 @@ import {isArray, shortenURL} from "../Functions/Utils"
 import {DatabaseInfoControl} from "../Hooks/DatabaseInfoControl"
 import {QueryPaneObj} from "../Hooks/queryPaneContext" 
  
-export const DatabaseButtons = ({setInteractiveQuery}) => {
+export const DatabaseButtons = () => {
     const {addQueryPane} = QueryPaneObj()
 
     const {
