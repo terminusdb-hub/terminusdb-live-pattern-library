@@ -6,7 +6,7 @@ import {QueryPaneProvider} from "../Hooks/queryPaneContext"
 
 export const QueryPage = (props) => {
     
-    const [interactiveQuery, setInteractiveQuery]=useState(false)
+   // const [interactiveQuery, setInteractiveQuery]=useState(false)
     
     /*const {setInteractiveQuery,
         interactiveQuery,
@@ -25,7 +25,7 @@ export const QueryPage = (props) => {
                         </span>
                     </a>
                 </div>
-                <Sidebar setInteractiveQuery={setInteractiveQuery}/>
+                <Sidebar />
             </div>
         </nav>
         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
