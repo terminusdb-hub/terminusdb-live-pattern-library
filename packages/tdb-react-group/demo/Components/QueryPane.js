@@ -1,4 +1,4 @@
-import React from "react"
+import React,{useMemo} from "react"
 import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {TDBReactButton, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
 import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, ACTIONS_QUERY_BUTTON_GROUP, SAVE_QUERY_NAME_TEXT_AREA, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
@@ -7,10 +7,7 @@ import {Results} from "./Results"
 import {Row, Col} from "@themesberg/react-bootstrap"
 import {QueryPaneControl} from "../Hooks/QueryPageControl"
  
-export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
-
-    const myquery = queryObj.query;
-//qpaneQuery
+export const QueryPane = ({id, name, queryObj}) => {
     const {setWOQLQuery,
         woqlQuery,
         setExpanded,
@@ -21,16 +18,16 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
         setSaveQueryName,
         saveQueryName,
         editorContent,
-        woqlClient} = QueryPaneControl(id, name, myquery, setQp, qp)
+        woqlClient} = QueryPaneControl(id, queryObj.query)
     
-    const setWOQLQueryTmp =(query)=>{
-        //I update the contest data
+    //every time it change we set the query
+    const handleWOQLQueryChange =(query)=>{
         queryObj['query']=query
-
         setWOQLQuery(query)
     }
 
-    const {
+    //table
+    /*const {
         updateQuery,
         changeOrder,
         changeLimits,
@@ -41,7 +38,20 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
         orderBy,
         loading,
         rowCount,
-    } = ControlledQueryHook(woqlClient, woqlQuery, false, 20)
+    } = ControlledQueryHook(woqlClient, woqlQuery, queryObj.result, 20) */
+
+    //woqlClient, query, results, queryLimit, queryStart, order
+
+   //I need a different solution
+   /* const saveResult = (result,limit,start,orderBy)=>{
+        queryObj['result']=result
+        queryObj['limit'] = limit
+        queryObj['start'] = start
+        queryObj['orderBy'] = orderBy
+    }
+
+    const memoizedValue = useMemo(() => saveResult(result,limit,start,orderBy), [result,limit,start,orderBy]);
+    */
 
     const handleLanguageSwitcher = (lang)=> {
         setLanguage(lang)
@@ -53,9 +63,7 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
 
 
     return <React.Fragment>
-
         <div className="query-pane-pallet mb-3 mt-3 mr-4">
-
             <Row>
                 <Col md={11}>
                     <h1 className="h5 ml-3">{name}</h1>
@@ -70,7 +78,6 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
                         onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
                 </Col>
             </Row>
-
             <TDBReactCollapse isExpanded={qpIsExpanded}>
                 <div className="pallet mb-3 mt-3">
                     <div className="d-flex justify-content-start">
@@ -80,58 +87,63 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
                                     onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
                                 
                                 <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
-                            </div>
-                            
+                            </div>                           
                             <Col md={3}> 
                                 <TDBReactTextArea config={SAVE_QUERY_NAME_TEXT_AREA} 
                                     onChange={(e) => handleSaveQueryNameOnChange(e, setSaveQueryName)}/>
                             </Col>
-
                             <div> 
                                 <TDBReactButton 
                                     config={SAVE_QUERY_CONFIG} 
                                     onClick={(e) => handleSaveQuery(woqlQuery, setSaveQuery, saveQueryName)}/>
                             </div>
-                        
                             <Col md={4}> 
                                 <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
                             </Col>
-
-                            
-
                             <div> 
-                            
                                 <TDBReactButtonGroup config={ACTIONS_QUERY_BUTTON_GROUP}/>
                                 {isExpanded && <TDBReactButton 
                                     config={COLLAPSE_BUTTON_GROUP} 
                                     onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-
                                 {!isExpanded && <TDBReactButton 
                                     config={UNCOLLAPSE_BUTTON_GROUP} 
                                     onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-                            </div>
-                        
+                            </div>                      
                     </div>
-
-                    <TDBReactCollapse isExpanded={isExpanded}>
-                        
-                            <div className="editor-pallet">
-                                <WOQLEditorControlled 
-                                    languages={LANGUAGE_LIST}
-                                    customLanguateSwitcher={true} 
-                                    startLanguage={"js"}  
-                                    setWOQLQuery={setWOQLQueryTmp} 
-                                    initcontent={editorContent}
-                                    query={woqlQuery}
-                                    editable={true}
-                                    setMainError={(e) => handleError(e)}/>
-                            </div>
-                    
+                    <TDBReactCollapse isExpanded={isExpanded}>                       
+                        <div className="editor-pallet">
+                            <WOQLEditorControlled 
+                                languages={LANGUAGE_LIST}
+                                customLanguateSwitcher={true} 
+                                startLanguage={"js"}  
+                                setWOQLQuery={handleWOQLQueryChange} 
+                                initcontent={editorContent}
+                                query={woqlQuery}
+                                editable={true}
+                                setMainError={(e) => handleError(e)}/>
+                        </div>                 
                     </TDBReactCollapse>
-                </div> 
-                
-                {result && <div className="pallet mb-3">
-                    <Results result={result}
+                </div>                              
+                <Results //result={result}
+                    freewidth={true}
+                    query={woqlQuery}
+                    queryObj={queryObj}
+                    />
+            </TDBReactCollapse>
+        </div>
+    </React.Fragment>
+
+}
+
+/*
+{result && <div className="pallet mb-3">
+                    <Results //result={result}
+                        freewidth={true}
+                        query={woqlQuery}
+                        />
+                </div>}
+
+ <Results result={result}
                         freewidth={true}
                         limit={limit}
                         start={start}
@@ -142,13 +154,4 @@ export const QueryPane = ({id, name, qpaneQuery, setQp, qp, queryObj}) => {
                         loading={loading}
                         totalRows={rowCount}
                         updateQuery={updateQuery}
-                    />
-                </div>}
-     
-            </TDBReactCollapse>
-            
-        </div>
-      
-    </React.Fragment>
-
-}
+                    />*/

@@ -2,9 +2,11 @@ import React from "react"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {GET_CLASSES_LINK, GET_PROPERTIES_LINK, GET_DOCUMENT_METADATA_LINK} from "./constants"
 import {getClassesLib, getPropertiesLib, getDocumentMetadataLib} from "../Queries/GeneralQueries"
+import {QueryPaneObj} from "../Hooks/queryPaneContext" 
 
-export const SampleQueries = ({setInteractiveQuery}) => {
+export const SampleQueries = (props) => {
 
+    const {addQueryPane} = QueryPaneObj()
 
     function handleQuery(query) {
         var q
@@ -17,7 +19,7 @@ export const SampleQueries = ({setInteractiveQuery}) => {
         else if (query == GET_DOCUMENT_METADATA_LINK){
             q=getDocumentMetadataLib()
         }
-        setInteractiveQuery(q)
+        addQueryPane(q)
     }
 
     

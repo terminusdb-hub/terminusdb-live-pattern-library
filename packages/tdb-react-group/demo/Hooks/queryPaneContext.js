@@ -1,17 +1,17 @@
-import React, {useState,useEffect,useContext} from "react";
-
+import React, {useState,useContext} from "react";
 import { v4 as uuidv4 } from 'uuid';
-// ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+
 export const QueryPaneContext = React.createContext()
 export const QueryPaneObj = () => useContext(QueryPaneContext)
 
 export const QueryPaneProvider = ({children}) => {
 
-    const [queryPaneList, setQueryPaneList] = useState([{id:uuidv4(),query:null}]);
+    const [queryPaneList, setQueryPaneList] = useState([{ id:uuidv4(),result:null, query:null, index: 1}]);
     const [updateList, setUpdateList] = useState(0);
 
     const addQueryPane = (query=null) =>{
-        queryPaneList.push({id:uuidv4(),query:query})
+        let lastIndex = queryPaneList[queryPaneList.length-1].index
+        queryPaneList.push({id: uuidv4(), result:null, query: query, index: lastIndex+1})//??
         setQueryPaneList(queryPaneList)
         setUpdateList(Date.now())
     }
@@ -24,8 +24,5 @@ export const QueryPaneProvider = ({children}) => {
 	    	}}>
 	     {children}
         </QueryPaneContext.Provider>
-
-        //entitiesListArr,
-        //classesListArr
     )
 }	

@@ -1,17 +1,20 @@
-import React, {useEffect, useState} from "react"
+import React from "react"
 
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {getStoredQueryObject} from "../Queries/GeneralQueries"
 import {isArray} from "../Functions/Utils"
 import {SavedQueriesControl} from "../Hooks/SavedQueriesControl"
+import {QueryPaneObj} from "../Hooks/queryPaneContext" 
 
-export const SavedQueries = ({setInteractiveQuery}) => {
+export const SavedQueries = (props) => {
+
+    const {addQueryPane} = QueryPaneObj()
 
     const {
         dataProvider,
         setSavedQueryId,
         setQueryObject
-    } = SavedQueriesControl(setInteractiveQuery)
+    } = SavedQueriesControl(addQueryPane)
 
     function handleClick (id) {
         let q = getStoredQueryObject(id)

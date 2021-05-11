@@ -1,7 +1,6 @@
 import React, {useState} from "react"
 import {Sidebar} from "./Sidebar"
 import {View} from "./View"
-import {QueryPageControl} from "../Hooks/QueryPageControl"
 import {QueryPaneProvider} from "../Hooks/queryPaneContext"
 
 export const QueryPage = (props) => {
@@ -25,15 +24,14 @@ export const QueryPage = (props) => {
                         </span>
                     </a>
                 </div>
-                <Sidebar />
+                <Sidebar/>
             </div>
         </nav>
         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-            {/*<View setQp={setQp} qp={qp} setWOQLQuery={setWOQLQuery}/>*/}
             <View/>
         </main>
     </React.Fragment>
-     </QueryPaneProvider>
+    </QueryPaneProvider>
 
 }
 

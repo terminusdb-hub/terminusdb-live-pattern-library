@@ -1,0 +1,81 @@
+{
+  "name": "@terminusdb-live/tdb-dashboard",
+  "version": "0.1.0",
+  "description": "react",
+  "main": "src/index",
+  "sideEffects": [
+    "./*/index.js"
+  ],
+  "files": [
+    "*.md",
+    "src",
+    "es6"
+  ],
+  "keywords": [
+    "react",
+    "reactjs",
+    "chart",
+    "react-component",
+    "terminusdb"
+  ],
+  "scripts": {
+    "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js'",
+    "build": "webpack --mode production",
+    "start": "webpack serve --mode development  --open --progress --port 3030 --host localhost --content-base src --inline --config ./webpack_dev.config.js --history-api-fallback",
+    "new": "webpack serve --mode development  --open --progress --port 3035 --host localhost --content-base src --inline --config ./webpack_dev.config.js --history-api-fallback",
+   
+    "demo": "webpack serve --progress --port 3030 --host localhost --content-base demo --inline --config demo/webpack.config.js",
+    "test": "exit 0",
+    "lint": "eslint src",
+    "autofix": "eslint src --fix"
+  },
+  "pre-commit": [],
+  "pre-push": [
+    "test",
+    "lint"
+  ],
+  "repository": {},
+  "author": "terminusdb group",
+  "peerDependencies": {
+    "react": "^16.10.3",
+    "react-dom": "^16.10.3"
+  },
+  "dependencies": {
+    "@terminusdb/terminusdb-client": "file:../../../terminusdb-client",
+    "@terminusdb/terminusdb-react-components": "file:../../../terminusdb-react-components",
+    "@themesberg/react-bootstrap": "^1.4.1",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.6.0",
+    "re-resizable": "^6.9.0",
+    "react": "^16.10.3",
+    "react-bootstrap": "^1.5.2",
+    "react-collapsed": "^3.0.2",
+    "react-dom": "^16.10.3",
+    "react-sizeme": "^3.0.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-export-default-from": "^7.12.13",
+    "@babel/plugin-transform-react-jsx": "^7.13.12",
+    "@babel/plugin-transform-regenerator": "^7.12.13",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.12.13",
+    "@babel/runtime-corejs2": "^7.13.10",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.3",
+    "html-webpack-plugin": "^5.3.1",
+    "less": "^4.1.1",
+    "less-loader": "^8.1.1",
+    "react-hot-loader": "^4.13.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.31.0",
+    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "license": "APACHE",
+  "gitHead": "aa081c438b01f552aaad466229baee35c0299ff5"
+}
