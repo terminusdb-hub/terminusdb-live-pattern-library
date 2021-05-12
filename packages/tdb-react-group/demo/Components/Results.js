@@ -17,7 +17,7 @@ export const Results = ({result, freewidth, limit, start, orderBy, setLimits, se
         <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
             <ResultController onClick={setCurrentView} isExpanded={isExpanded} setExpanded={setExpanded}/>
             
-            <ViewPane result={result.bindings} setGraphConfig={setGraphConfig}/>
+            {/*<ViewPane result={result.bindings} setGraphConfig={setGraphConfig}/>*/}
             
             <TDBReactCollapse isExpanded={isExpanded}>
                 {currentView==GRAPH_VIEW && 
