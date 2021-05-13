@@ -1,60 +1,34 @@
-import React,{useMemo} from "react"
+import React,{useEffect, useMemo,useState} from "react"
 import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {TDBReactButton, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
 import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, ACTIONS_QUERY_BUTTON_GROUP, SAVE_QUERY_NAME_TEXT_AREA, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
-import {handleRunQuery, handleError, handleSaveQuery} from '../Functions/Actions'
+import {handleError, handleSaveQuery} from '../Functions/Actions'
 import {Results} from "./Results"
 import {Row, Col} from "@themesberg/react-bootstrap"
 import {QueryPaneControl} from "../Hooks/QueryPageControl"
- 
+import {QueryEditor} from "./QueryEditor"
+
 export const QueryPane = ({id, name, queryObj}) => {
-    const {setWOQLQuery,
-        woqlQuery,
-        setExpanded,
+    const [viewResult, setViewResult]=useState(0)
+    const [needUpdate, setNeedUpdate]=useState(0)
+    const result = queryObj.resultObj.result
+    const showResult = viewResult || result ? true : false
+    //maybe we not need an external hook
+    const {setExpanded,
         isExpanded,
         setQpExpanded,
         qpIsExpanded,
         setSaveQuery,
         setSaveQueryName,
         saveQueryName,
-        editorContent,
-        woqlClient} = QueryPaneControl(id, queryObj.query)
-    
-    //every time it change we set the query
-    const handleWOQLQueryChange =(query)=>{
-        queryObj['query']=query
-        setWOQLQuery(query)
-    }
-
-    //table
-    /*const {
-        updateQuery,
-        changeOrder,
-        changeLimits,
-        woql,
-        result,
-        limit,
-        start,
-        orderBy,
-        loading,
-        rowCount,
-    } = ControlledQueryHook(woqlClient, woqlQuery, queryObj.result, 20) */
-
-    //woqlClient, query, results, queryLimit, queryStart, order
-
-   //I need a different solution
-   /* const saveResult = (result,limit,start,orderBy)=>{
-        queryObj['result']=result
-        queryObj['limit'] = limit
-        queryObj['start'] = start
-        queryObj['orderBy'] = orderBy
-    }
-
-    const memoizedValue = useMemo(() => saveResult(result,limit,start,orderBy), [result,limit,start,orderBy]);
-    */
-
-    const handleLanguageSwitcher = (lang)=> {
-        setLanguage(lang)
+        } = QueryPaneControl(queryObj)
+   
+    // "default Commit msg"
+    const handleRunQuery = () => {
+        if(queryObj.editorObj.query){
+            setViewResult(Date.now())
+            //if(updateQuery) updateQuery(woqlQuery, commitMessage)
+        }
     }
 
     const handleSaveQueryNameOnChange = (name, setSaveQueryName) => {
@@ -63,12 +37,12 @@ export const QueryPane = ({id, name, queryObj}) => {
 
 
     return <React.Fragment>
-        <div className="query-pane-pallet mb-3 mt-3 mr-4">
+        <div className="query-pane-pallet mb-3 mt-3 mr-4" >
             <Row>
-                <Col md={11}>
+                <Col md={10}>
                     <h1 className="h5 ml-3">{name}</h1>
                 </Col>
-                <Col md={1}>
+                <Col md={2} className="d-flex justify-content-end pr-4">
                     {qpIsExpanded && <TDBReactButton 
                         config={COLLAPSE_BUTTON_GROUP} 
                         onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
@@ -84,7 +58,7 @@ export const QueryPane = ({id, name, queryObj}) => {
                             <div> 
                                 <TDBReactButton 
                                     config={RUN_QUERY_CONFIG} 
-                                    onClick={(e) => handleRunQuery(woqlQuery, updateQuery, "default Commit msg")}/>
+                                    onClick={(e) => handleRunQuery()}/>
                                 
                                 <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
                             </div>                           
@@ -110,9 +84,25 @@ export const QueryPane = ({id, name, queryObj}) => {
                                     onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
                             </div>                      
                     </div>
-                    <TDBReactCollapse isExpanded={isExpanded}>                       
-                        <div className="editor-pallet">
-                            <WOQLEditorControlled 
+                    <TDBReactCollapse isExpanded={isExpanded}>                        
+                        <QueryEditor queryObj={queryObj} id={id}/>                
+                    </TDBReactCollapse>
+                </div>  
+                                
+                  {showResult && <Results 
+                        freewidth={true}
+                        queryObj={queryObj}
+                    />
+                  }
+                  
+            </TDBReactCollapse>
+        </div>
+    </React.Fragment>
+
+}
+
+/*
+<WOQLEditorControlled 
                                 languages={LANGUAGE_LIST}
                                 customLanguateSwitcher={true} 
                                 startLanguage={"js"}  
@@ -120,20 +110,7 @@ export const QueryPane = ({id, name, queryObj}) => {
                                 initcontent={editorContent}
                                 query={woqlQuery}
                                 editable={true}
-                                setMainError={(e) => handleError(e)}/>
-                        </div>                 
-                    </TDBReactCollapse>
-                </div>                              
-                <Results //result={result}
-                    freewidth={true}
-                    query={woqlQuery}
-                    queryObj={queryObj}
-                    />
-            </TDBReactCollapse>
-        </div>
-    </React.Fragment>
-
-}
+                                setMainError={(e) => handleError(e)}/>*/
 
 /*
 {result && <div className="pallet mb-3">

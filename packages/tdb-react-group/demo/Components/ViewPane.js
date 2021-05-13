@@ -6,8 +6,9 @@ import TerminusClient from '@terminusdb/terminusdb-client'
 import {NODE_SIZE, COLLISION_RADIUS, VIEW_SUBMIT_BUTTON_CONFIG, DEFAULT_NODE_COLOR, DEFAULT_COLLISION_RADIUS, DEFAULT_NODE_SIZE,
     SETTINGS_COLLAPSE_BUTTON_GROUP, SETTINGS_UNCOLLAPSE_BUTTON_GROUP} from "./constants"
 
-export const ViewPane = ({result, setGraphConfig}) => {
-
+export const ViewPane = ({queryObj,setGraphConfig}) => {
+    const resultObj = queryObj.resultObj
+    const result = (resultObj && resultObj.result) ? resultObj.result.bindings : []
     const [showConfig, setShowConfig] = useState(true)
     const [viewConfig, setViewConfig] = useState({size: DEFAULT_NODE_SIZE, 
         collisionRadius: DEFAULT_COLLISION_RADIUS,
@@ -107,17 +108,17 @@ export const ViewPane = ({result, setGraphConfig}) => {
             <Card border="light" className="shadow-sm">
                 <Card.Body>
                     <Row>
-                        <Col md={4}>
+                        <Col md={3}>
                             <TDBReactSelect config={NODE_SIZE} handleSelect={(e) => onSelectSize(e, viewConfig, setViewConfig)}/>
                         </Col>
 
-                        <Col md={4}>
+                        <Col md={3}>
                             <TDBReactSelect config={COLLISION_RADIUS} handleSelect={(e) => onSelectCollisionRadius(e, viewConfig, setViewConfig)}/>
                         </Col>
                         <Col md={4}>
                             <TDBReactSelect config={selectConfig} handleSelect={onNodeSelect}/>
                         </Col>
-                        <Col md={1}>
+                        <Col md={2} className="col-md-2 d-flex align-items-center">
                             <TDBReactButton config={VIEW_SUBMIT_BUTTON_CONFIG} onClick={handleView}/>
                         </Col>
                     </Row>

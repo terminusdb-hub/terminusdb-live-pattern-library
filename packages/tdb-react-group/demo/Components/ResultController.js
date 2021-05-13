@@ -7,31 +7,28 @@ import {Row, Col} from "@themesberg/react-bootstrap"
 
 export const ResultController=(props) =>{
 
-    const [currentView, setCurrentView] = useState(TABLE_VIEW)
+   //const [currentView, setCurrentView] = useState(TABLE_VIEW)
 
     function handleClick(view){
         if(props.onClick){
             props.onClick(view)
-            setCurrentView(view)
+            //setCurrentView(view)
         }
     }
 
     
     return  <React.Fragment>
         <Row>
-            <Col md={3}>
+            <Col md={10} >
                 <TDBReactButtonGroup config={VIEW_SWITCHER_BUTTON_GROUP} onClick={handleClick}/>
-                {(currentView==TABLE_VIEW) && 
+                {(props.currentView==TABLE_VIEW) && 
                     <TDBReactDropDownButtons config={TABLE_RESULT_CONTROLLER}/>
                 }
-                {(currentView==GRAPH_VIEW) && 
+                {(props.currentView==GRAPH_VIEW) && 
                     <TDBReactDropDownButtons config={GRAPH_RESULT_CONTROLLER}/>
                 }
             </Col>
-
-            <Col md={8}>
-            </Col>
-            <Col md={1}>
+            <Col md={2} className="d-flex justify-content-end pr-4">
                 {props.isExpanded && <TDBReactButton 
                     config={COLLAPSE_BUTTON_GROUP} 
                     onClick={() => props.setExpanded((prevExpanded) => !prevExpanded)}/>}

@@ -4,29 +4,27 @@ import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {NEW_PANE_CONFIG} from "./constants"
 import {QueryPaneObj} from "../Hooks/queryPaneContext"
 import { NavItem } from "@themesberg/react-bootstrap"
-
-
 export const View = (props) => {
-
     const {queryPaneList,addQueryPane} = QueryPaneObj()
-   
+
     const QueryPaneBox = (props) => {
         return (
             <div id={props.id}>
                 <TDBReactButton config={NEW_PANE_CONFIG} 
                     onClick={() => {addQueryPane()}} 
                 />
-                <QueryPane id={props.id} queryObj={props.queryObj} name={props.name}/>
-                
+                <QueryPane id={props.id} queryObj={props.queryObj} name={props.name}/>                
           </div>
         )
     }
 
     const NewQueryPane = (props) => {
-        return queryPaneList.slice(0).reverse().map(item=>
-            <QueryPaneBox key={item.id} id={item.id} queryObj={item} name={`Query Pane ${item.index}`}/>
-        )
-       
+        const  paneList=[]
+         queryPaneList.forEach(function(item, key) {
+            paneList.push(<QueryPaneBox key={key} id={key} queryObj={item} name={`Query Pane ${key}`}/>)
+
+        })
+        return paneList       
      }
 
     return (<React.Fragment>

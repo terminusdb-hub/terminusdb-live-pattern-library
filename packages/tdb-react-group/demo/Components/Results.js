@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState,useMemo} from "react"
 import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components'
 import {ResultController} from "./ResultController"
 import {tableViewConfig, graphViewConfig} from "../Functions/ViewConfig"
@@ -7,40 +7,83 @@ import {TDBReactCollapse, TDBReactResizable} from '@terminusdb-live/tdb-react-la
 import {ViewPane} from "./ViewPane"
 import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {WOQLClientObj} from '../init-woql-client'
-export const Results = ({freewidth,query,queryObj})=>{//{result, freewidth, limit, start, orderBy, setLimits, setOrder, query, loading, totalRows,updateQuery}) => {
-    
+export const Results = ({freewidth,queryObj})=>{
     const {woqlClient} = WOQLClientObj()
-    //const [graphConfig, setGraphConfig]=useState(graphViewConfig(result.bindings))
-    const [graphConfig, setGraphConfig]=useState(graphViewConfig([]))
-    
-    const [tableConfig, setTableConfig]=useState(tableViewConfig())
-    const [currentView, setCurrentView]=useState(TABLE_VIEW)
-    const [isExpanded, setExpanded] = useState(true)
-
+    const queryResult = queryObj.resultObj
     const {
         updateQuery,
         changeOrder:setOrder,
-        changeLimits:setLimits,
+        changeLimits,//:setLimits,
         woql,
         result,
         limit,
         start,
         orderBy,
         loading,
-        rowCount:totalRows,
-    } = ControlledQueryHook(woqlClient, query, queryObj.result, 20) 
+        rowCount:totalRows,//(woqlClient, query, results, queryLimit, queryStart, order)
+    } = ControlledQueryHook(woqlClient, queryObj.editorObj.query, 
+                            queryResult.result, queryResult.limit, queryResult.start,
+                            queryResult.orderBy,queryResult.totalRows) 
 
- 
-    return <React.Fragment> 
+    
+    const bindings = (result && result.bindings) ? result.bindings : []
+    const [graphConfig, setGraphConf]=useState(queryResult.graph || graphViewConfig(bindings))
+    
+    const [tableConfig, setTableConfig]=useState(tableViewConfig())
+    const [currentView, setCurrentView]=useState(queryResult.currentView)
+    const [isExpanded, setPanelExpanded] = useState(queryObj.resultPanelIsOpen)
+    
+    const setGraphConfig=(config)=>{
+        setGraphConf(config)
+        queryObj.updateResultProps('graph',config)
+
+    }
+
+    const setExpanded = ()=>{
+        const newStatus=!isExpanded
+        setPanelExpanded(newStatus)
+        queryObj.resultPanelIsOpen = newStatus
+
+    }
+
+    const setView = (viewType) =>{
+        setCurrentView(viewType)
+        queryObj.updateResultProps('currentView',viewType)
+    }
+
+    const setLimits=(limit, start)=>{
+        if(limit)queryObj.updateResultProps('limit',limit)
+        if(start)queryObj.updateResultProps('start',start)
+        changeLimits(limit, start)
+    }
+
+    const saveGraph = () =>{
+
+    }
+
+
+    useMemo(()=>{
+        queryObj.updateResultProps("result",result)
+        queryObj.updateResultProps("totalRows",totalRows)
+    },[result,totalRows])
+    
+    if(!result) return ""
+
+    return(
+    <div className="pallet mb-3">
+    <React.Fragment> 
         <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
-            <ResultController onClick={setCurrentView} isExpanded={isExpanded} setExpanded={setExpanded}/>          
-            <ViewPane result={result.bindings} setGraphConfig={setGraphConfig}/>   
+            <ResultController onClick={setView} 
+                             isExpanded={isExpanded} 
+                             setExpanded={setExpanded}
+                             currentView={currentView}/>                                      
+            <ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/>   
             <TDBReactCollapse isExpanded={isExpanded}>
                 {currentView==GRAPH_VIEW && 
                     <WOQLGraph 
                         config={graphConfig.config} 
                         dataProvider={graphConfig} 
-                        query={query} 
+                        query={queryObj.editorObj.query} 
                         updateQuery={updateQuery}
                     />}
                 {currentView==TABLE_VIEW && 
@@ -60,8 +103,6 @@ export const Results = ({freewidth,query,queryObj})=>{//{result, freewidth, limi
             </TDBReactCollapse>
         </TDBReactResizable>
     </React.Fragment>
-    
+    </div>)
 }
-
-//export const MemoizedResult = React.memo(Results);
 

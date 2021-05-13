@@ -1,38 +1,35 @@
 
-import {useState, useEffect} from "react"
+import {useState} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {useHook} from "./hook"
 
-export const QueryPaneControl = (id, qpaneQuery) => {
-    const [woqlQuery, setWOQLQuery]=useState(qpaneQuery)
+export const QueryPaneControl = (queryObj) => {
     const {woqlClient} = WOQLClientObj()
-    const [isExpanded, setExpanded] = useState(true)
-    const [qpIsExpanded, setQpExpanded] = useState(true)
+    const [isExpanded, setPanelExpanded] = useState(queryObj.editorPanelIsOpen )
+    const [qpIsExpanded, setPanelQpExpanded] = useState(queryObj.mainPanelIsOpen)
     const [saveQuery, setSaveQuery] = useState()
     const [saveQueryName, setSaveQueryName] = useState()
-
-    const [editorContent, setEditorContent] = useState(false)
-
     let dp = useHook(woqlClient, saveQuery) 
 
-    useEffect(() => {
-        if(woqlQuery) {
-            setEditorContent(woqlQuery.prettyPrint("js"))
-        }
-        
-    }, [woqlQuery]) 
+    const setExpanded = ()=>{
+        const newStatus = !isExpanded
+        setPanelExpanded(newStatus)
+        queryObj.editorPanelIsOpen = newStatus
+    }
+
+    const setQpExpanded = ()=>{
+        const newStatus = !qpIsExpanded
+        setPanelQpExpanded(!qpIsExpanded)
+        queryObj.mainPanelIsOpen = newStatus
+    }
 
     return {
-        setWOQLQuery,
-        woqlQuery,
         setExpanded,
         isExpanded,
         setQpExpanded,
         qpIsExpanded,
         setSaveQuery,
         setSaveQueryName,
-        saveQueryName,
-        editorContent,
-        woqlClient
+        saveQueryName
     }
 }

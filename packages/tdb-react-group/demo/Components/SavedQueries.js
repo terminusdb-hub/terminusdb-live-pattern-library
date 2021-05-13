@@ -34,7 +34,7 @@ export const SavedQueries = (props) => {
             
             for(var item in lts){
                 elements.push(
-                    <TDBReactButton config={lts[item]} onClick={handleClick}/>
+                    <TDBReactButton key={`button_${item}`} config={lts[item]} onClick={handleClick}/>
                 )
             }
 

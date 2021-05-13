@@ -33,6 +33,9 @@ font-weight: 600;
   color: #00C08B !important;
 }
 
+form{
+  margin:0;
+}
 div.container-background {
   background-color: #E3EBF6;
 }
