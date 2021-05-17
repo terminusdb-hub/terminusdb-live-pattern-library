@@ -14,8 +14,6 @@ export const WOQLClientProvider = ({children, params}) => {
         setOpts(params)
     }, [params])
 
-    console.log("opts", opts)
-
      useEffect(() => {
         const initWoqlClient = async () => {
             //const opts = params || {}
@@ -29,7 +27,6 @@ export const WOQLClientProvider = ({children, params}) => {
                     await dbClient.connect(opts)
                     setWoqlClient(dbClient)
                     if(opts.db) dbClient.db(opts.db)
-                    console.log("dbClient.user()", dbClient.user())
                 } catch (err) {
                     console.log("__CONNECT_ERROR__",err)
                     setLoadingServer(false)

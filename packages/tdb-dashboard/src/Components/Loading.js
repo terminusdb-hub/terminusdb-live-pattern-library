@@ -1,10 +1,14 @@
 import React from "react"
 import {ProgressBar} from "react-bootstrap"
 import {Container, Row} from "@themesberg/react-bootstrap"
+import {PROGRESS_BAR_COMPONENT} from "./constants"
 
 export const Loading = (props) => {
 
     const percentage= 100
+
+    if(props.type == PROGRESS_BAR_COMPONENT) 
+        return <ProgressBar now={percentage} animated label={props.message}/>
 
     return <Container>
         <Row>

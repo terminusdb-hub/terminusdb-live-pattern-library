@@ -1,4 +1,4 @@
 export const handleOrganizationSubmit = () => {
-    let layoutHomeURL = window.location + "home"
+    let layoutHomeURL = window.location + "products"
     window.location.assign(layoutHomeURL);
 }

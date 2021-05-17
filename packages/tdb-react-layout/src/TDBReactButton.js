@@ -28,7 +28,7 @@ export const TDBReactButton= (props) =>{
     }
 
     return <React.Fragment>
-        {(config.type == "link") && <Button className={"mr-1 mb-1 m-1" + css} 
+        {(config.type == "link") && <Button className={"mr-1 mb-1 m-1 " + css} 
             key={`Buttons_${config.title}`} 
             size={size} 
             variant={config.variant} 
@@ -37,11 +37,11 @@ export const TDBReactButton= (props) =>{
             bsPrefix="text" 
             href="#primary" 
             onClick={handleOnClick}>
-              {iconName && <i class={iconName}/>}
+              {iconName && <i className={iconName}/>}
               {config.label}
         </Button>}
-        {(config.type != "link") && <Button className={"mr-1 mb-1 m-1" + css} key={`Buttons_${config.title}`} size={size} variant={config.variant} title={config.title} id={config.id} onClick={handleOnClick}>
-          {iconName && <i class={iconName}/>}
+        {(config.type != "link") && <Button type={"submit"} className={"mr-1 mb-1 m-1 " + css} key={`Buttons_${config.title}`} size={size} variant={config.variant} title={config.title} id={config.id} onClick={handleOnClick}>
+          {iconName && <i className={iconName}/>}
           {config.label}
           {props.badge && <TDBReactBadge title={config.count}/>}
         </Button>}

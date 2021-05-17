@@ -55,6 +55,11 @@ img.user-avatar {
   border-left: 5px solid rgba(255, 255, 255, 0);
   border-right: 5px solid rgba(255, 255, 255, 0);
   cursor: col-resize;
+  background: #002856;
+}
+
+div.SplitPane {
+  padding-left: 0px;
 }
 
 .Resizer.vertical:hover {
@@ -62,10 +67,10 @@ img.user-avatar {
   border-right: 5px solid rgba(0, 0, 0, 0.5);
 }
 .Pane1 {
-  background-color: #002856;
+  background-color: #222;
 }
 .Pane2 {
-  background-color: #E3EBF6;
+  background-color: transparent;
 }
 /* ---------- Split Pane resizing css ---------- */
 
@@ -76,8 +81,53 @@ div.progress-bar-position {
 }
 /* ---------- progress bar css ---------- */
 
-/* ---------- card to create new dp ---------- */
-div.new-dp-card {
-  min-height: 150px;
+/* ---------- icon bar css ---------- */
+.nav-bar-row {
+  height: -webkit-fill-available;
 }
-/* ---------- card to create new dp ---------- */
+
+.nav-icon-bar{
+  flex-direction: column;
+  width: 70px;
+  position: fixed;
+  padding: 0px !important;
+  background-color: rgb(49, 48, 48);
+  height: -webkit-fill-available;
+}
+
+.nav-item {
+  text-align: center;
+}
+
+.nav-bar-dropdown-divider{
+  border-top: 1px solid #a3b6ca;
+}
+
+.nav-icon {
+  color: #a3b6ca !important;
+  font-size: 30px;
+}  
+
+.nav-icon-align {
+  margin: auto 0px 0px;
+  padding: 0px;
+  align-self: flex-end;
+}
+/* ---------- icon bar css ---------- */
+
+.cancel-button {
+  border: 0px !important;
+  float: right;
+}
+
+/* ---------- custom active css ---------- */
+.list-group-item.active {
+  color: #00C08B !important;
+  font-weight: bold !important;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  color: #007bff!important;
+  background-color: rgb(34, 34, 34, .3);
+}
+/* ---------- custom active css ---------- */

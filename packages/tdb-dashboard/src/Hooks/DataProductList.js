@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 
-export const DataProductList = (woqlClient) => {
+export function dataProductList (woqlClient)  {
 
     let [list, setList] = useState(get_dbs_to_show(woqlClient))
 
