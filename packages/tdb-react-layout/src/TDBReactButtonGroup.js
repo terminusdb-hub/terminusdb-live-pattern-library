@@ -6,7 +6,7 @@ export const TDBReactButtonGroup = (props) => {
     let config = props.config || []
 
 
-    const Buttons = ({item, variant, size, onClick, key}) => {
+    const Buttons = ({item, variant, size, onClick}) => {
         var icCss
         if(item.icon && item.label) icCss="me-2"
         else icCss=""
@@ -17,7 +17,7 @@ export const TDBReactButtonGroup = (props) => {
           }
 
         return <Button title={item.title} variant={variant} size={size} id={item.id} onClick={(e) => handleOnClick(e, onClick)}>
-            {iconName && <i class={iconName}/>}
+            {iconName && <i className={iconName}/>}
             {item.label}
         </Button>
     }

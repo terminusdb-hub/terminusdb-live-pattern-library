@@ -2,7 +2,6 @@ import React  from 'react'
 import {Navbar, Nav} from 'react-bootstrap'
 //import {FcAddDatabase} from 'react-icon/fc'
 export function IconBar (props){
-
     return <Navbar fixed expand={false} className="navbar-dark bg-dark h-100 nav-icon-bar">
             <Nav className="flex-column">
                 <Nav.Item>

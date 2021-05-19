@@ -23,7 +23,6 @@
     "build": "webpack --mode production",
     "start": "webpack serve --mode development  --open --progress --port 3030 --host localhost --content-base src --inline --config ./webpack_dev.config.js --history-api-fallback",
     "new": "webpack serve --mode development  --open --progress --port 3035 --host localhost --content-base src --inline --config ./webpack_dev.config.js --history-api-fallback",
-   
     "demo": "webpack serve --progress --port 3030 --host localhost --content-base demo --inline --config demo/webpack.config.js",
     "test": "exit 0",
     "lint": "eslint src",
@@ -45,6 +44,7 @@
     "@terminusdb/terminusdb-react-components": "file:../../../terminusdb-react-components",
     "@themesberg/react-bootstrap": "^1.4.1",
     "classnames": "^2.2.5",
+    "papaparse": "^5.3.0",
     "prop-types": "^15.6.0",
     "re-resizable": "^6.9.0",
     "react": "^16.10.3",

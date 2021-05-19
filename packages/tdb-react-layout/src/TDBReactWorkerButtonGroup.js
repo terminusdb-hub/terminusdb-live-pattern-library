@@ -24,14 +24,14 @@ export const TDBReactWorkerButtonGroup= (props) =>{
                 let description = dataProvider[key]["Description"]
                 let count = dataProvider[key]["Count"]["@value"]
                 let bConfig = {title: description, id: id, label: name, key: `Buttons_${id}`, variant: variant, count: count}
-                btns.push(<TDBReactButton config={bConfig} onClick={props.onClick} badge={true}/>)
+                btns.push(<TDBReactButton key={`item__${key}`} config={bConfig} onClick={props.onClick} badge={true}/>)
             }
             else if (qName == "Property library") {
                 let name = dataProvider[key]["Property Name"]["@value"]
                 let id = dataProvider[key]["Property ID"]
                 let description = dataProvider[key]["Property Description"]
                 let bConfig = {title: description, id: id, label: name, key: `Buttons_${id}`, variant: variant}
-                btns.push(<TDBReactButton config={bConfig} onClick={props.onClick}/>)
+                btns.push(<TDBReactButton key={`item__${key}`} config={bConfig} onClick={props.onClick}/>)
             }
         }
         

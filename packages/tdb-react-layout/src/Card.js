@@ -14,7 +14,7 @@ export const CardWidget = (props) => {
 				<Row className="d-block d-xl-flex align-items-center">
 					<Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
 						<div className={`icon icon-shape icon-md rounded me-4 me-sm-0`}>
-							<h6><i class={iconName}/></h6>
+							<h6><i className={iconName}/></h6>
 						</div>
 						<div className="d-sm-none">
 						<h5>{config.title}</h5>

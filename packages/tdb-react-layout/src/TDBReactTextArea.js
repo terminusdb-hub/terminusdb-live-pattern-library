@@ -21,7 +21,7 @@ export const TDBReactTextArea = (props) =>{
       <Form.Group className="mb-3">
         {label && <Form.Label>{label}</Form.Label>}
         <InputGroup>
-          {/*iconName && <i class={iconName}/>*/}
+          {/*iconName && <i className={iconName}/>*/}
           <Form.Control type={type} placeholder={placeholder} onChange={(e) => handleOnChange(e)}/>
         </InputGroup>
       </Form.Group>

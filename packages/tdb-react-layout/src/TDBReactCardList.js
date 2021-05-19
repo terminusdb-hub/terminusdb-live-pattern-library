@@ -11,8 +11,8 @@ export const TDBReactCardList=(props) => {
         <div>
 
             <h6>
-                <i class={iconName}></i>
-                <span ml={4} class="ml-4">
+                <i className={iconName}></i>
+                <span ml={4} className="ml-4">
                     {config.title}
                 </span>
             </h6>

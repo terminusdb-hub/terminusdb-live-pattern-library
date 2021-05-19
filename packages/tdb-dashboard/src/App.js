@@ -1,5 +1,11 @@
-import React from "react"
+import React from 'react';
+import {ImportData} from './pages/ImportData';
+import {ProductsExplorer} from './pages/ProductsExplorer';
 
-export function App (props){
-    return <div>HELLO WORLD!!!!!</div>
+import "./App.css"
+
+const App= (props) =>{  
+    return <ProductsExplorer/>       
 }
+
+export default App; 

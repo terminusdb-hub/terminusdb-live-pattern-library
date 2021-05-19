@@ -18,7 +18,7 @@ export const TDBReactDropDownButtons = (props) => {
         }
 
         for (var item = 0; item < list.length; item++) {
-            extracted.push(<Dropdown.Item id={list[item]} onClick={(e) => handleChange(e.target.id)}>{list[item]}</Dropdown.Item>)
+            extracted.push(<Dropdown.Item key={list[item]} id={list[item]} onClick={(e) => handleChange(e.target.id)}>{list[item]}</Dropdown.Item>)
         }
         setDropdownList(extracted)
     }, [list])
@@ -27,7 +27,7 @@ export const TDBReactDropDownButtons = (props) => {
         <Dropdown drop={"fas faAngleDown"} as={ButtonGroup} className="me-2 mb-2 ml-3">
             <Button variant={variant}>{selected}</Button>
             <Dropdown.Toggle split variant={variant}>
-                <i class={"fas faAngleDown"}/>
+                <i className={"fas faAngleDown"}/>
             </Dropdown.Toggle>
             <Dropdown.Menu>
                 {dropdownList}

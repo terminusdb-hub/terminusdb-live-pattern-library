@@ -1,10 +1,10 @@
 import React,{useEffect, useMemo,useState} from "react"
 import {TDBReactButton, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
 import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, ACTIONS_QUERY_BUTTON_GROUP, SAVE_QUERY_NAME_TEXT_AREA, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
-import {handleSaveQuery} from '../Functions/Actions'
+import {handleSaveQuery} from '../functions/Actions'
 import {Results} from "./Results"
-import {Row, Col} from "@themesberg/react-bootstrap"
-import {QueryPaneControl} from "../Hooks/QueryPageControl"
+import {Row, Col} from "react-bootstrap"
+import {QueryPaneControl} from "../hooks/QueryPageControl"
 import {QueryEditor} from "./QueryEditor"
 
 export const QueryPane = ({id, name, queryObj}) => {

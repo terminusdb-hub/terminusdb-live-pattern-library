@@ -1,7 +1,7 @@
 import React from "react"
 import {WOQLEditorControlled, ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {LANGUAGE_LIST} from './constants.js'
-import {QueryPaneObj} from '../Hooks/queryPaneContext'
+import {QueryPaneObj} from '../hooks/queryPaneContext'
 
 export const QueryEditor = ({queryObj}) => { 
     //every time it change we set the query

@@ -1,4 +1,4 @@
-import {TABLE_VIEW} from "./Components/constants"
+import {TABLE_VIEW} from "../components/constants"
 
 export class PanelQueryObj {
     constructor(id) {

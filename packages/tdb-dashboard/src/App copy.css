@@ -1,7 +1,13 @@
 
 body{
 color: #4a5073;
-background: #E3EBF6 !important;
+background: #111111 !important;
+}
+
+body{
+  color: #4a5073;
+  /*background: #E3EBF6;*/
+  letter-spacing: 0.88px;
 }
 .recharts-cartesian-axis-ticks{
 font-size: 0.85em;
@@ -273,12 +279,6 @@ div.nav-icon-bar a:hover {
   
 }
 
-
-body{
-  color: #4a5073;
-  background: #E3EBF6;
-  letter-spacing: 0.88px;
-}
 
 .recharts-cartesian-axis-ticks{
   font-size: 0.85em;
