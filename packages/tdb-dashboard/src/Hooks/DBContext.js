@@ -1,61 +1,64 @@
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {executeQueryHook} from "./executeQueryHook"
+import {graphStructureFromBindings, branchStructureFromBindings} from "./utils"
+export const DBContext = React.createContext()
+export const DBContextObj = () => useContext(DBContext)
 
-function graphStructureFromBindings(bindings) {
-    let gs = {}
-    for (var i = 0; i < bindings.length; i++) {
-        let fid = `${bindings[i]['Graph Type']['@value']}/${bindings[i]['Graph ID']['@value']}`
-        gs[fid] = {
-            id: bindings[i]['Graph ID']['@value'],
-            type: bindings[i]['Graph Type']['@value'],
-        }
+export const DBContextProvider = ({children, woqlClient, dataProduct}) => {
+    if (!woqlClient.db()) {
+        return (
+            <DBContext.Provider value={NullDBProvider(woqlClient)}>
+                {children}
+            </DBContext.Provider>
+        )
     }
-    return gs
-}
+    
 
-export function DBGraphs  (woqlClient) {
-    const [graphs, setGraphs] = useState(false)
-    const [query, setQuery] = useState(false)
-    const [dataProvider]=executeQueryHook(woqlClient, query)
+    const [loading, setLoading] = useState(0)
     let WOQL = TerminusClient.WOQL
+    
 
-    useEffect(() => {
-        if(woqlClient){
-            let constraint = WOQL.query()
-            if (woqlClient.ref()) {
-                constraint.eq('v:Commit ID', woqlClient.ref())
-            } else {
-                constraint.eq('v:Branch ID', woqlClient.checkout())
-            }
+    const [branch, setBranch] = useState(woqlClient.checkout())
+    const [ref, setRef] = useState(woqlClient.ref())
 
-            let q = WOQL.lib().graphs(constraint)
-            setQuery(q)
-        }
-    }, [woqlClient])
-
-    useEffect(() => {
-        let binds = dataProvider ? graphStructureFromBindings(dataProvider) : []
-        setGraphs(binds)
-    }, [dataProvider])
-
-    return {
-        graphs,
-        setGraphs
-    }
-
-}
-
-
-/*
-export function DBBranches  (woqlClient) {
+    // branchesstates 
     const [branches, setBranches] = useState(false)
-    const [query, setQuery] = useState(false)
-    const [dataProvider]=executeQueryHook(woqlClient, query)
-    let WOQL = TerminusClient.WOQL
+    const [branchesQuery, setBranchesQuery] = useState(false)
+    const [branchesReload, setBranchesReload] = useState(false)
+    const [branchesDataProvider]=executeQueryHook(woqlClient, branchesQuery)
+
+    // graph states
+    const [graphs, setGraphs] = useState(false)
+    const [graphQuery, setGraphQuery] = useState(false)
+    const [graphsReload, setGraphsReload] = useState(0)
+    const [graphDataProvider]=executeQueryHook(woqlClient, graphQuery)
+
+    //load branches
+    useEffect(() => {
+        if(dataProduct){
+            let q = WOQL.lib().branches()
+            setBranchesQuery(q)
+        }
+    }, [branchesReload])
 
     useEffect(() => {
-        if(woqlClient){
+        let binds = branchesDataProvider ? branchStructureFromBindings(branchesDataProvider) : []
+        setBranches(binds)
+    }, [branchesDataProvider])
+
+    function updateBranches(bid) {
+        if(bid) {
+            setBranch(bid)
+            woqlClient.ref(false)
+            woqlClient.checkout(bid)
+        }
+        setBranchesReload(branchesReload + 1)
+    }
+
+    //load graphs
+    useEffect(() => {
+        if(dataProduct){
             let constraint = WOQL.query()
             if (woqlClient.ref()) {
                 constraint.eq('v:Commit ID', woqlClient.ref())
@@ -64,20 +67,63 @@ export function DBBranches  (woqlClient) {
             }
 
             let q = WOQL.lib().graphs(constraint)
-            setQuery(q)
+            setGraphQuery(q)
         }
-    }, [woqlClient])
+    }, [dataProduct, branch, ref, branches, graphsReload])
 
     useEffect(() => {
-        let binds = dataProvider ? graphStructureFromBindings(dataProvider) : []
+        let binds = graphDataProvider ? graphStructureFromBindings(graphDataProvider) : []
         setGraphs(binds)
-    }, [dataProvider])
+    }, [graphDataProvider])
 
-    return {
-        graphs,
-        setGraphs
+    function updateGraphs(){
+        setGraphsReload(graphsReload + 1)
     }
 
-}*/
+    return (
+        <DBContext.Provider
+            value={{
+                graphs,
+                setGraphs,
+                updateGraphs,
+                branches,
+                updateBranches
+            }}
+        >
+            {children}
+        </DBContext.Provider>
+    )
 
 
+}
+
+export const NullDBProvider = (woqlClient) => {
+    let branches = false
+    let graphs = false
+    let DBInfo = {created: 0}
+    function setHead() {}
+    function setConsoleTime() {}
+    function updateBranches() {}
+    let report = false
+    let branch = false
+    let ref = false
+    let loading = false
+    let consoleTime = false
+    let prefixes = []
+    let prefixesLoaded = true
+    return {
+        setConsoleTime,
+        setHead,
+        updateBranches,
+        DBInfo,
+        branches,
+        prefixes,
+        graphs,
+        report,
+        branch,
+        consoleTime,
+        ref,
+        loading,
+        prefixesLoaded
+    }
+}

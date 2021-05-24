@@ -3,6 +3,7 @@ import React from "react"
 import {AiOutlineMail, AiOutlineDatabase, AiOutlineSetting} from "react-icons/ai"
 import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
+import {SiGithubactions} from "react-icons/si"
 
 //User Messages 
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
@@ -36,6 +37,11 @@ export const IconBarConfig = {
         title: "Data Product Model",
         key: "Data Product Model",
         icon: <MdBubbleChart/>
+    },
+    dataProductManage: {
+        title: "Manage Data Product",
+        key: "Manage Data Product",
+        icon: <SiGithubactions/>
     },
     feedback: {
         title: "Feedback",

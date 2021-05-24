@@ -6,18 +6,19 @@ import {handleWidthChange} from './utils'
 import {DataProductsHome} from "./DataProductsHome"
 import {IconBar} from "../../components/IconBar"
 import {Col} from "@themesberg/react-bootstrap"
-import {DATA_PRODUCT_EXPLORER_VIEW, DATA_PRODUCTS_VIEW, DATA_PRODUCT_MODEL_VIEW} from "../constants"
+import {DATA_PRODUCT_EXPLORER_VIEW, DATA_PRODUCTS_VIEW, DATA_PRODUCT_MODEL_VIEW, DATA_PRODUCT_MANAGE_VIEW} from "../constants"
 import {DatabaseList} from "../../components/DatabaseList"
 import {dataProductList} from "../../hooks/DataProductList"
 import {ModelBuilder} from "./ModelBuilder"
 import {ProductsExplorer} from "./ProductExplorer"
+import {ManageProducts} from "./ManageProducts"
 import {DatabaseButtons} from "../../components/DatabaseButtons"
 import {SampleQueries} from "../../components/SampleQueries"
 import {SavedQueries} from "../../components/SavedQueries"
 import {QueryPaneProvider} from "../../hooks/queryPaneContext"
 import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout'
 import { useAuth0 } from "../../react-auth0-spa"
-import {AiOutlineUnorderedList} from "react-icons/ai"
+import {DBContextProvider} from "../../hooks/DBContext"
 
 
 
@@ -92,7 +93,13 @@ export const Layout = ({woqlClient}) => {
         else if (view == DATA_PRODUCT_EXPLORER_VIEW)
             return <ProductsExplorer woqlClient={woqlClient}/>
         else if (view == DATA_PRODUCT_MODEL_VIEW)
-            return <ModelBuilder woqlClient={woqlClient} dataProductId={dataProduct}/>
+            return <DBContextProvider woqlClient={woqlClient} dataProduct={dataProduct}> 
+                <ModelBuilder woqlClient={woqlClient} dataProduct={dataProduct}/>
+            </DBContextProvider>
+        else if (view == DATA_PRODUCT_MANAGE_VIEW)
+            return <DBContextProvider woqlClient={woqlClient} dataProduct={dataProduct}>
+                <ManageProducts woqlClient={woqlClient} dataProduct={dataProduct}/>
+            </DBContextProvider>
         return <div/> 
     }
 
