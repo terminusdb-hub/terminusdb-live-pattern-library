@@ -1,14 +1,14 @@
 import React,{useEffect,useState} from "react"
-import {DBGraphs} from "../../hooks/DBContext"
+import {DBContextObj} from "../../hooks/DBContext"
 import {SchemaBuilder, modelCallServerHook, GraphObjectProvider, ViewBuilder} from "@terminusdb/terminusdb-react-components"
 import {Row, Button} from "@themesberg/react-bootstrap"
 import {SCHEMA_MODEL_VIEW, SCHEMA_CLASSES_VIEW, SCHEMA_PROPERTIES_VIEW, SCHEMA_EDITOR_VIEW} from "../constants"
 import {PropertiesTab} from "../../components/PropertiesTab"
 
-export const ModelBuilder = ({woqlClient, dataProductId}) =>{   
+export const ModelBuilder = ({woqlClient, dataProduct}) =>{   
     
 
-    let {graphs} =  DBGraphs(woqlClient)
+    let {graphs} = DBContextObj()
     const [width, setWidth] = useState("")
     const [schemaView, setSchemaView] = useState(SCHEMA_MODEL_VIEW)
 
@@ -28,10 +28,11 @@ export const ModelBuilder = ({woqlClient, dataProductId}) =>{
         resetReport
     } = modelCallServerHook(woqlClient, branch, ref)
 
+    if(!graphs) return <div>error in loading graph</div>
 
     return <main className="content mr-3 ml-5 w-100">
         <Row className={"w-100"}>
-            <h4>Connected to  - {dataProductId}</h4>
+            <h4>Connected to  - {dataProduct}</h4>
         </Row>
         <div>
             <Button title={SCHEMA_MODEL_VIEW}
@@ -52,9 +53,9 @@ export const ModelBuilder = ({woqlClient, dataProductId}) =>{
                 onClick={(e) => setSchemaView(SCHEMA_EDITOR_VIEW)}>Text Editor</Button>
         </div>
         {(schemaView == SCHEMA_MODEL_VIEW) && <Row>
-            <GraphObjectProvider mainGraphDataProvider={mainGraphDataProvider} dbName={dataProductId}>
+            <GraphObjectProvider mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
                 <ViewBuilder saveGraph={saveData} 
-                    dbName={dataProductId} 
+                    dbName={dataProduct} 
                     custom={true}
                     saveGraph={saveData}
                     />

@@ -124,7 +124,9 @@ export const getStoredQueriesNames = () => {
 export const getStoredQueryObject = (id) => {
     if(!id) return
     let WOQL=TerminusClient.WOQL
-    return WOQL.using("admin/live").triple(id, "query", "v:Query")
+    let user=woqlClient.user()
+    let dp = `${user.id}/${dataProduct}`
+    return WOQL.using(dp).triple(id, "query", "v:Query")
     
 }
 
@@ -174,4 +176,12 @@ export const getPropertyMeta = () => {
             )
         )
   )
+}
+
+export const getBranchQuery = (dataProduct, woqlClient) => {
+    if(!dataProduct) return
+    let WOQL=TerminusClient.WOQL
+    let user=woqlClient.user()
+    let dp = `${user.id}/${dataProduct}`
+    return WOQL.using(dp).lib().branches()
 }

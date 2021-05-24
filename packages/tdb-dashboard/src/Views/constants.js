@@ -21,6 +21,7 @@ export const DATA_PRODUCT_LABEL = "Data Products"
 export const DATA_PRODUCTS_VIEW = "Data Products"
 export const DATA_PRODUCT_EXPLORER_VIEW = "Data Product Explorer"
 export const DATA_PRODUCT_MODEL_VIEW =  "Data Product Model"
+export const DATA_PRODUCT_MANAGE_VIEW = "Manage Data Product"
 
 // schema view
 export const SCHEMA_MODEL_VIEW = "View Model"
