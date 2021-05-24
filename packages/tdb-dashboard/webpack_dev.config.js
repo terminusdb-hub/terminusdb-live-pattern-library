@@ -1,5 +1,6 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require('path')
+const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   mode: 'development',
@@ -13,6 +14,7 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [
+    new Dotenv({path: path.resolve(__dirname, './.env')}),
     new webpack.LoaderOptionsPlugin({
       debug: true
     })
@@ -51,7 +53,8 @@ module.exports = {
               }
             ],"@babel/plugin-transform-react-jsx",
               "@babel/plugin-proposal-export-default-from","@babel/plugin-transform-regenerator",
-            ["@babel/plugin-transform-runtime"]]
+            ["@babel/plugin-transform-runtime"]
+            ]
           }
         },
       },
@@ -201,4 +204,3 @@ module.exports = (env, argv) => ({
       }]
     },
 });*/
-

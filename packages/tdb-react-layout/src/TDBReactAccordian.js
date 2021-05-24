@@ -60,6 +60,11 @@ export const TDBReactAccordian = (props) => {
 /*
 <Accordion.Item className="transparant" eventKey={eventKey}>
             <Accordion.Button variant="link" className="w-100 d-flex justify-content-between sidebar-accordian">
+
+        return (
+            <Accordion.Item className="bg-transparent mr-4" eventKey={eventKey}>
+            <Accordion.Button variant="light" className="bg-transparent w-100 d-flex justify-content-between sidebar-accordian">
+
                 <span className="h6 mb-0 fw-bold">
                     {iconName && <i className={iconName}/>}
                     {title}

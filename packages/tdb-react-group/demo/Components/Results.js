@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, {useState,useMemo} from "react"
 import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components'
+=======
+import React, {useState} from "react"
+import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components' 
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
 import {ResultController} from "./ResultController"
 import {tableViewConfig, graphViewConfig} from "../Functions/ViewConfig"
 import {GRAPH_VIEW, TABLE_VIEW} from "./constants"
@@ -73,12 +78,20 @@ export const Results = ({freewidth,queryObj})=>{
     <div className="pallet mb-3">
     <React.Fragment> 
         <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
+<<<<<<< HEAD
             <ResultController onClick={setView} 
                              isExpanded={queryObj.resultPanelIsOpen} 
                              setExpanded={setExpanded}
                              currentView={currentView}/>                                      
             <ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/>   
             <TDBReactCollapse isExpanded={queryObj.resultPanelIsOpen}>
+=======
+            <ResultController onClick={setCurrentView} isExpanded={isExpanded} setExpanded={setExpanded}/>
+            
+            {/*<ViewPane result={result.bindings} setGraphConfig={setGraphConfig}/>*/}
+            
+            <TDBReactCollapse isExpanded={isExpanded}>
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
                 {currentView==GRAPH_VIEW && 
                     <WOQLGraph 
                         config={graphConfig.config} 

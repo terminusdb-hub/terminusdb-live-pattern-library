@@ -2,6 +2,8 @@
 packages/*/node_modules
 packages/*/dist
 packages/*/es6
+packages/*/env
+packages/*/auth_config
 
 node_modules/
 lerna-debug.log

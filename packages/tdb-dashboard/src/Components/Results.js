@@ -1,12 +1,20 @@
 import React, {useState,useMemo} from "react"
 import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components'
 import {ResultController} from "./ResultController"
+<<<<<<< HEAD
 import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
+=======
+import {tableViewConfig, graphViewConfig} from "./ViewConfig"
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
 import {GRAPH_VIEW, TABLE_VIEW} from "./constants"
 import {TDBReactCollapse, TDBReactResizable} from '@terminusdb-live/tdb-react-layout'
 import {ViewPane} from "./ViewPane"
 import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {WOQLClientObj} from '../init-woql-client'
+<<<<<<< HEAD
+=======
+
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
 export const Results = ({freewidth,queryObj})=>{
     const {woqlClient} = WOQLClientObj()
     const queryResult = queryObj.resultObj
@@ -77,7 +85,11 @@ export const Results = ({freewidth,queryObj})=>{
                              isExpanded={queryObj.resultPanelIsOpen} 
                              setExpanded={setExpanded}
                              currentView={currentView}/>                                      
+<<<<<<< HEAD
             <ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/>   
+=======
+            {/*<ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/>*/}   
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
             <TDBReactCollapse isExpanded={queryObj.resultPanelIsOpen}>
                 {currentView==GRAPH_VIEW && 
                     <WOQLGraph 
@@ -104,5 +116,9 @@ export const Results = ({freewidth,queryObj})=>{
         </TDBReactResizable>
     </React.Fragment>
     </div>)
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8

@@ -1,4 +1,8 @@
 const path = require('path');
+<<<<<<< HEAD
+=======
+const Dotenv = require('dotenv-webpack');
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
 
 module.exports = {
     entry: './src/index.js',
@@ -22,7 +26,12 @@ module.exports = {
                }
              ],"@babel/plugin-transform-react-jsx",
                "@babel/plugin-proposal-export-default-from","@babel/plugin-transform-regenerator",
+<<<<<<< HEAD
              ["@babel/plugin-transform-runtime"]]
+=======
+             ["@babel/plugin-transform-runtime"]
+             ]
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
            }
          },
        },
@@ -89,6 +98,12 @@ module.exports = {
         react: path.resolve('./node_modules/react')
       },
       fallback: {"https": false},
+<<<<<<< HEAD
       extensions: ['.js', '.jsx', '.json'],
     },
 }
+=======
+      extensions: ['.js', '.jsx', '.json', '.png'],
+    },
+}
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8

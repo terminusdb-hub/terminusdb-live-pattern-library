@@ -1,0 +1,333 @@
+
+body{
+color: #4a5073;
+background: #222 !important;
+}
+
+.sidebar-accordian{
+  background: transparent!important;
+  color: #eaedf2 !important;
+}
+
+
+body{
+  margin: 0;
+  font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #fff;
+  text-align: left;
+  background-color: #222;
+}
+
+.cm-s-custom{
+  background-color: transparent !important;
+  border: 1px solid #444;
+}
+
+
+.Resizer {
+background: #000;
+opacity: 0.2;
+z-index: 1;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+-moz-background-clip: padding;
+-webkit-background-clip: padding;
+background-clip: padding-box;
+}
+
+form{
+  margin:0;
+  /*color: #4a5073;
+  background: #E3EBF6 !important;*/
+  /*background-color: #202225 !important;*/
+  background-color: #222 !important;
+}
+
+.main-content {
+  overflow-y: auto;
+}
+
+
+/* ---------- css for cowduck image with clouds ---------- */
+img.cow_duck_image {
+  position: absolute;
+  top:0;
+  left:0
+}
+/* ---------- css for cowduck image with clouds ---------- */
+
+img.user-avatar {
+  height: 50px;
+}
+
+/* ---------- Split Pane resizing css ---------- */
+.Resizer {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background: #000;
+  opacity: 0.2;
+  z-index: 1;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+
+.Resizer:hover {
+  -webkit-transition: all 2s ease;
+  transition: all 2s ease;
+}
+
+.Resizer.horizontal {
+  height: 11px;
+  margin: -5px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0);
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+  width: 100%;
+}
+
+.Resizer.horizontal:hover {
+  border-top: 2px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.Resizer.vertical {
+  width: 5px !important;
+  margin: 0 -5px;
+  border-left: 1px solid rgba(255, 255, 255, 0) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0) !important;
+  cursor: col-resize;
+  background: #535557;
+}
+
+div.SplitPane {
+  padding-left: 0px;
+}
+
+div.SplitPane  .horizontal {
+  top: auto !important;
+  bottom: auto !important;
+}
+
+.Resizer.vertical:hover {
+  border-left: 2px solid rgba(0, 0, 0, 0.5);
+  border-right: 2px solid rgba(0, 0, 0, 0.5);
+}
+.Pane1 {
+  background-color: #222;
+}
+.Pane2 {
+  background-color: transparent;
+}
+/* ---------- Split Pane resizing css ---------- */
+
+
+/* ---------- progress bar css ---------- */
+div.progress-bar-position {
+  margin-top: 50%;
+}
+/* ---------- progress bar css ---------- */
+
+/* ---------- icon bar css ---------- */
+.nav-bar-row {
+  height: -webkit-fill-available;
+}
+
+.nav-icon-bar{
+  flex-direction: column;
+  width: 70px;
+  position: fixed;
+  padding: 0px !important;
+ }
+
+  div.icon-bar {
+    width: 70px; /* Set a specific width */
+    background-color: #555; /* Dark-grey background */
+    position: fixed;
+  }
+
+/*
+we can extend the bootstrap css
+*/
+.nav-icon {
+  display: block;
+  text-align: center;
+  padding: 16px 12px !important;
+  transition: all 0.3s ease;
+  /*color: white;*/
+  font-size: 32px;
+}
+
+div.nav-icon-bar a:hover {
+  background-color: #000; /* Add a hover color */
+}
+
+/* div.active {
+  background-color: #4CAF50; 
+  /* Add an active/current color */
+/*}*/
+
+.icon-plus{
+  color:#00bc8c;
+  position: absolute;
+  font-weight: bold;
+  
+}
+
+div.icon {
+  color: #00C08B;
+  background-color: rgba( 0,192,139, .1 );
+}
+
+div.icon-shape {
+  width: 4.5rem;
+  height: 4.5rem;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.icon-shape svg {
+   font-size: 2rem; 
+}
+
+.Resizer:hover {
+-webkit-transition: all 2s ease;
+transition: all 2s ease;
+}
+
+.Resizer.horizontal {
+height: 11px;
+margin: -5px 0;
+border-top: 5px solid rgba(255, 255, 255, 0);
+border-bottom: 5px solid rgba(255, 255, 255, 0);
+cursor: row-resize;
+width: 100%;
+}
+
+.Resizer.horizontal:hover {
+border-top: 5px solid rgba(0, 0, 0, 0.5);
+border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.Resizer.vertical {
+width: 11px;
+margin: 0 -5px;
+border-left: 5px solid rgba(255, 255, 255, 0);
+border-right: 5px solid rgba(255, 255, 255, 0);
+cursor: col-resize;
+}
+
+.Resizer.vertical:hover {
+border-left: 5px solid rgba(0, 0, 0, 0.5);
+border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+.Resizer.disabled {
+cursor: not-allowed;
+}
+.Resizer.disabled:hover {
+border-color: transparent;
+}
+
+div.side-black{
+  background: #252526;
+}
+
+  background-color: rgb(49, 48, 48);
+  height: -webkit-fill-available;
+}
+
+.nav-item {
+  text-align: center;
+}
+
+.nav-bar-dropdown-divider{
+  border-top: 1px solid #a3b6ca;
+}
+
+.nav-icon {
+  color: #a3b6ca !important;
+  font-size: 30px;
+}  
+
+.nav-icon-disabled {
+  color: rgba(0,0,0,.3) !important; 
+}
+
+.nav-icon-align {
+  margin: auto 0px 0px;
+  padding: 0px;
+  align-self: flex-end; 
+}
+/* ---------- icon bar css ---------- */
+
+.cancel-button {
+  border: 0px !important;
+  float: right;
+}
+
+/* ---------- custom active css ---------- */
+.list-group-item.active {
+  color: #00C08B !important;
+  font-weight: bold !important;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  color: #007bff!important;
+  background-color: rgb(34, 34, 34, .3);
+}
+/* ---------- custom active css ---------- */
+
+
+/* ---------- overriding react components schema builder css ---------- */
+.schema-summary-icons {
+  color: #E3EBF6;
+  font-size: 24px;
+}
+
+.RRT__tab {
+  background: transparent !important;
+  border-style: solid; 
+  border-color: transparent !important;
+}
+
+.tdb__panel__bar, .tdb__panel__title {
+  background: transparent !important;
+}
+
+div.tdb__accordion {
+  background-color: transparent !important;
+}
+
+div.tdb__accordion__head{
+  background-color: #adb5bd;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+/* ---------- overriding react components schema builder css ---------- */
+
+
+/* ---------- form control custom dark mode ---------- */
+.form-control {
+  color: #adb5bd !important;
+  /*background-color: #444 !important;*/
+  background-color: transparent !important;
+  border-color: rgb(102, 102, 102) !important;
+}
+
+tbody, td, tfoot, th, thead, tr {
+  border-style: solid !important;
+  border-bottom: 1px solid #444 !important;
+}
+/* ---------- form control custom dark mode ---------- */
+
+.accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{
+  color: #adb5bd; 
+}
+

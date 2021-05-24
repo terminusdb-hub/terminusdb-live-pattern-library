@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import ReactDOM from "react-dom";
 /*import App from "./App";*/
@@ -15,3 +16,51 @@ ReactDOM.render(
     </WOQLClientProvider>
     , document.getElementById('root'));
 /*ReactDOM.render(<App />, document.getElementById('root'));*/
+=======
+  
+import React from "react"
+import {createBrowserHistory} from "history"
+import ReactDOM from "react-dom"
+import {App} from "./App"
+import {WOQLClientProvider} from './init-woql-client'
+import {localSettings} from "../localSettings"
+import {auth0_conf} from '../auth_config'
+import {Auth0Provider} from "./react-auth0-spa"
+
+
+
+let redirect_uri=`${window.location.origin}`
+
+console.log("redirect_uri",redirect_uri)
+
+const TERMINUSDB=window.TERMINUSDB || {}
+const base_router_win=TERMINUSDB.base_router || null
+export const base_router = localStorage.getItem("terminusdb-base-router") ||  base_router_win || process.env.TERMINUSDB_APP_BASE_ROUTER || '';
+
+export const ConsoleHistory= createBrowserHistory({basename: base_router});
+
+const onRedirectCallback = appState => {
+    ConsoleHistory.push(
+      appState && appState.targetUrl
+        ? appState.targetUrl
+        : ''
+    )
+  }
+
+
+ReactDOM.render(
+    <Auth0Provider
+        domain={auth0_conf.domain}
+        client_id={auth0_conf.clientId}
+        redirect_uri={redirect_uri}
+        onRedirectCallback={onRedirectCallback}
+        audience={auth0_conf.audience}
+    >
+        <WOQLClientProvider params={localSettings}>
+            <App />
+        </WOQLClientProvider>
+    </Auth0Provider>
+    , document.getElementById('root'))
+
+
+>>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
