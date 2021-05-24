@@ -5,6 +5,7 @@ export { TDBReactNav } from './TDBReactNav'
 export { TDBReactButton } from './TDBReactButton'
 export { TDBReactButtonGroup } from './TDBReactButtonGroup'
 export { MainLayout } from './MainLayout'
+export {MainNavBar} from './MainNavBar'
 export {TDBReactWorkerButtonGroup} from "./TDBReactWorkerButtonGroup.js"
 export { TDBReactResizable } from './TDBReactResizable'
 export { TDBReactDropDownButtons } from './TDBReactDropDownButtons'

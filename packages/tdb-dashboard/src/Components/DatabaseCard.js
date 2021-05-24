@@ -3,7 +3,7 @@ import {Card} from '@themesberg/react-bootstrap'
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CANCEL_NEW_DATA_PRODUCT_BUTTON, CREATE_NEW_DATA_PRODUCT_BUTTON, newDataProductForm} from "./constants"
 import {Form, Button} from "@themesberg/react-bootstrap"
-import {Loading} from "../Components/Loading"
+import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
  
 export function DatabaseCard (props) {
@@ -12,7 +12,7 @@ export function DatabaseCard (props) {
     let id = props.id
     let description = props.description || false
 
-    return <Card>
+    return <Card variant={"dark"}>
         <Card.Body>
             <Card.Title>{label}</Card.Title>
             <Card.Text>{description}</Card.Text>
@@ -54,7 +54,7 @@ export function NewDatabaseCard ({onCancel, setNewDataProductInfo, loading}) {
             setDescription(e.target.value)
     }
 
-    return <Card border="primary">
+    return <Card border="info">
         {loading && <Loading message={`Creating ${label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         <Card.Header>
             <b>{newDataProductForm.header}</b>

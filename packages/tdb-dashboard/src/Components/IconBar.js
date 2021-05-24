@@ -3,7 +3,7 @@ import {Nav, Row, Col, Navbar} from "@themesberg/react-bootstrap"
 import {DEFAULT_ICON_BAR_ACTIVE_KEY, IconBarConfig, TERMINUSDB_ICON} from "./constants"
 
 
-export const IconBar =  ({setView}) => {
+export const IconBar =  ({setView, dataProduct}) => {
 
     return <Navbar fixed expand={false} className="navbar-light navbar-theme-soft h-100 nav-icon-bar">
         <Nav defaultActiveKey={IconBarConfig.dataProductView.key} className="flex-column">
@@ -21,15 +21,37 @@ export const IconBar =  ({setView}) => {
                     {IconBarConfig.dataProductView.icon}
                 </Nav.Link>
             </Nav.Item>
-            <Nav.Item>
-                <Nav.Link eventKey={IconBarConfig.dataProductModal.key} 
-                    title={IconBarConfig.dataProductModal.title}  
-                    className="nav-icon" 
-                    onClick={(e)=> setView(IconBarConfig.dataProductModal.key)}>
-                    {IconBarConfig.dataProductModal.icon}
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
+            {!dataProduct && <React.Fragment> 
+                <Nav.Item>
+                    <Nav.Link eventKey={IconBarConfig.dataProductModal.key} 
+                        title={IconBarConfig.dataProductModal.title}  
+                        className="nav-icon nav-icon-disabled" 
+                        disabled
+                        onClick={(e)=> setView(IconBarConfig.dataProductModal.key)}>
+                        {IconBarConfig.dataProductModal.icon}
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey={IconBarConfig.dataProductExplorer.key} 
+                        title={IconBarConfig.dataProductExplorer.title} 
+                        className="nav-icon nav-icon-disabled" 
+                        disabled
+                        onClick={(e)=> setView(IconBarConfig.dataProductExplorer.key)}>
+                        {IconBarConfig.dataProductExplorer.icon}
+                    </Nav.Link>
+                </Nav.Item>
+            </React.Fragment>
+            }
+            {dataProduct && <React.Fragment>
+                <Nav.Item>
+                    <Nav.Link eventKey={IconBarConfig.dataProductModal.key} 
+                        title={IconBarConfig.dataProductModal.title}  
+                        className="nav-icon" 
+                        onClick={(e)=> setView(IconBarConfig.dataProductModal.key)}>
+                        {IconBarConfig.dataProductModal.icon}
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
                 <Nav.Link eventKey={IconBarConfig.dataProductExplorer.key} 
                     title={IconBarConfig.dataProductExplorer.title} 
                     className="nav-icon" 
@@ -37,6 +59,8 @@ export const IconBar =  ({setView}) => {
                     {IconBarConfig.dataProductExplorer.icon}
                 </Nav.Link>
             </Nav.Item>
+            </React.Fragment>}
+            
             <hr className="my-3 border-indigo dropdown-divider nav-bar-dropdown-divider" role="separator"></hr>
             <Nav.Item>
                 <Nav.Link eventKey={IconBarConfig.feedback.key}  

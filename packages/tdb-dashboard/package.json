@@ -40,10 +40,10 @@
     "react-dom": "^16.10.3"
   },
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.15.0",
     "@terminusdb/terminusdb-client": "file:../../../terminusdb-client",
     "@terminusdb/terminusdb-react-components": "file:../../../terminusdb-react-components",
     "@themesberg/react-bootstrap": "^1.4.1",
-    "bootswatch": "^5.0.1",
     "classnames": "^2.2.5",
     "dotenv": "^9.0.2",
     "dotenv-webpack": "^7.0.2",

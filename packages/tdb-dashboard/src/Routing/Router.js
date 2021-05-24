@@ -5,8 +5,8 @@ import {
     Route,
 } from "react-router-dom"
 import {ORGANIZATION, DATA_PRODUCTS} from "./constants"
-import {InitSetupPage} from "../Views/Pages/InitSetupPage"
-import {Layout} from "../Views/Pages/Layout"
+import {InitSetupPage} from "../views/pages/InitSetupPage"
+import {Layout} from "../views/pages/Layout"
 import {WOQLClientObj} from '../init-woql-client'
  
 export const Routes = () => {

@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components'
+import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components' 
 import {ResultController} from "./ResultController"
 import {tableViewConfig, graphViewConfig} from "../Functions/ViewConfig"
 import {GRAPH_VIEW, TABLE_VIEW} from "./constants"

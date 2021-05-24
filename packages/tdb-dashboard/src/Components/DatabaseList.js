@@ -19,19 +19,18 @@ const SearchBar = () => {
 
 const List = ({list, woqlClient, setDataProduct}) => {
 
-    function handleClick(e, woqlClient) {
+    function handleClick(e, woqlClient, setDataProduct) {
         if(woqlClient){
             woqlClient.db(e.target.id)
-            setDataProduct(e.target.id)
+            if(setDataProduct) setDataProduct(e.target.id)
         } 
-        console.log("curr db", woqlClient.db())
     }
 
     return <ListGroup>
         {list.map(item => <ListGroup.Item action 
             id={item.id}
             eventKey={`key_${item.id}`} 
-            onClick={(e) => handleClick(e, woqlClient, e.target.id)} 
+            onClick={(e) => handleClick(e, woqlClient, setDataProduct)} 
             className="bg-transparent text-light border-0">
             {item.label}
         </ListGroup.Item>)}
@@ -41,6 +40,7 @@ const List = ({list, woqlClient, setDataProduct}) => {
 export const DatabaseList = ({list, woqlClient, setDataProduct}) => {
     return <React.Fragment>
         <SearchBar/>
+        <p className="text-muted">Connect to a Data Product</p>
         <List list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>
     </React.Fragment>
 }

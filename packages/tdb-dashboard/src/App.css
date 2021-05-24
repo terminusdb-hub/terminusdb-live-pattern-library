@@ -1,7 +1,13 @@
 
 body{
-  color: #4a5073;
-  background: #E3EBF6 !important;
+  /*color: #4a5073;
+  background: #E3EBF6 !important;*/
+  /*background-color: #202225 !important;*/
+  background-color: #222 !important;
+}
+
+.main-content {
+  overflow-y: auto;
 }
 
 
@@ -45,26 +51,31 @@ img.user-avatar {
 }
 
 .Resizer.horizontal:hover {
-  border-top: 5px solid rgba(0, 0, 0, 0.5);
-  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+  border-top: 2px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
 }
 
 .Resizer.vertical {
-  width: 11px;
+  width: 5px !important;
   margin: 0 -5px;
-  border-left: 5px solid rgba(255, 255, 255, 0);
-  border-right: 5px solid rgba(255, 255, 255, 0);
+  border-left: 1px solid rgba(255, 255, 255, 0) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0) !important;
   cursor: col-resize;
-  background: #002856;
+  background: #535557;
 }
 
 div.SplitPane {
   padding-left: 0px;
 }
 
+div.SplitPane  .horizontal {
+  top: auto !important;
+  bottom: auto !important;
+}
+
 .Resizer.vertical:hover {
-  border-left: 5px solid rgba(0, 0, 0, 0.5);
-  border-right: 5px solid rgba(0, 0, 0, 0.5);
+  border-left: 2px solid rgba(0, 0, 0, 0.5);
+  border-right: 2px solid rgba(0, 0, 0, 0.5);
 }
 .Pane1 {
   background-color: #222;
@@ -108,10 +119,14 @@ div.progress-bar-position {
   font-size: 30px;
 }  
 
+.nav-icon-disabled {
+  color: rgba(0,0,0,.3) !important; 
+}
+
 .nav-icon-align {
   margin: auto 0px 0px;
   padding: 0px;
-  align-self: flex-end;
+  align-self: flex-end; 
 }
 /* ---------- icon bar css ---------- */
 
@@ -131,3 +146,51 @@ div.progress-bar-position {
   background-color: rgb(34, 34, 34, .3);
 }
 /* ---------- custom active css ---------- */
+
+
+/* ---------- overriding react components schema builder css ---------- */
+.schema-summary-icons {
+  color: #E3EBF6;
+  font-size: 24px;
+}
+
+.RRT__tab {
+  background: transparent !important;
+  border-style: solid; 
+  border-color: transparent !important;
+}
+
+.tdb__panel__bar, .tdb__panel__title {
+  background: transparent !important;
+}
+
+div.tdb__accordion {
+  background-color: transparent !important;
+}
+
+div.tdb__accordion__head{
+  background-color: #adb5bd;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+/* ---------- overriding react components schema builder css ---------- */
+
+
+/* ---------- form control custom dark mode ---------- */
+.form-control {
+  color: #adb5bd !important;
+  /*background-color: #444 !important;*/
+  background-color: transparent !important;
+  border-color: rgb(102, 102, 102) !important;
+}
+
+tbody, td, tfoot, th, thead, tr {
+  border-style: solid !important;
+  border-bottom: 1px solid #444 !important;
+}
+/* ---------- form control custom dark mode ---------- */
+
+.accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{
+  color: #adb5bd; 
+}
+
