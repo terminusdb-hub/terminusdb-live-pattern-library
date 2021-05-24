@@ -1,6 +1,7 @@
 import {TABLE_VIEW} from "../components/constants"
 
 export class PanelQueryObj {
+    
     constructor(id) {
         this.id = id
         this.isOpen = true
@@ -47,4 +48,3 @@ export class PanelQueryObj {
         return this.resultObj.isOpen === false ? false : true 
     }
 }
-

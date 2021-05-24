@@ -1,10 +1,10 @@
 
 import React, {useState} from "react"
-import {DatabaseCard, NewDatabaseCard} from "../../components/DatabaseCard"
+import {DatabaseCard, NewDatabaseCard} from "../components/DatabaseCard"
 import {Container, Row} from "@themesberg/react-bootstrap"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {NEW_DATA_PRODUCT_BUTTON, DATA_PRODUCT_LABEL} from "../constants"
-import {useCreateNewDataProductStates} from "../../hooks/CreateNewDataProduct"
+import {NEW_DATA_PRODUCT_BUTTON, DATA_PRODUCT_LABEL} from "./constants"
+import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
 
 export const DataProductsHome = ({woqlClient, list}) => {
     

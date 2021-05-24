@@ -1,24 +1,24 @@
 import React, {useState}  from 'react'
 //import {MainNavBar} from '@terminusdb-live/tdb-react-layout'
-import {MainNavBar} from '../../components/MainNavBar'
+import {MainNavBar} from '../components/MainNavBar'
 import SplitPane from 'react-split-pane'
 import {handleWidthChange} from './utils'
 import {DataProductsHome} from "./DataProductsHome"
-import {IconBar} from "../../components/IconBar"
+import {IconBar} from "../components/IconBar"
 import {Col} from "@themesberg/react-bootstrap"
-import {DATA_PRODUCT_EXPLORER_VIEW, DATA_PRODUCTS_VIEW, DATA_PRODUCT_MODEL_VIEW, DATA_PRODUCT_MANAGE_VIEW} from "../constants"
-import {DatabaseList} from "../../components/DatabaseList"
-import {dataProductList} from "../../hooks/DataProductList"
+import {DATA_PRODUCT_EXPLORER_VIEW, DATA_PRODUCTS_VIEW, DATA_PRODUCT_MODEL_VIEW, DATA_PRODUCT_MANAGE_VIEW} from "./constants"
+import {DatabaseList} from "../components/DatabaseList"
+import {dataProductList} from "../hooks/DataProductList"
 import {ModelBuilder} from "./ModelBuilder"
-import {ProductsExplorer} from "./ProductExplorer"
+import {ProductsExplorer} from "./ProductsExplorer"
 import {ManageProducts} from "./ManageProducts"
-import {DatabaseButtons} from "../../components/DatabaseButtons"
-import {SampleQueries} from "../../components/SampleQueries"
-import {SavedQueries} from "../../components/SavedQueries"
-import {QueryPaneProvider} from "../../hooks/queryPaneContext"
+import {DatabaseButtons} from "../components/DatabaseButtons"
+import {SampleQueries} from "../components/SampleQueries"
+import {SavedQueries} from "../components/SavedQueries"
+import {QueryPaneProvider} from "../hooks/queryPaneContext"
 import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout'
-import { useAuth0 } from "../../react-auth0-spa"
-import {DBContextProvider} from "../../hooks/DBContext"
+import { useAuth0 } from "../react-auth0-spa"
+import {DBContextProvider} from "../hooks/DBContext"
 
 
 

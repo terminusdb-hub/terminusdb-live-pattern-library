@@ -1,10 +1,8 @@
-
 import {useState, useEffect} from "react"
-import {useHook} from "./hook"
-import {convertToWOQL} from "../functions/Utils"
+import {executeQueryHook} from "./executeQueryHook"
 import {getStoredQueriesNames} from "../queries/GeneralQueries"
 import {WOQLClientObj} from '../init-woql-client'
-import {isArray} from "../functions/Utils"
+import {isArray, convertToWOQL} from "../components/Utils"
 
 export const SavedQueriesControl = (addQueryPane) => {
 
@@ -14,8 +12,8 @@ export const SavedQueriesControl = (addQueryPane) => {
     const [query, setQuery] = useState(false)
     const [queryObject, setQueryObject] = useState(false)
 
-    const [dataProvider]=useHook(woqlClient, query)
-    const [dataProviderQueryObject]=useHook(woqlClient, queryObject)
+    const [dataProvider]=executeQueryHook(woqlClient, query)
+    const [dataProviderQueryObject]=executeQueryHook(woqlClient, queryObject)
 
     
 

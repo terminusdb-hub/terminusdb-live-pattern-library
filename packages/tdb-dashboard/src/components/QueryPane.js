@@ -1,10 +1,9 @@
 import React,{useEffect, useMemo,useState} from "react"
 import {TDBReactButton, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
 import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, ACTIONS_QUERY_BUTTON_GROUP, SAVE_QUERY_NAME_TEXT_AREA, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
-import {handleSaveQuery} from '../functions/Actions'
 import {Results} from "./Results"
 import {Row, Col} from "react-bootstrap"
-import {QueryPaneControl} from "../hooks/QueryPageControl"
+import {QueryPaneControl} from "../hooks/QueryPaneControl"
 import {QueryEditor} from "./QueryEditor"
 
 export const QueryPane = ({id, name, queryObj}) => {
@@ -24,6 +23,13 @@ export const QueryPane = ({id, name, queryObj}) => {
         if(queryObj.editorObj.query){
             setViewResult(Date.now())
             //if(updateQuery) updateQuery(woqlQuery, commitMessage)
+        }
+    }
+
+    const handleSaveQuery = (saveQuery, setSaveQuery, saveQueryName) => {
+        if(saveQuery){
+            let q = storeQueries(saveQuery, saveQueryName)
+            if(setSaveQuery) setSaveQuery(q)
         }
     }
 

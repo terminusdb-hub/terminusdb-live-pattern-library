@@ -1,5 +1,5 @@
 import React, {useEffect} from "react"
-import {Routes} from "./Routing/Router"
+import {Routes} from "./routing/Router"
 import {WOQLClientObj} from './init-woql-client'
 import {Loading} from "./components/Loading"
 import {SERVER_LOADING_MESSAGE} from "./components/constants"
@@ -26,4 +26,3 @@ export function App (props){
         </div>
     </React.Fragment>
 }
->>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8

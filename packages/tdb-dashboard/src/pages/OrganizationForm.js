@@ -1,7 +1,7 @@
 import React from "react"
 import {Form, Card, Button} from '@themesberg/react-bootstrap'
-import {organizationForm} from "../constants"
-import { useAuth0 } from "../../react-auth0-spa"
+import {organizationForm} from "./constants"
+import { useAuth0 } from "../react-auth0-spa"
 
 export const OrganizationForm = (props) => {
     const {isAuthenticated, user, loading, loginWithRedirect, logout } = useAuth0()

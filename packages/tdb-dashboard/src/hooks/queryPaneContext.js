@@ -35,15 +35,13 @@ export const QueryPaneProvider = ({children}) => {
         } 
     } 
 
-    return (
-		<QueryPaneContext.Provider
-            value={{
-                WOQLQueryChange,
-                queryPaneList,
-                addQueryPane,
-                getPanelObject
-	    	}}>
-	     {children}
-        </QueryPaneContext.Provider>
-    )
+    return <QueryPaneContext.Provider
+        value={{
+            WOQLQueryChange,
+            queryPaneList,
+            addQueryPane,
+            getPanelObject
+        }}>
+        {children}
+    </QueryPaneContext.Provider>
 }	

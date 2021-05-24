@@ -9,8 +9,8 @@ export const QueryEditor = ({queryObj}) => {
     const {WOQLQueryChange} = QueryPaneObj()
 
     //save the change in the context obj
-    const handleWOQLQueryChange =(query,text,language)=>{
-        WOQLQueryChange(queryObj.id,query,text,language) 
+    const handleWOQLQueryChange =(query, text, language)=>{
+        WOQLQueryChange(queryObj.id, query, text, language) 
     }
     //to be review
     const handleError = (err) => {
@@ -27,13 +27,14 @@ export const QueryEditor = ({queryObj}) => {
         <div className="editor-pallet">
             <WOQLEditorControlled 
                 languages={LANGUAGE_LIST}
-                customLanguageSwitcher={true} 
                 startLanguage={queryObj.editorObj.language || "js"}  
                 setWOQLQuery={handleWOQLQueryChange} 
                 initcontent={queryObj.editorObj.text}
                 query={queryObj.editorObj.query}
                 editable={true}
-                setMainError={(e) => handleError(e)}/>
+                setMainError={(e) => handleError(e)}
+                showLanguageSwitcher={false} 
+                theme="dark"/>
         </div> 
     )
 }

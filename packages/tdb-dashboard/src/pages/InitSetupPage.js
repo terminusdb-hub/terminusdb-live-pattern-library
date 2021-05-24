@@ -2,8 +2,8 @@
 
 import React from "react";
 import {Col, Row, Image, Container} from '@themesberg/react-bootstrap';
-import {OrganizationForm} from "../forms/OrganizationForm"
-import {WELCOME_MESSAGE, SERVICE_NAME, SERVICE_TITLE} from "../constants"
+import {OrganizationForm} from "./OrganizationForm"
+import {WELCOME_MESSAGE, SERVICE_NAME, SERVICE_TITLE} from "./constants"
 
 export const InitSetupPage = (props) => {
 
@@ -24,8 +24,8 @@ export const InitSetupPage = (props) => {
                     </Col>
                     <Col xs={12} lg={6} className="order-1 order-lg-2 text-center d-flex align-items-center">
                         <div>
-                            <Image src={"../../assets/Clouds.png"} className="img-fluid w-75" />
-                            <Image src={"../../assets/CowDuck.png"} className="img-fluid w-75 cow_duck_image" />
+                            <Image src={"../assets/Clouds.png"} className="img-fluid w-75" />
+                            <Image src={"../assets/CowDuck.png"} className="img-fluid w-75 cow_duck_image" />
                         </div>
                     </Col>
                 </Row>

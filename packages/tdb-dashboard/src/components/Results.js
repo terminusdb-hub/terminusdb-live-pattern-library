@@ -105,4 +105,3 @@ export const Results = ({freewidth,queryObj})=>{
     </React.Fragment>
     </div>)
 }
-

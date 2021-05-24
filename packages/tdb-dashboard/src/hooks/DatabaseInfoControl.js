@@ -1,27 +1,29 @@
-
 import {useEffect, useState} from "react"
-import {useHook} from "./hook"
+import {executeQueryHook} from "./executeQueryHook"
 import {getDocumentClasses} from '../queries/GeneralQueries'
-import {WOQLClientObj} from '../init-woql-client'
 
-export const DatabaseInfoControl = () => {
-
-    const {woqlClient} = WOQLClientObj()
+export const DatabaseInfoControl = (woqlClient, dataProduct) => {
 
     const [currentClass, setCurrentClass] = useState(false)
     const [classQuery, setClassQuery] = useState(false)
     const [query, setQuery]=useState(false)
     const [properties, setProperties]=useState(false)
     const [classes, setClasses]=useState(false)
-    const [propertyResults]=useHook(woqlClient, query)
-    const [classesResults]=useHook(woqlClient, classQuery)
+    const [propertyResults]=executeQueryHook(woqlClient, query)
+    const [classesResults]=executeQueryHook(woqlClient, classQuery)
+
+    useEffect(() => {
+        setCurrentClass(false)
+        setProperties(false)
+        setQuery(false)
+    }, [dataProduct])
 
     useEffect(() => {
         if(woqlClient){
-            let q = getDocumentClasses()
+            let q = getDocumentClasses(dataProduct)
             setClassQuery(q)
         }
-    }, [woqlClient])
+    }, [woqlClient, dataProduct])
 
     useEffect(()=> {
         if(propertyResults) {

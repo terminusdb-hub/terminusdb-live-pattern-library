@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import ReactDOM from "react-dom";
-/*import App from "./App";*/
-import App from "./App"
-import {WOQLClientProvider} from './init-woql-client'
-
-ReactDOM.render(
-    <WOQLClientProvider params={{
-        server: "https://hub-dev-server.dcm.ist",
-        key: "THISISAVERYSTRONGPASSWORDFOROURTESTLMAOSHOULDBECHANGED",
-        user: "admin",
-        db: "GitHub_Metrics"
-    }}>
-        <App />
-    </WOQLClientProvider>
-    , document.getElementById('root'));
-/*ReactDOM.render(<App />, document.getElementById('root'));*/
-=======
-  
 import React from "react"
 import {createBrowserHistory} from "history"
 import ReactDOM from "react-dom"
@@ -61,6 +41,3 @@ ReactDOM.render(
         </WOQLClientProvider>
     </Auth0Provider>
     , document.getElementById('root'))
-
-
->>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8

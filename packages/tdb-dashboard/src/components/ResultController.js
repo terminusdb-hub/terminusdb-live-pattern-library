@@ -7,12 +7,12 @@ import {Row, Col} from "react-bootstrap"
 
 export const ResultController=(props) =>{
 
-   //const [currentView, setCurrentView] = useState(TABLE_VIEW)
+   const [currentView, setCurrentView] = useState(TABLE_VIEW)
 
     function handleClick(view){
         if(props.onClick){
             props.onClick(view)
-            //setCurrentView(view)
+            setCurrentView(view)
         }
     }
 

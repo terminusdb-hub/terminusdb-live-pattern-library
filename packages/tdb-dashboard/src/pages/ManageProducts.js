@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {WOQLTable} from '@terminusdb/terminusdb-react-components'
-import {getBranchQuery} from "../../queries/GeneralQueries"
-import {DBContextObj} from "../../hooks/DBContext"
+import {getBranchQuery} from "../queries/GeneralQueries"
+import {DBContextObj} from "../hooks/DBContext"
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {Card, Row, Col} from "@themesberg/react-bootstrap"
 import {AiOutlineBranches} from "react-icons/ai"

@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from "react"
 import {Card, Row, Col} from 'react-bootstrap';
 import {TDBReactColorPallet, TDBReactSelect, TDBReactCollapse, TDBReactButton} from '@terminusdb-live/tdb-react-layout'
@@ -143,9 +142,7 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
 
 /*export const ViewPane = ({result, setGraphConfig}) => {
     const [viewConfig, setViewConfig] = useState([])
-
     const [nodes, setNodes] =  useState([])
-
     let NodeNames = []
     for (var item in result[0]) {
         NodeNames.push(item)
@@ -158,19 +155,14 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
         if(nodes.includes(val)) return
         setNodes(arr => [...arr, val])
     }
-
     function onViewSubmit() {
         console.log("viewConfig", viewConfig)
         const graph=TerminusClient.View.graph();
         graph.height(800).width("1500")
-
         graph.show_force(true)
-
         for(var conf in viewConfig) {
             let cf = viewConfig[conf]
-
             let nd = cf.node, sz = cf.size, red = cf.color.r, green = cf.color.g, blue = cf.color.b, collisionRadius=cf.collisionRadius
-
             graph.node(nd).color([red, green, blue, 0.3]).size(sz).text(nd).icon({label: true, color: [109,98,100]}).collisionRadius(collisionRadius)
       
         }
@@ -179,16 +171,12 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
         graphConfig.setResult(result);
         setGraphConfig (graphConfig)
     }
-
     useEffect(() => {
         console.log("viewConfig in ue", viewConfig)
     }, [viewConfig])
-
     
-
     const NodeConfigPane = ({node, setViewConfig, viewConfig}) => {
         const [color, setColor] = useState("#61DAFB")
-
         function setNewConfig(node, viewConfig, setViewConfig, color, size, rad) {
             
             for (var item in viewConfig) {
@@ -207,7 +195,6 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
             var setRadius = rad ? rad : 20
             setViewConfig(arr => [...arr, {node: node, size: setSize, color: setColor, collisionRadius: setRadius}])
         }
-
         useEffect(() => {
             setNewConfig(node, viewConfig, setViewConfig, color, false, false)
         }, [color])
@@ -225,11 +212,9 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
         function onSelectSize(sz, node, viewConfig, setViewConfig) {
             setNewConfig(node, viewConfig, setViewConfig, false, sz, false)
         }
-
         function onSelectCollisionRadius (rad, node, viewConfig, setViewConfig) {
             setNewConfig(node, viewConfig, setViewConfig, false, false, rad)
         }
-
         return <Col>
             <p>{node}</p>
             <TDBReactColorPallet color={color} setColor={setColor}/>
@@ -239,7 +224,6 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
     }
     
     console.log("nodes", nodes)
-
     return <Row>
         <Col md={4}>
             <TDBReactSelect config={selectConfig} handleSelect={onNodeSelect}/>
@@ -261,6 +245,4 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
         
     </Row>
 }
-
-
 */

@@ -4,33 +4,34 @@ import {GET_CLASSES_LINK, GET_PROPERTIES_LINK, GET_DOCUMENT_METADATA_LINK} from 
 import {getClassesLib, getPropertiesLib, getDocumentMetadataLib} from "../queries/GeneralQueries"
 import {QueryPaneObj} from "../hooks/queryPaneContext" 
 
-export const SampleQueries = (props) => {
-
+export const SampleQueries = ({woqlClient, dataProduct}) => {
+ 
     const {addQueryPane} = QueryPaneObj()
 
     function handleQuery(query) {
         var q
         if(query == GET_CLASSES_LINK) {
-            q=getClassesLib()
+            q=getClassesLib(dataProduct, woqlClient)
         }
         else if (query == GET_PROPERTIES_LINK){
-            q=getPropertiesLib()
+            q=getPropertiesLib(dataProduct, woqlClient)
         }
         else if (query == GET_DOCUMENT_METADATA_LINK){
-            q=getDocumentMetadataLib()
+            q=getDocumentMetadataLib(dataProduct, woqlClient)
         }
         addQueryPane(q)
     }
 
     
     return <div className="d-grid">
-        <h5 className="nav-labels mb-3 mt-3">{"SCHEMA QUERIES"}</h5>
+        <p className="nav-labels mb-3 mt-3 text-muted">{"SAMPLE QUERIES"}</p>
+        <p className="nav-labels mb-3 mt-3 text-muted">{"MODEL QUERIES"}</p>
         <TDBReactButton config={GET_CLASSES_LINK} onClick={(e) => handleQuery(GET_CLASSES_LINK)}/>
         <TDBReactButton config={GET_PROPERTIES_LINK} onClick={(e) => handleQuery(GET_PROPERTIES_LINK)}/>
-        <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-        <h5 className="nav-labels mb-3 mt-3">{"DOCUMENT QUERIES"}</h5>
+        
+        <p className="nav-labels mb-3 mt-3 text-muted">{"DOCUMENT QUERIES"}</p>
         <TDBReactButton config={GET_DOCUMENT_METADATA_LINK} onClick={(e) => handleQuery(GET_DOCUMENT_METADATA_LINK)}/>
-        <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-        <h5 className="nav-labels mb-3 mt-3">{"IMPORT QUERIES"}</h5>
+        
+        <p className="nav-labels mb-3 mt-3 text-muted">{"IMPORT QUERIES"}</p>
     </div>
 }

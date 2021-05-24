@@ -1,9 +1,8 @@
 import React from 'react';
-import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout';
+import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout'
 import {DatabaseButtons} from "./DatabaseButtons"
 import {SampleQueries} from "./SampleQueries"
 import {SavedQueries} from "./SavedQueries"
-//import {DatabaseList} from "./DatabaseList"
 import {Accordion, Card} from "react-bootstrap"
 import {DATABASE_TAB, SAVED_QUERIES, SAMPLE_QUERIES} from "./constants"
 
@@ -42,4 +41,3 @@ export const Sidebar= (props) =>{
         </div>
     </React.Fragment>
     }
-//<!-- <DatabaseList/>
