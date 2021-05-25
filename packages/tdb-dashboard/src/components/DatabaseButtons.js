@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {TDBReactWorkerButtonGroup} from '@terminusdb-live/tdb-react-layout';
 import {DOCUMENT_CLASS_BUTTONS_CONFIG, PROPERTY_BUTTONS_CONFIG, DOCUMENT_CLASS_LABEL, PROPERTIES_LABEL, NO_PROPERTIES} from "./constants.js"
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
-import {isArray, shortenURL} from "./Utils"
+import {isArray, shortenURL} from "./utils"
 import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
 import {QueryPaneObj} from "../hooks/queryPaneContext"
  

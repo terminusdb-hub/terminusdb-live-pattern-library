@@ -1,5 +1,5 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {shortenURL, covertStringToId} from "../components/Utils" 
+import {shortenURL, covertStringToId} from "../components/utils" 
 
 
 export const getDocumentClasses = (dataProduct) => {

@@ -87,7 +87,8 @@ export const DBContextProvider = ({children, woqlClient, dataProduct}) => {
                 setGraphs,
                 updateGraphs,
                 branches,
-                updateBranches
+                updateBranches,
+                branch
             }}
         >
             {children}

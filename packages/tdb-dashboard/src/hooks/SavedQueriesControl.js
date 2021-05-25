@@ -2,7 +2,7 @@ import {useState, useEffect} from "react"
 import {executeQueryHook} from "./executeQueryHook"
 import {getStoredQueriesNames} from "../queries/GeneralQueries"
 import {WOQLClientObj} from '../init-woql-client'
-import {isArray, convertToWOQL} from "../components/Utils"
+import {isArray, convertToWOQL} from "../components/utils"
 
 export const SavedQueriesControl = (addQueryPane) => {
 

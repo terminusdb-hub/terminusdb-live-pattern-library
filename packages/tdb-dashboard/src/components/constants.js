@@ -61,7 +61,7 @@ export const IconBarConfig = {
 }
 
 
-// New Data product configurations
+// Cance New Data product 
 export const CANCEL_NEW_DATA_PRODUCT_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
 //New Data product create button configurations
 export const CREATE_NEW_DATA_PRODUCT_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "outline-info"}
@@ -83,6 +83,25 @@ export const newDataProductForm = {
         id: "description"
     },
     header: "New Data Product"
+}
+
+// Cance New Branch
+export const CANCEL_NEW_BRANCH_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
+//New Branch create button configurations
+export const CREATE_NEW_BRANCH_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "outline-info"}
+// New Branch Form configurations
+export const newBranchForm = {
+    id: {
+        placeholder: "ID for branch - include lowercase characters, numbers and underscores and be no more than 40 characters long",
+        type: "text",
+        id: "id"
+    },
+    select:{
+        head: "Branch from current head",
+        empty: "Empty branch",
+        choose: "Choose commit to branch from"
+    },
+    header: "New Branch"
 }
 
 //Prograss bar types
@@ -191,3 +210,9 @@ export const SETTINGS_UNCOLLAPSE_BUTTON_GROUP={label:"Open Settings", title: "Op
 
 // profile route 
 export const PROFILE_ROUTE = process.env.TERMINUS_BFF_URL + "hub/profile"
+
+
+// alert types
+export const TERMINUS_WARNING = "Terminus Warning"
+export const TERMINUS_SUCCESS = "Terminus Success" 
+export const TERMINUS_DANGER = "Terminus Error"

@@ -188,8 +188,15 @@ tbody, td, tfoot, th, thead, tr {
   border-style: solid !important;
   border-bottom: 1px solid #444 !important;
 }
+
+.form-select {
+  mix-blend-mode: difference;
+  border: 1px solid #adb5bd;
+}
 /* ---------- form control custom dark mode ---------- */
 
 .accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{
   color: #adb5bd; 
 }
+
+

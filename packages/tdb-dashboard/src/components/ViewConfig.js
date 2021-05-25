@@ -1,5 +1,5 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {arrayEquals} from "./Utils"
+import {arrayEquals} from "./utils"
 
 export const getPropertyMetaTabConfig = (result) => {
     const tabConfig= TerminusClient.View.table()
