@@ -1,13 +1,19 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {Card} from '@themesberg/react-bootstrap'
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CANCEL_NEW_BRANCH_BUTTON, CREATE_NEW_BRANCH_BUTTON, newBranchForm} from "./constants"
-import {Form, Button} from "@themesberg/react-bootstrap"
+import {Form, Button, Modal} from "@themesberg/react-bootstrap"
 import {Loading} from "./Loading"
-import {PROGRESS_BAR_COMPONENT} from "./constants"
+import {PROGRESS_BAR_COMPONENT, SWITCH_TO_BRANCH} from "./constants"
 import {Alerts} from "./Alerts"
 import {TERMINUS_WARNING} from "./constants"
 import {legalURLID} from "./utils"
+import {getBranchCommits} from "../queries/BranchQueries"
+import {getCommitsTabConfig} from "./ViewConfig"
+import {WOQLTable} from '@terminusdb/terminusdb-react-components'
+import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
+import {BranchActions} from "./BranchActions"
+import {BranchDetails} from "./BranchDetails"
 
 
 function checkSubmission(newID, branches, setReportAlert){
@@ -82,4 +88,76 @@ export const NewBranchCard = ({onCancel, setNewBranchInfo, loading, branches}) =
             </Form>
         </Card.Body>
     </Card>
+}
+
+
+const CommitLogs = ({woqlClient, branch}) => {
+
+    const [query, setQuery] = useState(getBranchCommits(branch))
+    const [tableConfig, setTableConfig] = useState(false)
+
+    const {
+        updateQuery,
+        changeOrder,
+        changeLimits,
+        woql,
+        result,
+        limit,
+        start,
+        orderBy,
+        loading,
+        rowCount,
+    } = ControlledQueryHook(woqlClient, query, false, 20)
+
+    useEffect(() => {
+        let tConf = getCommitsTabConfig(result, limit)
+        setTableConfig(tConf)
+    }, [result])
+
+
+    return <React.Fragment>
+        {result && tableConfig && <WOQLTable
+            result={result}
+            freewidth={true}
+            view={(tableConfig ? tableConfig.json() : {})}
+            limit={limit}
+            start={start}
+            orderBy={orderBy} 
+            setLimits={changeLimits}
+            setOrder={changeOrder}
+            query={query}
+            loading={loading}
+            totalRows={rowCount}
+        />}
+    </React.Fragment>
+}
+
+export const BranchInfoModal = ({woqlClient, branch, showDefault, handleClose, handleSwitch, dataProduct}) => {
+
+    function handleSwitchToBranch () {
+        if(handleSwitch) handleSwitch(branch)
+        if(handleClose) handleClose()
+    }
+
+    return <Modal size="xl" as={Modal.Dialog} centered show={showDefault} onHide={handleClose}>
+        <Modal.Header>
+            <Modal.Title className="h6">Currently vieweing branch - <strong className="text-info"> {branch} </strong></Modal.Title>
+            <Button variant="close" aria-label="Close" onClick={handleClose} />
+        </Modal.Header>
+        <Modal.Body>
+            <BranchActions/>
+            <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
+            <BranchDetails woqlClient={woqlClient} branch={branch} dataProduct={dataProduct}/>
+            <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
+            <CommitLogs woqlClient={woqlClient} branch={branch}/>
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={handleSwitchToBranch}>
+            {SWITCH_TO_BRANCH + branch}
+        </Button>
+        <Button variant="link" className="text-gray ms-auto" onClick={handleClose}>
+            Close
+        </Button>
+        </Modal.Footer>
+    </Modal>
 }

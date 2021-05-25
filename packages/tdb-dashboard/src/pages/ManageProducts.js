@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {WOQLTable} from '@terminusdb/terminusdb-react-components'
-import {getBranchQuery} from "../queries/GeneralQueries"
+import {getBranchQuery} from "../queries/BranchQueries"
 import {DBContextObj} from "../hooks/DBContext"
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {Card, Row, Col, ListGroup, Button} from "@themesberg/react-bootstrap"
@@ -14,8 +14,9 @@ import {NEW_BRANCH_CONFIG} from "./constants"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {ScopedDetails} from "../hooks/ScopedDetails"
 import {timeConverter} from "./utils"
-import {NewBranchCard} from "../components/BranchCard"
+import {NewBranchCard, BranchInfoModal} from "../components/BranchInfo"
 import {BranchControl} from "../hooks/BranchControl"
+
 
 export const ManageProducts = ({woqlClient, dataProduct}) => {
 
@@ -30,28 +31,46 @@ export const ManageProducts = ({woqlClient, dataProduct}) => {
         handleNewBranch,
         reportAlert,
         handleDelete,
-        handleSwitch
+        handleSwitch,
+        handleBranchClick,
+        selectedBranch,
+        setSelectedBranch
     } = BranchControl(woqlClient, branches, branch, ref, updateBranches)
 
+    const [showDefault, setShowDefault] = useState(false);
+    const handleClose = () => {
+        setSelectedBranch(false)
+        setShowDefault(false)
+    }
+
     const BranchItem = (props) => {
-        const { id, head, updated, branch } = props
+        const { id, head, updated, branch, setShowDefault } = props
+
+        function handleOnClick (id) {
+            if(handleBranchClick) handleBranchClick(id)
+            if(setShowDefault) setShowDefault(true)
+        }
+
         return (
           <ListGroup.Item className="px-0">
             <Row className="align-items-center">
-              <Col className="ms--2">
+              <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
                     {(id == branch) && <h5 className="fw-bold text-success">{id}</h5>}
                     {(id !== branch) && <h6>{id}</h6>}
               </Col>
-              <Col className="ms--2">
+              <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
                 <h6>{head}</h6>
               </Col>
-              <Col className="ms--2">
+              <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
                 <h6>{timeConverter(updated)}</h6>
               </Col>
               <Col className="col-auto">
-                <Button variant="danger" size="sm" title={`delete branch ${id}`} onClick={(e) => handleDelete(id)}>
+                {(id ==  "main") && <Button disabled variant="danger" size="sm" title={`delete branch ${id}`} onClick={(e) => handleDelete(id)}>
                     <AiOutlineDelete className="mr-2 mb-1"/> {"Delete"}
-                </Button>
+                </Button>}
+                {(id !==  "main") && <Button variant="danger" size="sm" title={`delete branch ${id}`} onClick={(e) => handleDelete(id)}>
+                    <AiOutlineDelete className="mr-2 mb-1"/> {"Delete"}
+                </Button>}
               </Col>
               <Col className="col-auto">
                 <Button variant="info" size="sm" title={`Switch to branch ${id}`} onClick={(e) => handleSwitch(id)}>
@@ -63,20 +82,21 @@ export const ManageProducts = ({woqlClient, dataProduct}) => {
         )
       }
 
-      const List = ({branchList, branch}) => {
+      const List = ({branchList, branch, setShowDefault}) => {
           let lst = []
           for (var key in branchList) {
             if (branchList.hasOwnProperty(key)) {
                 let item = branchList[key]
-                lst.push(<BranchItem branch={branch} key={`team-member-${item.id}`} {...item} />)
+                lst.push(<BranchItem branch={branch} setShowDefault={setShowDefault} key={`team-member-${item.id}`} {...item} />)
             }
         }
         return lst
       } 
-    
-      return ( <main className="content mr-3 ml-5 w-100">
-            <Row>
-                <div class="col-md-3 d-grid pb-3">
+
+      const DisplayBranchList = ({branchList, branch, setShowDefault}) => {
+         return <React.Fragment> 
+             <Row>
+                <div class="col-md-1 d-grid">
                     <TDBReactButton config={NEW_BRANCH_CONFIG} onClick={handleNewBranch}/>
                 </div>
             </Row>
@@ -98,12 +118,17 @@ export const ManageProducts = ({woqlClient, dataProduct}) => {
                 </Card.Header>
                 <Card.Body>
                     <ListGroup className="list-group-flush list my--3">
-                        <List branchList={branchList} branch={branch}/>
+                        <List branchList={branchList} branch={branch} setShowDefault={setShowDefault}/>
                     </ListGroup>
                 </Card.Body>
             </Card>
+         </React.Fragment>
+      }
+
+      return <main className="content mr-3 ml-5 w-100">
+          <DisplayBranchList branchList={branchList} branch={branch} setShowDefault={setShowDefault}/>
+          <BranchInfoModal woqlClient={woqlClient} branch={selectedBranch} showDefault={showDefault} handleClose = {handleClose} handleSwitch={handleSwitch} dataProduct={dataProduct}/>
       </main>
-      )
 }
 
 /*export const ManageProducts = ({woqlClient, dataProduct}) => {

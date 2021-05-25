@@ -15,6 +15,8 @@ export function BranchControl (woqlClient, branches, branch, ref, updateBranches
 
     const [reportAlert, setReportAlert] = useState(false)
 
+    const [selectedBranch, setSelectedBranch] = useState(false)
+
     useEffect(() => {
         if(ref && !sourceCommit){
             setSourceCommit(ref)
@@ -86,6 +88,10 @@ export function BranchControl (woqlClient, branches, branch, ref, updateBranches
         updateBranches(branch)
     }
 
+    function handleBranchClick (branch) {
+        setSelectedBranch(branch)
+    }
+
     return {
         branchList,
         newBranch,
@@ -95,6 +101,9 @@ export function BranchControl (woqlClient, branches, branch, ref, updateBranches
         handleNewBranch,
         reportAlert,
         handleDelete,
-        handleSwitch
+        handleSwitch,
+        handleBranchClick,
+        selectedBranch,
+        setSelectedBranch
     }
 }

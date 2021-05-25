@@ -3,14 +3,12 @@ import TerminusClient from '@terminusdb/terminusdb-client'
 import {executeQueryHook} from "./executeQueryHook"
 import {DBContextObj} from "./DBContext"
 
-export function ScopedDetails (woqlClient, dataProduct)  {
+export function ScopedDetails (woqlClient, branch, dataProduct)  {
 
-    let {branch, branches, ref, graphs} = DBContextObj(woqlClient, dataProduct)
-    const [latest, setLatest] = useState()
+    let {branches, ref, graphs} = DBContextObj(woqlClient, dataProduct)
+    const [latest, setLatest] = useState([])
     const [contextQuery, setContextQuery] = useState(false)
     let [contextDataProvider] = executeQueryHook(woqlClient, contextQuery)
-
-    console.log("contextDataProvider", contextDataProvider)
 
     useEffect(() => {
         if(branch && graphs){
@@ -84,8 +82,6 @@ export function ScopedDetails (woqlClient, dataProduct)  {
 
     if(!latest) return []
 
-
-    return {
-        latest
-    }
+    console.log("latest",latest)
+    return latest
 }

@@ -216,3 +216,33 @@ export const PROFILE_ROUTE = process.env.TERMINUS_BFF_URL + "hub/profile"
 export const TERMINUS_WARNING = "Terminus Warning"
 export const TERMINUS_SUCCESS = "Terminus Success" 
 export const TERMINUS_DANGER = "Terminus Error"
+
+//branch actions 
+export const branchActionConfig = {
+    merge : {
+        label: "Merge",
+        title: "Merge to a branch",
+        description: "Merge to a branch"
+    },
+    reset : {
+        label: "Reset",
+        title: "Reset to a specific commit",
+        description: "Merge to a branch"
+    },
+    squash : {
+        label: "Squash",
+        title: "Squash this branch",
+        description: "Squash this branch"
+    },
+    optimize : {
+        label: "Optimize",
+        title: "Optimize this branch",
+        description: "Optimize this branch"
+    },
+    delete : {
+        label: "Delete",
+        title: "Delete this branch",
+        description: "Delete this branch"
+    }
+}
+export const SWITCH_TO_BRANCH = "Switch to - " 

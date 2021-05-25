@@ -62,7 +62,7 @@ export const Alerts = ({message, type, onCancel, time}) => {
             <div>
                 <AiOutlineCheckCircle className="me-1" />
                 <strong>Warning: </strong> {message} 
-                {updateTime && ` ${queryTimeDisplay(updateTime)}`}
+                {time && ` ${queryTimeDisplay(updateTime)}`}
             </div>
             <Button variant="close" size="xs" onClick={() => onClose("success")} />
             </div>

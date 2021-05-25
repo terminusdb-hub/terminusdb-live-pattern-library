@@ -1,6 +1,18 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {arrayEquals} from "./utils"
 
+export const getCommitsTabConfig = (result, limit) => {
+    const tabConfig= TerminusClient.View.table();
+    tabConfig.column_order("Time", "Author", "Commit ID", "Message", "Reset")
+    /*tabConfig.column("Reset").minWidth(80).width(80).unsortable(true).click(resetBranch).render(getResetButton)
+    tabConfig.column("Time").width(180).renderer({type: "time"}).click(cellClick)
+    tabConfig.column("Message").width(300).click(cellClick)
+    tabConfig.column("Commit ID").click(cellClick) */
+    tabConfig.pager("remote")
+    tabConfig.pagesize(limit)
+    return tabConfig
+}
+
 export const getPropertyMetaTabConfig = (result) => {
     const tabConfig= TerminusClient.View.table()
 

@@ -199,4 +199,8 @@ tbody, td, tfoot, th, thead, tr {
   color: #adb5bd; 
 }
 
+.click-list:hover {
+  cursor: pointer;
+}
+
 
