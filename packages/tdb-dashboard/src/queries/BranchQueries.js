@@ -25,3 +25,18 @@ export const getBranchQuery = (dataProduct, woqlClient) => {
     let dp = `${user.id}/${dataProduct}`
     return WOQL.using(dp).lib().branches()
 }
+
+export const getBranchCountQuery = () => {
+    let WOQL=TerminusClient.WOQL
+    return WOQL.count("v:Count", WOQL.lib().branches())
+}
+
+export const getAddedTriplesQuery = (commit) => {
+    let WOQL=TerminusClient.WOQL
+    return WOQL.using(commit).added_triple("v:Added Subject", "v:Added Property", "v:Added Object")
+}
+
+export const getRemovedTriplesQuery = (commit) => {
+    let WOQL=TerminusClient.WOQL
+    return WOQL.using(commit).removed_triple("v:Removed Subject", "v:Removed Property", "v:Removed Object")
+}

@@ -80,6 +80,23 @@ export const DBContextProvider = ({children, woqlClient, dataProduct}) => {
         setGraphsReload(graphsReload + 1)
     }
 
+    // set Head
+    function setHead(branchID, refObject={}){// ridConsoleTime=false) 
+        woqlClient.checkout(branchID)
+        let sref=refObject.commit;
+        let refTime=refObject.time;
+
+        if(branches && branches[branchID] && branches[branchID].head == sref){
+            sref = false
+            refTime=false
+        }
+        sref = sref || false
+        woqlClient.ref(sref)
+      
+        setBranch(branchID)
+        setRef(sref);
+    }
+
     return (
         <DBContext.Provider
             value={{
@@ -88,7 +105,8 @@ export const DBContextProvider = ({children, woqlClient, dataProduct}) => {
                 updateGraphs,
                 branches,
                 updateBranches,
-                branch
+                branch,
+                setHead
             }}
         >
             {children}

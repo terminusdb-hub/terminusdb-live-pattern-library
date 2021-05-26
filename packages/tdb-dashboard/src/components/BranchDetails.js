@@ -16,38 +16,37 @@ export const BranchDetails = ({woqlClient, branch, dataProduct}) => {
         setDetails(latest)
     }, [latest])
 
-    console.log("///latest iner",latest)
 
     return <Col md={12} className="px-xl-0">
-        {details && <div className="d-flex align-items-center">
-            <BsLayoutThreeColumns className="mr-2 mb-1 text-success"/> 
-                <h6 className="mr-3">
-                    {formatBytes(details['Size']['@value'])}
-                </h6>
-            <BsThreeDots className="mr-2 ml-3 mb-1 text-success"/> 
-                <h6 className="mr-3">
-                    {formatTripleCount(details['Triples']['@value'])}
-                </h6>
-            <BiGitCommit className="mr-2 ml-3 mb-1 text-success"/> 
-                <h6 className="mr-3">
-                    {formatCommits(details['Commits']['@value'])}
-                </h6>
-            {/*<RiBubbleChartLine className="ml-3 mr-2 mb-1 text-success"/> 
-                <h6 className="mr-3"> 
-                    {formatGraphs(graphs)}
-                </h6>*/}
-            <BiCircle className="mr-2 mb-1 ml-3 text-success"/> 
-                <h6 className="mr-3"> 
-                    {formatClassesCount(details['Classes']['@value'])}
-                </h6>
-            <GoLink className="mr-2 mb-1 ml-3 text-success"/> 
-                <h6 className="mr-3"> 
-                    {formatPropertiesCount(details['Properties']['@value'])}
-                </h6>
-            <BsPencil className="mr-2 mb-1 ml-3 text-success"/> 
-                <h6 className="mr-3"> 
-                    {formatLastCommitTimeStamp(details)}
-                </h6>
-        </div>}
+        {details &&  <React.Fragment>
+            <div className="d-flex align-items-center">
+                <div class="d-block col-md-2">
+                    <h6 class="fw-normal text-muted mb-2">Size</h6>
+                    <h3>{formatBytes(details['Size']['@value'])}</h3>
+                </div>
+                <div class="d-block col-md-2">
+                    <h6 class="fw-normal text-muted mb-2">Triples</h6>
+                    <h3>{formatTripleCount(details['Triples']['@value'])}</h3>
+                </div>
+                <div class="d-block col-md-2">
+                    <h6 class="fw-normal text-muted mb-2">Commits</h6>
+                    <h3>{formatCommits(details['Commits']['@value'])}</h3>
+                </div>
+                <div class="d-block col-md-2">
+                    <h6 class="fw-normal text-muted mb-2">Classes</h6>
+                    <h3>{formatClassesCount(details['Classes']['@value'])}</h3>
+                </div>
+                <div class="d-block col-md-2">
+                    <h6 class="fw-normal text-muted mb-2">Properties</h6>
+                    <h3>{formatPropertiesCount(details['Properties']['@value'])}</h3>
+                </div>
+            </div>
+            <div className="d-block mt-5 mb-5 align-items-center col-md-12">
+                <h6 class="fw-normal text-muted mb-2">Last Updated by </h6>
+                <h6>{formatLastCommitTimeStamp(details)}</h6>
+            </div>
+        </React.Fragment>
+        }
     </Col>
+    
 }

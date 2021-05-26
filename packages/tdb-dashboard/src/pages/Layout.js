@@ -151,7 +151,7 @@ export const Layout = ({woqlClient}) => {
         <div height={width}>
             <main className="content">
                 <MainNavBar user={user} logout={logout}/>
-                <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div className="d-flex flex-wrap flex-md-nowrap align-items-center py-4">
                     <Content woqlClient={woqlClient} view={view} list={list} dataProduct={dataProduct}/>
                 </div>
             </main>

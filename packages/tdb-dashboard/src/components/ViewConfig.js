@@ -1,9 +1,20 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {arrayEquals} from "./utils"
 
-export const getCommitsTabConfig = (result, limit) => {
+export const getCommitViewTabConfig = (result) => {
     const tabConfig= TerminusClient.View.table();
-    tabConfig.column_order("Time", "Author", "Commit ID", "Message", "Reset")
+    tabConfig.pager("remote").pagesize(10)
+    return tabConfig
+}
+
+export const getCommitsTabConfig = (result, limit, cellClick, getCopyButton) => {
+    const tabConfig= TerminusClient.View.table();
+    tabConfig.column_order("Time", "Author", "Commit ID", "Message", "Copy Commit ID")
+    tabConfig.column("Commit ID").click(cellClick)
+    tabConfig.column("Time").width(180).renderer({type: "time"}).click(cellClick)
+    tabConfig.column("Message").width(300).click(cellClick)
+    tabConfig.column("Author").click(cellClick)
+    tabConfig.column("Copy Commit ID").render(getCopyButton)
     /*tabConfig.column("Reset").minWidth(80).width(80).unsortable(true).click(resetBranch).render(getResetButton)
     tabConfig.column("Time").width(180).renderer({type: "time"}).click(cellClick)
     tabConfig.column("Message").width(300).click(cellClick)
@@ -52,6 +63,19 @@ export const getPropertyMetaGraphConfig = (result) => {
 
     return graphConfig
 
+}
+//["Class ID", "Class Name"]
+export const getClassesGraphConfig = (result) => {
+    const graphView=TerminusClient.View.graph()
+    
+    graphView.node("Class ID").size(30).text("Class Name").color([150,233,151]).icon({label: true, color: [0,0,0]})
+
+    graphView.height("800").width("1500")
+    graphView.show_force(true)
+    let graphConfig = graphView.create(null)
+    graphConfig.setResult(result.bindings)
+
+    return graphConfig
 }
 
 

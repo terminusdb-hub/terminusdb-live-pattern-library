@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {Card} from '@themesberg/react-bootstrap'
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {CANCEL_NEW_DATA_PRODUCT_BUTTON, CREATE_NEW_DATA_PRODUCT_BUTTON, newDataProductForm} from "./constants"
+import {CANCEL_BUTTON, CREATE_NEW_DATA_PRODUCT_BUTTON, newDataProductForm} from "./constants"
 import {Form, Button} from "@themesberg/react-bootstrap"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
@@ -58,7 +58,7 @@ export function NewDatabaseCard ({onCancel, setNewDataProductInfo, loading}) {
         {loading && <Loading message={`Creating ${label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         <Card.Header>
             <b>{newDataProductForm.header}</b>
-            <TDBReactButton onClick={handleCancel} className= "cancel-button" config={CANCEL_NEW_DATA_PRODUCT_BUTTON}/>
+            <TDBReactButton onClick={handleCancel} className= "cancel-button" config={CANCEL_BUTTON}/>
         </Card.Header>
         <Card.Body>
             <Form>

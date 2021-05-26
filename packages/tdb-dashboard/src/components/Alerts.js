@@ -1,9 +1,10 @@
 
 import React from "react"
 import { Alert, Button } from '@themesberg/react-bootstrap';
-import {TERMINUS_WARNING, TERMINUS_SUCCESS, TERMINUS_DANGER} from "./constants"
+import {TERMINUS_WARNING, TERMINUS_SUCCESS, TERMINUS_DANGER, TERMINUS_MESSAGE} from "./constants"
 import {AiOutlineCheckCircle, AiOutlineWarning} from "react-icons/ai"
 import {BiErrorCircle} from "react-icons/bi"
+import {BsInfoCircle} from "react-icons/bs"
 import {queryTimeDisplay} from "./utils"
 
 export const Alerts = ({message, type, onCancel, time}) => {
@@ -46,7 +47,7 @@ export const Alerts = ({message, type, onCancel, time}) => {
             <div className="d-flex justify-content-between">
             <div>
                 <BiErrorCircle className="me-1" />
-                <strong>Warning: </strong> {message}
+                <strong>Error: </strong> {message}
             </div>
             <Button variant="close" size="xs" onClick={() => onClose("danger")} />
             </div>
@@ -61,11 +62,27 @@ export const Alerts = ({message, type, onCancel, time}) => {
             <div className="d-flex justify-content-between">
             <div>
                 <AiOutlineCheckCircle className="me-1" />
-                <strong>Warning: </strong> {message} 
+                <strong>Success: </strong> {message} 
                 {time && ` ${queryTimeDisplay(updateTime)}`}
             </div>
             <Button variant="close" size="xs" onClick={() => onClose("success")} />
             </div>
         </Alert>
+
+    if(type == TERMINUS_MESSAGE) 
+        return  <Alert
+            variant="light"
+            show={shouldShowAlert("light")}
+            onClose={() => onClose("light")}>
+
+        <div className="d-flex justify-content-between">
+        <div>
+            <BsInfoCircle className="me-1" />
+            <strong>Info: </strong> {message}
+        </div>
+        <Button variant="close" size="xs" onClick={() => onClose("light")} />
+        </div>
+    </Alert>
+
 
 }

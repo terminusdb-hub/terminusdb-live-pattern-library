@@ -117,3 +117,17 @@ export const printts = (ts) => {
     let f = "MMM d, yyyy - HH:mm:ss"
     return format(new Date(ts * 1000), f)
 }
+
+export const getUsing = (woqlClient, commit) =>  {
+    return woqlClient.resource("ref", commit)
+}
+
+// pure js easy function to copy a string to clipboard
+export const copyToClipboard = str => {
+    const el = document.createElement('textarea');
+    el.value = str;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  }

@@ -2,6 +2,12 @@ import TerminusClient from '@terminusdb/terminusdb-client'
 import {shortenURL, covertStringToId} from "../components/utils" 
 
 
+export const ClassFromSchema = () => {
+    let WOQL=TerminusClient.WOQL
+    return WOQL.quad("v:Class ID", 'type', 'owl:Class', "schema/main").
+        quad("v:Class ID", 'label', "v:Class Name", "schema/main")
+}
+
 export const getDocumentClasses = (dataProduct) => {
     if(!dataProduct) return null
     let WOQL=TerminusClient.WOQL

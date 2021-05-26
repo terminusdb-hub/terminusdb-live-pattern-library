@@ -62,7 +62,7 @@ export const IconBarConfig = {
 
 
 // Cance New Data product 
-export const CANCEL_NEW_DATA_PRODUCT_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
+export const CANCEL_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
 //New Data product create button configurations
 export const CREATE_NEW_DATA_PRODUCT_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "outline-info"}
 // New Data product Form configurations
@@ -216,6 +216,7 @@ export const PROFILE_ROUTE = process.env.TERMINUS_BFF_URL + "hub/profile"
 export const TERMINUS_WARNING = "Terminus Warning"
 export const TERMINUS_SUCCESS = "Terminus Success" 
 export const TERMINUS_DANGER = "Terminus Error"
+export const TERMINUS_MESSAGE = "Terminus Message"
 
 //branch actions 
 export const branchActionConfig = {
@@ -246,3 +247,23 @@ export const branchActionConfig = {
     }
 }
 export const SWITCH_TO_BRANCH = "Switch to - " 
+
+//reset branch form
+export const resetFormConfig = {
+    title: "Reset this branch to a commit",
+    id: "reset",
+    placeholder: "Enter commit id of interest to reset branch to"
+}
+export const RESET_BUTTON_CONFIG = {label:"Reset Branch", title: "Reset Branch", variant: "outline-info", size:"sm"}
+
+// squaash branch form 
+export const squashFormConfig = {
+    title: "Squash this branch",
+    id: "squash",
+    placeholder: "A an optional description"
+}
+export const SQUASH_BUTTON_CONFIG = {label:"Squash Branch", title: "Squash Branch", variant: "outline-info", size:"sm"}
+
+
+export const EMPTY_ADDED_DATA = "No added data to display ... "
+export const EMPTY_REMOVED_DATA = "No removed data to display ... "

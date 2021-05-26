@@ -3,14 +3,14 @@ import SplitPane from 'react-split-pane'
 import {handleWidthChange} from "../pages/utils"
 import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components'
 import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
-import {getPropertyMeta} from "../queries/GeneralQueries"
-import {getPropertyMetaTabConfig, getPropertyMetaGraphConfig} from "./ViewConfig"
+import {ClassFromSchema} from "../queries/GeneralQueries"
+import {getPropertyMetaTabConfig, getClassesGraphConfig} from "./ViewConfig"
 import {Col} from "@themesberg/react-bootstrap"
 
-export const PropertiesTab = ({graph, woqlClient}) => {
+export const ClassesTab = ({dataProduct, woqlClient}) => {
 
     const [width, setWidth] = useState("")
-    const [query, setQuery] = useState(getPropertyMeta(graph))
+    const [query, setQuery] = useState(ClassFromSchema(dataProduct))
 
     const [graphConfig, setGraphConfig] = useState(false)
     const [tableConfig, setTableConfig] = useState(false)
@@ -29,23 +29,17 @@ export const PropertiesTab = ({graph, woqlClient}) => {
         rowCount,
     } = ControlledQueryHook(woqlClient, query, false, 20)
 
+    console.log("result", result)
+
      useEffect(() => {
         let tConf = getPropertyMetaTabConfig(result)
         setTableConfig(tConf)
 
-        let gConf = getPropertyMetaGraphConfig(result)
+        let gConf = getClassesGraphConfig(result)
         setGraphConfig(gConf)
     }, [result])
 
     
-
-    const getClassFrame = (docType) => {
-        woqlClient.getClassFrame(docType).then((cf) => setFrame(cf))
-    }
-
-    const showClass = (cid) => {
-        if(cid) getClassFrame(cid)
-    }
 
     return <SplitPane split="horizontal"
         defaultSize="50%"

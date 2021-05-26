@@ -1,12 +1,16 @@
 
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {DatabaseCard, NewDatabaseCard} from "../components/DatabaseCard"
 import {Container, Row} from "@themesberg/react-bootstrap"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {NEW_DATA_PRODUCT_BUTTON, DATA_PRODUCT_LABEL} from "./constants"
 import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
 
+//import Hexagon from 'react-hexagon'
+
+
 export const DataProductsHome = ({woqlClient, list}) => {
+
     
     const [selectDP, setSelectDP] = useState(false)
     const {newDataProduct,
@@ -31,7 +35,7 @@ export const DataProductsHome = ({woqlClient, list}) => {
         </Row>
         <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
         <h4 className="mt-5 mb-5">{DATA_PRODUCT_LABEL}</h4>
-        <Row className="equal">
+        {<Row className="equal">
             {list.map(item => <div key={`key_${item.id}`} className="col-md-4 d-grid pb-3">
                     <DatabaseCard title={item.label} 
                         description={item.comment} 
@@ -40,6 +44,15 @@ export const DataProductsHome = ({woqlClient, list}) => {
                         id={item.id}/>
                 </div>
             )}
-        </Row>
+        </Row>}
+
+       
+        {/*<Hexagon
+            style={{stroke: '#42873f'}}
+            backgroundImage="img/red-panda.jpg"
+            href="http://espen.codes/"
+        />*/}
+
     </Container>
 }
+
