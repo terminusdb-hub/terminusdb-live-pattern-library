@@ -1,22 +1,16 @@
 import React from "react"
-import {Sidebar} from "../components/Sidebar"
 import {QueryView} from "../components/QueryView"
 import {QueryPaneProvider} from "../hooks/queryPaneContext"
-
-export const ProductsExplorer = (woqlClient) => {
+import {QuerySidebar} from "../components/QuerySidebar"
+import {Sidebar} from "../pages/Sidebar"
+import {Layout} from "./Layout"
+export const ProductsExplorer = () => {
      
-    return <QueryPaneProvider>
-        <main role="main" className="m-4 w-100 vh-100" style={{overflowY: "auto"}}>
-            <QueryView/>
-        </main>
-    </QueryPaneProvider>
-
-    /* return <QueryPaneProvider>
-        <MainLayout sideBarContent={<Sidebar/>}>
+return <QueryPaneProvider>
+        <Layout sideBarContent={<Sidebar><QuerySidebar/></Sidebar>}>
             <main role="main" className="m-4">
                 <QueryView/>
             </main>
-        </MainLayout>
-    </QueryPaneProvider>*/
-
+        </Layout>
+    </QueryPaneProvider>
 }

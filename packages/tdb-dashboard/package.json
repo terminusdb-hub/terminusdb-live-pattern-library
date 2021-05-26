@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.15.0",
-    "@themesberg/react-bootstrap": "^1.4.1",
     "classnames": "^2.2.5",
     "dotenv": "^9.0.2",
     "dotenv-webpack": "^7.0.2",

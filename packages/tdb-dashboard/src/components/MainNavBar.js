@@ -1,25 +1,28 @@
 import React from "react"
 import {PROFILE_ROUTE} from "./constants"
 import {AiOutlineUser, AiOutlinePoweroff} from "react-icons/ai"
-import {Button, ButtonGroup, Dropdown} from '@themesberg/react-bootstrap';
+import {Button, ButtonGroup, Dropdown} from 'react-bootstrap';
+import { useAuth0 } from "../react-auth0-spa";
 
-export const MainNavBar = ({user, logout}) => {
+export const MainNavBar = (props) => {
+    const { user, isAuthenticated, logout } = useAuth0();
+    
     let profile_arg = `?console=console`
 
 
     const logoutWithRedirect = () =>
         logout({
-            returnTo: "https://terminusdb.com"
+            returnTo: window.location.origin
     })
 
 
-    return <div class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav mr-auto">
+    return <div className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="collapse navbar-collapse" id="navbarColor02">
+            <ul className="navbar-nav mr-auto">
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search"/>
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            <form className="form-inline my-2 my-lg-0">
+            <input className="form-control mr-sm-2" type="text" placeholder="Search"/>
+            <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
             {user && <Dropdown  as={ButtonGroup} className="me-2 mb-2">
                 <Button size="sm" className="bg-transparent border-0">

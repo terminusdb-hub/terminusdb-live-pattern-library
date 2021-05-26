@@ -1,8 +1,9 @@
 
 import React from "react"
-import {Form, InputGroup, ListGroup} from "@themesberg/react-bootstrap"
+import {Form, InputGroup, ListGroup} from "react-bootstrap"
 import {AiOutlineSearch} from "react-icons/ai"
-
+import {WOQLClientObj} from '../init-woql-client'
+import {dataProductList} from "../hooks/DataProductList"
 
 const SearchBar = () => {
     return <Form className="navbar-search mr-3 mt-3">
@@ -17,16 +18,15 @@ const SearchBar = () => {
     </Form>
 }
 
-const List = ({list, woqlClient, setDataProduct}) => {
+const List = (props) => {  
+    const {woqlClient,setDataProduct,dataProduct} = WOQLClientObj()
+    const {list} = dataProductList(woqlClient)
 
-    function handleClick(e, woqlClient, setDataProduct) {
-        if(woqlClient){
-            woqlClient.db(e.target.id)
-            if(setDataProduct) setDataProduct(e.target.id)
-        } 
+    function handleClick(e) {
+        setDataProduct(e.target.id) 
     }
 
-    return <ListGroup>
+    return <ListGroup  defaultActiveKey={`key_${dataProduct}`}>
         {list.map(item => <ListGroup.Item action 
             id={item.id}
             eventKey={`key_${item.id}`} 
@@ -37,10 +37,10 @@ const List = ({list, woqlClient, setDataProduct}) => {
   </ListGroup>
 }
 
-export const DatabaseList = ({list, woqlClient, setDataProduct}) => {
+export const DatabaseList = (props) => {
     return <React.Fragment>
         <SearchBar/>
         <p className="text-muted">Connect to a Data Product</p>
-        <List list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>
+        <List/>
     </React.Fragment>
 }

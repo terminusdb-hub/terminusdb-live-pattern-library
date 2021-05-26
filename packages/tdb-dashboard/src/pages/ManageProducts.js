@@ -4,7 +4,7 @@ import {WOQLTable} from '@terminusdb/terminusdb-react-components'
 import {getBranchQuery} from "../queries/GeneralQueries"
 import {DBContextObj} from "../hooks/DBContext"
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {Card, Row, Col} from "@themesberg/react-bootstrap"
+import {Card, Row, Col} from "react-bootstrap"
 import {AiOutlineBranches} from "react-icons/ai"
 import {BiGitCommit, BiCircle} from "react-icons/bi"
 import {RiBubbleChartLine} from "react-icons/ri"

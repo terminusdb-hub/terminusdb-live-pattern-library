@@ -6,7 +6,7 @@ import {SavedQueries} from "./SavedQueries"
 import {Accordion, Card} from "react-bootstrap"
 import {DATABASE_TAB, SAVED_QUERIES, SAMPLE_QUERIES} from "./constants"
 
-export const Sidebar= (props) =>{
+export const QuerySidebar= (props) =>{
 
     let accordianObject = 
     [

@@ -1,18 +1,17 @@
 import React, {useState} from "react"
-import {Card} from '@themesberg/react-bootstrap'
+import {Card} from 'react-bootstrap'
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CANCEL_NEW_DATA_PRODUCT_BUTTON, CREATE_NEW_DATA_PRODUCT_BUTTON, newDataProductForm} from "./constants"
-import {Form, Button} from "@themesberg/react-bootstrap"
+import {Form, Button} from "react-bootstrap"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
  
 export function DatabaseCard (props) {
 
     let label = props.label || props.id
-    let id = props.id
     let description = props.description || false
 
-    return <Card variant={"dark"}>
+    return <Card className="btn" variant={"dark"} onClick={props.onClick} id={props.id}>
         <Card.Body>
             <Card.Title>{label}</Card.Title>
             <Card.Text>{description}</Card.Text>

@@ -1,7 +1,7 @@
 
 
 import React from "react";
-import {Col, Row, Image, Container} from '@themesberg/react-bootstrap';
+import {Col, Row, Image, Container} from 'react-bootstrap';
 import {OrganizationForm} from "./OrganizationForm"
 import {WELCOME_MESSAGE, SERVICE_NAME, SERVICE_TITLE} from "./constants"
 

@@ -1,6 +1,6 @@
 import React from "react"
 import {ProgressBar} from "react-bootstrap"
-import {Container, Row} from "@themesberg/react-bootstrap"
+import {Container, Row} from "react-bootstrap"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
 
 export const Loading = (props) => {

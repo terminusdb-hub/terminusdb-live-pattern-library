@@ -1,21 +1,20 @@
 import React,{useEffect,useState} from "react"
 import {DBContextObj} from "../hooks/DBContext"
 import {SchemaBuilder, modelCallServerHook, GraphObjectProvider, ViewBuilder} from "@terminusdb/terminusdb-react-components"
-import {Row, Button} from "@themesberg/react-bootstrap"
+import {Row, Button} from "react-bootstrap"
 import {SCHEMA_MODEL_VIEW, SCHEMA_CLASSES_VIEW, SCHEMA_PROPERTIES_VIEW, SCHEMA_EDITOR_VIEW} from "./constants"
 import {PropertiesTab} from "../components/PropertiesTab"
+import {WOQLClientObj} from '../init-woql-client'
 
-export const ModelBuilder = ({woqlClient, dataProduct}) =>{   
-    
+export const ModelBuilder = (props) =>{   
+    const {woqlClient,dataProduct} = WOQLClientObj()
 
-    let {graphs} = DBContextObj()
+    const {graphs} = DBContextObj(woqlClient,dataProduct)
     const [width, setWidth] = useState("")
     const [schemaView, setSchemaView] = useState(SCHEMA_MODEL_VIEW)
 
-
     let branch = "main"
     let ref = ""
-
 
     const saveData=(query, commitMessage)=>{
         saveGraphChanges(query, commitMessage)

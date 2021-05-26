@@ -115,13 +115,12 @@ div.progress-bar-position {
 }
 
 .nav-icon {
-  color: #a3b6ca !important;
   font-size: 30px;
 }  
 
-.nav-icon-disabled {
+/*.nav-icon-disabled {
   color: rgba(0,0,0,.3) !important; 
-}
+}*/
 
 .nav-icon-align {
   margin: auto 0px 0px;
@@ -141,10 +140,10 @@ div.progress-bar-position {
   font-weight: bold !important;
 }
 
-.navbar-light .navbar-nav .nav-link.active {
-  color: #007bff!important;
-  background-color: rgb(34, 34, 34, .3);
-}
+/*.nav-icon .nav-link .active {
+  color: white;
+  background-color:transparent;
+}*/
 /* ---------- custom active css ---------- */
 
 

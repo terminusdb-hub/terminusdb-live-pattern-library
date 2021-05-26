@@ -4,8 +4,11 @@ import {executeQueryHook} from "./executeQueryHook"
 import {graphStructureFromBindings, branchStructureFromBindings} from "./utils"
 export const DBContext = React.createContext()
 export const DBContextObj = () => useContext(DBContext)
+import {WOQLClientObj} from '../init-woql-client'
 
-export const DBContextProvider = ({children, woqlClient, dataProduct}) => {
+export const DBContextProvider = ({children}) => {
+    const {woqlClient,dataProduct} = WOQLClientObj()
+    
     if (!woqlClient.db()) {
         return (
             <DBContext.Provider value={NullDBProvider(woqlClient)}>

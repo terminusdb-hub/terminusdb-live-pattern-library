@@ -4,6 +4,7 @@ import {AiOutlineMail, AiOutlineDatabase, AiOutlineSetting} from "react-icons/ai
 import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
 import {SiGithubactions} from "react-icons/si"
+import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS} from "../routing/constants"
 
 //User Messages 
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
@@ -11,10 +12,13 @@ export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
 // icon bar configuration
 export const TERMINUSDB_ICON = "TerminusDB"
 export const DEFAULT_ICON_BAR_ACTIVE_KEY = "dataProductExplorer"
+
+//where we go if we click terminusdb logo
 export const IconBarConfig = {
     logo: {
         title: "TerminusDB",
-        key: "TerminusDB",
+        key:"TerminusDB",
+        path: "??",
         svg: <React.Fragment>  
             <svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">
             <g fill="#00C08B">
@@ -25,37 +29,44 @@ export const IconBarConfig = {
     },
     dataProductView: {
         title: "Data Products",
-        key: "Data Products",
+        key:"Data Products",
+        path: DATA_PRODUCTS,
         icon: <AiOutlineDatabase/>
     },
     dataProductExplorer: {
         title: "Data Product Explorer",
-        key: "Data Product Explorer",
+        key: "Data Product",
+        path: PRODUCT_EXPLORER,
         icon: <BiCode/>
     },
     dataProductModal:{
         title: "Data Product Model",
-        key: "Data Product Model",
+        key: "Data Product",
+        path: PRODUCT_MODELS,
         icon: <MdBubbleChart/>
     },
     dataProductManage: {
         title: "Manage Data Product",
-        key: "Manage Data Product",
+        key: "Manage Data",
+        path: "/manage",
         icon: <SiGithubactions/>
     },
     feedback: {
         title: "Feedback",
-        key: "Feedback",
+        key:"Feedback",
+        path: "/feedback",
         icon: <AiOutlineMail/>
     },
     tutorials: {
         title: "Tutorials",
         key: "Tutorials",
+        path: "/tutorials",
         icon: <BiBookReader/>
     },
     settings: {
         title: "Settings",
-        key: "Settings",
+        key : "Settings",
+        path: "/settings",
         icon: <AiOutlineSetting/>
     }
 }
