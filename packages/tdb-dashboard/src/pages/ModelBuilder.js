@@ -5,6 +5,7 @@ import {Row, Button} from "react-bootstrap"
 import {SCHEMA_MODEL_VIEW, SCHEMA_CLASSES_VIEW, SCHEMA_PROPERTIES_VIEW, SCHEMA_EDITOR_VIEW} from "./constants"
 import {PropertiesTab} from "../components/PropertiesTab"
 import {WOQLClientObj} from '../init-woql-client'
+import {ClassesTab} from "../components/ClassesTab"
 
 export const ModelBuilder = (props) =>{   
     const {woqlClient,dataProduct} = WOQLClientObj()
@@ -46,10 +47,10 @@ export const ModelBuilder = (props) =>{
                 className="m-3 text-info" 
                 title={SCHEMA_PROPERTIES_VIEW}
                 onClick={(e) => setSchemaView(SCHEMA_PROPERTIES_VIEW)}>Properties</Button>
-            <Button variant="link" 
+            {/*<Button variant="link"  // nuking OWL text editor for now
                 className="m-3 text-info" 
                 title={SCHEMA_EDITOR_VIEW}
-                onClick={(e) => setSchemaView(SCHEMA_EDITOR_VIEW)}>Text Editor</Button>
+                onClick={(e) => setSchemaView(SCHEMA_EDITOR_VIEW)}>Text Editor</Button>*/}
         </div>
         {(schemaView == SCHEMA_MODEL_VIEW) && <Row>
             <GraphObjectProvider mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
@@ -60,6 +61,10 @@ export const ModelBuilder = (props) =>{
                     />
             </GraphObjectProvider> 
         </Row>}
+        {(schemaView == SCHEMA_CLASSES_VIEW) &&  <Row>
+                    <ClassesTab woqlClient={woqlClient} dataProduct={dataProduct}/>
+            </Row>
+        }
         {(schemaView == SCHEMA_PROPERTIES_VIEW) && <Row>
             <PropertiesTab woqlClient={woqlClient} graph={"schema"}/>
         </Row>}

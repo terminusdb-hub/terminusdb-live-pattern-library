@@ -2,7 +2,7 @@ import React from "react"
 
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {getStoredQueryObject} from "../queries/GeneralQueries"
-import {isArray} from "./Utils"
+import {isArray} from "./utils"
 import {SavedQueriesControl} from "../hooks/SavedQueriesControl"
 import {QueryPaneObj} from "../hooks/queryPaneContext" 
 

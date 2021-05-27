@@ -41,7 +41,7 @@ export const Routes = () => {
                     </Route> 
                     <Route path={PRODUCT_MODELS}>
                         <ModelProductPage/>     
-                    </Route>
+                    </Route>                   
                 </DBContextProvider>            
             </Switch>
             </Router>

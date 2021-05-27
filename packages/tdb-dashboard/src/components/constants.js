@@ -72,8 +72,8 @@ export const IconBarConfig = {
 }
 
 
-// New Data product configurations
-export const CANCEL_NEW_DATA_PRODUCT_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
+// Cance New Data product 
+export const CANCEL_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
 //New Data product create button configurations
 export const CREATE_NEW_DATA_PRODUCT_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "outline-info"}
 // New Data product Form configurations
@@ -94,6 +94,25 @@ export const newDataProductForm = {
         id: "description"
     },
     header: "New Data Product"
+}
+
+// Cance New Branch
+export const CANCEL_NEW_BRANCH_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
+//New Branch create button configurations
+export const CREATE_NEW_BRANCH_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "outline-info"}
+// New Branch Form configurations
+export const newBranchForm = {
+    id: {
+        placeholder: "ID for branch - include lowercase characters, numbers and underscores and be no more than 40 characters long",
+        type: "text",
+        id: "id"
+    },
+    select:{
+        head: "Branch from current head",
+        empty: "Empty branch",
+        choose: "Choose commit to branch from"
+    },
+    header: "New Branch"
 }
 
 //Prograss bar types
@@ -202,3 +221,60 @@ export const SETTINGS_UNCOLLAPSE_BUTTON_GROUP={label:"Open Settings", title: "Op
 
 // profile route 
 export const PROFILE_ROUTE = process.env.TERMINUS_BFF_URL + "hub/profile"
+
+
+// alert types
+export const TERMINUS_WARNING = "Terminus Warning"
+export const TERMINUS_SUCCESS = "Terminus Success" 
+export const TERMINUS_DANGER = "Terminus Error"
+export const TERMINUS_MESSAGE = "Terminus Message"
+
+//branch actions 
+export const branchActionConfig = {
+    merge : {
+        label: "Merge",
+        title: "Merge to a branch",
+        description: "Merge to a branch"
+    },
+    reset : {
+        label: "Reset",
+        title: "Reset to a specific commit",
+        description: "Merge to a branch"
+    },
+    squash : {
+        label: "Squash",
+        title: "Squash this branch",
+        description: "Squash this branch"
+    },
+    optimize : {
+        label: "Optimize",
+        title: "Optimize this branch",
+        description: "Optimize this branch"
+    },
+    delete : {
+        label: "Delete",
+        title: "Delete this branch",
+        description: "Delete this branch"
+    }
+}
+export const SWITCH_TO_BRANCH = "Switch to - " 
+
+//reset branch form
+export const resetFormConfig = {
+    title: "Reset this branch to a commit",
+    id: "reset",
+    placeholder: "Enter commit id of interest to reset branch to"
+}
+export const RESET_BUTTON_CONFIG = {label:"Reset Branch", title: "Reset Branch", variant: "outline-info", size:"sm"}
+
+// squaash branch form 
+export const squashFormConfig = {
+    title: "Squash this branch",
+    id: "squash",
+    placeholder: "A an optional description"
+}
+export const SQUASH_BUTTON_CONFIG = {label:"Squash Branch", title: "Squash Branch", variant: "outline-info", size:"sm"}
+
+
+export const EMPTY_ADDED_DATA = "No added data to display ... "
+export const EMPTY_REMOVED_DATA = "No removed data to display ... "

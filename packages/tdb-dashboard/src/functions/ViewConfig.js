@@ -1,5 +1,5 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {arrayEquals} from "./Utils"
+import {arrayEquals} from "../components/utils"
 
 export const tableViewConfig= () => {
     const tabConfig= TerminusClient.View.table();

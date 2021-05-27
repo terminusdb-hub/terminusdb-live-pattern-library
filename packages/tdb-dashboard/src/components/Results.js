@@ -20,7 +20,7 @@ export const Results = ({freewidth,queryObj})=>{
         start,
         orderBy,
         loading,
-        rowCount:totalRows,//(woqlClient, query, results, queryLimit, queryStart, order)
+        totalRows,//(woqlClient, query, results, queryLimit, queryStart, order)
     } = ControlledQueryHook(woqlClient, queryObj.editorObj.query, 
                             queryResult.result, queryResult.limit, queryResult.start,
                             queryResult.orderBy,queryResult.totalRows) 

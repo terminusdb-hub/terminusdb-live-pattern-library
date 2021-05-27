@@ -1,5 +1,5 @@
 
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {DatabaseCard, NewDatabaseCard} from "../components/DatabaseCard"
 import {Container, Row} from "react-bootstrap"
 import {TDBReactButton,MainLayout} from '@terminusdb-live/tdb-react-layout'
@@ -18,7 +18,6 @@ export const DataProductsHome = (props) => {
     if(woqlClient)woqlClient.setSystemDb()
 
     const {list} = dataProductList(woqlClient)
-
     const {newDataProduct,
         setNewDataProduct,
         setNewDataProductInfo,
@@ -47,7 +46,7 @@ export const DataProductsHome = (props) => {
         </Row>
         <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
         <h4 className="mt-5 mb-5">{DATA_PRODUCT_LABEL}</h4>
-        <Row className="equal">
+        {<Row className="equal">
             {list.map(item => <div key={`key_${item.id}`} className="col-md-4 d-grid pb-3">
                     <DatabaseCard title={item.label} 
                         description={item.comment} 
@@ -56,7 +55,15 @@ export const DataProductsHome = (props) => {
                         id={item.id}/>
                 </div>
             )}
-        </Row>
+        </Row>}
+
+       
+        {/*<Hexagon
+            style={{stroke: '#42873f'}}
+            backgroundImage="img/red-panda.jpg"
+            href="http://espen.codes/"
+        />*/}
+
     </Container>
     </Layout>
 }
