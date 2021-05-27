@@ -11,6 +11,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {Sidebar} from './Sidebar'
 import {ConsoleHistory} from "../routing/Router"
 import {PRODUCT_MODELS} from "../routing/constants"
+import {SideBar} from "./Sidebar"
 
 export const DataProductsHome = (props) => {
     const {woqlClient,setDataProduct} = WOQLClientObj()
@@ -29,7 +30,7 @@ export const DataProductsHome = (props) => {
         ConsoleHistory.push(PRODUCT_MODELS)
     }
 
-    return  <Layout sideBarContent={<div>Hello in TerminusCloud</div>}>
+    return  <Layout sideBarContent={<Sidebar></Sidebar>}>
         <Container>
         <Row>
             <div className="col-md-3 d-grid pb-3">
@@ -40,7 +41,7 @@ export const DataProductsHome = (props) => {
             {newDataProduct && <div className="col-md-4 d-grid pb-3">
                     <NewDatabaseCard onCancel={setNewDataProduct} 
                         setNewDataProductInfo={setNewDataProductInfo} 
-                        loading={loading}/>
+                        loadiSideBarng={loading}/>
                 </div>
             }
         </Row>

@@ -140,6 +140,10 @@ div.progress-bar-position {
   font-weight: bold !important;
 }
 
+.navbar-dark .navbar-nav .nav-link.active{
+  background-color:#00C08B;
+}
+
 /*.nav-icon .nav-link .active {
   color: white;
   background-color:transparent;

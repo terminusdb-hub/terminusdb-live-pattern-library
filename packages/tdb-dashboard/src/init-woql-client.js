@@ -48,6 +48,7 @@ export const WOQLClientProvider = ({children, params}) => {
             setDatabase(id)
         }
     }
+    
     return (
         <WOQLContext.Provider
             value={{
