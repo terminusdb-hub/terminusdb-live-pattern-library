@@ -1,22 +1,25 @@
 import React from "react"
-import {Sidebar} from "../components/Sidebar"
 import {QueryView} from "../components/QueryView"
 import {QueryPaneProvider} from "../hooks/queryPaneContext"
+import {QuerySidebar} from "../components/QuerySidebar"
+import {Sidebar} from "../pages/Sidebar"
+import {Layout} from "./Layout"
+import {WOQLClientObj} from '../init-woql-client'
 
-export const ProductsExplorer = (woqlClient) => {
+export const ProductsExplorer = () => {
+
+    const {woqlClient, setDataProduct} = WOQLClientObj()
+
+    const setSelectedDataProduct = (dataProductID) =>{
+        setDataProduct(dataProductID)
+        ConsoleHistory.push(PRODUCT_MODELS)
+    }
      
     return <QueryPaneProvider>
-        <main role="main" className="m-4 w-100 vh-100" style={{overflowY: "auto"}}>
-            <QueryView/>
-        </main>
-    </QueryPaneProvider>
-
-    /* return <QueryPaneProvider>
-        <MainLayout sideBarContent={<Sidebar/>}>
+        <Layout sideBarContent={<Sidebar setSelectedDataProduct={setSelectedDataProduct}><QuerySidebar/></Sidebar>}>
             <main role="main" className="m-4">
                 <QueryView/>
             </main>
-        </MainLayout>
-    </QueryPaneProvider>*/
-
+        </Layout>
+    </QueryPaneProvider>
 }

@@ -6,24 +6,14 @@ import {WOQLClientProvider} from './init-woql-client'
 import {localSettings} from "../localSettings"
 import {auth0_conf} from '../auth_config'
 import {Auth0Provider} from "./react-auth0-spa"
-
-
-
+import {ConsoleHistory} from "./routing/Router"
+import { DATA_PRODUCTS} from "./routing/constants"
 let redirect_uri=`${window.location.origin}`
-
 console.log("redirect_uri",redirect_uri)
-
-const TERMINUSDB=window.TERMINUSDB || {}
-const base_router_win=TERMINUSDB.base_router || null
-export const base_router = localStorage.getItem("terminusdb-base-router") ||  base_router_win || process.env.TERMINUSDB_APP_BASE_ROUTER || '';
-
-export const ConsoleHistory= createBrowserHistory({basename: base_router});
 
 const onRedirectCallback = appState => {
     ConsoleHistory.push(
-      appState && appState.targetUrl
-        ? appState.targetUrl
-        : ''
+       DATA_PRODUCTS
     )
   }
 

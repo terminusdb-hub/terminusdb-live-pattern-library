@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react"
 import {DBContextObj} from "../hooks/DBContext"
-import {Card, Row, Col, ListGroup, Button, Badge} from "@themesberg/react-bootstrap"
+import {Card, Row, Col, ListGroup, Button, Badge} from "react-bootstrap"
 import {AiOutlineDelete, AiOutlineSend} from "react-icons/ai"
 import {NEW_BRANCH_CONFIG} from "./constants"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {timeConverter} from "./utils"
 import {NewBranchCard, BranchInfoModal} from "../components/BranchInfo"
 import {BranchControl} from "../hooks/BranchControl"
+import {WOQLClientObj} from '../init-woql-client'
 
 
-export const ManageProducts = ({woqlClient, dataProduct}) => {
-
+export const ManageProducts = () => {
+    const {woqlClient, dataProduct} = WOQLClientObj()
     const {branches, branch, ref, updateBranches}=DBContextObj()
 
     const { 
@@ -128,7 +129,7 @@ export const ManageProducts = ({woqlClient, dataProduct}) => {
          </React.Fragment>
       }
 
-      return <main className="content mr-3 ml-5 w-100">
+      return <main className="content mr-3 ml-5 w-95">
           <DisplayBranchList branchList={branchList} branch={branch} setShowDefault={setShowDefault}/>
           <BranchInfoModal woqlClient={woqlClient} 
                 branch={selectedBranch} 

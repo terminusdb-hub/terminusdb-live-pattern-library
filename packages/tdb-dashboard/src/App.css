@@ -79,6 +79,8 @@ div.SplitPane  .horizontal {
 }
 .Pane1 {
   background-color: #222;
+  width: 420px !important; 
+  min-width: 420px !important; 
 }
 .Pane2 {
   background-color: transparent;
@@ -110,18 +112,34 @@ div.progress-bar-position {
   text-align: center;
 }
 
+.nav-link {
+  color: #a3b6ca !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+  color: #00C08B !important;
+}
+
+.navbar-dark .navbar-nav .nav-link.active{
+  background-color:#00C08B;
+  color: #002856 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link.disabled {
+  color: rgba(255, 255, 255, 0.25) !important;
+}
+
 .nav-bar-dropdown-divider{
   border-top: 1px solid #a3b6ca;
 }
 
 .nav-icon {
-  color: #a3b6ca !important;
   font-size: 30px;
 }  
 
-.nav-icon-disabled {
+/*.nav-icon-disabled {
   color: rgba(0,0,0,.3) !important; 
-}
+}*/
 
 .nav-icon-align {
   margin: auto 0px 0px;
@@ -141,10 +159,16 @@ div.progress-bar-position {
   font-weight: bold !important;
 }
 
-.navbar-light .navbar-nav .nav-link.active {
-  color: #007bff!important;
-  background-color: rgb(34, 34, 34, .3);
+.list-group-item:hover {
+  color: #00C08B !important;
 }
+
+
+
+/*.nav-icon .nav-link .active {
+  color: white;
+  background-color:transparent;
+}*/
 /* ---------- custom active css ---------- */
 
 
@@ -209,53 +233,3 @@ tbody, td, tfoot, th, thead, tr {
   min-height: calc(100% - 45rem);
 }
 /* ---------- custom modal dimensions ---------- */
-
-svg .game {
-
-}
-/*
-Russian blue pattern:
-#7be3f6
-#4499a9
-#276a76
-#133b43
-#03090a
-*/
-svg .game g {
-  fill: #4499a9;
-  fill-opacity: 0.6;
-}
-svg .game g:hover {
-  fill: #7be3f6;
-  fill-opacity: 0.7;
-}
-svg .game g:hover text {
-  fill-opacity: 1;
-}
-
-svg .game g polygon {
-  stroke: #7be3f6;
-  stroke-width: 0.2;
-  transition: fill-opacity .5s;
-}
-svg .game g text {
-  font-size: 0.22em;
-  fill: white;
-  fill-opacity: 0.7;
-  transition: fill-opacity .5s;
-}
-svg .game path {
-  fill: none;
-  stroke: #7be3f6;
-  stroke-width: 0.2em;
-  stroke-opacity: 0.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-svg .game g.blocked {
-    fill: #465880;
-}
-svg .game g.blocked:hover {
-    fill: #53699a;
-}

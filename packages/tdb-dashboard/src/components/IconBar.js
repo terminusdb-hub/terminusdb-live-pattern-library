@@ -1,111 +1,109 @@
 import React  from "react"
-import {Nav, Row, Col, Navbar} from "@themesberg/react-bootstrap"
-import {DEFAULT_ICON_BAR_ACTIVE_KEY, IconBarConfig, TERMINUSDB_ICON} from "./constants" 
+import {Nav,Navbar} from "react-bootstrap"
+import { NavLink as RouterNavLink } from "react-router-dom";
 
+import {IconBarConfig} from  "./constants" 
+import {WOQLClientObj} from '../init-woql-client'
 
-export const IconBar =  ({setView, dataProduct}) => {
+export const IconBar =  () => {
+    const {dataProduct} = WOQLClientObj()
 
-    return <Navbar fixed expand={false} className="navbar-light navbar-theme-soft h-100 nav-icon-bar">
+    let disabled = true
+    if(dataProduct) disabled = false
+  
+    return <Navbar fixed expand={false} className="pt-2 navbar navbar-dark bg-dark h-100 nav-icon-bar">
         <Nav defaultActiveKey={IconBarConfig.dataProductView.key} className="flex-column">
             <Nav.Item>
-                <Nav.Link className="nav-icon">
+                <Nav.Link 
+                    className="nav-icon">
                     {IconBarConfig.logo.svg}
                 </Nav.Link>
             </Nav.Item>
-            <hr className="my-3 border-indigo dropdown-divider nav-bar-dropdown-divider" role="separator"></hr>
+            <hr className="my-3" role="separator"></hr>
             <Nav.Item>
-                <Nav.Link eventKey={IconBarConfig.dataProductView.key} 
+                <Nav.Link 
+                    as={RouterNavLink} 
                     title={IconBarConfig.dataProductView.title} 
-                    className="nav-icon" 
-                    onClick={(e)=> setView(IconBarConfig.dataProductView.key)}>
+                    className="nav-icon"
+                   // activeClassName="nav-icon--selected"
+                    to={IconBarConfig.dataProductView.path} 
+                    exact
+                    id={IconBarConfig.dataProductView.key}
+                    >
                     {IconBarConfig.dataProductView.icon}
                 </Nav.Link>
             </Nav.Item> 
-            {!dataProduct && <React.Fragment> 
-                <Nav.Item>
-                    <Nav.Link eventKey={IconBarConfig.dataProductModal.key} 
-                        title={IconBarConfig.dataProductModal.title}  
-                        className="nav-icon nav-icon-disabled" 
-                        disabled
-                        onClick={(e)=> setView(IconBarConfig.dataProductModal.key)}>
-                        {IconBarConfig.dataProductModal.icon}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey={IconBarConfig.dataProductExplorer.key} 
-                        title={IconBarConfig.dataProductExplorer.title} 
-                        className="nav-icon nav-icon-disabled" 
-                        disabled
-                        onClick={(e)=> setView(IconBarConfig.dataProductExplorer.key)}>
-                        {IconBarConfig.dataProductExplorer.icon}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey={IconBarConfig.dataProductManage.key} 
-                        title={IconBarConfig.dataProductManage.title} 
-                        className="nav-icon nav-icon-disabled" 
-                        disabled
-                        onClick={(e)=> setView(IconBarConfig.dataProductManage.key)}>
-                        {IconBarConfig.dataProductManage.icon}
-                    </Nav.Link>
-                </Nav.Item>
-            </React.Fragment>
-            }
-            {dataProduct && <React.Fragment>
-                <Nav.Item>
-                    <Nav.Link eventKey={IconBarConfig.dataProductModal.key} 
-                        title={IconBarConfig.dataProductModal.title}  
-                        className="nav-icon" 
-                        onClick={(e)=> setView(IconBarConfig.dataProductModal.key)}>
-                        {IconBarConfig.dataProductModal.icon}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey={IconBarConfig.dataProductExplorer.key} 
-                        title={IconBarConfig.dataProductExplorer.title} 
-                        className="nav-icon" 
-                        onClick={(e)=> setView(IconBarConfig.dataProductExplorer.key)}>
-                        {IconBarConfig.dataProductExplorer.icon}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey={IconBarConfig.dataProductManage.key} 
-                        title={IconBarConfig.dataProductManage.title} 
-                        className="nav-icon" 
-                        onClick={(e)=> setView(IconBarConfig.dataProductManage.key)}>
-                        {IconBarConfig.dataProductManage.icon}
-                    </Nav.Link>
-                </Nav.Item>
-            </React.Fragment>}
-            
-            <hr className="my-3 border-indigo dropdown-divider nav-bar-dropdown-divider" role="separator"></hr>
             <Nav.Item>
-                <Nav.Link eventKey={IconBarConfig.feedback.key}  
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.dataProductModal.title}  
+                    className="nav-icon" 
+                    disabled={disabled}
+                    to={IconBarConfig.dataProductModal.path} 
+                    exact
+                    id={IconBarConfig.dataProductModal.key}>
+                    {IconBarConfig.dataProductModal.icon}
+                </Nav.Link>
+            </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link  as={RouterNavLink}
+                        title={IconBarConfig.dataProductExplorer.title} 
+                        className="nav-icon" 
+                        disabled={disabled}
+                        to={IconBarConfig.dataProductExplorer.path} 
+                        exact
+                        id={IconBarConfig.dataProductExplorer.key}>
+                        {IconBarConfig.dataProductExplorer.icon}
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link  as={RouterNavLink}
+                        title={IconBarConfig.dataProductManage.title} 
+                        className="nav-icon" 
+                        disabled={disabled}
+                        to={IconBarConfig.dataProductManage.path} 
+                        exact
+                        id={IconBarConfig.dataProductManage.key}>
+                        {IconBarConfig.dataProductManage.icon}
+                    </Nav.Link>
+                </Nav.Item>
+            <hr className="my-3" role="separator"></hr>
+            <Nav.Item>
+                <Nav.Link as={RouterNavLink} 
                     title={IconBarConfig.feedback.title} 
                     className="nav-icon"
-                    onClick={(e)=> setView(IconBarConfig.feedback.key)}>
+                    to={IconBarConfig.feedback.path} 
+                    exact
+                    id={IconBarConfig.feedback.key}
+                    >
                     {IconBarConfig.feedback.icon}
                 </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link eventKey={IconBarConfig.tutorials.key}  
+                <Nav.Link as={RouterNavLink} 
                     title={IconBarConfig.tutorials.title} 
                     className="nav-icon"
-                    onClick={(e)=> setView(IconBarConfig.tutorials.key)}>
+                    to={IconBarConfig.tutorials.path} 
+                    exact
+                    id={IconBarConfig.tutorials.key}
+                    >
                     {IconBarConfig.tutorials.icon}
                 </Nav.Link>
             </Nav.Item>
-            <hr className="my-3 border-indigo dropdown-divider nav-bar-dropdown-divider" role="separator"></hr>
+            <hr className="my-3" role="separator"></hr>
             <Nav.Item>
-                <Nav.Link  eventKey={IconBarConfig.settings.key}  
+                <Nav.Link as={RouterNavLink} 
                     title={IconBarConfig.settings.title} 
                     className="nav-icon"
-                    onClick={(e)=> setView(IconBarConfig.settings.key)}>
+                    to={IconBarConfig.settings.path} 
+                    exact
+                    id={IconBarConfig.settings.key}
+                    >
                     {IconBarConfig.settings.icon}
                 </Nav.Link>
             </Nav.Item>
         </Nav>            
    </Navbar>
-
 }
+
+
 

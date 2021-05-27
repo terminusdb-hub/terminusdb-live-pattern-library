@@ -3,12 +3,8 @@ import {Sidebar} from "./Sidebar"
 import {View} from "./View"
 import {MainLayout} from '@terminusdb-live/tdb-react-layout'
 import {QueryPaneProvider} from "../Hooks/queryPaneContext"
-<<<<<<< HEAD
-import {MainLayout} from "@terminusdb-live/tdb-react-layout"
-=======
 import {WOQLClientObj} from '../init-woql-client'
 
->>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
 export const QueryPage = (props) => {
 
 
@@ -36,14 +32,6 @@ export const QueryPage = (props) => {
     return <MainLayout list={myDBs}/> */
     
     return <QueryPaneProvider>
-<<<<<<< HEAD
-        <MainLayout sideBarContent={<Sidebar/>}>
-            <main role="main" className="m-4">
-                <View/>
-            </main>
-        </MainLayout>
-    </QueryPaneProvider>
-=======
     <React.Fragment>
         <nav className="col-md-2 vh-100 position-fixed d-flex flex-column d-md-block bg-custom-blue sidebar">
             <div className="sidebar-sticky">
@@ -62,7 +50,6 @@ export const QueryPage = (props) => {
         </main>
     </React.Fragment>
      </QueryPaneProvider> 
->>>>>>> 37f95a23c4a67688a0a307941322cab2d851f4f8
 
 }
 

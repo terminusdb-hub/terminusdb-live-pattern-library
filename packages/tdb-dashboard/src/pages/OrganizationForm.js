@@ -1,5 +1,5 @@
 import React from "react"
-import {Form, Card, Button} from '@themesberg/react-bootstrap'
+import {Form, Card, Button} from 'react-bootstrap'
 import {organizationForm} from "./constants"
 import { useAuth0 } from "../react-auth0-spa"
 

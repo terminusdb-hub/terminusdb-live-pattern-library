@@ -8,15 +8,15 @@ export const TDBReactAccordian = (props) => {
         const { eventKey, title, description, icon } = item;
         let iconName = `me-2 ${icon}`
         return (     
-          <Card className="bg-transparent border-secondary">
+          <Card className="bg-transparent border-0">
           <Accordion.Toggle as={Card.Header}  eventKey={eventKey} className="bg-transparent border-bottom-0">
-          <span className="h6 mb-0 fw-bold">
+          {title && <span className="h6 mb-0 fw-bold">
               {iconName && <i className={`mr-2 ${iconName}`}/>}    
               {title}
-          </span>
+          </span>}
           </Accordion.Toggle>
             <Accordion.Collapse eventKey={eventKey}>
-              <Card.Body className="py-2 px-0 m-4">
+              <Card.Body className="py-2 px-0 mr-4 ml-4">
                {description}
               </Card.Body>
             </Accordion.Collapse>

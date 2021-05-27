@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react"
-import {Card} from '@themesberg/react-bootstrap'
+import {Card} from 'react-bootstrap'
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CANCEL_NEW_BRANCH_BUTTON, CREATE_NEW_BRANCH_BUTTON, newBranchForm} from "./constants"
-import {Form, Button, Modal} from "@themesberg/react-bootstrap"
+import {Form, Button, Modal} from "react-bootstrap"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, SWITCH_TO_BRANCH} from "./constants"
 import {Alerts} from "./Alerts"

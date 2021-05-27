@@ -5,7 +5,7 @@ import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components'
 import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {ClassFromSchema} from "../queries/GeneralQueries"
 import {getPropertyMetaTabConfig, getClassesGraphConfig} from "./ViewConfig"
-import {Col} from "@themesberg/react-bootstrap"
+import {Col} from "react-bootstrap"
 
 export const ClassesTab = ({dataProduct, woqlClient}) => {
 

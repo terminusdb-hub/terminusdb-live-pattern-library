@@ -5,7 +5,7 @@ import {Loading} from "./components/Loading"
 import {SERVER_LOADING_MESSAGE} from "./components/constants"
 import {trackWithPendo} from "./trackWithPendo"
 import {useAuth0} from "./react-auth0-spa"
-
+import {ProductsExplorer} from "./pages/ProductsExplorer"
 
 export function App (props){
 
@@ -19,10 +19,10 @@ export function App (props){
     if(loadingServer) return <Loading message={SERVER_LOADING_MESSAGE}/>
 
     return <React.Fragment>
-        <div className="container-fluid container-background">
-            <div className="row">
-                <Routes/>
-            </div>
+        <div className="container-fluid container-background h-100">
+           
+            <Routes/>
+           
         </div>
     </React.Fragment>
 }

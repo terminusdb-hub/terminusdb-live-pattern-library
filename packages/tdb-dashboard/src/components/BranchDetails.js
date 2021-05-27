@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {Row, Col} from "@themesberg/react-bootstrap"
+import {Row, Col} from "react-bootstrap"
 import {BiGitCommit, BiCircle} from "react-icons/bi"
 import {RiBubbleChartLine} from "react-icons/ri"
 import {GoLink} from "react-icons/go"

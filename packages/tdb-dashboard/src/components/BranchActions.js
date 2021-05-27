@@ -1,6 +1,6 @@
 
 import React, {useState} from "react"
-import {Row, Col, Form, Card, Button} from '@themesberg/react-bootstrap'
+import {Row, Col, Form, Card, Button} from 'react-bootstrap'
 import {branchActionConfig, squashFormConfig, resetFormConfig, RESET_BUTTON_CONFIG, CANCEL_BUTTON, SQUASH_BUTTON_CONFIG} from './constants'
 import {BiGitMerge} from "react-icons/bi"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'

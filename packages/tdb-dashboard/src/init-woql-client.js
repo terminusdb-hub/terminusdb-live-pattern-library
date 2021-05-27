@@ -7,6 +7,7 @@ export const WOQLClientObj = () => useContext(WOQLContext)
 export const WOQLClientProvider = ({children, params}) => {
     const [woqlClient, setWoqlClient] = useState(null)
     const [loadingServer, setLoadingServer] = useState(true)
+    const [dataProduct, setDatabase] = useState(false)
 
     const [opts, setOpts] = useState(false)
 
@@ -41,11 +42,20 @@ export const WOQLClientProvider = ({children, params}) => {
             setLoadingServer(false)
     }, [woqlClient])
 
+    const setDataProduct = (id) =>{
+        if(woqlClient){
+            woqlClient.db(id)
+            setDatabase(id)
+        }
+    }
+    
     return (
         <WOQLContext.Provider
             value={{
                 woqlClient,
-                loadingServer
+                loadingServer,
+                dataProduct, 
+                setDataProduct
             }}
         >
             {children}

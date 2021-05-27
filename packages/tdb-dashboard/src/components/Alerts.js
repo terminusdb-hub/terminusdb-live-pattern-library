@@ -1,6 +1,6 @@
 
 import React from "react"
-import { Alert, Button } from '@themesberg/react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 import {TERMINUS_WARNING, TERMINUS_SUCCESS, TERMINUS_DANGER, TERMINUS_MESSAGE} from "./constants"
 import {AiOutlineCheckCircle, AiOutlineWarning} from "react-icons/ai"
 import {BiErrorCircle} from "react-icons/bi"

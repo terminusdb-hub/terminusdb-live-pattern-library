@@ -5,10 +5,14 @@ import {AiOutlineSearch, AiOutlinePlus} from "react-icons/ai"
 import {FaPlus} from "react-icons/fa"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {NEW_DATA_PRODUCT_BUTTON} from "../pages/constants"
+import {WOQLClientObj} from '../init-woql-client'
+import {DATA_PRODUCTS} from "../routing/constants"
+
+import {dataProductList} from "../hooks/DataProductList"
 
 
 const SearchBar = () => {
-    return <Form className="navbar-search mr-3 mt-3">
+    return <Form className="navbar-search mr-3">
         <Form.Group id="topbarSearch">
             <InputGroup className="input-group-merge search-bar">
                 <InputGroup.Text>
@@ -20,59 +24,48 @@ const SearchBar = () => {
     </Form>
 }
 
-const List = ({list, woqlClient, setDataProduct}) => {
+const List = ({setSelectedDataProduct}) => {  
+    const {dataProduct, woqlClient} = WOQLClientObj()
+    const {list} = dataProductList(woqlClient)
 
-    function handleClick(e, woqlClient, setDataProduct) {
-        if(woqlClient){
-            woqlClient.db(e.target.id)
-            if(setDataProduct) setDataProduct(e.target.id)
-        } 
+    function handleClick(e, setSelectedDataProduct) {
+        setSelectedDataProduct(e.target.id) 
     }
 
-    return <ListGroup>
+    return <ListGroup  defaultActiveKey={`key_${dataProduct}`}>
         {list.map(item => <ListGroup.Item action 
             id={item.id}
             eventKey={`key_${item.id}`} 
-            onClick={(e) => handleClick(e, woqlClient, setDataProduct)} 
+            onClick={(e) => handleClick(e, setSelectedDataProduct)} 
             className="bg-transparent text-light border-0">
             {item.label}
         </ListGroup.Item>)}
   </ListGroup>
 }
 
-const DatabaseHeader = ({handleNew}) => {
+const DatabaseHeader = ({page, handleNew}) => {
 
-    function handleClick(e) {
+    function handleClick(e, handleNew) {
         if(handleNew) handleNew(true)
     }
 
-    return <Row className="mr-4" >
+    return <Row className="mr-2" >
         <Col md={8} className="mb-1">
             <p className="text-muted mt-2">DATA PRODUCTS</p>
         </Col>
-        <Col md={4} className="mb-3 d-grid mt-1 mb-1">
-            <Button variant="info" className="float-right" size="sm" title="Create New Data Product" onClick={(e) => handleClick(e)}>
+        {(page == DATA_PRODUCTS) && handleNew && <Col md={4} className="mb-3 d-grid mt-1 mb-1">
+            <Button variant="info" className="float-right" size="sm" title="Create New Data Product" onClick={(e) => handleClick(e, handleNew)}>
                 <FaPlus className="me-2"/>New
             </Button>
-        </Col>
-       {/* <Col md={4} class="col-md-2 d-grid mt-1">
-            <TDBReactButton config={NEW_DATA_PRODUCT_BUTTON}/>
-        </Col>*/}
+        </Col>}
+     
     </Row>
 }
 
-export const DatabaseList = ({list, woqlClient, setDataProduct}) => {
+export const DatabaseList = ({list, setSelectedDataProduct, page, handleNew}) => {
     return <React.Fragment>
         <SearchBar/>
-        <List list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>
+        <DatabaseHeader page={page} handleNew={handleNew}/>
+        <List list={list} setSelectedDataProduct={setSelectedDataProduct}/>
     </React.Fragment>
-}
-
-export const ProductViewDatabaseList = ({list, woqlClient, setDataProduct, handleNew}) => {
-    return <React.Fragment>
-        <SearchBar/>
-        <DatabaseHeader handleNew={handleNew}/>
-        <List list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>
-    </React.Fragment>
-
 }

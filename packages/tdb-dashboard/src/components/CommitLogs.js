@@ -4,7 +4,7 @@ import {getCommitsTabConfig, getCommitViewTabConfig} from "./ViewConfig"
 import {WOQLTable} from '@terminusdb/terminusdb-react-components'
 import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
 import {getRemovedTriplesQuery, getAddedTriplesQuery} from "../queries/BranchQueries"
-import {Row, Button, Toast} from "@themesberg/react-bootstrap"
+import {Row, Button, Toast} from "react-bootstrap"
 import {getUsing, printts, copyToClipboard} from "./utils"
 import {TERMINUS_MESSAGE, EMPTY_ADDED_DATA, EMPTY_REMOVED_DATA} from "./constants"
 import {Alerts} from "./Alerts"
