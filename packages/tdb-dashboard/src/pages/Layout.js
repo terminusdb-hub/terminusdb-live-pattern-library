@@ -1,5 +1,4 @@
 import React, {useState}  from 'react'
-//import {MainNavBar} from '@terminusdb-live/tdb-react-layout'
 import {MainNavBar} from '../components/MainNavBar'
 import SplitPane from 'react-split-pane'
 import {handleWidthChange} from './utils'
@@ -7,7 +6,7 @@ import {DataProductsHome} from "./DataProductsHome"
 import {IconBar} from "../components/IconBar"
 import {Col} from "@themesberg/react-bootstrap"
 import {DATA_PRODUCT_EXPLORER_VIEW, DATA_PRODUCTS_VIEW, DATA_PRODUCT_MODEL_VIEW, DATA_PRODUCT_MANAGE_VIEW} from "./constants"
-import {DatabaseList} from "../components/DatabaseList"
+import {DatabaseList, ProductViewDatabaseList} from "../components/DatabaseList"
 import {dataProductList} from "../hooks/DataProductList"
 import {ModelBuilder} from "./ModelBuilder"
 import {ProductsExplorer} from "./ProductsExplorer"
@@ -19,6 +18,7 @@ import {QueryPaneProvider} from "../hooks/queryPaneContext"
 import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout'
 import { useAuth0 } from "../react-auth0-spa"
 import {DBContextProvider} from "../hooks/DBContext"
+import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
 
 
 
@@ -80,16 +80,31 @@ export const Layout = ({woqlClient}) => {
     const [view, setView] = useState(DATA_PRODUCTS_VIEW)
     const {list, setList} = dataProductList(woqlClient)
 
-    const {isAuthenticated, user, loading,loginWithRedirect,logout, login } = useAuth0()
+    const {isAuthenticated, user,loginWithRedirect,logout, login } = useAuth0()
+
+    const {newDataProduct,
+        setNewDataProduct,
+        setNewDataProductInfo,
+        loading,
+        handleNew} = useCreateNewDataProductStates(woqlClient)
+    
+
     const {accordianDatabaseButtons, 
         accordianDatabaseList, 
         accordianSampleQueries, 
-        accordianSavedQueries} = getAccordianObjects(woqlClient, dataProduct, setDataProduct, list)
+        accordianSavedQueries} = getAccordianObjects(woqlClient, dataProduct, setDataProduct, list, handleNew)
 
 
     const Content = ({view, woqlClient, list, dataProduct}) => {
         if(view == DATA_PRODUCTS_VIEW) 
-            return <DataProductsHome woqlClient={woqlClient} list={list}/> 
+            return <DataProductsHome woqlClient={woqlClient} 
+                list={list} 
+                dataProduct={dataProduct} 
+                newDataProduct={newDataProduct} 
+                setNewDataProduct={setNewDataProduct} 
+                setNewDataProductInfo={setNewDataProductInfo}
+                loading={loading}
+                /> 
         else if (view == DATA_PRODUCT_EXPLORER_VIEW)
             return <ProductsExplorer woqlClient={woqlClient}/>
         else if (view == DATA_PRODUCT_MODEL_VIEW)
@@ -114,17 +129,11 @@ export const Layout = ({woqlClient}) => {
                 <IconBar setView={setView} dataProduct={dataProduct}/>
             </Col>
             <Col md={9}>
+                
+                {(view == DATA_PRODUCTS_VIEW) && <ProductViewDatabaseList list={list} woqlClient={woqlClient} handleNew={handleNew}/>}
 
-
-                { (view !== DATA_PRODUCT_EXPLORER_VIEW) && <DatabaseList list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>}
-               
-                {/*dataProduct && (view == DATA_PRODUCT_EXPLORER_VIEW) && <QueryPaneProvider>
-                    <DatabaseButtons woqlClient={woqlClient} dataProduct={dataProduct}/>
-                    <hr className="my-3 mr-3 border-indigo dropdown-divider" role="separator"></hr>
-                    <SampleQueries woqlClient={woqlClient} dataProduct={dataProduct}/>
-                    <hr className="my-3 mr-3 border-indigo dropdown-divider" role="separator"></hr>
-                    <SavedQueries/>
-                </QueryPaneProvider>*/}
+                {(view !== DATA_PRODUCT_EXPLORER_VIEW) && (view !== DATA_PRODUCTS_VIEW) && 
+                    <DatabaseList list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>}
 
                 {dataProduct && (view == DATA_PRODUCT_EXPLORER_VIEW) && <React.Fragment>
                     <TDBReactAccordian

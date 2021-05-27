@@ -1,7 +1,10 @@
 
 import React from "react"
-import {Form, InputGroup, ListGroup} from "@themesberg/react-bootstrap"
-import {AiOutlineSearch} from "react-icons/ai"
+import {Form, InputGroup, ListGroup, Row, Col, Button} from "@themesberg/react-bootstrap"
+import {AiOutlineSearch, AiOutlinePlus} from "react-icons/ai"
+import {FaPlus} from "react-icons/fa"
+import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
+import {NEW_DATA_PRODUCT_BUTTON} from "../pages/constants"
 
 
 const SearchBar = () => {
@@ -37,10 +40,39 @@ const List = ({list, woqlClient, setDataProduct}) => {
   </ListGroup>
 }
 
+const DatabaseHeader = ({handleNew}) => {
+
+    function handleClick(e) {
+        if(handleNew) handleNew(true)
+    }
+
+    return <Row className="mr-4" >
+        <Col md={8} className="mb-1">
+            <p className="text-muted mt-2">DATA PRODUCTS</p>
+        </Col>
+        <Col md={4} className="mb-3 d-grid mt-1 mb-1">
+            <Button variant="info" className="float-right" size="sm" title="Create New Data Product" onClick={(e) => handleClick(e)}>
+                <FaPlus className="me-2"/>New
+            </Button>
+        </Col>
+       {/* <Col md={4} class="col-md-2 d-grid mt-1">
+            <TDBReactButton config={NEW_DATA_PRODUCT_BUTTON}/>
+        </Col>*/}
+    </Row>
+}
+
 export const DatabaseList = ({list, woqlClient, setDataProduct}) => {
     return <React.Fragment>
         <SearchBar/>
-        <p className="text-muted">Connect to a Data Product</p>
         <List list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>
     </React.Fragment>
+}
+
+export const ProductViewDatabaseList = ({list, woqlClient, setDataProduct, handleNew}) => {
+    return <React.Fragment>
+        <SearchBar/>
+        <DatabaseHeader handleNew={handleNew}/>
+        <List list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>
+    </React.Fragment>
+
 }
