@@ -1,6 +1,7 @@
 import React,{useState} from "react"
 import {Container, Button} from "react-bootstrap"
 import { useAuth0 } from "../react-auth0-spa";
+import history from "../routing/history"
 
 export const Home = (props) => {
     const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -20,20 +21,31 @@ export const Home = (props) => {
             returnTo: redirect_uri
     });
 
-    return <Container className="h-100 d-flex justify-content-center">
+    const goToDash =()=>{
+        history.push('/products')
+    }
+
+    return <Container className="h-100 d-flex justify-content-center"  style={{maxHeight:"200px"}}>
         {!isAuthenticated &&
         <Button id = "qsLoginBtn"
-            color = "primary"
             className = "btn-margin m-4"
             onClick = {loginToAuth0}>
             LOG IN TEST....
         </Button>}
-        {isAuthenticated &&  <Button id = "qsLoginBtn"
-            color = "secondary"
-            className = "btn-margin m-4"
-            onClick = {logoutWithRedirect}>
-            LOG OUT TEST....
-        </Button>}
+        {isAuthenticated &&  
+        <React.Fragment>          
+            <Button id = "qsLoginBtn"
+                className = "btn-margin m-4 btn-warning"
+                onClick = {logoutWithRedirect}>
+                LOG OUT TEST....
+            </Button>
+            <Button id = "qsLoginBtn"
+                className = "btn-margin m-4"
+                onClick = {goToDash}>
+                DASHBOARD
+                </Button>
+        </React.Fragment>
+        }
     </Container>
 
 }

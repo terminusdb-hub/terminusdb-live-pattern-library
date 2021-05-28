@@ -6,6 +6,10 @@ body{
   background-color: #222 !important;
 }
 
+.brand-color{
+  color: #00C08B !important;
+}
+
 .main-content {
   overflow-y: auto;
 }

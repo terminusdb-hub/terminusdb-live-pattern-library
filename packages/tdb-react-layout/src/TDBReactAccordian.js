@@ -3,16 +3,20 @@ import { Card, Accordion,Button } from 'react-bootstrap';
 
 export const TDBReactAccordian = (props) => {
     const { defaultKey, data = [], className = "" } = props;
-
+    const arrowIconName = 'fas fa-chevron-down'
     const AccordionItem = (item) => {
         const { eventKey, title, description, icon } = item;
         let iconName = `me-2 ${icon}`
         return (     
           <Card className="bg-transparent border-secondary">
-          <Accordion.Toggle as={Card.Header}  eventKey={eventKey} className="bg-transparent border-bottom-0">
+          <Accordion.Toggle as={Card.Header}  eventKey={eventKey} 
+          className="bg-transparent border-bottom-0">
           <span className="h6 mb-0 fw-bold">
               {iconName && <i className={`mr-2 ${iconName}`}/>}    
               {title}
+          </span>
+          <span >
+            <i className={arrowIconName}></i>
           </span>
           </Accordion.Toggle>
             <Accordion.Collapse eventKey={eventKey}>

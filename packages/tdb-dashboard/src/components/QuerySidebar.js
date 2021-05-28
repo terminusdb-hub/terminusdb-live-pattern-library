@@ -5,15 +5,17 @@ import {SampleQueries} from "./SampleQueries"
 import {SavedQueries} from "./SavedQueries"
 import {Accordion, Card} from "react-bootstrap"
 import {DATABASE_TAB, SAVED_QUERIES, SAMPLE_QUERIES} from "./constants"
+import {WOQLClientObj} from '../init-woql-client'
 
 export const QuerySidebar= (props) =>{
+    const {dataProduct} = WOQLClientObj()
 
     let accordianObject = 
     [
         {
             id: 1,
             eventKey: "1",
-            title: DATABASE_TAB,
+            title: dataProduct || DATABASE_TAB,
             icon: "fas fa-database",
             description: <DatabaseButtons/>
         },

@@ -6,9 +6,9 @@ import {IconBarConfig} from  "./constants"
 import {WOQLClientObj} from '../init-woql-client'
 
 export const IconBar =  () => {
-    const {woqlClient,dataProduct} = WOQLClientObj()
+    const {dataProduct} = WOQLClientObj()
     let disabled =  {disabled:true} 
-    if(dataProduct!=='_system'){
+    if(dataProduct && dataProduct!=='_system'){
         disabled={}
     }
   
@@ -16,8 +16,11 @@ export const IconBar =  () => {
         <Nav defaultActiveKey={IconBarConfig.dataProductView.key} className="flex-column">
             <Nav.Item>
                 <Nav.Link 
-                    className="nav-icon">
-                    {IconBarConfig.logo.svg}
+                    as={RouterNavLink}
+                    className="nav-icon"
+                    to={'/'}
+                    exact>
+                    {IconBarConfig.logo.svg}                
                 </Nav.Link>
             </Nav.Item>
             <hr className="my-3" role="separator"></hr>

@@ -1,3 +1,5 @@
+//maybe I can remove it
+/*
 import React from "react"
 import {
     Router,
@@ -15,12 +17,12 @@ import {DataProductsHome} from "../pages/DataProductsHome"
 import {DBContextProvider} from "../hooks/DBContext"
 import {Home} from "../pages/Home"
 import {VerifyEmail} from "../pages/VerifyEmail"
-//import {ConsoleHistory} from "../"
-//{basename: base_router}
+import PrivateRoute from "./PrivateRoute"
+import {DashboardRouter} from "./DashboardRouter"
+
 export const ConsoleHistory= createBrowserHistory();
 
 export const Routes = () => {
-// <DataProductsHome woqlClient={woqlClient} list={list}/>
     if (window.location.search.includes("error=unauthorized")) {
         ConsoleHistory.push("/verify")
     }
@@ -32,45 +34,12 @@ export const Routes = () => {
                 <Route path="/verify" exact>
                     <VerifyEmail />
                 </Route>
-                <Route path={DATA_PRODUCTS}>
-                    <DataProductsHome />
-                </Route>
+                <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
                 <DBContextProvider>
-                    <Route path={PRODUCT_EXPLORER}>
-                        <ProductsExplorer />
-                    </Route> 
-                    <Route path={PRODUCT_MODELS}>
-                        <ModelProductPage/>     
-                    </Route>                   
-                </DBContextProvider>            
+                    <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
+                    <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>               
+                </DBContextProvider> 
             </Switch>
             </Router>
-  }
-
-  /*
-
-   <Route path={ORGANIZATION}>
-                    <InitSetupPage />
-                </Route>
-
-   <Route path={PRODUCT_EXPLORER}>
-                    <ProductsExplorer woqlClient={woqlClient}/>
-                </Route>
-                <Route path={PRODUCT_MODELS}>
-                    <DBContextProvider woqlClient={woqlClient} dataProduct={dataProduct}> 
-                        <ModelBuilder woqlClient={woqlClient} dataProduct={dataProduct}/>
-                    </DBContextProvider>
-                </Route>
-
-  
-  <Router>
-            <Switch>
-                <Route path={DATA_PRODUCTS}>
-                    <Layout woqlClient={woqlClient}/>
-                </Route>
-                <Route path={ORGANIZATION}>
-                    <InitSetupPage woqlClient={woqlClient}/>
-                </Route>
-            </Switch>
-            </Router>*/
-  
+}
+*/

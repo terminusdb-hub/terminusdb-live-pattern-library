@@ -26,7 +26,7 @@ export const ModelBuilder = (props) =>{
         reportMessage,
         callServerLoading,
         resetReport
-    } = modelCallServerHook(woqlClient, branch, ref)
+    } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
 
     if(!graphs) return <div>error in loading graph</div>
 

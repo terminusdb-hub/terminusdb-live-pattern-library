@@ -15,7 +15,8 @@ import {SideBar} from "./Sidebar"
 
 export const DataProductsHome = (props) => {
     const {woqlClient,setDataProduct} = WOQLClientObj()
-    if(woqlClient)woqlClient.setSystemDb()
+
+   //if(woqlClient)woqlClient.setSystemDb()
 
     const {list} = dataProductList(woqlClient)
     const {newDataProduct,

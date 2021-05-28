@@ -5,11 +5,13 @@ import {Results} from "./Results"
 import {Row, Col} from "react-bootstrap"
 import {QueryPaneControl} from "../hooks/QueryPaneControl"
 import {QueryEditor} from "./QueryEditor"
+import {WOQLClientObj} from '../init-woql-client'
 
 export const QueryPane = ({id, name, queryObj}) => {
     const [viewResult, setViewResult]=useState(0)
     const result = queryObj.resultObj.result
     const showResult = viewResult || result ? true : false
+    const {dataProduct} = WOQLClientObj()
     //maybe we not need an external hook
     const {setExpanded,
         setQpExpanded,
@@ -42,7 +44,11 @@ export const QueryPane = ({id, name, queryObj}) => {
         <div className="query-pane-pallet mb-3 mt-3 mr-4" >
             <Row>
                 <Col md={10}>
-                    <h1 className="h5 ml-3">{name}</h1>
+                    <h1 className="h5 ml-3">
+                        {name} , Explore the 
+                        <strong className="brand-color ml-1 mr-1">{dataProduct} </strong>
+                        data product
+                    </h1>
                 </Col>
                 <Col md={2} className="d-flex justify-content-end pr-4">
                     {queryObj.mainPanelIsOpen && <TDBReactButton 

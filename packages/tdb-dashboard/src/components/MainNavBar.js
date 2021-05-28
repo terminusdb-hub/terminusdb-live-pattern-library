@@ -1,8 +1,10 @@
 import React from "react"
 import {PROFILE_ROUTE} from "./constants"
 import {AiOutlineUser, AiOutlinePoweroff} from "react-icons/ai"
-import {Button, ButtonGroup, Dropdown} from 'react-bootstrap';
+import {Button, ButtonGroup, Dropdown, Form} from 'react-bootstrap';
 import { useAuth0 } from "../react-auth0-spa";
+import {Nav,Navbar} from "react-bootstrap"
+import { NavLink as RouterNavLink } from "react-router-dom";
 
 export const MainNavBar = (props) => {
     const { user, isAuthenticated, logout } = useAuth0();
@@ -16,13 +18,12 @@ export const MainNavBar = (props) => {
     })
 
 
-    return <div className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="collapse navbar-collapse" id="navbarColor02">
-            <ul className="navbar-nav mr-auto">
-            </ul>
-            <form className="form-inline my-2 my-lg-0">
-            <input className="form-control mr-sm-2" type="text" placeholder="Search"/>
-            <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    return <Navbar className="navbar-dark bg-dark p-0">
+            <Nav className="mr-auto"></Nav>
+            <div className="d-flex flex-grow-1 justify-content-end">         
+            <form className="d-flex align-items-end">              
+                <input className="form-control mr-sm-2" type="text" placeholder="Search"/>
+                <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>              
             </form>
             {user && <Dropdown  as={ButtonGroup} className="me-2 mb-2">
                 <Button size="sm" className="bg-transparent border-0">
@@ -47,6 +48,6 @@ export const MainNavBar = (props) => {
                 </Dropdown.Menu>
 
             </Dropdown>}
-        </div>
-    </div>
+            </div>   
+    </Navbar>
 }
