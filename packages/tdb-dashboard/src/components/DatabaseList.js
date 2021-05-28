@@ -10,20 +10,6 @@ import {DATA_PRODUCTS} from "../routing/constants"
 
 import {dataProductList} from "../hooks/DataProductList"
 
-
-const SearchBar = () => {
-    return <Form className="navbar-search mr-3">
-        <Form.Group id="topbarSearch">
-            <InputGroup className="input-group-merge search-bar">
-                <InputGroup.Text>
-                    <AiOutlineSearch/>
-                </InputGroup.Text>
-                <Form.Control type="text" placeholder="Search Data Products" className="bg-transparent"/>
-            </InputGroup>
-        </Form.Group>
-    </Form>
-}
-
 const List = () => {  
     const {dataProduct, woqlClient,setDataProduct} = WOQLClientObj()
     const {list} = dataProductList(woqlClient)
@@ -64,7 +50,6 @@ const DatabaseHeader = ({page, handleNew}) => {
 
 export const DatabaseList = ({page, handleNew}) => {
     return <React.Fragment>
-        <SearchBar/>
         <DatabaseHeader page={page} handleNew={handleNew}/>
         <List/>
     </React.Fragment>
