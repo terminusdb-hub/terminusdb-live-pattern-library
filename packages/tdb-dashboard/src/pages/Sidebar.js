@@ -9,8 +9,7 @@ export const Sidebar= (props) =>{
         {
             id: 1,
             eventKey: "1",
-            title: "Database List",
-            description: <DatabaseList/>
+            description: <DatabaseList setSelectedDataProduct={props.setSelectedDataProduct} handleNew={props.handleNew} page={props.page}/>
         }
     ]
 

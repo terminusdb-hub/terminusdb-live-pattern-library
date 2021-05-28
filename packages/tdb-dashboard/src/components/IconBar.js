@@ -8,10 +8,11 @@ import {WOQLClientObj} from '../init-woql-client'
 export const IconBar =  () => {
     const {dataProduct} = WOQLClientObj()
     let disabled =  {disabled:true} 
+
     if(dataProduct && dataProduct!=='_system'){
         disabled={}
     }
-  
+ 
     return <Navbar fixed expand={false} className="pt-2 navbar navbar-dark bg-dark h-100 nav-icon-bar">
         <Nav defaultActiveKey={IconBarConfig.dataProductView.key} className="flex-column">
             <Nav.Item>
@@ -38,16 +39,16 @@ export const IconBar =  () => {
                 </Nav.Link>
             </Nav.Item> 
             <Nav.Item>
-                    <Nav.Link  as={RouterNavLink}
-                        title={IconBarConfig.dataProductModal.title}  
-                        className="nav-icon" 
-                        {...disabled}
-                        to={IconBarConfig.dataProductModal.path} 
-                        exact
-                        id={IconBarConfig.dataProductModal.key}>
-                        {IconBarConfig.dataProductModal.icon}
-                    </Nav.Link>
-                </Nav.Item>
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.dataProductModal.title}  
+                    className="nav-icon" 
+                    {...disabled}
+                    to={IconBarConfig.dataProductModal.path} 
+                    exact
+                    id={IconBarConfig.dataProductModal.key}>
+                    {IconBarConfig.dataProductModal.icon}
+                </Nav.Link>
+            </Nav.Item>
                 <Nav.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={IconBarConfig.dataProductExplorer.title} 

@@ -35,10 +35,12 @@ export const BranchActions = ({woqlClient, branch, handleClose, setRefresh}) => 
 
     function onReset () {
         setResetForm(true)
+        setSquashForm(false)
     }
 
     function onSquash () {
         setSquashForm(true)
+        setResetForm(false)
     }
 
     function handleOnBlur (e) {
@@ -81,12 +83,15 @@ export const BranchActions = ({woqlClient, branch, handleClose, setRefresh}) => 
                 {reportAlert}
             </div>}
 
-            {resetForm && <Card variant="dark" className="mt-5">
+            {resetForm && <Card variant="dark" border="light" className="mt-5">
                 <Card.Header>
                     <b>{resetFormConfig.title}</b>
                     <TDBReactButton onClick={(e) => setResetForm(false)} className= "cancel-button" config={CANCEL_BUTTON}/>
                 </Card.Header>
                 <Card.Body>
+                    <Card.Text className="text-muted">
+                        {resetFormConfig.description}
+                    </Card.Text>
                     <Form>
                         <Form.Group className="mb-3">
                             <Form.Control required id={resetFormConfig.id} type={"text"} onBlur={handleOnBlur} placeholder={resetFormConfig.placeholder} />
@@ -97,12 +102,15 @@ export const BranchActions = ({woqlClient, branch, handleClose, setRefresh}) => 
                 </Card.Body>
             </Card>}
 
-            {squashForm && <Card variant="dark" className="mt-5">
+            {squashForm && <Card variant="dark" border="light" className="mt-5">
                     <Card.Header>
                         <b>{squashFormConfig.title}</b>
                         <TDBReactButton onClick={(e) => setSquashForm(false)} className= "cancel-button" config={CANCEL_BUTTON}/>
                     </Card.Header>
                     <Card.Body>
+                        <Card.Text className="text-muted">
+                            {squashFormConfig.description}
+                        </Card.Text>
                         <Form>
                             <Form.Group className="mb-3">
                                 <Form.Control required id={squashFormConfig.id} type={"text"} onBlur={handleOnBlur} placeholder={squashFormConfig.placeholder} />

@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react"
 import {DBContextObj} from "../hooks/DBContext"
-/*import TerminusClient from '@terminusdb/terminusdb-client'
-import {Card, Row, Col} from "react-bootstrap"
-import {AiOutlineBranches} from "react-icons/ai"
-import {BiGitCommit, BiCircle} from "react-icons/bi"
-import {RiBubbleChartLine} from "react-icons/ri"
-import {GoLink} from "react-icons/go"
-import {BsPencil} from "react-icons/bs"*/
 import {Card, Row, Col, ListGroup, Button, Badge} from "react-bootstrap"
 import {AiOutlineDelete, AiOutlineSend} from "react-icons/ai"
 import {NEW_BRANCH_CONFIG} from "./constants"
@@ -14,9 +7,11 @@ import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {timeConverter} from "./utils"
 import {NewBranchCard, BranchInfoModal} from "../components/BranchInfo"
 import {BranchControl} from "../hooks/BranchControl"
+import {WOQLClientObj} from '../init-woql-client'
+ 
 
-export const ManageProducts = ({woqlClient, dataProduct}) => {
-
+export const ManageProducts = () => {
+    const {woqlClient, dataProduct} = WOQLClientObj()
     const {branches, branch, ref, updateBranches}=DBContextObj()
 
     const { 
@@ -34,7 +29,7 @@ export const ManageProducts = ({woqlClient, dataProduct}) => {
         selectedBranch,
         setSelectedBranch,
         handleOptimize
-    } = BranchControl(woqlClient, branches, branch, ref, updateBranches)
+    } = BranchControl(branches, branch, ref, updateBranches)
 
     const [showDefault, setShowDefault] = useState(false)
     const [selectedCommit, setSelectedCommit] = useState(false)
@@ -121,7 +116,7 @@ export const ManageProducts = ({woqlClient, dataProduct}) => {
             <Card border="light" className="shadow-sm">
                 <Card.Header className="border-bottom border-light d-flex justify-content-between">
                     <h5 className="mb-0">Branches 
-                        {branchCount && <Badge bg="info text-dark ml-3">{branchCount}</Badge>}
+                        {branchCount && <Badge variant="info" className="text-dark ml-3">{branchCount}</Badge>}
                     </h5>
                     <Button variant="secondary" size="sm">See all</Button>
                 </Card.Header>
@@ -134,7 +129,7 @@ export const ManageProducts = ({woqlClient, dataProduct}) => {
          </React.Fragment>
       }
 
-      return <main className="content mr-3 ml-5 w-100">
+      return <main className="content mr-3 ml-5 w-95">
           <DisplayBranchList branchList={branchList} branch={branch} setShowDefault={setShowDefault}/>
           <BranchInfoModal woqlClient={woqlClient} 
                 branch={selectedBranch} 

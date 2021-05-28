@@ -204,7 +204,7 @@ export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => 
         let tConf = getCommitsTabConfig(result, limit, cellClick, getCopyButton)
         setTableConfig(tConf)
     }, [result])
-
+ 
 
     return <React.Fragment>
         {copied && <Toast show={showCopiedMessage} onClose={handleCloseCopiedMessage} className="bg-light text-white my-3">
@@ -217,7 +217,7 @@ export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => 
                 {copied} !
             </Toast.Body>
         </Toast>}
-        <h5>{`Latest Updates on ${branch} branch`}</h5>
+        <h6 class="fw-normal text-muted mb-2">{`Latest Updates on ${branch} branch`}</h6>
         {result && tableConfig && <WOQLTable
             result={result}
             freewidth={true}

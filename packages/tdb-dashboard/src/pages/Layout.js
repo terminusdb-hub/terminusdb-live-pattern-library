@@ -6,15 +6,16 @@ import {handleWidthChange} from './utils'
 import {IconBar} from "../components/IconBar"
 
 export const Layout = (props) => {
+    
     return <Container fluid className="p-0 flex-row">                              
             <SplitPane split="vertical" minSize={70} defaultSize={350} primary="first">                                                    
                 <div className="side-black h-100 d-flex">
-                <IconBar />
-                {props.sideBarContent}
+                    <IconBar />
+                    {props.sideBarContent}
                 </div>
                 <div className="h-100">
-                <MainNavBar/>
-                {props.children}                                       
+                    <MainNavBar/>
+                    {props.children}                                       
                 </div>
             </SplitPane>
         </Container>
@@ -30,10 +31,11 @@ export const Layout = (props) => {
                 <IconBar setView={setView} dataProduct={dataProduct}/>
             </Col>
             <Col md={9}>
+                
+                {(view == DATA_PRODUCTS_VIEW) && <ProductViewDatabaseList list={list} woqlClient={woqlClient} handleNew={handleNew}/>}
 
-
-                { (view !== DATA_PRODUCT_EXPLORER_VIEW) && <DatabaseList list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>}
-               
+                {(view !== DATA_PRODUCT_EXPLORER_VIEW) && (view !== DATA_PRODUCTS_VIEW) && 
+                    <DatabaseList list={list} woqlClient={woqlClient} setDataProduct={setDataProduct}/>}
 
                 {dataProduct && (view == DATA_PRODUCT_EXPLORER_VIEW) && <React.Fragment>
                     <TDBReactAccordian

@@ -7,7 +7,7 @@ export const DBContextObj = () => useContext(DBContext)
 import {WOQLClientObj} from '../init-woql-client'
 
 export const DBContextProvider = ({children}) => {
-    const {woqlClient,dataProduct} = WOQLClientObj()
+    const {woqlClient, dataProduct} = WOQLClientObj()
     
     if (!woqlClient.db()) {
         return (
@@ -43,7 +43,7 @@ export const DBContextProvider = ({children}) => {
             let q = WOQL.lib().branches()
             setBranchesQuery(q)
         }
-    }, [branchesReload])
+    }, [branchesReload, dataProduct])
 
     useEffect(() => {
         let binds = branchesDataProvider ? branchStructureFromBindings(branchesDataProvider) : []

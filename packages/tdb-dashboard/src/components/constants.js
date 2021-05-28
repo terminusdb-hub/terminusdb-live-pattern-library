@@ -4,7 +4,7 @@ import {AiOutlineMail, AiOutlineDatabase, AiOutlineSetting} from "react-icons/ai
 import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
 import {SiGithubactions} from "react-icons/si"
-import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS} from "../routing/constants"
+import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE} from "../routing/constants"
 
 //User Messages 
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
@@ -48,7 +48,7 @@ export const IconBarConfig = {
     dataProductManage: {
         title: "Manage Data Product",
         key: "Manage Data",
-        path: "/manage",
+        path: PRODUCT_MANAGE,
         icon: <SiGithubactions/>
     },
     feedback: {
@@ -75,7 +75,7 @@ export const IconBarConfig = {
 // Cance New Data product 
 export const CANCEL_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
 //New Data product create button configurations
-export const CREATE_NEW_DATA_PRODUCT_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "outline-info"}
+export const CREATE_NEW_DATA_PRODUCT_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "info"}
 // New Data product Form configurations
 export const newDataProductForm = {
     id: {
@@ -261,19 +261,21 @@ export const SWITCH_TO_BRANCH = "Switch to - "
 
 //reset branch form
 export const resetFormConfig = {
-    title: "Reset this branch to a commit",
+    title: "Reset",
     id: "reset",
-    placeholder: "Enter commit id of interest to reset branch to"
+    placeholder: "Enter commit id of interest to reset branch to",
+    description: "Force this branch (named graph) to point at a particular commit."
 }
-export const RESET_BUTTON_CONFIG = {label:"Reset Branch", title: "Reset Branch", variant: "outline-info", size:"sm"}
+export const RESET_BUTTON_CONFIG = {label:"Reset Branch", title: "Reset Branch", variant: "info", size:"sm"}
 
 // squaash branch form 
 export const squashFormConfig = {
-    title: "Squash this branch",
+    title: "Squash",
     id: "squash",
-    placeholder: "A an optional description"
+    placeholder: "An optional description",
+    description: "Combine a range of commits into one big commit."
 }
-export const SQUASH_BUTTON_CONFIG = {label:"Squash Branch", title: "Squash Branch", variant: "outline-info", size:"sm"}
+export const SQUASH_BUTTON_CONFIG = {label:"Squash Branch", title: "Squash Branch", variant: "info", size:"sm"}
 
 
 export const EMPTY_ADDED_DATA = "No added data to display ... "

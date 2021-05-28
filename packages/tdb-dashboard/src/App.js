@@ -15,6 +15,7 @@ import {DBContextProvider} from "./hooks/DBContext"
 import {Home} from "./pages/Home"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
+//import {ManageProductPage} from "./pages/ManageProductPage"
 
 export function App (props){
     const { user, loading} = useAuth0();
