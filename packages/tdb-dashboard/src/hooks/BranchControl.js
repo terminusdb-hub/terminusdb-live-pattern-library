@@ -4,8 +4,10 @@ import {newBranchForm, TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/co
 import {Alerts} from "../components/Alerts"
 import {getBranchCountQuery} from "../queries/BranchQueries"
 import {executeQueryHook} from "./executeQueryHook"
-
-export function BranchControl (woqlClient, branches, branch, ref, updateBranches, setHead)  {
+import {WOQLClientObj} from '../init-woql-client'
+ 
+export function BranchControl (branches, branch, ref, updateBranches, setHead)  {
+    const {woqlClient, dataProduct} = WOQLClientObj()
 
     //get branch count 
     const [branchCount, setBranchCount]=useState(0)
@@ -17,6 +19,12 @@ export function BranchControl (woqlClient, branches, branch, ref, updateBranches
             setBranchCount(branchCountDataProvider[0]['Count']['@value'])
         }
     }, [branchCountDataProvider])
+
+    useEffect(() => {
+        if(dataProduct) {
+            setBranchCountQuery(getBranchCountQuery())
+        }
+    }, [dataProduct])
 
     // branch states
     const [sourceCommit, setSourceCommit] = useState(false)

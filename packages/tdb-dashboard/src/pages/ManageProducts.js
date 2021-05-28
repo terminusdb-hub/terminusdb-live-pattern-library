@@ -8,7 +8,7 @@ import {timeConverter} from "./utils"
 import {NewBranchCard, BranchInfoModal} from "../components/BranchInfo"
 import {BranchControl} from "../hooks/BranchControl"
 import {WOQLClientObj} from '../init-woql-client'
-
+ 
 
 export const ManageProducts = () => {
     const {woqlClient, dataProduct} = WOQLClientObj()
@@ -29,7 +29,7 @@ export const ManageProducts = () => {
         selectedBranch,
         setSelectedBranch,
         handleOptimize
-    } = BranchControl(woqlClient, branches, branch, ref, updateBranches)
+    } = BranchControl(branches, branch, ref, updateBranches)
 
     const [showDefault, setShowDefault] = useState(false)
     const [selectedCommit, setSelectedCommit] = useState(false)
@@ -116,7 +116,7 @@ export const ManageProducts = () => {
             <Card border="light" className="shadow-sm">
                 <Card.Header className="border-bottom border-light d-flex justify-content-between">
                     <h5 className="mb-0">Branches 
-                        {branchCount && <Badge bg="info text-dark ml-3">{branchCount}</Badge>}
+                        {branchCount && <Badge variant="info" className="text-dark ml-3">{branchCount}</Badge>}
                     </h5>
                     <Button variant="secondary" size="sm">See all</Button>
                 </Card.Header>

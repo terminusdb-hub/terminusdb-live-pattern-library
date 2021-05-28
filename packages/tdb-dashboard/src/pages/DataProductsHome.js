@@ -81,8 +81,7 @@ export const DataProductsHome = (props) => {
 
     
 
-    const {newDataProduct,
-        setNewDataProduct,
+    const {
         setNewDataProductInfo,
         loading,
         handleNew,
@@ -93,11 +92,7 @@ export const DataProductsHome = (props) => {
         setDataProduct(dataProductID)
         //ConsoleHistory.push(PRODUCT_MODELS)s
     }
-
-    useEffect (() => {
-       if(newDataProduct ) setShowNewDataProductModal(true)
-    }, [newDataProduct])
-
+ 
     return  <Layout sideBarContent={<Sidebar setSelectedDataProduct={setSelectedDataProduct} page={DATA_PRODUCTS} handleNew={handleNew}></Sidebar>}>
         <main className="content mr-3 ml-5 w-95">
             <Row>
@@ -110,8 +105,6 @@ export const DataProductsHome = (props) => {
             </Row>
 
             <NewDatabaseModal setShowNewDataProductModal={setShowNewDataProductModal} showNewDataProductModal={showNewDataProductModal} setNewDataProductInfo={setNewDataProductInfo} loading={loading}/>
-
-
 
             {dataProduct && dataProductDetails && <Row className="mt-5 w-100 justify-content-md-center">
             <Col xs={12} className="mb-4 d-none d-sm-block align-items-center ">
@@ -150,13 +143,13 @@ export const DataProductsHome = (props) => {
             </Col>
         </Row>}
             
-            {!dataProduct && <Row className="mt-5">
+            {!dataProduct && <div style={{top: "50%", bottom: "50%", position: "absolute", width: "100%"}}>
                 <Col xs={12} className="text-center d-flex align-items-center justify-content-center">
                     <h1 className="text-dark mt-5">
                         Use the sidebar to connect to a <span className="fw-bolder">Data Product</span>
                     </h1>
                 </Col>
-            </Row>}
+            </div>}
         </main>
     </Layout>
 }

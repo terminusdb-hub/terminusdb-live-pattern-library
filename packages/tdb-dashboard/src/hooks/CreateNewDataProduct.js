@@ -11,7 +11,6 @@ export function useCreateNewDataProductStates () {
     const [result, setResult] = useState(false)
 
     const [showNewDataProductModal, setShowNewDataProductModal] = useState(false)
-    const [newDataProduct, setNewDataProduct] = useState(false)
     const [newDataProductInfo, setNewDataProductInfo] = useState({})
 
 
@@ -22,18 +21,13 @@ export function useCreateNewDataProductStates () {
         }
     }, [newDataProductInfo])
 
-    useEffect(() => {
-        setNewDataProduct(false)
-    }, [result])
 
 
     function handleNew () {
-        setNewDataProduct(true)
+        setShowNewDataProductModal(true)
     }
 
     return {
-        newDataProduct,
-        setNewDataProduct,
         newDataProductInfo,
         setNewDataProductInfo,
         loading,

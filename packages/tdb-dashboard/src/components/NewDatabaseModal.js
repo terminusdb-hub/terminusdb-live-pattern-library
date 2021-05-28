@@ -28,7 +28,7 @@ export const NewDatabaseModal = ({showNewDataProductModal, setShowNewDataProduct
             setDescription(e.target.value)
     }
 
-
+ 
     function handleClose (e) {
         if(setShowNewDataProductModal) setShowNewDataProductModal(false)
     }

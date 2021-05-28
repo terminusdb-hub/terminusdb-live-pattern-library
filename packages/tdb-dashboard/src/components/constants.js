@@ -261,19 +261,21 @@ export const SWITCH_TO_BRANCH = "Switch to - "
 
 //reset branch form
 export const resetFormConfig = {
-    title: "Reset this branch to a commit",
+    title: "Reset",
     id: "reset",
-    placeholder: "Enter commit id of interest to reset branch to"
+    placeholder: "Enter commit id of interest to reset branch to",
+    description: "Force this branch (named graph) to point at a particular commit."
 }
-export const RESET_BUTTON_CONFIG = {label:"Reset Branch", title: "Reset Branch", variant: "outline-info", size:"sm"}
+export const RESET_BUTTON_CONFIG = {label:"Reset Branch", title: "Reset Branch", variant: "info", size:"sm"}
 
 // squaash branch form 
 export const squashFormConfig = {
-    title: "Squash this branch",
+    title: "Squash",
     id: "squash",
-    placeholder: "A an optional description"
+    placeholder: "An optional description",
+    description: "Combine a range of commits into one big commit."
 }
-export const SQUASH_BUTTON_CONFIG = {label:"Squash Branch", title: "Squash Branch", variant: "outline-info", size:"sm"}
+export const SQUASH_BUTTON_CONFIG = {label:"Squash Branch", title: "Squash Branch", variant: "info", size:"sm"}
 
 
 export const EMPTY_ADDED_DATA = "No added data to display ... "

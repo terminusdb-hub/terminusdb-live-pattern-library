@@ -3,13 +3,14 @@ import {ModelBuilder} from "./ModelBuilder"
 import {Sidebar} from "./Sidebar"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
+import {ConsoleHistory} from "../routing/Router"
 
 export const ModelProductPage = () => {
     const {woqlClient, setDataProduct} = WOQLClientObj()
 
     const setSelectedDataProduct = (dataProductID) =>{
         setDataProduct(dataProductID)
-        ConsoleHistory.push(PRODUCT_MODELS)
+        //ConsoleHistory.push(PRODUCT_MODELS)
     }
      
     return <Layout sideBarContent={<Sidebar setSelectedDataProduct={setSelectedDataProduct}></Sidebar>}>

@@ -79,7 +79,6 @@ div.SplitPane  .horizontal {
 }
 .Pane1 {
   background-color: #222;
-  width: 420px !important; 
   min-width: 420px !important; 
 }
 .Pane2 {

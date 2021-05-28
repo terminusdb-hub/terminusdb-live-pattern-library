@@ -37,6 +37,7 @@ function checkSubmission(newID, branches, setReportAlert){
     }
 }
 
+
 export const NewBranchCard = ({onCancel, setNewBranchInfo, loading, branches}) => {
     const [id, setID]=useState(false)
     const [select, setSelect]=useState(newBranchForm.select.head)
