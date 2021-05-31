@@ -29,3 +29,7 @@ export const SCHEMA_CLASSES_VIEW = "View Classes"
 export const SCHEMA_PROPERTIES_VIEW = "View Properties"
 export const SCHEMA_EDITOR_VIEW = "View Editor" 
 
+// data products manage constants
+export const MANAGE_COLLECTIONS = "Collections"
+export const MANAGE_HISTORY = "History"
+

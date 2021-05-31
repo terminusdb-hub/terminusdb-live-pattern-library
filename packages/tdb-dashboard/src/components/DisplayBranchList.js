@@ -1,0 +1,86 @@
+
+import React from "react"
+import {Card, Row, Badge, Button, ListGroup, Col} from 'react-bootstrap'
+import {BsPlayFill} from "react-icons/bs"
+import {RiDeleteBin7Line} from "react-icons/ri"
+import {timeConverter} from "../pages/utils"
+import {DBContextObj} from "../hooks/DBContext"
+
+
+const BranchItem = (props) => {
+    const {updateBranches}=DBContextObj()
+    const { id, head, updated, branch, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
+
+    function handleOnClick (id) {
+        if(handleBranchClick) handleBranchClick(id)
+        updateBranches(id)
+        //setSelectedCommit(false)
+        if(setShowDefault) setShowDefault(true)
+    }
+
+    return (
+      <ListGroup.Item className="px-0">
+        <Row className="align-items-center">
+          <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
+                {(id == branch) && <h5 className="fw-bold text-success">{id}</h5>}
+                {(id !== branch) && <h6>{id}</h6>}
+          </Col>
+          <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
+            <h6><span className="text-muted"> {`Head Commit `} </span>{head}</h6>
+          </Col>
+          <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
+            <h6><span className="text-muted"> {`Updated on `} </span>{timeConverter(updated)}</h6>
+          </Col>
+          <Col className="col-auto">
+            {(id ==  "main") && <RiDeleteBin7Line className="mr-2 mb-1 react-icons danger disabled"/>}
+            {(id !==  "main") && <span  title={`delete branch ${id}`} >
+                <RiDeleteBin7Line className="mr-2 mb-1 react-icons danger" onClick={(e) => handleDelete(id)}/>
+            </span>}
+          </Col>
+          <Col className="col-auto">
+            <span title={`Switch to branch ${id}`}>
+                <BsPlayFill className="mr-2 mb-1 react-icons info" onClick={(e) => handleSwitch(id)}/> 
+            </span>
+          </Col>
+        </Row>
+      </ListGroup.Item>
+    )
+}
+
+  const List = ({branchList, branch, setShowDefault, handleSwitch, handleBranchClick, handleDelete}) => {
+      let lst = []
+      for (var key in branchList) {
+        if (branchList.hasOwnProperty(key)) {
+            let item = branchList[key]
+            lst.push(<BranchItem branch={branch} handleBranchClick={handleBranchClick} handleSwitch={handleSwitch} handleDelete={handleDelete} setShowDefault={setShowDefault} key={`team-member-${item.id}`} {...item} />)
+        }
+    }
+    return lst
+} 
+
+
+export const DisplayBranchList = ({branchCount, branchList, branch, setShowDefault, reportAlert, handleSwitch, handleDelete, handleBranchClick}) => {
+
+    return <React.Fragment> 
+       <Row>
+           {reportAlert && <div className="col-md-12 d-grid pb-3">
+               {reportAlert}
+           </div>}
+       </Row>
+
+       <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
+       <Card border="light" className="shadow-sm">
+           <Card.Header className="border-bottom border-light d-flex justify-content-between">
+               <h6 className="mb-0 mt-1">Collections 
+                   {branchCount && <Badge variant="info" className="text-dark ml-3">{branchCount}</Badge>}
+               </h6>
+               <Button variant="secondary" size="sm">See all</Button>
+           </Card.Header>
+           <Card.Body>
+               <ListGroup className="list-group-flush list my--3">
+                   <List branchList={branchList} branch={branch} setShowDefault={setShowDefault} handleDelete={handleDelete} handleSwitch={handleSwitch} handleBranchClick={handleBranchClick}/>
+               </ListGroup>
+           </Card.Body>
+       </Card>
+    </React.Fragment>
+ }

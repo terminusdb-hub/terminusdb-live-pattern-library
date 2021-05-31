@@ -225,7 +225,7 @@ tbody, td, tfoot, th, thead, tr {
 .accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{
   color: #adb5bd; 
 }
-
+ 
 .click-list:hover {
   cursor: pointer;
 }
@@ -236,3 +236,22 @@ tbody, td, tfoot, th, thead, tr {
   min-height: calc(100% - 45rem);
 }
 /* ---------- custom modal dimensions ---------- */
+
+/* ---------- custom react icons dimensions ---------- */
+.react-icons {
+  font-size: 25px;
+}
+
+.react-icons:hover {
+  cursor: pointer;
+}
+
+.danger {
+  color: #e74c3c;
+}
+
+.info {
+  color: #2a7aaf;
+}
+
+/* ---------- custom react icons dimensions ---------- */

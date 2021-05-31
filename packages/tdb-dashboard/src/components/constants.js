@@ -105,10 +105,9 @@ export const deleteDataProductForm = {
     }
 }
 
-export const NEW_BRANCH_CONFIG={label:"New Branch", title: "Create a new Branch", icon: "fas fa-plus", variant: "info", size:"sm"}
 
 //New Branch create button configurations
-export const CREATE_NEW_BRANCH_BUTTON ={label: "New Collection", title: "Create a new collection"}// New Branch Form configurations
+export const CREATE_NEW_BRANCH_BUTTON ={label: "New Collection", title: "Create a new collection", icon: "fas fa-check", size:"sm", variant:"info"}// New Branch Form configurations
 export const newBranchForm = {
     id: {
         placeholder: "ID for branch - include lowercase characters, numbers and underscores and be no more than 40 characters long",
@@ -288,3 +287,4 @@ export const SQUASH_BUTTON_CONFIG = {label:"Squash Branch", title: "Squash Branc
 
 export const EMPTY_ADDED_DATA = "No added data to display ... "
 export const EMPTY_REMOVED_DATA = "No removed data to display ... "
+

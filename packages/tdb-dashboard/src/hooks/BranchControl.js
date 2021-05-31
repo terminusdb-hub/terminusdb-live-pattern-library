@@ -81,10 +81,6 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
     }, [newBranchInfo])
 
 
-    function handleNewBranch () {
-        setNewBranch(true)
-    }
-
     function handleDelete (branch) {
         let update_start = Date.now()
         setLoading(true)
@@ -174,7 +170,6 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
         setNewBranch,
         setNewBranchInfo,
         loading,
-        handleNewBranch,
         reportAlert,
         handleDelete,
         handleSwitch,

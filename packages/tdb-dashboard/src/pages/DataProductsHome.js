@@ -6,19 +6,20 @@ import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
 import {Sidebar} from './Sidebar'
 import {DATA_PRODUCTS} from "../routing/constants"
-import {FiSettings} from "react-icons/fi"
-import {AiOutlineDelete} from "react-icons/ai"
+import {BsClockHistory} from "react-icons/bs"
+import {AiOutlineDelete, AiOutlineBranches} from "react-icons/ai"
 import {NewDatabaseModal} from "../components/NewDatabaseModal"
 import {DeleteDatabaseModal} from "../components/DeleteDatabaseModal"
 import {DataProductSummary} from "../components/DataProductSummary"
 import {ManageProducts} from "../components/ManageProducts"
-
+import {History} from "../components/History"
+import {MANAGE_COLLECTIONS, MANAGE_HISTORY} from "./constants"
 
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
     const [dataProductDetails, setDataProductDetails] = useState(false)
 
-    const [manageDataProduct, setManageDataProduct] = useState(false)
+    const [dataProductSettings, setDataProductSettings] = useState(false)
     
     const {list} = dataProductList(woqlClient)
 
@@ -62,8 +63,11 @@ export const DataProductsHome = (props) => {
                             Connected to Data Product  - 
                             <strong className="text-success"> {dataProductDetails.label}</strong>
                             <div className="float-right d-flex">
-                                <Button variant="light" className="mr-3" onClick={(e) => setManageDataProduct(true)}>
-                                    <FiSettings className="me-2"/>Advanced Settings
+                                <Button variant="light" className="mr-3" onClick={(e) => setDataProductSettings(MANAGE_COLLECTIONS)}>
+                                    <AiOutlineBranches className="me-2"/> {MANAGE_COLLECTIONS}
+                                </Button>
+                                <Button variant="light" className="mr-3" onClick={(e) => setDataProductSettings(MANAGE_HISTORY)}>
+                                    <BsClockHistory className="me-2"/> {MANAGE_HISTORY}
                                 </Button>
                                 <Button variant="danger" title={`Delete Data Product ${dataProduct}`} 
                                         onClick={(e) =>setShowDeleteDataProductModal(true)}>
@@ -89,9 +93,14 @@ export const DataProductsHome = (props) => {
             </Row>
             }
             
-            {dataProduct && dataProductDetails && manageDataProduct && <React.Fragment>
+            {dataProduct && dataProductDetails && (dataProductSettings ==  MANAGE_COLLECTIONS) && <React.Fragment>
                 <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-                <ManageProducts setManageDataProduct={setManageDataProduct}/>
+                <ManageProducts setDataProductSettings={setDataProductSettings}/>
+            </React.Fragment>}
+
+            {dataProduct && dataProductDetails && (dataProductSettings ==  MANAGE_HISTORY) && <React.Fragment>
+                <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
+                <History setDataProductSettings={setDataProductSettings}/>
             </React.Fragment>}
             
             {!dataProduct && <div style={{top: "30%", position: "absolute", width: "100%"}}>
