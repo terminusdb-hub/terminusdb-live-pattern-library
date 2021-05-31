@@ -60,17 +60,6 @@ export const IconBar =  () => {
                         {IconBarConfig.dataProductExplorer.icon}
                     </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link  as={RouterNavLink}
-                        title={IconBarConfig.dataProductManage.title} 
-                        className="nav-icon" 
-                        {...disabled}
-                        to={IconBarConfig.dataProductManage.path} 
-                        exact
-                        id={IconBarConfig.dataProductManage.key}>
-                        {IconBarConfig.dataProductManage.icon}
-                    </Nav.Link>
-                </Nav.Item>
             <hr className="my-3" role="separator"></hr>
             <Nav.Item>
                 <Nav.Link as={RouterNavLink} 

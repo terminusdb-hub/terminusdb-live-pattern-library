@@ -26,7 +26,7 @@ export const DeleteDatabaseModal = ({showDeleteDataProductModal, setShowDeleteDa
     return <Modal size="lg" className="modal-dialog-right" show={showDeleteDataProductModal} onHide={handleClose}>
         {loading && <Loading message={`Deleting Data Product ${dataProductDetails.id} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         <Modal.Header>
-            <Modal.Title className="h6">{`Delete Data Product - ${dataProductDetails.label}`} </Modal.Title>
+            <Modal.Title className="h6">{`Are you sure to delete Data Product - ${dataProductDetails.label} ?`} </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body className="p-5">

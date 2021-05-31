@@ -9,7 +9,6 @@ import history from "./routing/history"
 import {ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS} from "./routing/constants"
 import {InitSetupPage} from "./pages/InitSetupPage"
 import {ModelProductPage} from "./pages/ModelProductPage"
-import {ManageProducts} from "./pages/ManageProducts"
 import {DataProductsHome} from "./pages/DataProductsHome"
 import {DBContextProvider} from "./hooks/DBContext"
 import {Home} from "./pages/Home"
@@ -43,8 +42,8 @@ export function App (props){
                 <Route path="/verify" exact>
                     <VerifyEmail />
                 </Route>
-                <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
                 <DBContextProvider>
+                <   PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
                     <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
                     <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>               
                 </DBContextProvider> 

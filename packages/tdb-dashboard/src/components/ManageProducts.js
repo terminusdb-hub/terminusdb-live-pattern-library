@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react"
 import {DBContextObj} from "../hooks/DBContext"
 import {Card, Row, Col, ListGroup, Button, Badge} from "react-bootstrap"
-import {AiOutlineDelete, AiOutlineSend} from "react-icons/ai"
-import {NEW_BRANCH_CONFIG} from "./constants"
+import {AiOutlineDelete, AiOutlineSend, AiOutlinePlus, AiOutlineClose} from "react-icons/ai"
+import {BsFillCollectionFill} from "react-icons/bs"
+import {CREATE_NEW_BRANCH_BUTTON} from "./constants"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {timeConverter} from "./utils"
+import {timeConverter} from "../pages/utils"
 import {NewBranchCard, BranchInfoModal} from "../components/BranchInfo"
 import {BranchControl} from "../hooks/BranchControl"
 import {WOQLClientObj} from '../init-woql-client'
+import {CANCEL_BUTTON} from "./constants"
  
 
-export const ManageProducts = () => {
+export const ManageProducts = ({setManageDataProduct}) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
     const {branches, branch, ref, updateBranches}=DBContextObj()
 
@@ -38,6 +40,7 @@ export const ManageProducts = () => {
         setSelectedBranch(false)
         setShowDefault(false)
     }
+
 
     const BranchItem = (props) => {
         const { id, head, updated, branch, setShowDefault } = props
@@ -93,11 +96,6 @@ export const ManageProducts = () => {
 
       const DisplayBranchList = ({branchList, branch, setShowDefault}) => {
          return <React.Fragment> 
-             <Row>
-                <div class="col-md-1 d-grid">
-                    <TDBReactButton config={NEW_BRANCH_CONFIG} onClick={handleNewBranch}/>
-                </div>
-            </Row>
             <Row>
                 {newBranch && <div className="col-md-4 d-grid pb-3">
                         <NewBranchCard onCancel={setNewBranch} loading={loading} setNewBranchInfo={setNewBranchInfo} branches={branches}/>
@@ -109,13 +107,9 @@ export const ManageProducts = () => {
             </Row>
             
             <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-            <Col className="ms--2 mb-3 mt-3">
-                <span className="text-success">● </span>
-                <span>{`Connected to branch - ${branch}`}</span>
-            </Col>
             <Card border="light" className="shadow-sm">
                 <Card.Header className="border-bottom border-light d-flex justify-content-between">
-                    <h5 className="mb-0">Branches 
+                    <h5 className="mb-0">Collections 
                         {branchCount && <Badge variant="info" className="text-dark ml-3">{branchCount}</Badge>}
                     </h5>
                     <Button variant="secondary" size="sm">See all</Button>
@@ -129,9 +123,26 @@ export const ManageProducts = () => {
          </React.Fragment>
       }
 
-      return <main className="content mr-3 ml-5 w-95">
-          <DisplayBranchList branchList={branchList} branch={branch} setShowDefault={setShowDefault}/>
-          <BranchInfoModal woqlClient={woqlClient} 
+      return <Card className="mt-5 mr-4">
+        <Card.Header as="h3"> 
+            Advanced Settings 
+            <div className="float-right d-flex">
+                <Button variant="light" className="mr-3" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
+                    <AiOutlinePlus className="me-2"/>{CREATE_NEW_BRANCH_BUTTON.label}
+                </Button>
+                <Button variant="light" className="mr-3" title={CANCEL_BUTTON.label.title} onClick={(e) => setManageDataProduct(false)}>
+                    <AiOutlineClose className="me-2"/>{CANCEL_BUTTON.label}
+                </Button>
+            </div>
+        </Card.Header>
+        <Card.Body>
+            <Card.Text className="ms--2 mb-3 mt-3 h6 text-muted"> 
+                <BsFillCollectionFill className="me-2"/>
+                {`You are currently in collection - `} 
+                <strong className="text-success">{branch}</strong>
+            </Card.Text>
+            <DisplayBranchList branchList={branchList} branch={branch} setShowDefault={setShowDefault}/>
+            <BranchInfoModal woqlClient={woqlClient} 
                 branch={selectedBranch} 
                 showDefault={showDefault} 
                 handleClose = {handleClose} 
@@ -139,5 +150,6 @@ export const ManageProducts = () => {
                 dataProduct={dataProduct} 
                 setSelectedCommit={setSelectedCommit}
                 selectedCommit={selectedCommit}/>
-      </main>
+        </Card.Body>
+        </Card>
 }

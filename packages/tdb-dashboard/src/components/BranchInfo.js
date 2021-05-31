@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {Card} from 'react-bootstrap'
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {CANCEL_NEW_BRANCH_BUTTON, CREATE_NEW_BRANCH_BUTTON, newBranchForm} from "./constants"
+import {CANCEL_BUTTON, CREATE_NEW_BRANCH_BUTTON, newBranchForm} from "./constants"
 import {Form, Button, Modal} from "react-bootstrap"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, SWITCH_TO_BRANCH} from "./constants"
@@ -67,7 +67,7 @@ export const NewBranchCard = ({onCancel, setNewBranchInfo, loading, branches}) =
         {loading && <Loading message={`Creating branch ${id} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         <Card.Header>
             <b>{newBranchForm.header}</b>
-            <TDBReactButton onClick={handleCancel} className= "cancel-button" config={CANCEL_NEW_BRANCH_BUTTON}/>
+            <TDBReactButton onClick={handleCancel} className= "cancel-button" config={CANCEL_BUTTON}/>
         </Card.Header>
         {reportAlert && reportAlert}
         <Card.Body>

@@ -73,7 +73,7 @@ export const IconBarConfig = {
 
 
 // Cance New Data product 
-export const CANCEL_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
+export const CANCEL_BUTTON = {icon: "fas fa-times", variant:"outline-info", label: "Close"}
 //New Data product create button configurations
 export const CREATE_NEW_DATA_PRODUCT_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "info"}
 // New Data product Form configurations
@@ -105,12 +105,10 @@ export const deleteDataProductForm = {
     }
 }
 
+export const NEW_BRANCH_CONFIG={label:"New Branch", title: "Create a new Branch", icon: "fas fa-plus", variant: "info", size:"sm"}
 
-// Cance New Branch
-export const CANCEL_NEW_BRANCH_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
 //New Branch create button configurations
-export const CREATE_NEW_BRANCH_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "outline-info"}
-// New Branch Form configurations
+export const CREATE_NEW_BRANCH_BUTTON ={label: "New Collection", title: "Create a new collection"}// New Branch Form configurations
 export const newBranchForm = {
     id: {
         placeholder: "ID for branch - include lowercase characters, numbers and underscores and be no more than 40 characters long",
