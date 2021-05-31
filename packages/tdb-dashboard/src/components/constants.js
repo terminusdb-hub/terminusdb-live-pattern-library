@@ -96,6 +96,16 @@ export const newDataProductForm = {
     header: "New Data Product"
 }
 
+// Delete Data product Form configurations
+export const deleteDataProductForm = {
+    id: {
+        placeholder: "Please type the Data Product ID you wish to delete",
+        type: "text",
+        id: "id"
+    }
+}
+
+
 // Cance New Branch
 export const CANCEL_NEW_BRANCH_BUTTON = {icon: "fas fa-times", variant:"outline-info"}
 //New Branch create button configurations
