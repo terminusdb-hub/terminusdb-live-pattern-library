@@ -16,7 +16,7 @@ export const QueryPaneProvider = ({children}) => {
         const obj = new PanelQueryObj(uuidv4())
         obj.updateEditorProps('query',query)
         if(query){
-            obj.updateEditorProps('text',query.prettyPrint("js"))
+            obj.updateEditorProps('text', query.prettyPrint("js"))
         }
         queryPaneList.set(obj.id, obj )
         setUpdateList(Date.now())

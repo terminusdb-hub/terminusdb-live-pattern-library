@@ -11,7 +11,7 @@ import {DATA_PRODUCTS} from "../routing/constants"
 import {dataProductList} from "../hooks/DataProductList"
 
 const List = () => {  
-    const {dataProduct, woqlClient,setDataProduct} = WOQLClientObj()
+    const {dataProduct, woqlClient, setDataProduct} = WOQLClientObj()
     const {list} = dataProductList(woqlClient)
 
     function handleClick(e) {
@@ -29,13 +29,13 @@ const List = () => {
   </ListGroup>
 }
 
-const DatabaseHeader = ({page, handleNew}) => {
+export const DatabaseHeader = ({page, handleNew}) => {
 
     function handleClick(e, handleNew) {
         if(handleNew) handleNew(true)
     }
 
-    return <Row className="mr-2" >
+    return <Row className="mr-2 w-100" >
         <Col md={8} className="mb-1">
             <p className="text-muted mt-2">DATA PRODUCTS</p>
         </Col>
@@ -50,7 +50,8 @@ const DatabaseHeader = ({page, handleNew}) => {
 
 export const DatabaseList = ({page, handleNew}) => {
     return <React.Fragment>
-        <DatabaseHeader page={page} handleNew={handleNew}/>
         <List/>
     </React.Fragment>
 }
+
+//<DatabaseHeader page={page} handleNew={handleNew}/>

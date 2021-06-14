@@ -77,7 +77,7 @@ export const Results = ({freewidth,queryObj})=>{
                              isExpanded={queryObj.resultPanelIsOpen} 
                              setExpanded={setExpanded}
                              currentView={currentView}/>                                      
-            <ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/>   
+            {/*<ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/> */}  
             <TDBReactCollapse isExpanded={queryObj.resultPanelIsOpen}>
                 {currentView==GRAPH_VIEW && 
                     <WOQLGraph 

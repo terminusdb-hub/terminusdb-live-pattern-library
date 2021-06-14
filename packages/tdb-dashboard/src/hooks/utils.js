@@ -22,3 +22,14 @@ export function branchStructureFromBindings(bindings) {
     }
     return brans
 }
+
+export function dbStructureFromBindings(bindings) {
+    let info = {}
+    if (bindings && bindings[0] && bindings[0]['Time']) {
+        info.created = bindings[0]['Time']['@value']
+    } else {
+        info.created = 0
+    }
+    info.author = bindings[0] && bindings[0]['Author'] ? bindings[0]['Author']['@value'] : ''
+    return info
+} 

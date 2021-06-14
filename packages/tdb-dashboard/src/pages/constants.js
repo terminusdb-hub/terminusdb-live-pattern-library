@@ -14,6 +14,7 @@ export const organizationForm = {
 // button to create new data product
 export const NEW_DATA_PRODUCT_BUTTON= {label:"New Data Product", title: "Create New Data Product", icon: "fas fa-plus", variant: "info", size:"sm"}
 
+
 // data product label in data product view
 export const DATA_PRODUCT_LABEL = "Data Products"
 
@@ -29,7 +30,4 @@ export const SCHEMA_CLASSES_VIEW = "View Classes"
 export const SCHEMA_PROPERTIES_VIEW = "View Properties"
 export const SCHEMA_EDITOR_VIEW = "View Editor" 
 
-// data products manage constants
-export const MANAGE_COLLECTIONS = "Collections"
-export const MANAGE_HISTORY = "History"
 

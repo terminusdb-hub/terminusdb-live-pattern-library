@@ -1,21 +1,23 @@
 
 import React from "react"
 import {Card, Row, Badge, Button, ListGroup, Col} from 'react-bootstrap'
-import {BsPlayFill} from "react-icons/bs"
+import {FiMoreHorizontal} from "react-icons/fi"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import {timeConverter} from "../pages/utils"
-import {DBContextObj} from "../hooks/DBContext"
 
 
 const BranchItem = (props) => {
-    const {updateBranches}=DBContextObj()
     const { id, head, updated, branch, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
 
     function handleOnClick (id) {
         if(handleBranchClick) handleBranchClick(id)
-        updateBranches(id)
         //setSelectedCommit(false)
-        if(setShowDefault) setShowDefault(true)
+        handleSwitch(id)
+    }
+
+    function handleDetails (id) {
+        setShowDefault(true)
+        handleSwitch(id)
     }
 
     return (
@@ -38,8 +40,8 @@ const BranchItem = (props) => {
             </span>}
           </Col>
           <Col className="col-auto">
-            <span title={`Switch to branch ${id}`}>
-                <BsPlayFill className="mr-2 mb-1 react-icons info" onClick={(e) => handleSwitch(id)}/> 
+            <span title={`View Commit Logs and preform actions on Collection ${id}`}>
+                <FiMoreHorizontal className="mr-2 mb-1 react-icons info" onClick={(e) => handleDetails(id)}/> 
             </span>
           </Col>
         </Row>

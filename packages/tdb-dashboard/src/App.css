@@ -151,6 +151,27 @@ div.progress-bar-position {
 }
 /* ---------- icon bar css ---------- */
 
+/* ---------- sub nav css ----------- */
+
+.nav-pills .nav-link.active {
+  border-bottom: 3px solid #00bc8c !important;
+  background: transparent !important ;
+  border-radius: 0 !important;
+
+}
+
+.nav-pills .nav-link.hover {
+  color: #00bc8c !important;
+}
+
+.sub-nav {
+  color: #E3EBF6 !important;
+}
+
+
+
+/* ---------- sub nav css ----------- */
+
 .cancel-button {
   border: 0px !important;
   float: right;
@@ -253,5 +274,126 @@ tbody, td, tfoot, th, thead, tr {
 .info {
   color: #2a7aaf;
 }
-
 /* ---------- custom react icons dimensions ---------- */
+
+
+/* ---------- time travel widget ---------- */
+.time-travel-control {
+  top: 10;
+  right: 0;
+  /*margin-top: 80px;*/
+  position: fixed !important;
+  z-index: 999;
+  box-shadow: 0 0.5rem 1rem rgb(46 54 80 / 15%);
+}
+
+
+::-webkit-scrollbar {
+  width: 0px; 
+  background: transparent; 
+}
+
+.time-travel-control {
+  transition: 1s;
+}
+
+.time-travel-control:hover {
+  cursor: pointer;
+}
+
+.time-travel-card-body {
+  overflow-y: scroll;
+  height: 1500px;
+  background-color: #222;
+  max-height: -webkit-fill-available;
+}
+
+.time-travel-card {
+  margin-top: -2.5rem;
+}
+
+.time-travel-widget {
+  width: 5rem;
+  margin-left: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.125) !important;
+  min-height: 4rem;
+  border-radius: 0 !important;
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+  background-color: #2b2c2b !important;
+  background: rgba(0,0,0,.3) !important;
+  float: right;
+  position:sticky;
+  float:right;
+}
+
+.current-time-point {
+  background: #00bc8c !important;
+  color: #000;
+}
+/* ---------- time travel widget ---------- */
+
+.vertical-timeline-element-content {
+  background: transparent !important;
+}
+
+.vertical-timeline::before {
+  background: #444 !important;
+}
+
+.vertical-timeline-element-icon {
+  box-shadow: none !important;
+}
+
+.vertical-timeline-element-content {
+  box-shadow: none !important;
+}
+
+.vertical-timeline-element {
+    margin: 1em 0 !important;
+}
+
+
+
+/* ---------- query builder ---------- */
+.query-pane-icons {
+  font-size: 25px;
+  margin-top: 5px;
+}
+
+.query-builder-card {
+  overflow-y: scroll;
+  height: 265px;
+  background-color: #444;
+  max-height: -webkit-fill-available;
+}
+
+.query-description-card {
+  overflow-y: scroll;
+  height: 265px;
+  max-height: -webkit-fill-available;
+}
+
+.query-name-pre {
+  background: #222;
+  padding: 3px;
+  border-radius: 3px;
+  padding: 0 8px;
+  height: 22px;
+  line-height: 22px;
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color .25s ease,color .25s ease,text-shadow .25s ease;
+  width: auto;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.query:hover {
+  cursor: pointer;
+}
+
+/* ---------- query builder ---------- */

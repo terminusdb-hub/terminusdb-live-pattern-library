@@ -26,9 +26,9 @@ export function App (props){
         history.push("/verify")
     }
     
-    /*useEffect(() => {
+    useEffect(() => {
         trackWithPendo(user)
-    }, [user])*/
+    }, [user])
 
     if(loading) return <Loading message={SERVER_LOADING_MESSAGE}/>
 

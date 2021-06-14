@@ -108,6 +108,7 @@ export const deleteDataProductForm = {
 
 //New Branch create button configurations
 export const CREATE_NEW_BRANCH_BUTTON ={label: "New Collection", title: "Create a new collection", icon: "fas fa-check", size:"sm", variant:"info"}// New Branch Form configurations
+export const NEW_BRANCH = "New Branch"
 export const newBranchForm = {
     id: {
         placeholder: "ID for branch - include lowercase characters, numbers and underscores and be no more than 40 characters long",
@@ -121,6 +122,10 @@ export const newBranchForm = {
     },
     header: "New Branch"
 }
+
+// View history
+export const VIEW_HISTORY = {label: "Time Travel", title: "Time travel on history of this Data Product"}
+
 
 //Prograss bar types
 export const PROGRESS_BAR_COMPONENT = "Component"
@@ -136,9 +141,12 @@ export const PROPERTY_LABEL_CONFIG = {color: "#ddd", label: "Properties"}
 
 
 // button to run query 
-export const RUN_QUERY_CONFIG = {label:"Run", title: "Run Query", icon: "fas fa-play", variant: "outline-info", size:"sm"}
+export const RUN_QUERY_CONFIG = {label:"Run", title: "Run Query", icon: "fas fa-play", variant: "info", size:"sm"}
+export const COPY_QUERY_CONFIG = {label: "Copy Query", title: "Copy Query", icon: "far fa-clipboard", variant: "light"}
+export const QUERY_BUILDER_CONFIG = {label: "Query Builder", title: "Query Builder Helps with queries", icon: "fas fa-terminal", variant: "light"}
+export const USE_QUERY_CONFIG = {label: "Use", title: "Use Query in Editor", icon: "far fa-hand-pointer", variant: "light"}
 // button to save query 
-export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite", icon: "far fa-star", variant: "outline-info", size:"sm"}
+export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite", icon: "far fa-star", variant: "light", size:"sm"}
 // button to get new query pane
 export const NEW_PANE_CONFIG = {label:"New Query Pane", title: "Add New Query Pane", icon: "fas fa-plus", variant: "info", size:"sm"}
 // button to collapse a pane
@@ -161,7 +169,7 @@ export const GRAPH_RESULT_CONTROLLER = {variant: "outline-info", list:["Save as 
 
 
 //button group for query actions
-export const ACTIONS_QUERY_BUTTON_GROUP={variant: "outline-info", size: "sm", 
+export const ACTIONS_QUERY_BUTTON_GROUP={variant: "light", size: "sm", 
     buttons: [{id: "Copy", title: "Copy Script", icon: "far fa-clipboard"}, 
         {id: "Import", title: "Import Script", icon: "fas fa-arrow-up"}, 
         {id: "Export", title: "Export Script", icon: "fas fa-arrow-down"}
@@ -170,9 +178,9 @@ export const ACTIONS_QUERY_BUTTON_GROUP={variant: "outline-info", size: "sm",
 
 
 //button group for language switcher 
-export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "outline-info", size: "sm", buttons: [{id: "JS", title: "JS", label: "JS"}, {id: "JSON", title: "JSON", label: "JSON"}]}
+export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [{id: "JS", title: "JS", label: "JS"}, {id: "JSON", title: "JSON", label: "JSON"}]}
 //button group for view chooser
-export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "outline-info", size: "sm", buttons: [
+export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [
     {/*icon: "fas fa-border-none",*/ id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
     {/*icon: "fas fa-bezier-curve",*/ id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW}]}
 
@@ -287,4 +295,18 @@ export const SQUASH_BUTTON_CONFIG = {label:"Squash Branch", title: "Squash Branc
 
 export const EMPTY_ADDED_DATA = "No added data to display ... "
 export const EMPTY_REMOVED_DATA = "No removed data to display ... "
+
+// data products manage constants
+export const MANAGE_COLLECTIONS = "Collections"
+export const MANAGE_HISTORY = "History"
+
+// time travel constants
+export const TIME_TRAVEL_DESCRIPTION = "Time travel on history of data product in a partcular collection and set the state to any commit of interest"
+export const TIME_TRAVEL_BUTTON = "Time Travel"
+
+// no data product selected view
+export const NO_DATA_PRODUCT_SELECTED_MESSAGE = "Use the sidebar to connect to a Data Product"
+export const NoDataProductSelectedStyle = {top: "30%", position: "absolute", width: "100%"}
+
+
 

@@ -1,45 +1,37 @@
-import React,{useEffect, useMemo,useState} from "react"
-import {TDBReactButton, TDBReactTextArea, TDBReactButtonGroup, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
-import {RUN_QUERY_CONFIG, SAVE_QUERY_CONFIG, ACTIONS_QUERY_BUTTON_GROUP, SAVE_QUERY_NAME_TEXT_AREA, UNCOLLAPSE_BUTTON_GROUP,LANGUAGE_LIST, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
+import React, {useState, useEffect} from "react"
+import {TDBReactButton, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
+import {UNCOLLAPSE_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
 import {Results} from "./Results"
-import {Row, Col} from "react-bootstrap"
+import {Row, Col, Card} from "react-bootstrap"
 import {QueryPaneControl} from "../hooks/QueryPaneControl"
 import {QueryEditor} from "./QueryEditor"
 import {WOQLClientObj} from '../init-woql-client'
+import {QueryPaneTools} from "./QueryPaneTools"
+import {QueryBuilder} from "./QueryBuilder"
 
 export const QueryPane = ({id, name, queryObj}) => {
+
     const [viewResult, setViewResult]=useState(0)
     const result = queryObj.resultObj.result
     const showResult = viewResult || result ? true : false
     const {dataProduct} = WOQLClientObj()
+
+    const [queryBuilder, showQueryBuilder] = useState(false)
+    const [size, setSize] = useState(12)
+
     //maybe we not need an external hook
     const {setExpanded,
         setQpExpanded,
         setSaveQuery,
         setSaveQueryName,
         saveQueryName,
-        } = QueryPaneControl(queryObj)
+    } = QueryPaneControl(queryObj)
    
-    // "default Commit msg"
-    const handleRunQuery = () => {
-        if(queryObj.editorObj.query){
-            setViewResult(Date.now())
-            //if(updateQuery) updateQuery(woqlQuery, commitMessage)
-        }
-    }
-
-    const handleSaveQuery = (saveQuery, setSaveQuery, saveQueryName) => {
-        if(saveQuery){
-            let q = storeQueries(saveQuery, saveQueryName)
-            if(setSaveQuery) setSaveQuery(q)
-        }
-    }
-
-    const handleSaveQueryNameOnChange = (name, setSaveQueryName) => {
-        if(setSaveQueryName) setSaveQueryName(name)
-    }
-
-
+    useEffect (() => {
+        if(queryBuilder) setSize(10)
+        else setSize(12)
+    }, [queryBuilder])
+ 
     return <React.Fragment>
         <div className="query-pane-pallet mb-3 mt-3 mr-4" >
             <Row>
@@ -50,7 +42,7 @@ export const QueryPane = ({id, name, queryObj}) => {
                         data product
                     </h1>
                 </Col>
-                <Col md={2} className="d-flex justify-content-end pr-4">
+                {/*<Col md={2} className="d-flex justify-content-end pr-4">
                     {queryObj.mainPanelIsOpen && <TDBReactButton 
                         config={COLLAPSE_BUTTON_GROUP} 
                         onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
@@ -58,39 +50,54 @@ export const QueryPane = ({id, name, queryObj}) => {
                     {!queryObj.mainPanelIsOpen && <TDBReactButton 
                         config={UNCOLLAPSE_BUTTON_GROUP} 
                         onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
-                </Col>
-            </Row>
+                </Col>*/}
+            </Row> 
             <TDBReactCollapse isExpanded={queryObj.mainPanelIsOpen}>
+                <Card>
+                    <Card.Header className="d-flex">
+                        <QueryPaneTools queryObj={queryObj}
+                            setExpanded={setExpanded} 
+                            setSaveQuery={setSaveQuery} 
+                            setSaveQueryName={setSaveQueryName} 
+                            saveQueryName={saveQueryName}
+                            showQueryBuilder={showQueryBuilder}
+                            setViewResult={setViewResult}/>    
+                    </Card.Header>
+                    <Card.Body>
+                        <TDBReactCollapse isExpanded={queryObj.editorPanelIsOpen}> 
+                            <Row className="w-100">
+                                <Col md={size}>
+                                    <QueryEditor queryObj={queryObj} id={id}/>  
+                                </Col>
+                                {queryBuilder && <Col md={12 - size}>
+                                    <QueryBuilder showQueryBuilder={showQueryBuilder}/>
+                                </Col>}   
+                            </Row>                       
+                        </TDBReactCollapse>
+                        {showResult && <Results 
+                                freewidth={true}
+                                queryObj={queryObj}
+                            />
+                        }
+                    </Card.Body>
+                </Card>
+                
+            </TDBReactCollapse>
+        </div>
+    </React.Fragment>
+}
+
+/*
+
+<TDBReactCollapse isExpanded={queryObj.mainPanelIsOpen}>
                 <div className="pallet mb-3 mt-3">
                     <div className="d-flex justify-content-start">
-                            <div> 
-                                <TDBReactButton 
-                                    config={RUN_QUERY_CONFIG} 
-                                    onClick={(e) => handleRunQuery()}/>
-                                
-                                <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
-                            </div>                           
-                            <Col md={3}> 
-                                <TDBReactTextArea config={SAVE_QUERY_NAME_TEXT_AREA} 
-                                    onChange={(e) => handleSaveQueryNameOnChange(e, setSaveQueryName)}/>
-                            </Col>
-                            <div> 
-                                <TDBReactButton 
-                                    config={SAVE_QUERY_CONFIG} 
-                                    onClick={(e) => handleSaveQuery(woqlQuery, setSaveQuery, saveQueryName)}/>
-                            </div>
-                            <Col md={4}> 
-                                <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
-                            </Col>
-                            <div> 
-                                <TDBReactButtonGroup config={ACTIONS_QUERY_BUTTON_GROUP}/>
-                                {queryObj.editorPanelIsOpen && <TDBReactButton 
-                                    config={COLLAPSE_BUTTON_GROUP} 
-                                    onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-                                {!queryObj.editorPanelIsOpen && <TDBReactButton 
-                                    config={UNCOLLAPSE_BUTTON_GROUP} 
-                                    onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-                            </div>                      
+                            <QueryPaneTools queryObj={queryObj}
+                                setExpanded={setExpanded} 
+                                setSaveQuery={setSaveQuery} 
+                                setSaveQueryName={setSaveQueryName} 
+                                saveQueryName={saveQueryName}
+                                setViewResult={setViewResult}/>      
                     </div>
                     <TDBReactCollapse isExpanded={queryObj.editorPanelIsOpen}>                        
                         <QueryEditor queryObj={queryObj} id={id}/>                
@@ -102,6 +109,5 @@ export const QueryPane = ({id, name, queryObj}) => {
                     />
                   }
             </TDBReactCollapse>
-        </div>
-    </React.Fragment>
-}
+
+*/            
