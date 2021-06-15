@@ -1,18 +1,19 @@
 import React,{useState} from "react"
 import {Container, Button} from "react-bootstrap"
+import { MdCopyright } from "react-icons/md";
 import { useAuth0 } from "../react-auth0-spa";
 import history from "../routing/history"
 
 export const Home = (props) => {
-    const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+    const { user, isAuthenticated, loginWithRedirect, logout,loginWithPopup } = useAuth0();
     
-    const redirect_uri=`${window.location.origin}`
+    let redirect_uri=`${window.location.origin}/${process.env.REACT_APP_BASE_ROUTER}`
 
     const userName= user ? user['http://terminusdb.com/schema/system#agent_name'] : '';
 
     const loginToAuth0 = () =>{
-        const path=`${window.location.origin}/products`;
-
+        const path="http://localhost:3030/my_product_test?refid=testttjdfjlfwkeowo3ponvjgie4u3iw&team=team0" //`${window.location.origin}/my_product_test?refid=jdfjlfwkeowo3ponvjgie4u3iw%26team=team01`;
+        //loginWithPopup()
         loginWithRedirect({returnTo: path})
     }
 
