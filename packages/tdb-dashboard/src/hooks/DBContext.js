@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {executeQueryHook} from "./executeQueryHook"
-import {graphStructureFromBindings, branchStructureFromBindings} from "./utils"
+import {graphStructureFromBindings, branchStructureFromBindings, dbStructureFromBindings} from "./utils"
 export const DBContext = React.createContext()
 export const DBContextObj = () => useContext(DBContext)
 import {WOQLClientObj} from '../init-woql-client'
@@ -17,7 +17,6 @@ export const DBContextProvider = ({children}) => {
         )
     }
     
-
     const [loading, setLoading] = useState(0)
     let WOQL = TerminusClient.WOQL
     
@@ -37,11 +36,17 @@ export const DBContextProvider = ({children}) => {
     const [graphsReload, setGraphsReload] = useState(0)
     const [graphDataProvider]=executeQueryHook(woqlClient, graphQuery)
 
+    // DB Info 
+    const [DBInfo, setDBInfo] = useState()
+    const [consoleTime, setConsoleTime] = useState()
+
     //load branches
     useEffect(() => {
         if(dataProduct){
             let q = WOQL.lib().branches()
             setBranchesQuery(q)
+            //console.log("woqlClient.db()", woqlClient.db())
+            //console.log("woqlClient.checkout()", woqlClient.checkout())
         }
     }, [branchesReload, dataProduct])
 
@@ -86,8 +91,8 @@ export const DBContextProvider = ({children}) => {
     // set Head
     function setHead(branchID, refObject={}){// ridConsoleTime=false) 
         woqlClient.checkout(branchID)
-        let sref=refObject.commit;
-        let refTime=refObject.time;
+        let sref=refObject.commit
+        let refTime=refObject.time
 
         if(branches && branches[branchID] && branches[branchID].head == sref){
             sref = false
@@ -97,8 +102,28 @@ export const DBContextProvider = ({children}) => {
         woqlClient.ref(sref)
       
         setBranch(branchID)
-        setRef(sref);
+        setRef(sref)
+        setConsoleTime(refTime)
     }
+
+    //load db info
+    useEffect(() => {
+        //setLoading(loading + 1)
+        WOQL.lib()
+            .first_commit()
+            .execute(woqlClient)
+            .then((res) => {
+                let binds = res && res.bindings ? dbStructureFromBindings(res.bindings) : []
+                setDBInfo(binds)
+            })
+            .catch((e) => {
+                //setReport({error: e, status: TERMINUS_ERROR})
+            })
+            //.finally(() => setLoading(loading - 1))
+    }, [])
+
+    //maintain time travel 
+    const [chosenCommit, setChosenCommit] = useState(false) 
 
     return (
         <DBContext.Provider
@@ -109,7 +134,12 @@ export const DBContextProvider = ({children}) => {
                 branches,
                 updateBranches,
                 branch,
-                setHead
+                setHead,
+                DBInfo,
+                setConsoleTime, 
+                consoleTime,
+                setChosenCommit,
+                chosenCommit
             }}
         >
             {children}
@@ -133,6 +163,7 @@ export const NullDBProvider = (woqlClient) => {
     let consoleTime = false
     let prefixes = []
     let prefixesLoaded = true
+    let chosenCommit = false
     return {
         setConsoleTime,
         setHead,
@@ -146,6 +177,7 @@ export const NullDBProvider = (woqlClient) => {
         consoleTime,
         ref,
         loading,
-        prefixesLoaded
+        prefixesLoaded,
+        chosenCommit
     }
 }

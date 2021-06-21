@@ -6,12 +6,14 @@ import {WOQLClientObj} from "../init-woql-client"
 export function useCreateNewDataProductStates () {
     const {woqlClient, setDataProduct} = WOQLClientObj()
 
-
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState(false)
 
     const [showNewDataProductModal, setShowNewDataProductModal] = useState(false)
     const [newDataProductInfo, setNewDataProductInfo] = useState({})
+
+    const [showDeleteDataProductModal, setShowDeleteDataProductModal] = useState(false)
+    const [deleteDataProductInfo, setDeleteDataProductInfo] = useState({})
 
 
     useEffect(() => {
@@ -21,7 +23,12 @@ export function useCreateNewDataProductStates () {
         }
     }, [newDataProductInfo])
 
-
+    useEffect(() => {
+        if(deleteDataProductInfo.id && deleteDataProductInfo.id == woqlClient.db() ) {
+            setLoading(true)
+            deleteDataProduct(woqlClient, deleteDataProductInfo, setResult, setLoading, setShowDeleteDataProductModal, setDataProduct)
+        }
+    }, [deleteDataProductInfo])
 
     function handleNew () {
         setShowNewDataProductModal(true)
@@ -36,7 +43,10 @@ export function useCreateNewDataProductStates () {
         setResult,
         handleNew,
         setShowNewDataProductModal,
-        showNewDataProductModal
+        showNewDataProductModal,
+        showDeleteDataProductModal,
+        setDeleteDataProductInfo,
+        setShowDeleteDataProductModal
     }
 }
 
@@ -50,6 +60,18 @@ export async function createNewDataProduct (woqlClient, meta, onDone, setLoading
             setLoading(false)
             setShowNewDataProductModal(false)
             setDataProduct(meta.id)
+        })
+        .catch((err) => console.log(err))
+}
+
+export async function deleteDataProduct (woqlClient, meta, onDone, setLoading, setShowDeleteDataProductModal, setDataProduct) {
+    setLoading(true)
+    await woqlClient.deleteDatabase(meta.id, woqlClient.organization(), true)
+        .then((res) => {
+            onDone(res)
+            setLoading(false)
+            setShowDeleteDataProductModal(false)
+            setDataProduct(false)
         })
         .catch((err) => console.log(err))
 }

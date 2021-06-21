@@ -10,10 +10,9 @@ export const QueryPaneControl = (queryObj) => {
 
     let dp = executeQueryHook(woqlClient, saveQuery) 
 
-    const setExpanded = ()=>{
-        const newStatus = !isExpanded
+    const setExpanded = (isExpanded)=>{
         setNeedUpdate(Date.now())
-        queryObj.editorPanelIsOpen = newStatus
+        queryObj.editorPanelIsOpen = isExpanded
     }
 
     const setQpExpanded = ()=>{

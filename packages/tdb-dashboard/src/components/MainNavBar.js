@@ -4,7 +4,8 @@ import {AiOutlineUser, AiOutlinePoweroff} from "react-icons/ai"
 import {Button, ButtonGroup, Dropdown, Form} from 'react-bootstrap';
 import { useAuth0 } from "../react-auth0-spa";
 import {Nav,Navbar} from "react-bootstrap"
-import { NavLink as RouterNavLink } from "react-router-dom";
+import { NavLink as RouterNavLink } from "react-router-dom"
+import {CurrentDataProductState} from "./CurrentDataProductState"
 
 export const MainNavBar = (props) => {
     const { user, isAuthenticated, logout } = useAuth0();
@@ -18,8 +19,15 @@ export const MainNavBar = (props) => {
     })
 
 
+    /*
+    <Nav className="mr-auto">
+                <CurrentDataProductState/>
+            </Nav>
+            */
+
+
     return <Navbar className="navbar-dark bg-dark p-0">
-            <Nav className="mr-auto"></Nav>
+            
             <div className="d-flex flex-grow-1 justify-content-end">         
             <form className="d-flex align-items-end">              
                 <input className="form-control mr-sm-2" type="text" placeholder="Search"/>

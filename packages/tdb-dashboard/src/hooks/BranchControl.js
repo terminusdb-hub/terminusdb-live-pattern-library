@@ -35,7 +35,6 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
 
     const [loading, setLoading] = useState(false)
     const [reportAlert, setReportAlert] = useState(false)
-
     
 
     useEffect(() => {
@@ -81,10 +80,6 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
     }, [newBranchInfo])
 
 
-    function handleNewBranch () {
-        setNewBranch(true)
-    }
-
     function handleDelete (branch) {
         let update_start = Date.now()
         setLoading(true)
@@ -106,8 +101,8 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
 
     function handleSwitch (branch) {
         if(!branch) return null
-        let message = `Switched to branch - ${branch}`;
-        setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
+        let message = `Switched to branch - ${branch}`
+        //setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
         updateBranches(branch)
     }
 
@@ -174,7 +169,6 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
         setNewBranch,
         setNewBranchInfo,
         loading,
-        handleNewBranch,
         reportAlert,
         handleDelete,
         handleSwitch,

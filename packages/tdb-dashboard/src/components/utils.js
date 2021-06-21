@@ -1,5 +1,5 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {format} from "date-fns";
+import {format, subSeconds} from "date-fns";
 
 export const isArray = (arr) => {
     if (!Array.isArray(arr) || !arr.length) {
@@ -118,6 +118,17 @@ export const printts = (ts) => {
     return format(new Date(ts * 1000), f)
 }
 
+export const printtsDate = (ts) => {
+    let f = "MMM d, yyyy"
+    return format(new Date(ts * 1000), f)
+}
+
+
+export const printtsTime = (ts) => {
+    let f = "HH:mm:ss"
+    return format(new Date(ts * 1000), f)
+}
+
 export const getUsing = (woqlClient, commit) =>  {
     return woqlClient.resource("ref", commit)
 }
@@ -130,4 +141,26 @@ export const copyToClipboard = str => {
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-  }
+}
+
+// set status and current time on time travel jump
+export function getCommitTime(consoleTime, setStatus, setCurrentCommit, setIconColor) {
+    if (consoleTime) {
+        if(setCurrentCommit) setCurrentCommit(printts(consoleTime))
+        if(setIconColor) setIconColor("#f39c12")
+        if(setStatus) setStatus("text-warning")
+    }
+    else {
+        if(setCurrentCommit) setCurrentCommit("latest")
+        if(setIconColor) setIconColor("#00bc8c")
+        if(setStatus)setStatus("text-success")
+    }
+}
+
+export function trimWOQL (str) {
+    let check = "WOQL."
+    if(str.includes(check)) {
+        return str.substr(check.length, str.length)
+    }
+    return str
+}

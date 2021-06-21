@@ -21,7 +21,7 @@ export const WOQLClientProvider = ({children, params}) => {
             const dbClient = new TerminusClient.WOQLClient(opts.server)
             TerminusClient.WOQL.client(dbClient)
             if (!opts.key || opts.key === 'undefined') {
-                console.log("Key not included")
+                console.log("Key not included") 
             }
             else {
                 try {
@@ -34,7 +34,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 }
             }
         }
-        initWoqlClient()
+        if(opts && opts.server){
+            initWoqlClient()
+        }      
     }, [opts])
 
     useEffect(() => {

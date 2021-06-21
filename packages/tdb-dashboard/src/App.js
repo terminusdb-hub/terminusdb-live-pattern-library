@@ -6,22 +6,19 @@ import {trackWithPendo} from "./trackWithPendo"
 import {useAuth0} from "./react-auth0-spa"
 import {ProductsExplorer} from "./pages/ProductsExplorer"
 import history from "./routing/history"
-import {ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS,INVITE_PAGE} from "./routing/constants"
+import {DOCUMENT, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS,INVITE_PAGE} from "./routing/constants"
 import {InitSetupPage} from "./pages/InitSetupPage"
 import {ModelProductPage} from "./pages/ModelProductPage"
-import {ManageProducts} from "./pages/ManageProducts"
 import {DataProductsHome} from "./pages/DataProductsHome"
 import {DBContextProvider} from "./hooks/DBContext"
 import {Home} from "./pages/Home"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
 //import {ManageProductPage} from "./pages/ManageProductPage"
-
+import {DocumentPage} from "./pages/DocumentPage"
 export function App (props){
     const { user, loading, logout} = useAuth0();
 
-    console.log("___REDIRECT__",window.location.href, window.location.search)
- 
     //const {loadingServer} = WOQLClientObj()
     const base_url =process.env.REACT_APP_BASE_ROUTER || ''
     if (window.location.search.includes("error=unauthorized")) {
@@ -29,11 +26,14 @@ export function App (props){
         history.push(`/verify`)
     }
     
-    /*useEffect(() => {
-        if(user){
-             trackWithPendo(user)
-        }
-    }, [user])*/
+    if (window.location.search.includes("supportSignUp=true")) {
+        //if(logout)logoutWithRedirect()
+        history.push(`/`)
+    }
+    
+    useEffect(() => {
+        trackWithPendo(user)
+    }, [user])
 
     if(loading) return <Loading message={SERVER_LOADING_MESSAGE}/>
 
@@ -47,10 +47,12 @@ export function App (props){
                 <Route path="/verify" exact>
                     <VerifyEmail />
                 </Route>
-                <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
                 <DBContextProvider>
+                    <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
                     <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
                     <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>               
+                    <PrivateRoute path={DOCUMENT} component = {DocumentPage} exact/>               
+                
                 </DBContextProvider>
                 <Route path = {INVITE_PAGE} >
                     <PrivateRoute path = {INVITE_PAGE} component = {Home} exact />

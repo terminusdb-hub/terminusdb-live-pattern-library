@@ -14,7 +14,7 @@ export const Home = (props) => {
     const loginToAuth0 = () =>{
         const path="http://localhost:3030/my_product_test?refid=testttjdfjlfwkeowo3ponvjgie4u3iw&team=team0" //`${window.location.origin}/my_product_test?refid=jdfjlfwkeowo3ponvjgie4u3iw%26team=team01`;
         //loginWithPopup()
-        loginWithRedirect({returnTo: path})
+        loginWithRedirect({returnTo: redirect_uri})
     }
 
     const logoutWithRedirect = () =>

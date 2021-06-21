@@ -82,6 +82,5 @@ export function ScopedDetails (woqlClient, branch, dataProduct)  {
 
     if(!latest) return []
 
-    console.log("latest",latest)
     return latest
 }

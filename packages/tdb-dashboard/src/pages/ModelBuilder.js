@@ -10,7 +10,7 @@ import {ClassesTab} from "../components/ClassesTab"
 export const ModelBuilder = (props) =>{   
     const {woqlClient,dataProduct} = WOQLClientObj()
 
-    const {graphs} = DBContextObj(woqlClient,dataProduct)
+    const {graphs} = DBContextObj(woqlClient, dataProduct)
     const [width, setWidth] = useState("")
     const [schemaView, setSchemaView] = useState(SCHEMA_MODEL_VIEW)
 
@@ -31,9 +31,6 @@ export const ModelBuilder = (props) =>{
     if(!graphs) return <div>error in loading graph</div>
 
     return <main className="content mr-3 ml-5 w-100">
-        <Row className={"w-100"}>
-            <h4>Connected to  - {dataProduct}</h4>
-        </Row>
         <div>
             <Button title={SCHEMA_MODEL_VIEW}
                 variant="link" 

@@ -162,7 +162,6 @@ export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => 
     const [showCopiedMessage, setShowCopiedMessage] = useState(true);
     const handleCloseCopiedMessage = () => setShowCopiedMessage(false);
 
-
     let cellClick = (cell) => {
         let cmt = {}
         cmt.id = cell.row.original["Commit ID"]["@value"]

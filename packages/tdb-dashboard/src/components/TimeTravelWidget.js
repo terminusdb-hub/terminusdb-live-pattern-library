@@ -1,0 +1,119 @@
+import React, {useEffect, useState} from "react"
+import {Card, Button, Row, Col, Form} from "react-bootstrap"
+import {BiTimer, BiChevronLeft, BiChevronRight} from "react-icons/bi"
+import {History} from "./History"
+import {getCommitTime} from "./utils"
+import {DBContextObj} from "../hooks/DBContext"
+import {WOQLClientObj} from '../init-woql-client'
+import {TimeTravel}  from "./TimeTravel"
+import {AiOutlineClose} from "react-icons/ai"
+import {BsBriefcase} from "react-icons/bs"
+import {BranchControl} from "../hooks/BranchControl"
+
+
+export const TimeTravelWidget = (props) => {
+    const [showTimeTravel, setShowTimeTravel] = useState(false)
+      
+    const [iconColor, setIconColor] = useState("#00bc8c")
+
+
+    const {branches, branch, ref, updateBranches, consoleTime}=DBContextObj()
+    const {branchList} = BranchControl(branches, branch, ref, updateBranches)
+
+    useEffect(() => {
+      getCommitTime(consoleTime, null, null, setIconColor)
+    }, [consoleTime])
+
+    function handleTimeTravel() {
+      setShowTimeTravel(true)
+    }
+
+    function handleOnChange (e) {
+      updateBranches(e.target.value)
+    }
+
+    const BranchOptions = ({branchList}) => {
+      if(!branchList) return
+      let opts = []
+      for (var item in branchList) {
+        opts.push(
+          <option>{item}</option>
+        )
+      }
+      return opts
+    }
+
+  return <React.Fragment>
+
+      {!showTimeTravel && 
+        <Button className=" time-travel-control time-travel-widget" title="Time Travel through history of Data Product" onClick={handleTimeTravel}> 
+            <h3  style={{color: iconColor}}><BiTimer /></h3>
+        </Button>
+      }  
+
+    {showTimeTravel && <div className=" time-travel-control">
+        <Card className="mt-5">
+            <Card.Header className="d-flex justify-content-end"> 
+                <h6 className="mr-4 mt-2">Time travel on collection  -  <strong className="text-success">{branch}</strong></h6>
+                <BsBriefcase className="me-2 mr-5 mt-2" style={{fontSize: "20px"}}/>
+                <Form className="mb-0 mr-4 ml-3">
+                    <Form.Group controlId="exampleForm.ControlSelect1" className="mb-0">
+                        <Form.Control as="select" 
+                          onChange={handleOnChange} 
+                          className="bg-transparent border-1-light text-light mb-0" 
+                          style={{width: "270px"}}>
+                            <BsBriefcase className="me-2 mr-4 mt-1"/><option defaultValue>{branch}</option>
+                            <BranchOptions branchList={branchList}/>
+                        </Form.Control>
+                    </Form.Group>
+                </Form>
+                <div className="float-right d-flex ml-4">
+                  <Button variant="info" className="mr-3" title={"Close Time Travel View"} onClick={(e) => setShowTimeTravel(false)}>
+                      <AiOutlineClose className="me-2"/>
+                  </Button>
+                </div>
+                
+            </Card.Header>
+            <Card.Body className="time-travel-card-body">
+                <TimeTravel/>
+            </Card.Body>   
+          </Card>
+      
+    </div>}
+
+  </React.Fragment>
+
+    
+}
+
+/*
+
+<div>
+          {sidebar && <button className= "time-travel-widget" onClick={() => openSidebar(false)} title="Time Travel through history of Data Product" >
+            <h3  style={{color: iconColor}}><BiChevronRight/><BiTimer /></h3>
+        </button>}
+      
+     
+      <Sidebar
+          sidebar={<div>
+              <button className= "time-travel-widget" onClick={() => openSidebar(false)} title="Time Travel through history of Data Product" >
+                  <h3  style={{color: iconColor}}><BiChevronRight/><BiTimer /></h3>
+              </button>
+              <TimeTravel/>
+            </div>}
+          open={sidebar}
+          onSetOpen={openSidebar}
+          pullRight={true}
+          styles={{ sidebar: { background: "#303030" } }}
+        >
+          {!sidebar && <button className= "time-travel-widget" onClick={() => openSidebar(true)} title="Time Travel through history of Data Product" >
+            <h3  style={{color: iconColor}}><BiChevronLeft/><BiTimer /></h3>
+          </button>}
+ 
+          
+        </Sidebar>
+
+      </div>
+
+
+      */
