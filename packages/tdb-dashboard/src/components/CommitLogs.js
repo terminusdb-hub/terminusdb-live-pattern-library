@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react"
 import {getBranchCommits} from "../queries/BranchQueries"
 import {getCommitsTabConfig, getCommitViewTabConfig} from "./ViewConfig"
-import {WOQLTable} from '@terminusdb/terminusdb-react-components'
-import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
+import {WOQLTable} from '@terminusdb-live/tdb-react-components'
+import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {getRemovedTriplesQuery, getAddedTriplesQuery} from "../queries/BranchQueries"
 import {Row, Button, Toast} from "react-bootstrap"
 import {getUsing, printts, copyToClipboard} from "./utils"

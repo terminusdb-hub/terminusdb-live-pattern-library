@@ -55,7 +55,7 @@ export const queryDescription = [
       "description": "Query running against any specific commit Id",
       "memberof": "WOQL",
       "params": [
-        {
+        { 
           "type": {
             "names": [
               "string"

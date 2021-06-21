@@ -16,17 +16,17 @@ module.exports = {
   plugins: [
     new Dotenv({path: path.resolve(__dirname, './.env')}),
     new webpack.LoaderOptionsPlugin({
-      debug: true
+      debug: true 
     })
   ],
   resolve: {
     alias: {
-      "@terminusdb/terminusdb-react-components": path.resolve('../../../terminusdb-react-components/src/index.js'),
       "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js'),
       "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
       "@terminusdb-live/tdb-react-group": path.join(__dirname, '..', 'src/index.js'),
       "@terminusdb-live/react-chart": path.resolve('../react-chart/src/index.js'),
       "@terminusdb-live/react-pretty-print": path.resolve('../react-pretty-print/src/index.js'),
+      "@terminusdb-live/tdb-react-components": path.resolve('../tdb-react-components/src/index.js'),
       "@terminusdb-live/tdb-react-layout": path.resolve('../tdb-react-layout/src/index.js'),
       react: path.resolve('./node_modules/react')
     },
@@ -110,7 +110,7 @@ module.exports = {
   }
 }
 
-
+/*"@terminusdb/terminusdb-react-components": path.resolve('../../../terminusdb-react-components/src/index.js'),*/
 
 /*const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = (env, argv) => ({

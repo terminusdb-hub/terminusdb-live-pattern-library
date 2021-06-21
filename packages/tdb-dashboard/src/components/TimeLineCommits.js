@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from "react"
 import useDimensions from "react-use-dimensions"
 import moment from 'moment'
-import {useCommitsControl, Timeline} from '@terminusdb/terminusdb-react-components'
+import {useCommitsControl, Timeline} from '@terminusdb-live/tdb-react-components'
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
 import {DateRangePicker, isInclusivelyBeforeDay, SingleDatePicker} from "react-dates"

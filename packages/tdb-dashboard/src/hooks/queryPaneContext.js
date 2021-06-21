@@ -14,7 +14,7 @@ export const QueryPaneProvider = ({children}) => {
 
     const addQueryPane = (query=null) =>{
         const obj = new PanelQueryObj(uuidv4())
-        obj.updateEditorProps('query',query)
+        obj.updateEditorProps('query', query)
         if(query){
             obj.updateEditorProps('text', query.prettyPrint("js"))
         }
@@ -26,18 +26,26 @@ export const QueryPaneProvider = ({children}) => {
         return queryPaneList.get(queryPaneId)
     }
 
-    const WOQLQueryChange =(queryPaneId, query,text,language)=>{
+    const WOQLQueryChange =(queryPaneId, query, text, language)=>{
         const queryObj= queryPaneList.get(queryPaneId)
         if(queryObj){
-            queryObj.updateEditorProps("query",query)
-            queryObj.updateEditorProps("text",text)
-            queryObj.updateEditorProps("language",language)
+            queryObj.updateEditorProps("query", query)
+            queryObj.updateEditorProps("text", text) 
+            queryObj.updateEditorProps("language", language)
         } 
     } 
+
+    const QueryBuilderChange = (queryPaneId, isOpen) => {
+        const queryObj= queryPaneList.get(queryPaneId)
+        if(queryObj){
+            queryObj.updateQueryBuilderProps("isOpen", isOpen)
+        } 
+    }
 
     return <QueryPaneContext.Provider
         value={{
             WOQLQueryChange,
+            QueryBuilderChange,
             queryPaneList,
             addQueryPane,
             getPanelObject

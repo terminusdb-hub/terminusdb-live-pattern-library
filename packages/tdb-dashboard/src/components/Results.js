@@ -1,12 +1,14 @@
 import React, {useState,useMemo} from "react"
-import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components'
+import {WOQLTable, WOQLGraph} from '@terminusdb-live/tdb-react-components'
 import {ResultController} from "./ResultController"
 import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
-import {GRAPH_VIEW, TABLE_VIEW} from "./constants"
+import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW} from "./constants"
 import {TDBReactCollapse, TDBReactResizable} from '@terminusdb-live/tdb-react-layout'
 import {ViewPane} from "./ViewPane"
-import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
+import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {WOQLClientObj} from '../init-woql-client'
+import ReactJson from 'react-json-view'
+
 export const Results = ({freewidth,queryObj})=>{
     const {woqlClient} = WOQLClientObj()
     const queryResult = queryObj.resultObj
@@ -70,7 +72,7 @@ export const Results = ({freewidth,queryObj})=>{
     if(!result) return ""
 
     return(
-    <div className="pallet mb-3">
+    <div className="pallet mb-3 mt-4">
     <React.Fragment> 
         <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
             <ResultController onClick={setView} 
@@ -100,6 +102,9 @@ export const Results = ({freewidth,queryObj})=>{
                         loading={loading}
                         totalRows={totalRows}
                     />}
+                {currentView==JSON_VIEW &&
+                    <ReactJson src={result.bindings} theme="eighties" />
+                }
             </TDBReactCollapse>
         </TDBReactResizable>
     </React.Fragment>

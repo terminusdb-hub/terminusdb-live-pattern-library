@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react"
 import SplitPane from 'react-split-pane'
 import {handleWidthChange} from "../pages/utils"
-import {WOQLTable, WOQLGraph} from '@terminusdb/terminusdb-react-components'
-import {ControlledQueryHook} from '@terminusdb/terminusdb-react-components'
+import {WOQLTable, WOQLGraph} from '@terminusdb-live/tdb-react-components'
+import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {getPropertyMeta} from "../queries/GeneralQueries"
 import {getPropertyMetaTabConfig, getPropertyMetaGraphConfig} from "./ViewConfig"
 import {Col} from "react-bootstrap"

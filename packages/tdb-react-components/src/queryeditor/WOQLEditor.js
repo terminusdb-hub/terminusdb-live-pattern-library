@@ -33,8 +33,9 @@ export const WOQLEditor = ({language, content, editable, setEditorContent, setMa
         setEditorContent(value);
         const woql=checkContent(value);
         if(woql){
-            if(setWOQLQuery) setWOQLQuery(woql)
+            if(setWOQLQuery) setWOQLQuery(woql, value)
             //let wqc = makeWOQLIntoString(woql, "js")
+            //console.log("wqc", wqc)
         }
     }
     /*
