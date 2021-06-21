@@ -32,6 +32,7 @@ export const QueryPaneProvider = ({children}) => {
             queryObj.updateEditorProps("query", query)
             queryObj.updateEditorProps("text", text) 
             queryObj.updateEditorProps("language", language)
+            setUpdateList(Date.now())
         } 
     } 
 

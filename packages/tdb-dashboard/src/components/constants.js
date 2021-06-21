@@ -179,7 +179,7 @@ export const ACTIONS_QUERY_BUTTON_GROUP={variant: "light", size: "sm",
 
 
 //button group for language switcher 
-export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [{id: "JS", title: "JS", label: "JS"}, {id: "JSON", title: "JSON", label: "JSON"}]}
+export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [{id: "js", title: "JS", label: "JS"}, {id: "json", title: "JSON-LD", label: "JSON-LD"}]}
 //button group for view chooser
 export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [
     {/*icon: "fas fa-border-none",*/ id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
@@ -194,6 +194,8 @@ export const SAVE_QUERY_NAME_TEXT_AREA = {placeholder:"Add a name to save query 
 
 // language list for query pane
 export const LANGUAGE_LIST = ["JS", "JSON-LD"]
+export const JS = "js"
+export const JSONLD = "json"
 
 
 //Labels

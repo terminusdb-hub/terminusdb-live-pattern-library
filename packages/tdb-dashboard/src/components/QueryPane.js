@@ -24,13 +24,6 @@ export const QueryPane = ({id, name, queryObj}) => {
     const [size, setSize] = useState(12)
 
 
-    //const showQueryBuilder = () => {
-        //QueryBuilderChange(queryObj.id,!queryObj.queryBuilderObj.isOpen)
-        //if(queryObj.queryBuilderObj){
-         //   queryObj.updateQueryBuilderProps('isOpen', !queryObj.queryBuilderObj.isOpen)
-        //}
-    //} 
-
     //maybe we not need an external hook
     const {setExpanded,
         setQpExpanded,

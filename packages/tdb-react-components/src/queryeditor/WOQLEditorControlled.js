@@ -12,7 +12,7 @@ import {useEditorControl} from "./hook/useEditorControl"
  * ..
  */
 export const WOQLEditorControlled = ({query, startLanguage, initcontent, editable, languages,setWOQLQuery, mainError, showLanguageSwitcher, theme}) => {
-
+ 
     const {changeEditableLanguage,
             changeCurrentLanguage,
             editorContent,
