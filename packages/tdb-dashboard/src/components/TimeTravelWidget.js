@@ -10,22 +10,34 @@ import {AiOutlineClose} from "react-icons/ai"
 import {BsBriefcase} from "react-icons/bs"
 import {BranchControl} from "../hooks/BranchControl"
 
+import AnchorLink from 'react-anchor-link-smooth-scroll'
+
 
 export const TimeTravelWidget = (props) => {
     const [showTimeTravel, setShowTimeTravel] = useState(false)
       
     const [iconColor, setIconColor] = useState("#00bc8c")
 
-
-    const {branches, branch, ref, updateBranches, consoleTime}=DBContextObj()
+    const {branches, branch, ref, updateBranches, consoleTime, chosenCommit}=DBContextObj()
     const {branchList} = BranchControl(branches, branch, ref, updateBranches)
+
+    const [cssWidget, setCssWidget] = useState("")
+    const [cssTimeTravel, setCssTimeTravel] = useState("display-none")
 
     useEffect(() => {
       getCommitTime(consoleTime, null, null, setIconColor)
     }, [consoleTime])
 
     function handleTimeTravel() {
+      setCssTimeTravel("")
+      setCssWidget("display-none")
       setShowTimeTravel(true)
+    }
+
+    function handleCloseTimeTravel () {
+      setCssWidget("")
+      setCssTimeTravel("display-none")
+      setShowTimeTravel(false)
     }
 
     function handleOnChange (e) {
@@ -45,13 +57,21 @@ export const TimeTravelWidget = (props) => {
 
   return <React.Fragment>
 
-      {!showTimeTravel && 
-        <Button className=" time-travel-control time-travel-widget" title="Time Travel through history of Data Product" onClick={handleTimeTravel}> 
+      {/*!showTimeTravel && 
+        <Button className=" time-travel-control time-travel-widget" title="Time Travel through history of Data Product" onClick={handleTimeTravel} style={{top: "55"}}> 
             <h3  style={{color: iconColor}}><BiTimer /></h3>
         </Button>
-      }  
+      */}  
 
-    {showTimeTravel && <div className=" time-travel-control">
+      {
+        <AnchorLink href={`#${chosenCommit.commit}`}>
+          <Button className={` ${cssWidget} time-travel-control time-travel-widget`} title="Time Travel through history of Data Product" onClick={handleTimeTravel} style={{top: "55"}}> 
+            <h3  style={{color: iconColor}}><BiTimer /></h3>
+          </Button>
+        </AnchorLink> 
+      }
+
+    {<div className={` ${cssTimeTravel} time-travel-control`}>
         <Card className="mt-5">
             <Card.Header className="d-flex justify-content-end"> 
                 <h6 className="mr-4 mt-2">Time travel on collection  -  <strong className="text-success">{branch}</strong></h6>
@@ -68,7 +88,7 @@ export const TimeTravelWidget = (props) => {
                     </Form.Group>
                 </Form>
                 <div className="float-right d-flex ml-4">
-                  <Button variant="info" className="mr-3" title={"Close Time Travel View"} onClick={(e) => setShowTimeTravel(false)}>
+                  <Button variant="info" className="mr-3" title={"Close Time Travel View"} onClick={handleCloseTimeTravel}>
                       <AiOutlineClose className="me-2"/>
                   </Button>
                 </div>

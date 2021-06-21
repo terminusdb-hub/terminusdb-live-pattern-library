@@ -8,16 +8,28 @@ import {QueryEditor} from "./QueryEditor"
 import {WOQLClientObj} from '../init-woql-client'
 import {QueryPaneTools} from "./QueryPaneTools"
 import {QueryBuilder} from "./QueryBuilder"
+import {QueryPaneObj} from "../hooks/queryPaneContext" 
 
 export const QueryPane = ({id, name, queryObj}) => {
+
+    const {QueryBuilderChange} = QueryPaneObj()
 
     const [viewResult, setViewResult]=useState(0)
     const result = queryObj.resultObj.result
     const showResult = viewResult || result ? true : false
     const {dataProduct} = WOQLClientObj()
 
-    const [queryBuilder, showQueryBuilder] = useState(false)
+    //const [queryBuilder, showQueryBuilder] = useState(false)
+    const queryBuilder = queryObj.queryBuilderObj.isOpen
     const [size, setSize] = useState(12)
+
+
+    //const showQueryBuilder = () => {
+        //QueryBuilderChange(queryObj.id,!queryObj.queryBuilderObj.isOpen)
+        //if(queryObj.queryBuilderObj){
+         //   queryObj.updateQueryBuilderProps('isOpen', !queryObj.queryBuilderObj.isOpen)
+        //}
+    //} 
 
     //maybe we not need an external hook
     const {setExpanded,
@@ -25,12 +37,10 @@ export const QueryPane = ({id, name, queryObj}) => {
         setSaveQuery,
         setSaveQueryName,
         saveQueryName,
+        showQueryBuilder,
     } = QueryPaneControl(queryObj)
    
-    useEffect (() => {
-        if(queryBuilder) setSize(10)
-        else setSize(12)
-    }, [queryBuilder])
+
  
     return <React.Fragment>
         <div className="query-pane-pallet mb-3 mt-3 mr-4" >
@@ -61,7 +71,8 @@ export const QueryPane = ({id, name, queryObj}) => {
                             setSaveQueryName={setSaveQueryName} 
                             saveQueryName={saveQueryName}
                             showQueryBuilder={showQueryBuilder}
-                            setViewResult={setViewResult}/>    
+                            setViewResult={setViewResult}
+                            queryBuilder={queryBuilder}/>    
                     </Card.Header>
                     <Card.Body>
                         <TDBReactCollapse isExpanded={queryObj.editorPanelIsOpen}> 
@@ -69,7 +80,7 @@ export const QueryPane = ({id, name, queryObj}) => {
                                 <Col md={size}>
                                     <QueryEditor queryObj={queryObj} id={id}/>  
                                 </Col>
-                                {queryBuilder && <Col md={12 - size}>
+                                {queryObj.queryBuilderIsOpen && <Col md={12 - size}>
                                     <QueryBuilder showQueryBuilder={showQueryBuilder}/>
                                 </Col>}   
                             </Row>                       

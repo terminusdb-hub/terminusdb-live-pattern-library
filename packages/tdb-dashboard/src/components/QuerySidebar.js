@@ -25,7 +25,7 @@ export const QuerySidebar= (props) =>{
             icon: "fas fa-heart",
             title: SAMPLE_QUERIES,
             description: <SampleQueries/>
-        },
+        }, 
         {
             id: 3,
             eventKey: "3",

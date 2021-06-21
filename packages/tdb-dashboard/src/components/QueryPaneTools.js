@@ -6,7 +6,7 @@ import {BiChevronUp, BiChevronDown} from "react-icons/bi"
 import {BsClipboard, BsUpload, BsDownload} from "react-icons/bs"
 import {copyToClipboard} from "./utils"
 
-export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQueryName, saveQueryName, setViewResult, showQueryBuilder}) => {
+export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQueryName, saveQueryName, queryBuilder, setViewResult, showQueryBuilder}) => {
 
     const [commitModal, setCommitModal] = useState(false)
 
@@ -39,12 +39,14 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
         if(setSaveQueryName) setSaveQueryName(name)
     }
 
+    
+
     const PopCommitModal = ({commitModal, setCommitModal}) => {
 
         function handleClick () {
             handleRun()
             setCommitModal(false)
-        }
+        } 
 
         return <Modal centered size="sm" show={commitModal} onHide={(e) => setCommitModal(false)}>
         <Modal.Header>
@@ -69,7 +71,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
             <Col md={11}>
                 <TDBReactButton 
                     config={QUERY_BUILDER_CONFIG} 
-                    onClick={(e) => showQueryBuilder(true)}/>
+                    onClick={showQueryBuilder}/>
 
                 <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
 

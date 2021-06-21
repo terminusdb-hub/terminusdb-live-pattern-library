@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useRef} from "react"
 import {BiTimer, BiTime, BiMessageAltDetail} from "react-icons/bi"
 import {BsFillCircleFill, BsCalendar} from"react-icons/bs"
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component'
@@ -7,7 +7,7 @@ import {TimeTravelControl} from "../hooks/TimeTravelControl"
 import {Button, Card} from "react-bootstrap"
 import {TERMINUS_SUCCESS} from "./constants"
 import {Alerts} from "./Alerts"
-import {AiOutlineFieldTime, AiOutlineUser} from "react-icons/ai"
+import {AiOutlineUser} from "react-icons/ai"
 import {printtsDate, printtsTime} from "./utils"
 import {DBContextObj} from "../hooks/DBContext"
 
@@ -15,10 +15,18 @@ export const TimeTravel = (props) => {
  
     let cardColor = "#303030", transparantColor = "transparent", activeColor = "#00bc8c"
     const {chosenCommit, setChosenCommit} = DBContextObj()
-    const {currentItem, dataProvider, setSelectedValue, setHead, branch, setCurrentDay} = TimeTravelControl()
+    const {currentItem, 
+        dataProvider, 
+        setSelectedValue, 
+        setHead, 
+        branch, 
+        setCurrentDay,
+        loadNextPage,
+        loadPreviousPage
+        } = TimeTravelControl()
 
     const [reportAlert, setReportAlert] = useState(false)
-    const [reconstructed, setReconstructed] = useState(false)
+
 
     const [commits, setCommits] = useState([])
 
@@ -27,33 +35,40 @@ export const TimeTravel = (props) => {
         e.preventDefault()
         setChosenCommit(commit)
         setSelectedValue(selectedVaue)
+        if(commit && setHead){
+            setHead(branch, commit)
+         }
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
       if(dataProvider.length > 0) {
           setCommits(dataProvider)
       }
-    }, [dataProvider])
+    }, [dataProvider])*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         if(chosenCommit && setHead){
             setHead(branch, chosenCommit)
             let message = `The state of data product has been set to date ${chosenCommit.label}`
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
          }
-    }, [chosenCommit])
+    }, [chosenCommit])*/
 
 
     const TimelineElements = () => {
-        if(!commits) return <div/>
+        if(!dataProvider) return <div/>
 
         let timeElements = []
         let selectedCounter = 0
 
-        commits.slice(0).reverse().map((item) => {
+        console.log("dataProvider", dataProvider)
+
+        dataProvider.slice(0).reverse().map((item) => {
+
             var iconStyle = { background: transparantColor, color: '#444' }
             var disabled = false
             var currentDateColor 
+
             if(!chosenCommit && item.isLastCommit) { // when nothing is selected to point to latest commit
                 iconStyle = { background: activeColor, color: '#444' }
                 disabled = true 
@@ -106,6 +121,10 @@ export const TimeTravel = (props) => {
 
         return timeElements
     }
+
+    const loadMore = () => {
+        console.log("loading more")
+    } 
  
     return <React.Fragment>
                
@@ -113,6 +132,7 @@ export const TimeTravel = (props) => {
 
         <VerticalTimeline layout="1-column-left">
             <TimelineElements/>
+            <Button variant="link" className="float-right text-info" onClick={loadPreviousPage}>Load More</Button>
         </VerticalTimeline>
 
                 

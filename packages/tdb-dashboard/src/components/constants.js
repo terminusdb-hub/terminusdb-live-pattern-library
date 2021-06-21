@@ -162,6 +162,7 @@ export const GET_DOCUMENT_METADATA_LINK={label:"Get Document Meta data", title: 
 //views to see results
 export const TABLE_VIEW = "TABLE"
 export const GRAPH_VIEW = "GRAPH"
+export const JSON_VIEW = "JSON"
 
 // download controllers for result views
 export const TABLE_RESULT_CONTROLLER = {variant: "outline-info", list:["Save as .csv", "Save as .txt", "Save as .json"]}
@@ -182,7 +183,8 @@ export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", butt
 //button group for view chooser
 export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [
     {/*icon: "fas fa-border-none",*/ id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
-    {/*icon: "fas fa-bezier-curve",*/ id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW}]}
+    {/*icon: "fas fa-bezier-curve",*/ id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW},
+    {id: JSON_VIEW, title: JSON_VIEW, label: JSON_VIEW}]}
 
 
 //text area for commit msg 

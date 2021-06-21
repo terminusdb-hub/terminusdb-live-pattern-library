@@ -24,7 +24,8 @@
              ],"@babel/plugin-transform-react-jsx",
                "@babel/plugin-proposal-export-default-from","@babel/plugin-transform-regenerator",
              ["@babel/plugin-transform-runtime"]
-             ]
+
+             ["@babel/plugin-transform-runtime"]]
            }
          },
        },
@@ -127,7 +128,7 @@ module.exports = (env, argv) => ({
   ],
   resolve: {
     alias: {
-      "@terminusdb/terminusdb-react-components": path.resolve('../../../terminusdb-react-components/src/index.js'),
+      "@terminusdb-live/tdb-react-components": path.resolve('../tdb-react-components/src/index.js'),
       "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js'),
       "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
       "@terminusdb-live/tdb-react-group": path.join(__dirname, '..', 'src/index.js'),
@@ -200,3 +201,7 @@ module.exports = (env, argv) => ({
       }
     }*/
 });
+//      fallback: {"https": false},
+//      extensions: ['.js', '.jsx', '.json', '.png'],
+ //   },
+//}

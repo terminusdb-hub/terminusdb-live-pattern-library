@@ -303,7 +303,7 @@ tbody, td, tfoot, th, thead, tr {
 
 .time-travel-card-body {
   overflow-y: scroll;
-  height: 1500px;
+  height: 1050px;
   background-color: #222;
   max-height: -webkit-fill-available;
 }
@@ -370,8 +370,10 @@ tbody, td, tfoot, th, thead, tr {
 
 .query-description-card {
   overflow-y: scroll;
-  height: 265px;
   max-height: -webkit-fill-available;
+  height: 350px;
+  margin-top: 55px;
+  box-shadow: 0 0.5rem 1rem rgb(46 54 80 / 15%);
 }
 
 .query-name-pre {
@@ -389,11 +391,19 @@ tbody, td, tfoot, th, thead, tr {
   font-size: 13px;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  cursor: pointer;
 }
 
 .query:hover {
   cursor: pointer;
 }
 
+
+
 /* ---------- query builder ---------- */
+
+.display-none {
+  display: none;
+}

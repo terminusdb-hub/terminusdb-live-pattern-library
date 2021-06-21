@@ -1,5 +1,5 @@
 {
-  "name": "@terminusdb/tdb-react-components",
+  "name": "@terminusdb-live/tdb-react-components",
   "version": "4.3.1",
   "description": "components tools for terminusdb",
   "main": "src/index",

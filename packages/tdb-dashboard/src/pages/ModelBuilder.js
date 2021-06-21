@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from "react"
 import {DBContextObj} from "../hooks/DBContext"
-import {SchemaBuilder, modelCallServerHook, GraphObjectProvider, ViewBuilder} from "@terminusdb/terminusdb-react-components"
+import {SchemaBuilder, modelCallServerHook, GraphObjectProvider, ViewBuilder} from "@terminusdb-live/tdb-react-components"
 import {Row, Button} from "react-bootstrap"
 import {SCHEMA_MODEL_VIEW, SCHEMA_CLASSES_VIEW, SCHEMA_PROPERTIES_VIEW, SCHEMA_EDITOR_VIEW} from "./constants"
 import {PropertiesTab} from "../components/PropertiesTab"

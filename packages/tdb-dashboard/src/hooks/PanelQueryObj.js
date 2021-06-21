@@ -13,10 +13,14 @@ export class PanelQueryObj {
             graph: null, isOpen: true
         }
         this.editorObj = { query: null, text: '', language: "js", isOpen: true } 
+        this.queryBuilderObj = {isOpen: false}
     }
 
     updateEditorProps(propID, propValue) {
         this.editorObj[propID] = propValue
+    }
+    updateQueryBuilderProps(propID, propValue){
+        this.queryBuilderObj[propID] = propValue
     }
     updateResultProps(propID, propValue) {
         this.resultObj[propID] = propValue
@@ -38,6 +42,14 @@ export class PanelQueryObj {
 
     get editorPanelIsOpen() {
        return this.editorObj.isOpen === false ? false : true 
+    }
+
+    set queryBuilderIsOpen(isOpen) {
+        this.queryBuilderObj.isOpen = isOpen
+    }
+
+    get queryBuilderIsOpen() {
+       return this.queryBuilderObj.isOpen === true ? true : false 
     }
 
     set resultPanelIsOpen (isOpen) {

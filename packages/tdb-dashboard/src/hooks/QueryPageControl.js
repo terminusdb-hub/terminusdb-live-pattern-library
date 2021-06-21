@@ -23,7 +23,12 @@ export const QueryPaneControl = (queryObj) => {
         setNeedUpdate(Date.now())       
     }
 
-    
+    const showQueryBuilder = () => {
+        const newStatus = !queryObj.queryBuilderObj
+        queryObj.queryBuilderObj = newStatus
+        setNeedUpdate(Date.now())
+        
+    }
 
     return {
         needUpdate,
@@ -31,6 +36,7 @@ export const QueryPaneControl = (queryObj) => {
         setQpExpanded,
         setSaveQuery,
         setSaveQueryName,
-        saveQueryName
+        saveQueryName,
+        showQueryBuilder
     }
 }
