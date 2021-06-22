@@ -51,17 +51,6 @@ export const IconBar =  () => {
             </Nav.Item>
             <Nav.Item>
                 <Nav.Link  as={RouterNavLink}
-                    title={IconBarConfig.dataProductExplorer.title} 
-                    className="nav-icon" 
-                    {...disabled}
-                    to={IconBarConfig.dataProductExplorer.path} 
-                    exact
-                    id={IconBarConfig.dataProductExplorer.key}>
-                    {IconBarConfig.dataProductExplorer.icon}
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link  as={RouterNavLink}
                     title={IconBarConfig.documentExplorer.title} 
                     className="nav-icon" 
                     {...disabled}
@@ -69,6 +58,17 @@ export const IconBar =  () => {
                     exact
                     id={IconBarConfig.documentExplorer.key}>
                     {IconBarConfig.documentExplorer.icon}
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.dataProductExplorer.title} 
+                    className="nav-icon" 
+                    {...disabled}
+                    to={IconBarConfig.dataProductExplorer.path} 
+                    exact
+                    id={IconBarConfig.dataProductExplorer.key}>
+                    {IconBarConfig.dataProductExplorer.icon}
                 </Nav.Link>
             </Nav.Item>
             <hr className="my-3" role="separator"></hr>

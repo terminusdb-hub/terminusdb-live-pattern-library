@@ -319,5 +319,8 @@ export const TIME_TRAVEL_BUTTON = "Time Travel"
 export const NO_DATA_PRODUCT_SELECTED_MESSAGE = "Use the sidebar to connect to a Data Product"
 export const NoDataProductSelectedStyle = {top: "30%", position: "absolute", width: "100%"}
 
+//DOCUMENTS 
+//New Document create button configurations
+export const CREATE_NEW_DOCUMENT_BUTTON ={label: "New Document", title: "Create a new Document", icon: "fas fa-plus", size:"sm", variant:"info"}// New Branch Form configurations
 
 
