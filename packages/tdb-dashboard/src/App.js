@@ -6,7 +6,7 @@ import {trackWithPendo} from "./trackWithPendo"
 import {useAuth0} from "./react-auth0-spa"
 import {ProductsExplorer} from "./pages/ProductsExplorer"
 import history from "./routing/history"
-import {ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS} from "./routing/constants"
+import {ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER} from "./routing/constants"
 import {InitSetupPage} from "./pages/InitSetupPage"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
@@ -14,6 +14,7 @@ import {DBContextProvider} from "./hooks/DBContext"
 import {Home} from "./pages/Home"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
+import {DocumentExplorer} from "./pages/DocumentExplorer"
 //import {ManageProductPage} from "./pages/ManageProductPage"
 
 export function App (props){
@@ -42,10 +43,11 @@ export function App (props){
                 <Route path="/verify" exact>
                     <VerifyEmail />
                 </Route>
-                <DBContextProvider>
+                <DBContextProvider> 
                     <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
                     <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
-                    <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>               
+                    <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
+                    <PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/>               
                 </DBContextProvider> 
             </Switch>
             </Router>         

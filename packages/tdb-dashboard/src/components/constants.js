@@ -1,10 +1,11 @@
 
 import React from "react"
 import {AiOutlineMail, AiOutlineDatabase, AiOutlineSetting} from "react-icons/ai"
+import {BsFileEarmarkCheck} from "react-icons/bs"
 import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
 import {SiGithubactions} from "react-icons/si"
-import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE} from "../routing/constants"
+import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER} from "../routing/constants"
 
 //User Messages 
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
@@ -50,6 +51,12 @@ export const IconBarConfig = {
         key: "Manage Data",
         path: PRODUCT_MANAGE,
         icon: <SiGithubactions/>
+    },
+    documentExplorer: {
+        title: "Document Explorer",
+        key: "Document Explorer",
+        path: DOCUMENT_EXPLORER,
+        icon: <BsFileEarmarkCheck/>
     },
     feedback: {
         title: "Feedback",

@@ -149,6 +149,12 @@ div.progress-bar-position {
   padding: 0px;
   align-self: flex-end; 
 }
+
+.nav-icons-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 70%;
+}
 /* ---------- icon bar css ---------- */
 
 /* ---------- sub nav css ----------- */

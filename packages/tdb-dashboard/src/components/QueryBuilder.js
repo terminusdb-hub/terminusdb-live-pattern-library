@@ -89,6 +89,6 @@ export const QueryBuilder = ({showQueryBuilder}) => {
             <Col className="query-builder-card">
                 <Queries/>
             </Col>
-                  </Card.Body>
+        </Card.Body>
     </Card>
 }
