@@ -9,11 +9,11 @@ import {QueryPaneObj} from '../hooks/queryPaneContext'
 import {makeWOQLFromString, makeWOQLIntoString} from "@terminusdb-live/tdb-react-components"
 import {JSONLD, JS} from "./constants"
 
-export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQueryName, saveQueryName, queryBuilder, setViewResult, showQueryBuilder}) => {
+export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
 
     const [commitModal, setCommitModal] = useState(false)
 
-    const {WOQLQueryChange} = QueryPaneObj()
+    const {WOQLQueryChange, QueryBuilderChange} = QueryPaneObj()
 
 
     // "default Commit msg"
@@ -34,7 +34,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
         }
     }
 
-    const handleSaveQuery = (saveQuery, setSaveQuery, saveQueryName) => {
+    /*const handleSaveQuery = (saveQuery, setSaveQuery, saveQueryName) => { // commenting out saved query functions 
         if(saveQuery){
             let q = storeQueries(saveQuery, saveQueryName)
             if(setSaveQuery) setSaveQuery(q)
@@ -43,7 +43,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
 
     const handleSaveQueryNameOnChange = (name, setSaveQueryName) => {
         if(setSaveQueryName) setSaveQueryName(name)
-    }
+    }*/
 
     const handleLanguageChange = (lang) => {
         if(lang == JS){ //js
@@ -57,6 +57,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
             WOQLQueryChange(queryObj.id, queryObj.editorObj.query, json, JSONLD) 
         }
     }
+
 
     const PopCommitModal = ({commitModal, setCommitModal}) => {
 
@@ -87,8 +88,8 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
 
             <Col md={11}>
                 <TDBReactButton 
-                    config={QUERY_BUILDER_CONFIG} 
-                    onClick={showQueryBuilder}/>
+                    config={QUERY_BUILDER_CONFIG}  
+                    onClick={(e) => QueryBuilderChange(queryObj.id, !queryObj.queryBuilderObj.isOpen)}/>
 
                 <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP} onClick={handleLanguageChange}/>
 

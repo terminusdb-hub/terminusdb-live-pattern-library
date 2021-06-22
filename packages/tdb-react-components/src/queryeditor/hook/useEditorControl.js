@@ -2,7 +2,7 @@ import React, {useState,useEffect} from "react";
 import {makeWOQLFromString , makeWOQLIntoString} from "../queryPaneUtils"
 
 export const useEditorControl = (initEditableLanguage, setError, initEditablecontent='', editable=true) => {
-
+ 
     const [editableLanguage, setEditableLanguage] = useState(initEditableLanguage || "js");
     const [editableContent, setEditableContent] = useState(false);
 

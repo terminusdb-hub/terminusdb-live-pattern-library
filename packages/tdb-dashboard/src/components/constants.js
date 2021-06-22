@@ -144,7 +144,7 @@ export const PROPERTY_LABEL_CONFIG = {color: "#ddd", label: "Properties"}
 export const RUN_QUERY_CONFIG = {label:"Run", title: "Run Query", icon: "fas fa-play", variant: "info", size:"sm"}
 export const COPY_QUERY_CONFIG = {label: "Copy Query", title: "Copy Query", icon: "far fa-clipboard", variant: "light"}
 export const QUERY_BUILDER_CONFIG = {label: "Query Builder", title: "Query Builder Helps with queries", icon: "fas fa-terminal", variant: "light"}
-export const USE_QUERY_CONFIG = {label: "Use", title: "Use Query in Editor", icon: "far fa-hand-pointer", variant: "light"}
+export const USE_QUERY_CONFIG = {label: "Copy", title: "Copy an example query to clipboard", icon: "far fa-hand-pointer", variant: "light"}
 // button to save query 
 export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite", icon: "far fa-star", variant: "light", size:"sm"}
 // button to get new query pane
