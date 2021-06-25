@@ -42,6 +42,7 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.15.0",
     "axios": "^0.21.1",
+    "@terminusdb/terminusdb-client": "^4.3.1",
     "classnames": "^2.2.5",
     "date-fns": "^2.21.3",
     "dotenv": "^9.0.2",
