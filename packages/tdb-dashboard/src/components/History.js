@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import {Card, Button} from "react-bootstrap"
 import {BiTimer} from "react-icons/bi"
 import {AiOutlineClose} from "react-icons/ai"
-import {TimelineCommits} from "./TimelineCommits"
+import {TimelineCommits} from "./TimeLineCommits"
 import {DBContextObj} from "../hooks/DBContext"
 import {WOQLClientObj} from '../init-woql-client'
 import {TERMINUS_SUCCESS, TIME_TRAVEL_BUTTON} from "./constants"
