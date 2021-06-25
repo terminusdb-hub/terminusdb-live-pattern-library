@@ -8,8 +8,11 @@ export const WOQLClientProvider = ({children, params}) => {
     const [woqlClient, setWoqlClient] = useState(null)
     const [loadingServer, setLoadingServer] = useState(true)
     const [dataProduct, setDatabase] = useState(false)
+    const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
+
 
     const [opts, setOpts] = useState(false)
+
 
     useEffect(() => {
         setOpts(params)
@@ -34,7 +37,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 }
             }
         }
-        initWoqlClient()
+        initWoqlClient() 
     }, [opts])
 
     useEffect(() => {
@@ -55,7 +58,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 woqlClient,
                 loadingServer,
                 dataProduct, 
-                setDataProduct
+                setDataProduct,
+                currentDocument, 
+                setCurrentDocument
             }}
         >
             {children}

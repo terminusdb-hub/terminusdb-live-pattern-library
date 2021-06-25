@@ -106,7 +106,7 @@ export const ViewBuilder = (props)=>{
 		              </div>
 		              }
 		        </SizeMe>
-				<div>
+				<div className="mr-4">
 					<ModelMainHeaderComponent
 						panelIsOpen={panelIsOpen}
 						openClosePanel={setOpenClosePanel}

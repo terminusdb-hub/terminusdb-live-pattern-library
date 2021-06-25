@@ -3,21 +3,23 @@ import {TDBReactAccordian} from '@terminusdb-live/tdb-react-layout'
 import {DatabaseButtons} from "./DatabaseButtons"
 import {SampleQueries} from "./SampleQueries"
 import {SavedQueries} from "./SavedQueries"
-import {Accordion, Card} from "react-bootstrap"
-import {DATABASE_TAB, SAVED_QUERIES, SAMPLE_QUERIES} from "./constants"
+import {DATABASE_TAB, SAVED_QUERIES, SAMPLE_QUERIES, SIMPLE_BAR_MAX_HEIGHT} from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
-
+import {SidebarAccordianTitle} from "./SidebarAccordianTitle"
+import SimpleBarReact from "simplebar-react"
+import "simplebar/src/simplebar.css"
+ 
 export const QuerySidebar= (props) =>{
     const {dataProduct} = WOQLClientObj()
-
+  
     let accordianObject = 
     [
         {
             id: 1,
             eventKey: "1",
-            title: dataProduct || DATABASE_TAB,
+            title: <SidebarAccordianTitle dataProduct={dataProduct || DATABASE_TAB} status={"text-success"}/>,
             icon: "fas fa-database",
-            description: <DatabaseButtons/>
+            description: <SimpleBarReact style={{ maxHeight: SIMPLE_BAR_MAX_HEIGHT }}><DatabaseButtons/></SimpleBarReact>
         },
         {
             id: 2,
@@ -42,4 +44,4 @@ export const QuerySidebar= (props) =>{
             data={accordianObject} />
         </div>
     </React.Fragment>
-    }
+}

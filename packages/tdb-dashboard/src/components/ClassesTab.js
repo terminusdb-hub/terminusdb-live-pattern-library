@@ -29,8 +29,6 @@ export const ClassesTab = ({dataProduct, woqlClient}) => {
         rowCount,
     } = ControlledQueryHook(woqlClient, query, false, 20)
 
-    console.log("result", result)
-
      useEffect(() => {
         let tConf = getPropertyMetaTabConfig(result)
         setTableConfig(tConf)

@@ -14,7 +14,7 @@ export const ProductsExplorer = () => {
         setDataProduct(dataProductID)
         ConsoleHistory.push(PRODUCT_MODELS)
     }
-     
+      
     return <QueryPaneProvider>
         <Layout sideBarContent={<Sidebar setSelectedDataProduct={setSelectedDataProduct}><QuerySidebar/></Sidebar>}>
             <main role="main" className="m-4">

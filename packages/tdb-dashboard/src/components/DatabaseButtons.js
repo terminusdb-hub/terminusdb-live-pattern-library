@@ -6,6 +6,7 @@ import {isArray, shortenURL} from "./utils"
 import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
 import {QueryPaneObj} from "../hooks/queryPaneContext"
 import {WOQLClientObj} from '../init-woql-client'
+ 
 // db list
 export const DatabaseButtons = () => {
     const {woqlClient,dataProduct} = WOQLClientObj()

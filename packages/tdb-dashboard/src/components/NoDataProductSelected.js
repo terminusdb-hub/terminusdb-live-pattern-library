@@ -6,7 +6,7 @@ import {AiOutlineDatabase} from "react-icons/ai"
 
 export const NoDataProductSelected = (props) => {
 
-    return <div>
+    /*return <div>
         <div style={NoDataProductSelectedStyle}>
             <Col xs={12} className="text-center d-flex align-items-center justify-content-center">
                 <img src="../assets/favicon-dark.png" style={{width: "5%"}}/>
@@ -49,13 +49,13 @@ export const NoDataProductSelected = (props) => {
             
             </Col>
         </div>
-    </div>
-    /*return <div style={NoDataProductSelectedStyle}>
+    </div>*/
+    return <div style={NoDataProductSelectedStyle}>
         <Col xs={12} className="text-center d-block align-items-center justify-content-center">
             <img src="../assets/favicon-dark.png" style={{width: "10%"}}/>
             <h1 className="text-dark mt-5">
                 {NO_DATA_PRODUCT_SELECTED_MESSAGE}
             </h1>
         </Col>
-    </div>*/
+    </div>
 }

@@ -1,6 +1,6 @@
 
 import React from "react"
-import {AiOutlineMail, AiOutlineDatabase, AiOutlineSetting} from "react-icons/ai"
+import {AiOutlineMail, AiOutlineDatabase, AiOutlineInfoCircle} from "react-icons/ai"
 import {BsFileEarmarkCheck} from "react-icons/bs"
 import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
@@ -74,7 +74,7 @@ export const IconBarConfig = {
         title: "Settings",
         key : "Settings",
         path: "/settings",
-        icon: <AiOutlineSetting/>
+        icon: <AiOutlineInfoCircle/>
     }
 }
 
@@ -139,7 +139,7 @@ export const PROGRESS_BAR_COMPONENT = "Component"
 
 /*** query pane constants ***/
 // buttons to display document classes
-export const DOCUMENT_CLASS_BUTTONS_CONFIG = {variant: "info", queryName: "Class library"}
+export const DOCUMENT_CLASS_BUTTONS_CONFIG = {variant: "dark", queryName: "Class library"}
 export const DOCUMENT_CLASS_LABEL_CONFIG = {color: "#ddd", label: "Document Classes"}
 
 // buttons to display properties
@@ -318,6 +318,13 @@ export const TIME_TRAVEL_BUTTON = "Time Travel"
 // no data product selected view
 export const NO_DATA_PRODUCT_SELECTED_MESSAGE = "Use the sidebar to connect to a Data Product"
 export const NoDataProductSelectedStyle = {top: "30%", position: "absolute", width: "100%"}
+
+// search box placeholders 
+export const SEARCH_DATAPRODUCTS_PLACEHOLDER = "Search Data Products"
+export const SEARCH_DOCUMENTS_PLACEHOLDER = "Search Document Types"
+
+// SIMPLE BAR MAX HEIGHT
+export const SIMPLE_BAR_MAX_HEIGHT= 300
 
 //DOCUMENTS 
 //New Document create button configurations

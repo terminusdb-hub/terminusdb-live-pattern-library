@@ -14,6 +14,9 @@ export const organizationForm = {
 // button to create new data product
 export const NEW_DATA_PRODUCT_BUTTON= {label:"New Data Product", title: "Create New Data Product", icon: "fas fa-plus", variant: "info", size:"sm"}
 
+//feedback button 
+export const SEND_FEEDBACK_CONFIG = {label:"Send", title: "Send Feedback", icon: "far fa-envelope", variant: "info", size:"sm"}
+
 
 // data product label in data product view
 export const DATA_PRODUCT_LABEL = "Data Products"
