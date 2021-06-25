@@ -5,7 +5,8 @@ import {BsFileEarmarkCheck} from "react-icons/bs"
 import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
 import {SiGithubactions} from "react-icons/si"
-import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER} from "../routing/constants"
+import {BsBookmarkPlus} from "react-icons/bs"
+import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS} from "../routing/constants"
 
 //User Messages 
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
@@ -61,14 +62,14 @@ export const IconBarConfig = {
     feedback: {
         title: "Feedback",
         key:"Feedback",
-        path: "/feedback",
+        path: FEEDBACK,
         icon: <AiOutlineMail/>
     },
     tutorials: {
-        title: "Tutorials",
-        key: "Tutorials",
-        path: "/tutorials",
-        icon: <BiBookReader/>
+        title: "Example Data Products",
+        key: "Example Data Products",
+        path: EXAMPLES_PRODUCTS,
+        icon: <BsBookmarkPlus/>
     },
     settings: {
         title: "Settings",
@@ -325,6 +326,10 @@ export const SEARCH_DOCUMENTS_PLACEHOLDER = "Search Document Types"
 
 // SIMPLE BAR MAX HEIGHT
 export const SIMPLE_BAR_MAX_HEIGHT= 300
+
+// button to clone data product 
+export const CLONE_DATA_PRODUCT_CONFIG = {label:"Clone", title: "Clone Data Product", icon: "fas fa-check", variant: "info", size:"sm"}
+
 
 //DOCUMENTS 
 //New Document create button configurations

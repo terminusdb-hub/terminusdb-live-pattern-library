@@ -17,7 +17,7 @@ export const DatabaseButtons = () => {
         currentClass,
         setQuery,
         properties,
-        classes} = DatabaseInfoControl(woqlClient, dataProduct)
+        classes} = DatabaseInfoControl(woqlClient, dataProduct) 
 
     const handleClassButtonClick = (id) => {
         let q = getPropertiesOfClass(id, dataProduct, woqlClient)

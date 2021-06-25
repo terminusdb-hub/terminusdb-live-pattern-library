@@ -33,7 +33,7 @@ export const DocumentSidebar = (props) => {
                 <DocumentClasses/>
             </SimpleBarReact>,
             icon: 'fas fa-chevron-down',
-            title: <SidebarAccordianTitle dataProduct={dataProduct}/>
+            title: <SidebarAccordianTitle message={"DOCUMENT TYPES"}/>
         }
     ]
 

@@ -6,7 +6,7 @@ import {trackWithPendo} from "./trackWithPendo"
 import {useAuth0} from "./react-auth0-spa"
 import {ProductsExplorer} from "./pages/ProductsExplorer"
 import history from "./routing/history"
-import {ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER, FEEDBACK} from "./routing/constants"
+import {ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS} from "./routing/constants"
 import {InitSetupPage} from "./pages/InitSetupPage"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
@@ -16,6 +16,7 @@ import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
 import {DocumentExplorer} from "./pages/DocumentExplorer"
 import {Feedback} from "./pages/Feedback"
+import {ExampleProducts} from "./pages/ExampleProducts"
 
 export function App (props){
     const { user, loading} = useAuth0();
@@ -49,6 +50,7 @@ export function App (props){
                     <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
                     <PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/> 
                     <PrivateRoute path={FEEDBACK} component = {Feedback} exact/>               
+                    <PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} exact/>  
                 </DBContextProvider> 
             </Switch>
             </Router>         

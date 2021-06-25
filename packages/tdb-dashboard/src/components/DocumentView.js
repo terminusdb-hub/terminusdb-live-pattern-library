@@ -8,7 +8,7 @@ import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {getDocumentOfTypeTabConfig} from "./ViewConfig"
 import {WOQLClientObj} from '../init-woql-client'
 import {SearchBox} from "./SearchBox"
-import {AiOutlinePlus} from "react-icons/ai"
+import {getDocumentTools} from "./DocumentActions"
 
 export const DocumentView = () => {
     const {woqlClient, setCurrentDocument, currentDocument} = WOQLClientObj()
@@ -32,9 +32,9 @@ export const DocumentView = () => {
         loading,
         rowCount,
     } = ControlledQueryHook(woqlClient, documentsOfTypeQuery, false, 20)
-
+ 
     useEffect(() => {
-        let tConf = getDocumentOfTypeTabConfig(result)
+        let tConf = getDocumentOfTypeTabConfig(result, getDocumentTools)
         setTableConfig(tConf)
     }, [result])
 

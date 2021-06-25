@@ -445,3 +445,10 @@ tbody, td, tfoot, th, thead, tr {
   margin-bottom: 15px;
 }
 /* ---------- feedback form ---------- */
+
+/* ---------- example data product card image  ---------- */
+.example-data-product-card-img {
+    height: 220px !important;
+    object-fit: cover;  
+}
+/* ---------- example data product card image  ---------- */
