@@ -48,10 +48,10 @@ export function App (props){
                     <VerifyEmail />
                 </Route>
                 <DBContextProvider>
-                    <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
-                    <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
-                    <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>               
-                    <PrivateRoute path={DOCUMENT} component = {DocumentPage} exact/>               
+                    <Route path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
+                    <Route path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
+                    <Route path={PRODUCT_MODELS} component = {ModelProductPage} exact/>               
+                    <Route path={DOCUMENT} component = {DocumentPage} exact/>               
                 
                 </DBContextProvider>
                 <Route path = {INVITE_PAGE} >
