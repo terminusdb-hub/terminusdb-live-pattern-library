@@ -19,4 +19,4 @@ jobs:
     - name: Bootstrap lerna
       run: npx lerna bootstrap --include-dependencies
     - name: Build
-      run: npx lerna run build --include-dependencies
+      run: npx lerna run build
