@@ -21,17 +21,16 @@ import {Feedback} from "./pages/Feedback"
 import {ExampleProducts} from "./pages/ExampleProducts"
 
 export function App (props){
-    const { user, loading, logout} = useAuth0();
+    const { user, loading} = useAuth0();
 
     //const {loadingServer} = WOQLClientObj()
     const base_url =process.env.REACT_APP_BASE_ROUTER || ''
     if (window.location.search.includes("error=unauthorized")) {
-        //if(logout)logoutWithRedirect()
+       
         history.push(`/verify`)
     }
     
     if (window.location.search.includes("supportSignUp=true")) {
-        //if(logout)logoutWithRedirect()
         history.push(`/`)
     }
     
