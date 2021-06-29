@@ -9,10 +9,14 @@ function ControlledQueryHook(woqlClient, query, results, queryLimit, queryStart,
     const [rowCount, setRowCount] = useState()
     const [result, setResult] = useState(results)
     const [loading, setLoading] = useState(false)
-    const [woql, setWOQL] = useState(query)
+    const [woql, setWOQL] = useState(query || false)
     const [loaded, setLoaded] = useState(false)
     const [commitMsg, setCommitMsg]=useState()
     const [refresh, setRefresh] = useState(0)
+
+    useEffect(() => {
+        setWOQL(query)
+    }, [query])
 
     const docQuery = (q) => {
         if(q.containsUpdate()) return q

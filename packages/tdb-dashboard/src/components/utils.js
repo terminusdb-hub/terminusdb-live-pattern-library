@@ -153,7 +153,7 @@ export function getCommitTime(consoleTime, setStatus, setCurrentCommit, setIconC
     else {
         if(setCurrentCommit) setCurrentCommit("latest")
         if(setIconColor) setIconColor("#00bc8c")
-        if(setStatus)setStatus("text-success")
+        if(setStatus)setStatus("text-muted")
     }
 }
 
@@ -163,4 +163,10 @@ export function trimWOQL (str) {
         return str.substr(check.length, str.length)
     }
     return str
+}
+
+export function trimText (text) {
+    let length = 250
+    let trimmedText = text.substring(0, length)
+    return trimmedText + "..."
 }

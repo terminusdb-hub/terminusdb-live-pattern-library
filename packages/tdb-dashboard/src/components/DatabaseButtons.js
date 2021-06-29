@@ -6,6 +6,7 @@ import {isArray, shortenURL} from "./utils"
 import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
 import {QueryPaneObj} from "../hooks/queryPaneContext"
 import {WOQLClientObj} from '../init-woql-client'
+ 
 // db list
 export const DatabaseButtons = () => {
     const {woqlClient,dataProduct} = WOQLClientObj()
@@ -16,7 +17,7 @@ export const DatabaseButtons = () => {
         currentClass,
         setQuery,
         properties,
-        classes} = DatabaseInfoControl(woqlClient, dataProduct)
+        classes} = DatabaseInfoControl(woqlClient, dataProduct) 
 
     const handleClassButtonClick = (id) => {
         let q = getPropertiesOfClass(id, dataProduct, woqlClient)

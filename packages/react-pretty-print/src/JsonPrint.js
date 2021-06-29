@@ -1,11 +1,8 @@
 import React from "react"
-import {useWorker} from "@terminusdb-live/react-worker"
 
 export function JsonPrint(props){
     const startData= props.startData || {}
     //const onChangeFunction= props.onChangeFunction || null
-
-    const {onChange,error,loading,dataProvider} = useWorker(startData,props.onLoad)
 
     const onClick = () =>{
       if(!props.onChangeEndPoint) return 

@@ -1,10 +1,12 @@
 
 import React from "react"
-import {AiOutlineMail, AiOutlineDatabase, AiOutlineSetting} from "react-icons/ai"
+import {AiOutlineMail, AiOutlineDatabase, AiOutlineInfoCircle} from "react-icons/ai"
+import {BsFileEarmarkCheck} from "react-icons/bs"
 import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
 import {SiGithubactions} from "react-icons/si"
-import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE} from "../routing/constants"
+import {BsBookmarkPlus} from "react-icons/bs"
+import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS} from "../routing/constants"
 
 //User Messages 
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
@@ -51,23 +53,29 @@ export const IconBarConfig = {
         path: PRODUCT_MANAGE,
         icon: <SiGithubactions/>
     },
+    documentExplorer: {
+        title: "Document Explorer",
+        key: "Document Explorer",
+        path: DOCUMENT_EXPLORER,
+        icon: <BsFileEarmarkCheck/>
+    },
     feedback: {
         title: "Feedback",
         key:"Feedback",
-        path: "/feedback",
+        path: FEEDBACK,
         icon: <AiOutlineMail/>
     },
     tutorials: {
-        title: "Tutorials",
-        key: "Tutorials",
-        path: "/tutorials",
-        icon: <BiBookReader/>
+        title: "Example Data Products",
+        key: "Example Data Products",
+        path: EXAMPLES_PRODUCTS,
+        icon: <BsBookmarkPlus/>
     },
     settings: {
         title: "Settings",
         key : "Settings",
         path: "/settings",
-        icon: <AiOutlineSetting/>
+        icon: <AiOutlineInfoCircle/>
     }
 }
 
@@ -132,7 +140,7 @@ export const PROGRESS_BAR_COMPONENT = "Component"
 
 /*** query pane constants ***/
 // buttons to display document classes
-export const DOCUMENT_CLASS_BUTTONS_CONFIG = {variant: "info", queryName: "Class library"}
+export const DOCUMENT_CLASS_BUTTONS_CONFIG = {variant: "dark", queryName: "Class library"}
 export const DOCUMENT_CLASS_LABEL_CONFIG = {color: "#ddd", label: "Document Classes"}
 
 // buttons to display properties
@@ -144,7 +152,7 @@ export const PROPERTY_LABEL_CONFIG = {color: "#ddd", label: "Properties"}
 export const RUN_QUERY_CONFIG = {label:"Run", title: "Run Query", icon: "fas fa-play", variant: "info", size:"sm"}
 export const COPY_QUERY_CONFIG = {label: "Copy Query", title: "Copy Query", icon: "far fa-clipboard", variant: "light"}
 export const QUERY_BUILDER_CONFIG = {label: "Query Builder", title: "Query Builder Helps with queries", icon: "fas fa-terminal", variant: "light"}
-export const USE_QUERY_CONFIG = {label: "Use", title: "Use Query in Editor", icon: "far fa-hand-pointer", variant: "light"}
+export const USE_QUERY_CONFIG = {label: "Copy", title: "Copy an example query to clipboard", icon: "far fa-hand-pointer", variant: "light"}
 // button to save query 
 export const SAVE_QUERY_CONFIG = {label:"Save", title: "Save query as favorite", icon: "far fa-star", variant: "light", size:"sm"}
 // button to get new query pane
@@ -179,7 +187,7 @@ export const ACTIONS_QUERY_BUTTON_GROUP={variant: "light", size: "sm",
 
 
 //button group for language switcher 
-export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [{id: "JS", title: "JS", label: "JS"}, {id: "JSON", title: "JSON", label: "JSON"}]}
+export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [{id: "js", title: "JS", label: "JS"}, {id: "json", title: "JSON-LD", label: "JSON-LD"}]}
 //button group for view chooser
 export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [
     {/*icon: "fas fa-border-none",*/ id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
@@ -194,6 +202,8 @@ export const SAVE_QUERY_NAME_TEXT_AREA = {placeholder:"Add a name to save query 
 
 // language list for query pane
 export const LANGUAGE_LIST = ["JS", "JSON-LD"]
+export const JS = "js"
+export const JSONLD = "json"
 
 
 //Labels
@@ -310,5 +320,19 @@ export const TIME_TRAVEL_BUTTON = "Time Travel"
 export const NO_DATA_PRODUCT_SELECTED_MESSAGE = "Use the sidebar to connect to a Data Product"
 export const NoDataProductSelectedStyle = {top: "30%", position: "absolute", width: "100%"}
 
+// search box placeholders 
+export const SEARCH_DATAPRODUCTS_PLACEHOLDER = "Search Data Products"
+export const SEARCH_DOCUMENTS_PLACEHOLDER = "Search Document Types"
+
+// SIMPLE BAR MAX HEIGHT
+export const SIMPLE_BAR_MAX_HEIGHT= 300
+
+// button to clone data product 
+export const CLONE_DATA_PRODUCT_CONFIG = {label:"Clone", title: "Clone Data Product", icon: "fas fa-check", variant: "info", size:"sm"}
+
+
+//DOCUMENTS 
+//New Document create button configurations
+export const CREATE_NEW_DOCUMENT_BUTTON ={label: "New Document", title: "Create a new Document", icon: "fas fa-plus", size:"sm", variant:"info"}// New Branch Form configurations
 
 

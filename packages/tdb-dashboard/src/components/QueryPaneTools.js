@@ -5,10 +5,16 @@ import {Col, Row, Button, Modal } from "react-bootstrap"
 import {BiChevronUp, BiChevronDown} from "react-icons/bi"
 import {BsClipboard, BsUpload, BsDownload} from "react-icons/bs"
 import {copyToClipboard} from "./utils"
+import {QueryPaneObj} from '../hooks/queryPaneContext'
+import {makeWOQLFromString, makeWOQLIntoString} from "@terminusdb-live/tdb-react-components"
+import {JSONLD, JS} from "./constants"
 
-export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQueryName, saveQueryName, queryBuilder, setViewResult, showQueryBuilder}) => {
+export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
 
     const [commitModal, setCommitModal] = useState(false)
+
+    const {WOQLQueryChange, QueryBuilderChange} = QueryPaneObj()
+
 
     // "default Commit msg"
     const handleRunQuery = () => {
@@ -28,7 +34,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
         }
     }
 
-    const handleSaveQuery = (saveQuery, setSaveQuery, saveQueryName) => {
+    /*const handleSaveQuery = (saveQuery, setSaveQuery, saveQueryName) => { // commenting out saved query functions 
         if(saveQuery){
             let q = storeQueries(saveQuery, saveQueryName)
             if(setSaveQuery) setSaveQuery(q)
@@ -37,9 +43,21 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
 
     const handleSaveQueryNameOnChange = (name, setSaveQueryName) => {
         if(setSaveQueryName) setSaveQueryName(name)
+    }*/
+
+    const handleLanguageChange = (lang) => {
+        if(lang == JS){ //js
+            let woql = makeWOQLFromString(queryObj.editorObj.text, JSONLD)
+            let js = makeWOQLIntoString(woql, JS)
+            WOQLQueryChange(queryObj.id, queryObj.editorObj.query, js, JS)
+        }
+        else { //json-ld
+            let woql = makeWOQLFromString(queryObj.editorObj.text, JS)
+            let json = makeWOQLIntoString(woql, JSONLD)
+            WOQLQueryChange(queryObj.id, queryObj.editorObj.query, json, JSONLD) 
+        }
     }
 
-    
 
     const PopCommitModal = ({commitModal, setCommitModal}) => {
 
@@ -70,10 +88,10 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
 
             <Col md={11}>
                 <TDBReactButton 
-                    config={QUERY_BUILDER_CONFIG} 
-                    onClick={showQueryBuilder}/>
+                    config={QUERY_BUILDER_CONFIG}  
+                    onClick={(e) => QueryBuilderChange(queryObj.id, !queryObj.queryBuilderObj.isOpen)}/>
 
-                <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
+                <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP} onClick={handleLanguageChange}/>
 
                 <TDBReactButton 
                     config={COPY_QUERY_CONFIG} 
@@ -102,37 +120,3 @@ export const QueryPaneTools = ({queryObj, setExpanded, setSaveQuery, setSaveQuer
 
     
 }
-
-/*
-return <React.Fragment> 
-        <div> 
-            <TDBReactButton 
-                config={RUN_QUERY_CONFIG} 
-                onClick={(e) => handleRunQuery()}/>
-            
-            <TDBReactButtonGroup config={LANGUAGE_SWITCHER_BUTTON_GROUP}/>
-        </div>                           
-        <Col md={3}> 
-            <TDBReactTextArea config={SAVE_QUERY_NAME_TEXT_AREA} 
-                onChange={(e) => handleSaveQueryNameOnChange(e, setSaveQueryName)}/>
-        </Col>
-        <div> 
-            <TDBReactButton 
-                config={SAVE_QUERY_CONFIG} 
-                onClick={(e) => handleSaveQuery(woqlQuery, setSaveQuery, saveQueryName)}/>
-        </div>
-        <Col md={4}> 
-            <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
-        </Col>
-        <div> 
-            <TDBReactButtonGroup config={ACTIONS_QUERY_BUTTON_GROUP}/>
-            {queryObj.editorPanelIsOpen && <TDBReactButton 
-                config={COLLAPSE_BUTTON_GROUP} 
-                onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-            {!queryObj.editorPanelIsOpen && <TDBReactButton 
-                config={UNCOLLAPSE_BUTTON_GROUP} 
-                onClick={() => setExpanded((prevExpanded) => !prevExpanded)}/>}
-        </div>               
-    </React.Fragment>
-
-    */

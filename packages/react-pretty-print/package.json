@@ -36,7 +36,6 @@
   "repository": {},
   "author": "terminusdb group",
   "peerDependencies": {
-    "@terminusdb-live/react-worker": "^0.1.0",
     "react": "^16.10.3",
     "react-dom": "^16.10.3"
   },

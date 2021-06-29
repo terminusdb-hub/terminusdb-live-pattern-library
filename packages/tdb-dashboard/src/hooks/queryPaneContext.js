@@ -32,13 +32,15 @@ export const QueryPaneProvider = ({children}) => {
             queryObj.updateEditorProps("query", query)
             queryObj.updateEditorProps("text", text) 
             queryObj.updateEditorProps("language", language)
+            setUpdateList(Date.now())
         } 
     } 
 
     const QueryBuilderChange = (queryPaneId, isOpen) => {
         const queryObj= queryPaneList.get(queryPaneId)
         if(queryObj){
-            queryObj.updateQueryBuilderProps("isOpen", isOpen)
+            queryObj.queryBuilderObj.isOpen = isOpen
+            setUpdateList(Date.now())
         } 
     }
 

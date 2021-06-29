@@ -4,6 +4,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {BsBriefcase, BsFillExclamationTriangleFill} from "react-icons/bs"
 import {Col, Row} from "react-bootstrap"
 import {getCommitTime} from "./utils"
+import {SidebarAccordianTitle} from "./SidebarAccordianTitle"
 
 export const CurrentDataProductState = () => {
     const {dataProduct} = WOQLClientObj()
@@ -20,7 +21,7 @@ export const CurrentDataProductState = () => {
     if(!dataProduct) return <div/>
 
     return <React.Fragment>
-        {(status == "text-warning") && <p className="font-italic text-warning"> 
+        {(status == "text-warning") && <p className="font-italic text-warning ml-3"> 
             <BsFillExclamationTriangleFill className="me-2 mr-3"/>
             This is not latest version  
         </p>}
@@ -37,7 +38,7 @@ export const CurrentDataProductState = () => {
 export const CurrentDataProductStateHeader = () =>{
     const {dataProduct} = WOQLClientObj()
     const {consoleTime} = DBContextObj()
-    const [status, setStatus] = useState("text-success")
+    const [status, setStatus] = useState("text-muted")
 
     useEffect(() => {
         getCommitTime(consoleTime, setStatus)
@@ -46,9 +47,5 @@ export const CurrentDataProductStateHeader = () =>{
 
     if(!dataProduct) return <Row/>
 
-    return <Row className="mr-2 w-100" >
-        <Col md={8} className="mb-1">
-            <p className="text-muted mt-2">CONNECTED - <strong className={status}>{dataProduct}</strong></p>
-        </Col>
-    </Row>
+    return <SidebarAccordianTitle dataProduct={dataProduct} message={"CONNECTED -"} status={status}/>
 }

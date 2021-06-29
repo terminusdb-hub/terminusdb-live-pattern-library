@@ -12,7 +12,6 @@ import {QueryPaneObj} from "../hooks/queryPaneContext"
 
 export const QueryPane = ({id, name, queryObj}) => {
 
-    const {QueryBuilderChange} = QueryPaneObj()
 
     const [viewResult, setViewResult]=useState(0)
     const result = queryObj.resultObj.result
@@ -24,23 +23,18 @@ export const QueryPane = ({id, name, queryObj}) => {
     const [size, setSize] = useState(12)
 
 
-    //const showQueryBuilder = () => {
-        //QueryBuilderChange(queryObj.id,!queryObj.queryBuilderObj.isOpen)
-        //if(queryObj.queryBuilderObj){
-         //   queryObj.updateQueryBuilderProps('isOpen', !queryObj.queryBuilderObj.isOpen)
-        //}
-    //} 
-
     //maybe we not need an external hook
     const {setExpanded,
         setQpExpanded,
         setSaveQuery,
         setSaveQueryName,
-        saveQueryName,
-        showQueryBuilder,
+        saveQueryName
     } = QueryPaneControl(queryObj)
-   
 
+    useEffect (() => {
+        if(queryObj.queryBuilderObj.isOpen) setSize(10)
+        else setSize(12)
+    }, [queryObj.queryBuilderObj.isOpen])
  
     return <React.Fragment>
         <div className="query-pane-pallet mb-3 mt-3 mr-4" >
@@ -70,18 +64,17 @@ export const QueryPane = ({id, name, queryObj}) => {
                             setSaveQuery={setSaveQuery} 
                             setSaveQueryName={setSaveQueryName} 
                             saveQueryName={saveQueryName}
-                            showQueryBuilder={showQueryBuilder}
                             setViewResult={setViewResult}
                             queryBuilder={queryBuilder}/>    
                     </Card.Header>
                     <Card.Body>
                         <TDBReactCollapse isExpanded={queryObj.editorPanelIsOpen}> 
                             <Row className="w-100">
-                                <Col md={size}>
+                                <Col md={size}> 
                                     <QueryEditor queryObj={queryObj} id={id}/>  
                                 </Col>
-                                {queryObj.queryBuilderIsOpen && <Col md={12 - size}>
-                                    <QueryBuilder showQueryBuilder={showQueryBuilder}/>
+                                {queryObj.queryBuilderObj.isOpen && <Col md={12 - size}>
+                                    <QueryBuilder/>
                                 </Col>}   
                             </Row>                       
                         </TDBReactCollapse>

@@ -42,6 +42,11 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.15.0",
+    "@terminusdb-live/react-worker": "^0.1.1",
+    "@terminusdb-live/tdb-react-components": "^4.3.1",
+    "@terminusdb-live/tdb-react-layout": "^0.1",
+    "@terminusdb/terminusdb-client": "^4.3.1",
+    "axios": "^0.21.1",
     "classnames": "^2.2.5",
     "date-fns": "^2.21.3",
     "dotenv": "^9.0.2",
@@ -68,6 +73,7 @@
     "react-use-dimensions": "^1.2.1",
     "react-vertical-timeline-component": "^3.3.3",
     "sass-loader": "^11.1.1",
+    "simplebar-react": "^2.3.4",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

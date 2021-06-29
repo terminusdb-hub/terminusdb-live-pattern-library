@@ -1,10 +1,7 @@
 
 import React from "react"
-import {Form, InputGroup, ListGroup, Row, Col, Button} from "react-bootstrap"
-import {AiOutlineSearch, AiOutlinePlus} from "react-icons/ai"
+import {ListGroup, Row, Col, Button} from "react-bootstrap"
 import {FaPlus} from "react-icons/fa"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {NEW_DATA_PRODUCT_BUTTON} from "../pages/constants"
 import {WOQLClientObj} from '../init-woql-client'
 import {DATA_PRODUCTS} from "../routing/constants"
 
@@ -18,15 +15,16 @@ const List = () => {
         setDataProduct(e.target.id) 
     }
 
-    return <ListGroup  defaultActiveKey={`key_${dataProduct}`}>
+    return  <ListGroup  defaultActiveKey={`key_${dataProduct}`}>
         {list.map(item => <ListGroup.Item action 
             id={item.name}
             eventKey={`key_${item.name}`} 
             onClick={(e) => handleClick(e)} 
-            className="bg-transparent text-light border-0">
+            className="bg-transparent text-light border-0 ">
             {item.label}
         </ListGroup.Item>)}
   </ListGroup>
+ 
 }
 
 export const DatabaseHeader = ({page, handleNew}) => {
@@ -35,9 +33,9 @@ export const DatabaseHeader = ({page, handleNew}) => {
         if(handleNew) handleNew(true)
     }
 
-    return <Row className="mr-2 w-100" >
+    return <Row className="w-100 text-left ml-1" >
         <Col md={8} className="mb-1">
-            <p className="text-muted mt-2">DATA PRODUCTS</p>
+            <h6 className="text-muted mt-2">DATA PRODUCTS</h6>
         </Col>
         {(page == DATA_PRODUCTS) && handleNew && <Col md={4} className="mb-3 d-grid mt-1 mb-1">
             <Button variant="info" className="float-right" size="sm" title="Create New Data Product" onClick={(e) => handleClick(e, handleNew)}>
@@ -50,7 +48,8 @@ export const DatabaseHeader = ({page, handleNew}) => {
 
 export const DatabaseList = ({page, handleNew}) => {
     return <React.Fragment>
-        <List/>
+        
+            <List/>
     </React.Fragment>
 }
 

@@ -15,6 +15,7 @@
  export {useEditorControl} from './queryeditor/hook/useEditorControl';
  export {CodeViewer} from './queryeditor/Editor';
  export {CodeEditor} from './queryeditor/Editor';
+ export {makeWOQLFromString , makeWOQLIntoString} from "./queryeditor/queryPaneUtils"
 
  /*WOQL Table*/
  export {WOQLTable} from './table/WOQLTable';

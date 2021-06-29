@@ -11,28 +11,16 @@ module.exports = {
                 },
             },
         ]
-    },   
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'react-chart.min.js',
-        sourceMapFilename: 'react-chart.min.js.map',
+        filename: 'terminus-chart.min.js',
+        sourceMapFilename: 'terminus-chart.min.js.map',
         libraryTarget: 'umd',
-        library: 'ReactChart',
-    },
-    resolve: {
-      alias: {
-        "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
-      },
-      extensions: ['.js', '.jsx', '.json'],
+        library: 'TerminusChart',
     },
     externals: {
-    '@terminusdb-live/react-worker': {
-        root: 'ReactWorker',
-        commonjs2: '@terminusdb-live/react-worker',
-        commonjs: '@terminusdb-live/react-worker',
-        amd: 'ReactWorker',
-    },
-    'react': {
+    react: {
       root: 'React',
       commonjs2: 'react',
       commonjs: 'react',
@@ -51,4 +39,4 @@ module.exports = {
       amd: 'prop-types',
     }
   },
-}
+};

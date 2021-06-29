@@ -29,7 +29,6 @@ export const InfoBoxComponent =(props)=> {
 						{entitiesNum}
 					</div>
 				</div>
-
 				<div className="d-flex align-items-center justify-content-between border-bottom border-light pb-3 mt-3 mb-3">
 					<div title={ELEMENT_DESCRIPTIONS.Properties} className="d-flex">
 						<h6><AiOutlineNodeIndex className="schema-summary-icons"/> <strong className="ml-3">{(propertiesNum == 1 ? "Property" : "Properties")}</strong></h6>
@@ -50,38 +49,4 @@ export const InfoBoxComponent =(props)=> {
 		</div>
 	}
 
-	return(
-			<div className="RRT__container RRT__container--viewmode">
-				 <div className="tdb__panel__title">
-				 	{props.dbName} - Schema
-				 </div>
-				<div className="tdb_panel">
-				 <div className="tdb__panel__box">
-				 {mainGraphDescriptionText}
-				 </div>
-				<div className="tdb__panel__box">
-				 <div className="numElementMain">
-				  	<div className="numElementBox" title={ELEMENT_DESCRIPTIONS.Document}>
-				  		<i className="window-icon custom-img-entities"></i>
-				  	 	<div className="titleElement">{`${entitiesNum} ${CLASS_TYPE_NAME_LABEL.DOCUMENT_CLASSES}`}</div>
-				  	</div>
-				  	<div className="numElementBox" title={ELEMENT_DESCRIPTIONS.Class}>
-				  		<i className="window-icon custom-img-classes"></i>
-				  	 	<div className="titleElement">{`${ordinaryClassesNum} ${CLASS_TYPE_NAME_LABEL.OBJECT_CLASSES}`}</div>
-				  	</div>
-				   </div>
-				   <div className="numElementMain">
-				  	<div className="numElementBox" title={ELEMENT_DESCRIPTIONS.ChoiceClass}>
-				  		<i className="window-icon custom-img-choice"></i>
-				  	 	<div className="titleElement">{`${choiceClassesNum} ${CLASS_TYPE_NAME_LABEL.CHOICE_CLASSES}`}</div>
-				  	</div>
-				  	<div className="numElementBox" title={ELEMENT_DESCRIPTIONS.Properties}>
-				  		<i className="window-icon custom-img-view"></i>
-				  	 	<div className="titleElement">{propertiesNum} {(propertiesNum == 1 ? "Property" : "Properties")}</div>
-				  	</div>
-				 </div>
-				</div>
-				</div>
-			</div>
-	)
 }

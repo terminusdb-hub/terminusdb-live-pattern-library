@@ -1,1 +1,1 @@
-export { ReactChart } from './ReactChart'
+export { ChartComponent } from './ChartComponent';

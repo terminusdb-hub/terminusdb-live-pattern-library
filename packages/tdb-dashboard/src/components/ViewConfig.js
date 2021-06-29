@@ -133,3 +133,23 @@ export const graphViewConfig = (result) => {
     graphConfig.setResult(result);
     return graphConfig
 }
+
+
+// table configuration for document of a class
+export const getDocumentOfTypeTabConfig = (result, getDocumentTools) => {
+    const tabConfig= TerminusClient.View.table()
+
+    tabConfig.pager("remote")
+    tabConfig.pagesize(20)
+
+    tabConfig.column_order("Document ID", "Name", "Description", "Type Name", "Tools")
+    tabConfig.column("Document ID").header("Document ID").width(100)
+    tabConfig.column("Name").header("Name").width(160)
+    tabConfig.column("Description").header("Description").width(280)
+    tabConfig.column("Type Name").header("Type").width(120)
+    tabConfig.column("Tools").width(20).render(getDocumentTools)
+
+    return tabConfig
+}
+
+

@@ -61,8 +61,6 @@ export const TimeTravel = (props) => {
         let timeElements = []
         let selectedCounter = 0
 
-        console.log("dataProvider", dataProvider)
-
         dataProvider.slice(0).reverse().map((item) => {
 
             var iconStyle = { background: transparantColor, color: '#444' }

@@ -149,6 +149,12 @@ div.progress-bar-position {
   padding: 0px;
   align-self: flex-end; 
 }
+
+.nav-icons-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 70%;
+}
 /* ---------- icon bar css ---------- */
 
 /* ---------- sub nav css ----------- */
@@ -200,6 +206,10 @@ div.progress-bar-position {
 .schema-summary-icons {
   color: #E3EBF6;
   font-size: 24px;
+}
+
+.table {
+  border: 0px solid transparent !important;
 }
 
 .RRT__tab {
@@ -407,3 +417,38 @@ tbody, td, tfoot, th, thead, tr {
 .display-none {
   display: none;
 }
+
+.document-description-card-text{
+  max-height: 150px;
+  height: 150px;
+  overflow-y: auto;
+}
+
+.cursor-auto {
+  cursor: auto;
+}
+
+/* ---------- feedback form ---------- */
+.cowduck-feedback-avatar{
+  height: 10rem !important;
+  width: 10rem !important;
+  min-height: 10rem !important;
+  min-width: 10rem !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+.cowduck-top-sec {
+  margin-top: -110px;
+  margin-bottom: 15px;
+}
+/* ---------- feedback form ---------- */
+
+/* ---------- example data product card image  ---------- */
+.example-data-product-card-img {
+    height: 220px !important;
+    object-fit: cover;  
+}
+/* ---------- example data product card image  ---------- */

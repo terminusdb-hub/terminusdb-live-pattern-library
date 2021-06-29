@@ -49,52 +49,66 @@ export const IconBar =  () => {
                     {IconBarConfig.dataProductModal.icon}
                 </Nav.Link>
             </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link  as={RouterNavLink}
-                        title={IconBarConfig.dataProductExplorer.title} 
-                        className="nav-icon" 
-                        {...disabled}
-                        to={IconBarConfig.dataProductExplorer.path} 
+            <Nav.Item>
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.documentExplorer.title} 
+                    className="nav-icon" 
+                    {...disabled}
+                    to={IconBarConfig.documentExplorer.path} 
+                    exact
+                    id={IconBarConfig.documentExplorer.key}>
+                    {IconBarConfig.documentExplorer.icon}
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.dataProductExplorer.title} 
+                    className="nav-icon" 
+                    {...disabled}
+                    to={IconBarConfig.dataProductExplorer.path} 
+                    exact
+                    id={IconBarConfig.dataProductExplorer.key}>
+                    {IconBarConfig.dataProductExplorer.icon}
+                </Nav.Link>
+            </Nav.Item>
+            <hr className="my-3" role="separator"></hr>
+            <div className="nav-icons-bottom">
+                <hr className="my-3" role="separator"></hr>
+                <Nav.Item> 
+                    <Nav.Link as={RouterNavLink} 
+                        title={IconBarConfig.feedback.title} 
+                        className="nav-icon"
+                        to={IconBarConfig.feedback.path} 
                         exact
-                        id={IconBarConfig.dataProductExplorer.key}>
-                        {IconBarConfig.dataProductExplorer.icon}
+                        id={IconBarConfig.feedback.key}
+                        >
+                        {IconBarConfig.feedback.icon}
                     </Nav.Link>
                 </Nav.Item>
-            <hr className="my-3" role="separator"></hr>
-            <Nav.Item> 
-                <Nav.Link as={RouterNavLink} 
-                    title={IconBarConfig.feedback.title} 
-                    className="nav-icon"
-                    to={IconBarConfig.feedback.path} 
-                    exact
-                    id={IconBarConfig.feedback.key}
-                    >
-                    {IconBarConfig.feedback.icon}
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={RouterNavLink} 
-                    title={IconBarConfig.tutorials.title} 
-                    className="nav-icon"
-                    to={IconBarConfig.tutorials.path} 
-                    exact
-                    id={IconBarConfig.tutorials.key}
-                    >
-                    {IconBarConfig.tutorials.icon}
-                </Nav.Link>
-            </Nav.Item>
-            <hr className="my-3" role="separator"></hr>
-            <Nav.Item>
-                <Nav.Link as={RouterNavLink} 
-                    title={IconBarConfig.settings.title} 
-                    className="nav-icon"
-                    to={IconBarConfig.settings.path} 
-                    exact
-                    id={IconBarConfig.settings.key}
-                    >
-                    {IconBarConfig.settings.icon}
-                </Nav.Link>
-            </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link as={RouterNavLink} 
+                        title={IconBarConfig.tutorials.title} 
+                        className="nav-icon"
+                        to={IconBarConfig.tutorials.path} 
+                        exact
+                        id={IconBarConfig.tutorials.key}
+                        >
+                        {IconBarConfig.tutorials.icon}
+                    </Nav.Link>
+                </Nav.Item>
+                <hr className="my-3" role="separator"></hr>
+                <Nav.Item>
+                    <Nav.Link as={RouterNavLink} 
+                        title={IconBarConfig.settings.title} 
+                        className="nav-icon"
+                        to={IconBarConfig.settings.path} 
+                        exact
+                        id={IconBarConfig.settings.key}
+                        >
+                        {IconBarConfig.settings.icon}
+                    </Nav.Link>
+                </Nav.Item>
+            </div>
         </Nav>            
    </Navbar>
 }

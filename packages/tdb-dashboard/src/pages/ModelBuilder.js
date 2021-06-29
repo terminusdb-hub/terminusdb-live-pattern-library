@@ -59,7 +59,7 @@ export const ModelBuilder = (props) =>{
             </GraphObjectProvider> 
         </Row>}
         {(schemaView == SCHEMA_CLASSES_VIEW) &&  <Row>
-                    <ClassesTab woqlClient={woqlClient} dataProduct={dataProduct}/>
+                <ClassesTab woqlClient={woqlClient} dataProduct={dataProduct}/>
             </Row>
         }
         {(schemaView == SCHEMA_PROPERTIES_VIEW) && <Row>

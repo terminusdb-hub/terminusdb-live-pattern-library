@@ -6,7 +6,7 @@ import {trackWithPendo} from "./trackWithPendo"
 import {useAuth0} from "./react-auth0-spa"
 import {ProductsExplorer} from "./pages/ProductsExplorer"
 import history from "./routing/history"
-import {DOCUMENT, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS,INVITE_PAGE} from "./routing/constants"
+import {DOCUMENT,INVITE_PAGE,ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS} from "./routing/constants"
 import {InitSetupPage} from "./pages/InitSetupPage"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
@@ -16,6 +16,10 @@ import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
 //import {ManageProductPage} from "./pages/ManageProductPage"
 import {DocumentPage} from "./pages/DocumentPage"
+import {DocumentExplorer} from "./pages/DocumentExplorer"
+import {Feedback} from "./pages/Feedback"
+import {ExampleProducts} from "./pages/ExampleProducts"
+
 export function App (props){
     const { user, loading, logout} = useAuth0();
 
@@ -47,13 +51,15 @@ export function App (props){
                 <Route path="/verify" exact>
                     <VerifyEmail />
                 </Route>
-                <DBContextProvider>
-                    <Route path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
-                    <Route path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
-                    <Route path={PRODUCT_MODELS} component = {ModelProductPage} exact/>               
+                <DBContextProvider> 
+                    <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
+                    <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
+                    <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
                     <Route path={DOCUMENT} component = {DocumentPage} exact/>               
-                
-                </DBContextProvider>
+                    <PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/> 
+                    <PrivateRoute path={FEEDBACK} component = {Feedback} exact/>               
+                    <PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} exact/>  
+                </DBContextProvider> 
                 <Route path = {INVITE_PAGE} >
                     <PrivateRoute path = {INVITE_PAGE} component = {Home} exact />
                 </Route> 

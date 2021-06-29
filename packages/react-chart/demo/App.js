@@ -1,21 +1,78 @@
 import React, { Component, useState,useRef } from 'react';
-import {ReactChart} from '@terminusdb-live/react-chart';
+import {ChartComponent} from '@terminusdb/terminusdb-react-chart';
+import TerminusClient from '@terminusdb/terminusdb-client';
+import moment from 'moment';
 import {resultData} from './resultTest'
-import moment from  'moment';
+import  {ResponsiveContainer, Rectangle,Surface,BarChart,
+        Symbols,ComposedChart, Line, Area, XAxis, YAxis,
+        CartesianGrid, Tooltip, Legend, Bar} from  "recharts";
 
-const configData={"chart":{"margin":{"top":10,"right":20,"left":40,"bottom":80},"title":"Commits"},"rules":[{"pattern":{"scope":"Line","variables":["Commit_num"]},"rule":{"label":"Commit_numTool","stroke":"#FF9800","type":"number"}},{"pattern":{"scope":"XAxis","variables":["TimeStamp"]},"rule":{"labelRotate":-40,"label":"Day","labelDateOutput":"YYYY-MM-DD ddd","padding":{"left":20,"right":20}}},{"pattern":{"scope":"YAxis"},"rule":{"label":"Number of Commits","type":"number","domain":["dataMin","dataMax  + 10"]}}]}
+const App= (props) =>{
+	const woqlChart= TerminusClient.View.chart();
+  woqlChart.title("My chart test").margin({top: 10, right: 20, left: 40, bottom:80}) 
+  const LABEL_DATE_OUTPUT="YYYY-MM-DD ddd"
 
-const App= (props) =>{  
-   const label='2020-11-25T00:00:00.000Z'
-   const mom=moment(label)
-   console.log(mom)
-     // if(mom.format(labelDateOutput)!==undefined){
-    console.log(mom.format('YYYY-MM-DD ddd'))
-      //}
+  //STOCK_REAL
+  //woqlChart.bar('Sum').label("Product for Demand").stroke("#15CA58").fill('#15CA58').barSize(20)
+  
+ /*
 
-    ///const start=[{"TimeStamp":"2021-03-16T00:00:00.000Z","Commit_num":9,"Commit_numTool":{"Cheukting":9}},{"TimeStamp":"2021-03-17T00:00:00.000Z","Commit_num":15,"Commit_numTool":{"Cheukting":13,"GavinMendelGleason":2}},{"TimeStamp":"2021-03-18T00:00:00.000Z","Commit_num":3,"Commit_numTool":{"Cheukting":3}},{"TimeStamp":"2021-03-23T00:00:00.000Z","Commit_num":18,"Commit_numTool":{"Cheukting":16,"github-actions[bot]":2}}]
-    return <ReactChart startData={start}  config={configData}/>
-  //onLoad="https://hub-dev.dcm.ist/api/workers/admin/a15d7h1616496639611"
+#011f4b;
+#03396c;
+#00705C;
+#59822C;
+#7EBC39
+#30B152
+#7D5398
+#C4438C
+1days #F63D5E
+0days#FF6600; //#F3A7A9
+*/
+  const stackValues={'0Days':'#FF6600',
+                   '1Days':'#F63D5E',
+                   '2Days':'#C4438C',
+                   '3Days':'#7D5398',
+                   '4Days':'#30B152',
+                   '5Days':'#7EBC39',
+                   '6Days':'#59822C',
+                   '7Days':'#00705C',
+                   'greater7Days':"#0076BE",
+                   'greater30Days':"#011f4b",
+                   'afterOrder':"red"}
+
+
+  Object.keys(stackValues).forEach((item)=>{
+    woqlChart.bar(item).label(`${item}Tool`).stackId("productDemand").stroke(stackValues[item]).fill(stackValues[item]).barSize(20)
+    
+  })
+  
+
+  //STOCK_QUANTITY
+  woqlChart.line('Quantity').label("Stock Quantity").stroke("#FF9800").dot(true)
+  
+  woqlChart.xAxis('Date').labelRotate(-40).label("Date").labelDateOutput(LABEL_DATE_OUTPUT).padding({ left: 20, right: 20 })
+  woqlChart.yAxis().label("CASES").type("number").axisDomain(['dataMin', 'dataMax  + 10'])
+  
+	const config=woqlChart.json()
+
+
+  return (<>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>snn</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>ss</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>ss</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>s</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>s</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>s</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>s</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>s</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>s</div>
+    <div style={{height:"20px",width:"50px",backgroud:"red"}}>s</div>
+
+
+    <ChartComponent config={config} dataProvider={resultData.dataProvider} /></>
+  )
+
+
 }
 
 export default App;

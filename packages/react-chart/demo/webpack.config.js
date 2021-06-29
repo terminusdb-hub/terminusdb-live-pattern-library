@@ -19,10 +19,8 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
-      "@terminusdb-live/react-chart": path.join(__dirname, '..', 'src/index.js'),
-     // "@terminusdb/terminusdb-react-chart": path.resolve('../../../terminusdb-react-chart/src/index.js'),
-      react: path.resolve('./node_modules/react')
+      "@terminusdb/terminusdb-react-chart": path.join(__dirname, '..', 'src/index.js'),
+       "@terminusdb/terminusdb-client": path.resolve('../terminusdb-client/index.js')
     },
     extensions: ['.js', '.jsx', '.json'],
   },
