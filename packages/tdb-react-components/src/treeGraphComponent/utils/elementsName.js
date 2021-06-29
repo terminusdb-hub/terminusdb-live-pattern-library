@@ -45,11 +45,11 @@ export const CLASS_TYPE_NAME={
 export const CLASS_TYPE_NAME_LABEL={
 	SCHEMA_ROOT:'Schema',
 	SCHEMA_GROUP: 'Group',
-  	OBJECT_CLASS:'Object',
+  	OBJECT_CLASS:'Subdocument',
   	CHOICE_CLASS:"Enum",
   	DOCUMENT_CLASS:"Document",
   	DOCUMENT_CLASSES:"Documents",
-  	OBJECT_CLASSES:"Objects ",
+  	OBJECT_CLASSES:"Subdocuments ",
   	CHOICE_CLASSES:"Enums"
 }
 
@@ -88,3 +88,41 @@ export const getRootIndexObj=(dbName)=>{
 	return _rootIndexObj	                             			  
 
 }
+
+export const PROPERTY_TYPE_BY_CLASS = {'xsd:string':PROPERTY_TYPE_NAME.STRING_PROPERTY,
+									    'xdd:json':PROPERTY_TYPE_NAME.STRING_PROPERTY,
+										'xsd:base64Binary':PROPERTY_TYPE_NAME.STRING_PROPERTY,
+										'xdd:html':PROPERTY_TYPE_NAME.STRING_PROPERTY,
+										'xdd:url':PROPERTY_TYPE_NAME.STRING_PROPERTY,
+										'xdd:email':PROPERTY_TYPE_NAME.STRING_PROPERTY,
+									    'xsd:integer':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:decimal':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:long':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:byte':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:short':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xdd:decimalRange':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:unsignedByte':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:unsignedInt':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:unsignedLong':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:positiveInteger':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:nonNegativeInteger':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:nonPositiveInteger':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xsd:negativeInteger':PROPERTY_TYPE_NAME.NUMERIC_PROPERTY,
+										'xdd:coordinate':PROPERTY_TYPE_NAME.GEO_PROPERTY,
+										'xdd:coordinatePolyline':PROPERTY_TYPE_NAME.GEO_PROPERTY,
+										'xdd:coordinatePolygon':PROPERTY_TYPE_NAME.GEO_PROPERTY,
+										'xsd:dateTime':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:gYear':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xdd:gYearRange':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:gMonth':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:gDay':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:gYearMonth':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:gMonthDay':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:duration':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xdd:dateRange':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:date':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:time':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'xsd:dateTimeStamp':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY}
+										
+
+

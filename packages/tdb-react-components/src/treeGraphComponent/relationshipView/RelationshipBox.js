@@ -10,9 +10,9 @@ export const RelationshipBox =(props)=>{
 		
 	return(
 			<div className="tdb__rel__box">
-				 <NodeRel name={source.name}  label={source.label} onClick={props.sourceAction}/>
-				 <RelationshipLine label={props.label || "Relationship"}/>
-				 <NodeRel name={target.name}  label={target.label} onClick={props.targetAction}/>
+				 <NodeRel name={source.name}  label={source.id} onClick={props.sourceAction}/>
+				 <RelationshipLine label={props.id || "Relationship"}/>
+				 <NodeRel name={target.name}  label={target.id} onClick={props.targetAction}/>
         	</div>
 		)
 }

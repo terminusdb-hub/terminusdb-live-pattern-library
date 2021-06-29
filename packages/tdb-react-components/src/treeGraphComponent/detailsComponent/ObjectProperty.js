@@ -1,28 +1,31 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {BasePropertyComponent} from './BasePropertyComponent'; 
 import {BaseSelectReactElement} from './BaseSelectReactElement';
-import {ELEMENT_BASE_CLASS_LIST,ELEMENT_ENTITY_LIST_ITEM} from '../../constants/details-labels';
+import {GraphContextObj} from '../hook/graphObjectContext'; 
 
 export const ObjectProperty =(props)=>{
+	const {mainGraphObj} =GraphContextObj()
+
 	let currentNodeJson=props.currentNodeJson || {}
+
+	let extraInfoValue = props.extraInfoValue || {}
 	const id=props.id;
 	const dataProvider=props.comboDataProvider || [];
 	const errorMessage="Please select an element"
 
 	const getSelectedValue=()=>{
-		if(currentNodeJson.range){
-			const rangeValue = dataProvider.find(element => element.name === currentNodeJson.range);
+		if(extraInfoValue.range){
+			const rangeValue = dataProvider.find(element => element.name === extraInfoValue.range);
 			if(rangeValue)return {label:rangeValue.label,name:rangeValue.name,value:rangeValue.value}
 		}
 		return null;
 	}
-
-	
 	const defaultValue=getSelectedValue();
 
-	const onChangeValue=(propName,newValue)=>{
-		props.updateValue(propName,newValue,currentNodeJson);
+	const onChangeValue=(propName,propValue)=>{
+		mainGraphObj.setPropertyInfo(currentNodeJson.id,propName,propValue)
 	}
+
 	/*
 	* very Important the displayAll must be === false for complex property
 	* because the complex property of an EntityClass can have

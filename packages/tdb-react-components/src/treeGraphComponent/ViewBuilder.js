@@ -9,7 +9,6 @@ import {GraphContextObj} from './hook/graphObjectContext';
 import {TERMINUS_FONT_BASE, DEFAULT_SCHEMA_VIEW} from '../constants/details-labels';
 import {ModelMainHeaderComponent} from './detailsComponent/ModelMainHeaderComponent';
 import {InfoBoxComponent} from './detailsComponent/InfoBoxComponent'
-import {ObjectClassModelViewMode} from './detailsComponent/viewMode/ObjectClassModelViewMode'
 import {InfoObjectComponent} from './detailsComponent/InfoObjectComponent'
 import {BsChevronRight, BsChevronLeft} from "react-icons/bs"
 
@@ -22,12 +21,11 @@ export const ViewBuilder = (props)=>{
 		  changeCurrentNode,
 		  nodePropertiesList,
 		  objectPropertyToRange,
-		  updateValue,
 		  addNewProperty,
 		  removeElement,
 		  objectPropertyList,
 		  objPropsRelatedToClass,
-		  savedObjectToWOQL,updateChoices,isFocusOnNode
+		  savedObjectToWOQL,isFocusOnNode
 		  } = GraphContextObj();
 
 	const [isEditMode,setIsEditMode]=useState(false)
@@ -129,14 +127,12 @@ export const ViewBuilder = (props)=>{
 				    	<ObjectClassModelViewMode custom={props.custom}/>*/}
 			        {!showInfoComp &&
 			        	<DetailsModelComponent
-			        		updateChoices={updateChoices}
-				        	objPropsRelatedToClass={objPropsRelatedToClass}
+			        		objPropsRelatedToClass={objPropsRelatedToClass}
 				        	objectPropertyList={objectPropertyList}
 				        	removeElement={removeElement}
 				        	addNewProperty={addNewProperty}
 				        	nodePropertiesList={nodePropertiesList}
 				        	currentNodeJson={selectedNodeObject}
-				        	updateValue={updateValue}
 							custom={props.custom}/>	}
 
 

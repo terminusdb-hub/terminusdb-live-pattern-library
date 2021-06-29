@@ -1,5 +1,5 @@
 import * as NODE_ACTION_NAME from './utils/actionType';
-import {removeElementToArr} from './utils/modelTreeUtils'
+import {removeElementToArr,getPropertyType} from './utils/modelTreeUtils'
 
 import {formatData,
 		formatProperties,
@@ -9,12 +9,16 @@ import {formatData,
 		EntityClassObj,
 		availableParentsList,addObjectPropertyRangeItem,
 		addElementToPropertyList} from './FormatDataForTree';
-
+import {getNewNodeTemplate,getNewPropertyTemplate} from './utils/modelTreeUtils'
 import {graphUpdateObject} from './utils/graphUpdateObject';
 import {CLASS_TYPE_NAME} from './utils/elementsName' 
+import { element } from 'prop-types';
 
 export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
+	//set current node
+	let _currentNode = null
+	
 	let _objectTypeList=[];
 
 	let _documentTypeList=[];
@@ -24,10 +28,11 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
     /*
     * the list of all the property
     */
-	let _propertiesList=new Map();
+	//let _propertiesList=new Map();
 	
 	/*
 	* properties organized by domain
+	* all the properties of a class
 	* {domaidName:[{propertyObj001},{propertyObj002}]}
 	*/
 	let _domainToProperties={};
@@ -39,7 +44,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	/*
 	* Link Properties/Enum Property organized by range
-	* {rangeidName:[{propertyObj001},{propertyObj002}]}
+	* {classRangeName:[{nodeName:classId,propertyName:key}]
+	* LINK PROPERTIES
 	*/
 	let _objectPropertyToRange={};
 
@@ -55,11 +61,12 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	/*
 	* this object registers all the graph changes 
 	*/
-	let _graphUpdateObject= new graphUpdateObject();
+	//let _graphUpdateObject= new graphUpdateObject();
 
+	//const currentNode = {}
 
 	const getElementsNumber=()=>{
-		return {properties:_propertiesList.size,
+		return {//properties:_propertiesList.size,
 		        entities:_documentTypeList.length,
 		        classes:_objectTypeList.length,
 		    	choiceClasses:_objectChoiceList.length}
@@ -76,8 +83,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	const getRoot=(type=null)=>{
 		switch(type){
 			case CLASS_TYPE_NAME.OBJECT_CLASS:
-			case CLASS_TYPE_NAME.OBJECT_CLASSES:
-				return _rootIndexObj[CLASS_TYPE_NAME.OBJECT_CLASSES]
+			//case CLASS_TYPE_NAME.OBJECT_CLASSES:
+				//return _rootIndexObj[CLASS_TYPE_NAME.OBJECT_CLASSES]
 			case CLASS_TYPE_NAME.DOCUMENT_CLASS:
 			case CLASS_TYPE_NAME.DOCUMENT_CLASSES:
 				return _rootIndexObj[CLASS_TYPE_NAME.DOCUMENT_CLASSES]
@@ -87,10 +94,6 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			default:
 			 	return _rootIndexObj.ROOT;
 		}		
-	}
-
-	const uniqueName=(newID)=>{
-
 	}
 
 	const objectPropertyToRange=()=>{
@@ -108,11 +111,18 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return _descendantsNode;
 	}
 
+	const getObjectProperty = (nodeId,proName)=>{
+		const objProperties = (nodeId)
+		return objProperties[proName]
+	}
+
 	/*
 	* maybe I have to get it from _descendantsNode
+	* maybe change in setCurrentNode ?? check the use 
 	*/
-	const getElement=(key)=>{
+	const getElement=(key,setCurrent=true)=>{
 		if(_rootIndexObj && _rootIndexObj[key]){
+			if(setCurrent)_currentNode = _rootIndexObj[key]
 			return _rootIndexObj[key];
 		}
 		return undefined;
@@ -121,11 +131,17 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	
 	const createNewMainGraph=()=>{
 		_mainGraphElementsJson=mainGraphDataProvider;
-		_rootIndexObj=formatData(mainGraphDataProvider.classesResult,dbName);		
-		const[propertyByDomain,objectPropertyRange,propertiesList]=formatProperties(mainGraphDataProvider.propsResult,mainGraphDataProvider.restResult,_rootIndexObj);		
-		_domainToProperties=propertyByDomain;
-		_objectPropertyToRange=objectPropertyRange;
-		_propertiesList=propertiesList;
+		const {rootIndexObj,linkPropertyClasses}=formatData(mainGraphDataProvider,dbName);		
+		_rootIndexObj=rootIndexObj
+		//_objectPropertyToRange=linkPropertyClasses
+		
+		//const[propertyByDomain,objectPropertyRange,propertiesList]=formatProperties(mainGraphDataProvider.propsResult,mainGraphDataProvider.restResult,_rootIndexObj);		
+		//_domainToProperties=propertyByDomain;
+		//_objectPropertyToRange=objectPropertyRange;
+
+		//can not works different class can have the same property 
+		//_propertiesList=propertiesList;
+		
 		formatDataForTree()
 	}
 
@@ -136,14 +152,14 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return  availableParentsList(nodeObject,_objectTypeList,_documentTypeList,_rootIndexObj)
 	}
 
-	const addNewPropertyToClass=(nodeName, propertyType, propertyRange)=>{
+	const addNewPropertyToClass = (nodeName, propertyType)=>{
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
-			const newProperty=_graphUpdateObject.addPropertyToClass(nodeName,propertyType,propertyRange);
+			const newProperty=getNewPropertyTemplate(propertyType) //_graphUpdateObject.addPropertyToClass(nodeName,propertyType,propertyRange);
 			if(!_domainToProperties[nodeName]){
 				_domainToProperties[nodeName]=[];
 			}
 			_domainToProperties[nodeName].unshift(newProperty);
-			_propertiesList.set(newProperty.name,newProperty);
+			//_propertiesList.set(newProperty.name,newProperty);
 			return  _domainToProperties[nodeName].slice();
 		}
 		return [];
@@ -152,8 +168,10 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	const nodeApplyAction=(actionName,nodeName)=>{
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
-            let currentNode=_rootIndexObj[nodeName];
-            let elementType=currentNode.type;
+            //the current selected node 
+			let currentNode=_rootIndexObj[nodeName];
+            
+			let elementType=currentNode.type;
             let actionType=actionName;         
    			let isChoiceClass= false;
 
@@ -171,8 +189,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
                    break;
               case NODE_ACTION_NAME.ADD_NEW_CLASS:
                    elementType=CLASS_TYPE_NAME.OBJECT_CLASS
-                   nodeName=CLASS_TYPE_NAME.OBJECT_CLASSES
-                   currentNode=getRoot(elementType);
+                   nodeName=CLASS_TYPE_NAME.DOCUMENT_CLASSES
+                   currentNode=getRoot(nodeName);
                    actionType=NODE_ACTION_NAME.ADD_CHILD;                 
                    break;
 
@@ -193,7 +211,9 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
         	 	*/
         	 	const rootParentNode=getRoot(elementType);
 
-        	 	newNodeObj=_graphUpdateObject.addNodeToTree(rootParentNode,currentNode);
+        	 	newNodeObj=getNewNodeTemplate(null,elementType)
+				 
+				 //_graphUpdateObject.addNodeToTree(rootParentNode,currentNode);
         		
 
         	 	rootParentNode.children.push(newNodeObj);
@@ -201,6 +221,10 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
         	 	newNodeObj.children.push(currentNode);
         	 	newNodeObj.allChildren.push(currentNode);  
 
+				currentNode.parents.push(newNodeObj.name)
+				//I can not add in the inherits because I do not have the node id 
+				
+				//=currentNode.id
 
         	 	/*
     	 		* check if I have to remove the child from the root node
@@ -209,10 +233,11 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
         	 	
         	 	nodeName=rootParentNode.name;
         	 }else{
-
-        	 	newNodeObj=_graphUpdateObject.addNodeToTree(currentNode,null,isChoiceClass);
+				//add children action 
+        	 	newNodeObj=getNewNodeTemplate(null,elementType)//_graphUpdateObject.addNodeToTree(currentNode,null,isChoiceClass);
 
         	 	if(currentNode.type==="Group"){
+					//not need to add in the schema 
         	 		currentNode.children.push(newNodeObj);
 	        	}else {
 	        		/*
@@ -220,6 +245,12 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	        	 	*/
 	        	 	currentNode.children.push(newNodeObj);
 	        	 	currentNode.allChildren.push(newNodeObj);
+					
+					newNodeObj.schema['@inherits']=currentNode.id
+					//name is the node name it can be different form the id
+					//we use name for identify in unique way the node
+					newNodeObj.parents.push(currentNode.name)
+
 	        	}
         	 }
         	 _rootIndexObj[newNodeObj.name]=newNodeObj;
@@ -409,7 +440,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 
 	const removePropertyToClass=(domainClassName,propertyName)=>{
-		const propertyObject=_propertiesList.get(propertyName);
+		const propertyObject={}//_propertiesList.get(propertyName);
 
 		const propertyByDomain=_domainToProperties[domainClassName] || [];	
 		
@@ -421,9 +452,9 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		removeElementToArr(propertyByRange,propertyName);
 		
 		//remove from property list
-		_propertiesList.delete(propertyName);
+		//_propertiesList.delete(propertyName);
 
-		_graphUpdateObject.removePropertyToClass(propertyObject);
+		//_graphUpdateObject.removePropertyToClass(propertyObject);
 
 		return propertyByDomain.slice();
 	}
@@ -466,15 +497,6 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return []
 	}
 
-	const getProperty=(propertyName)=>{
-		return _propertiesList.get(propertyName);
-	}
-
-	const getPropertyDomain=(property)=>{
-		return property.domain && property.domain.length>0 ? property.domain[0] : undefined;
-	}
-
-
 	function formatDataForTree(){
 		const [descendantsNode, 
 			  objectTypeList,
@@ -488,6 +510,10 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		_objectTypeList=objectTypeList
 		_objectPropertyList=objectPropertyList;
 		_objectChoiceList=objectChoiceList;
+
+		const  [propertiesOfClass,linkPropertyClass] = formatProperties(_mainGraphElementsJson,_objectPropertyList,_objectChoiceList)
+		_domainToProperties=propertiesOfClass
+		_objectPropertyToRange=linkPropertyClass
 	}
 
 	const descendantsNodeAsArray=()=>{
@@ -495,61 +521,18 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	}
 
 	const savedObjectToWOQL=()=>{
-		return _graphUpdateObject.savedObjectToWOQL(_rootIndexObj,_propertiesList);
-	}
-
-	const updateChoices=(elementName,choicesList)=>{
-		const choiceClass=_rootIndexObj[elementName];
-		choiceClass['choices']=choicesList;
-
-		_graphUpdateObject.updateChoicesList(choiceClass)
+		//return _graphUpdateObject.savedObjectToWOQL(_rootIndexObj,_propertiesList);
 	}
 
 	const updateObjectPropertyListLabel=(objectPropList,elementDataObject)=>{
-
 		const index=objectPropList.findIndex(function(item){
 			if(item.name===elementDataObject.name){
-				item.label=elementDataObject.label || elementDataObject.id;
+				item.label=elementDataObject.id 
 			}
 			return item.name===elementDataObject.name
-			})
-      	
+			})     	
 	}
 
-	const changeElementDataValue=(propName,propValue,elementDataObject)=>{
-		/*
-		* put the data in the list to save
-		*/
-		_graphUpdateObject.updateTripleElement(propName,propValue,elementDataObject);
-		
-		let objectPropList=_objectPropertyList;
-
-		switch(elementDataObject.type){
-			case CLASS_TYPE_NAME.CHOICE_CLASS:	
-				 objectPropList=_objectChoiceList;
-			case CLASS_TYPE_NAME.DOCUMENT_CLASS:				 
-			case CLASS_TYPE_NAME.OBJECT_CLASS:								
-				const currentNode=_rootIndexObj[elementDataObject.name];
-				currentNode[propName]=propValue;
-				if(propName==='label'){
-					updateObjectPropertyListLabel(objectPropList,elementDataObject)
-				}
-				break;
-			//property case
-			default:
-			//objectPropertyRangeItem
-
-				const currentProperty=_propertiesList.get(elementDataObject.name);
-				const propRange=currentProperty.range;
-				currentProperty[propName]=propValue;
-
-				if(propName==='range' && _rootIndexObj[propValue]!==undefined){
-					const classElement=_rootIndexObj[propValue]
-					addObjectPropertyRangeItem(_objectPropertyToRange,currentProperty,classElement,propRange)
-				}
-			
-		}
-	}
 
 	const getObjectTypeList=()=>{
 		return _objectTypeList;
@@ -558,15 +541,213 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	const getDocumentTypeList=()=>{
 		return _documentTypeList;
 	}
+	
+	// new functions
+	const getClassKey=()=>{
+		if(_currentNode.schema['@key']){
+			const keyObj= _currentNode.schema['@key'];
+			return {type : keyObj["@type"],fields: keyObj['@fields'] || []}
+		}
+		return {type:'Lexical',fields:[]}
+	}
 
-	 
+	const setClassKey=(type,fields)=>{
+		_currentNode.schema['@key']={}
+		if(type)_currentNode.schema['@key']['@type']=type
+		if(fields)_currentNode.schema['@key']['@fields']=fields
+		_currentNode.needToSave=true
+	}
+	
+	const getPropertyAsList=()=>{
+		const id= _currentNode['name']
+		const proArr=[]
+		if(_domainToProperties[id]){
+			Object.values(_domainToProperties[id]).forEach(element=>{
+				proArr.push({label:element.id,value:element.id})
+			})
+			return proArr
+		}
+		return []
+	}
+	/*
+	"@properties" : [
+      { "aliases" : "An (ordered) list of pseudonyms" },
+      { "name" : "The name of the criminal" }
+    ] }*/
 
-	return {objectPropertyToRange,
-			updateChoices,
+	const getNodeData = () =>{
+		let node = {}
+		if(_currentNode.schema){
+			
+			const doc = _currentNode.schema['@documentation']
+			if(doc){
+				node.comment = doc['@comment'] || ''
+			}
+			node.abstract=_currentNode.schema['@abstract'] ? true : false
+			node.id = _currentNode.schema['@id'] || ''
+			node.subdocument = _currentNode.schema['@subdocument'] ? true : false
+			if(_currentNode.newElement === false){
+				node.subdocument_disabled = true
+			}else{
+				node.subdocument_disabled = node.subdocument && _currentNode.schema['@inherits'] ? true : false
+			}
+			
+		}
+
+		return node
+	} 	
+
+
+	const setComment=(value,propertyname)=>{
+		if(_currentNode.schema){
+			if(!_currentNode.schema['@documentation']){
+				_currentNode.schema['@documentation'] = {}
+			}
+			_currentNode.schema['@documentation']['@comment']=value
+			_currentNode.needToSave=true
+		}
+	}
+
+	const setSubdocument = (value) =>{
+		if(value === true ){
+			_currentNode.type = CLASS_TYPE_NAME.OBJECT_CLASS
+			_currentNode.schema['@subdocument']=[]
+		}else if(_currentNode.schema['@subdocument']){
+			_currentNode.type = CLASS_TYPE_NAME.DOCUMENT_CLASS
+			delete _currentNode.schema['@subdocument'];
+		}
+	}
+
+
+	const setAbstract = (value)=>{
+		if(_currentNode.schema){
+			if(value === true ){
+				_currentNode.schema['@abstract']=[]
+			}else if(_currentNode.schema['@abstract']){
+				delete _currentNode.schema['@abstract'];
+			}
+		}
+	}
+
+
+	const setId = (newId,classPropertyObj,defaultRange)=>{
+		if(!_currentNode.schema) return 
+		if(!defaultRange){
+			 _currentNode.id =newId
+			 _currentNode.schema['@id'] =  newId
+			 _currentNode.needToSave = true
+			//review childName
+			if(_currentNode.newElement === true && _currentNode.allChildren.length>0){
+				_currentNode.allChildren.forEach((childElement)=>{
+					const inherits = []
+					childElement.parents.forEach((parentName)=>{
+						const parentElement = _rootIndexObj[parentName]
+						inherits.push(parentElement.id)
+					})
+					childElement.schema['@inherits']= inherits.length === 1 ? inherits[0] : inherits 
+				})				
+			}
+			//change the label in the list of object for the link properties
+			updateObjectPropertyListLabel(_objectPropertyList,_currentNode)
+		}else{
+			//it is a property
+
+			const oldPropId = classPropertyObj['id']
+			classPropertyObj['id'] = newId
+			let currentPropertyValue = _currentNode.schema[oldPropId] 
+			if(currentPropertyValue!== undefined){
+				delete _currentNode.schema[oldPropId]
+			}
+			_currentNode.schema[newId] = currentPropertyValue || defaultRange
+		}
+	}
+
+	const getEnumValues =()=>{
+		if(_currentNode.schema['@value']){
+			return _currentNode.schema['@value']
+		}
+		return []
+	}
+
+	const getPropertyInfo = (propId)=>{	
+		switch(typeof _currentNode.schema[propId]){
+			case 'string':
+				return {range:_currentNode.schema[propId],option:''}
+			case 'object':
+				const propInfo = _currentNode.schema[propId]
+				const obj = {range:propInfo['@class'],option:propInfo['@type']} 				
+				if(propInfo['@type'] === 'Cardinality'){
+					obj['cardinality'] = propInfo['@cardinality']
+				}else if(propInfo['@type'] === 'Cardinality_Between'){
+					obj['min_cardinality'] = propInfo['@min_cardinality']
+					obj['max_cardinality'] = propInfo['@max_cardinality']
+				}
+				return obj
+			default:
+				return {}
+		}
+
+	}
+	//range 
+	//option
+	const setPropertyInfo = (propId,fieldName,fieldValue)=>{
+		if(!_currentNode.schema[propId])return
+		switch(fieldName){
+			//this is the property's type like string, num ....
+			case 'range':{
+				if( _rootIndexObj[fieldValue]!==undefined){
+					const oldRange = typeof _currentNode.schema[propId] === 'object' ? _currentNode.schema[propId]['@class'] : _currentNode.schema[propId] 
+					addObjectPropertyRangeItem(_objectPropertyToRange,_currentNode.name,propId,fieldValue,oldRange)
+				}
+				if(typeof _currentNode.schema[propId] === 'string'){
+					_currentNode.schema[propId]=fieldValue
+				}else{
+					_currentNode.schema[propId]['@class']=fieldValue
+				}
+				
+				break
+
+			}
+			//like Optional, Cardinality, Cardinality_beetween,List ...
+			case 'option':{
+				if(fieldValue === 'Null'){
+					//remove extra options
+					if(typeof _currentNode.schema[propId] === 'object'){
+						const currentClass = _currentNode.schema[propId]['@class']
+						_currentNode.schema[propId]=currentClass
+					}
+				}else if(typeof _currentNode.schema[propId] === 'string'){
+					const currentClass = _currentNode.schema[propId]
+					_currentNode.schema[propId]={'@class':currentClass,'@type':fieldValue}
+				}else{
+					const currentClass = _currentNode.schema[propId]['@class']
+					_currentNode.schema[propId]={'@class':currentClass,'@type':fieldValue}
+				}
+				break;
+			}
+			//if we enter at this point the element is an object
+			case 'max_cardinality':
+			case 'min_cardinality':
+			case 'cardinality':{
+				_currentNode.schema[propId][`@${fieldName}`]=fieldValue
+				break;
+			}
+		}
+	}
+
+	const updateEnumValues = (enumArr) =>{
+		_currentNode.schema['@value'] = enumArr
+	}
+
+
+	return {setId,getPropertyInfo,setPropertyInfo,getNodeData,
+			objectPropertyToRange,setClassKey,getPropertyAsList,getClassKey,
+			setComment,setAbstract,setSubdocument,
+			getEnumValues,updateEnumValues,getObjectProperty,
 			getObjectChoices,
 			getObjectTypeList,
 			getDocumentTypeList,
 			getElementsNumber,getElement,getPropertyListByDomain,getObjPropsRelatedToClass,getAvailableParentsList,
-      nodeApplyAction,addNewPropertyToClass,removePropertyToClass,changeElementDataValue,
+      nodeApplyAction,addNewPropertyToClass,removePropertyToClass,
       updateNodeParents,savedObjectToWOQL,getObjectProperties,getDescendantsNode,removeElementInMainGraph}
 }

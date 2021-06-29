@@ -9,8 +9,9 @@ export const ListComponent = (props) =>  {
 	const dataProvider= props.dataProvider || [];
 
 	return(<>
-		{dataProvider.map((elementItem,index)=>{
-			
+		{dataProvider.map((element,index)=>{
+			const elementItem = typeof element === 'string' ? {label:element, name:element} : element
+
 		  	return(<div key={'__elementItem__'+index}>		  			
 		  			  <div className="tdb__list__item">
 		  			  		<label className="tdb__list__label">{elementItem.label}</label>

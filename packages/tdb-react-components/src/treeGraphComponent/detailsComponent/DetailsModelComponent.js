@@ -1,8 +1,6 @@
 import React,{useState,useEffect,Fragment} from 'react';
 import PropTypes from "prop-types";
-import {Accordion} from '../../form/Accordion'
 import {BiNetworkChart} from "react-icons/bi"
-
 /*
 * remove and use react-bootstrap
 */
@@ -15,16 +13,37 @@ import {PropertiesComponent} from './PropertiesComponent';
 import {ELEMENT_ICONS} from '../../constants/details-labels';
 import {ChoiceList} from './ChoiceList';
 import {getLabelByName} from '../utils/elementsName'
+import {GraphContextObj} from '../hook/graphObjectContext'
 
 export const DetailsModelComponent = (props)=>{
-
+	const {mainGraphObj,updateGraphNode} = GraphContextObj()
 	const [tabKey,setTabKey]=useState(1)
 	const nodeData = props.currentNodeJson ? props.currentNodeJson : {}
 	const objPropsRelatedToClass = props.objPropsRelatedToClass || []
 	const childrenArr = nodeData.allChildren || []
 	const hasConstraints = (childrenArr.length>0 || objPropsRelatedToClass.length >0) ? true : false;
-	const imageType=ELEMENT_ICONS[nodeData.type]
+	const imageType= ELEMENT_ICONS[nodeData.type]
 	const title=getLabelByName(nodeData.type);
+	const nodeSchemaData = mainGraphObj.getNodeData()
+
+	const updateBaseValue = (name,value) =>{
+		switch(name){
+			case 'subdocument':
+				mainGraphObj.setSubdocument(value)
+				updateGraphNode()
+				break
+			case 'id':
+				mainGraphObj.setId(value)
+        		updateGraphNode()
+				break
+			case 'abstract':
+				mainGraphObj.setAbstract(value)
+        		updateGraphNode()
+				break
+			case 'comment':
+				mainGraphObj.setComment(value)
+		} 
+	}
 
 	useEffect(() => {
         setTabKey(1)
@@ -35,10 +54,10 @@ export const DetailsModelComponent = (props)=>{
 		tabsArr.push({title:title,
 	             getContent: () =><BaseElement key={`base__${nodeData.name}`}
 	    							removeElement={props.removeElement}
-	    							showCardinality={false}
 	    							hasConstraints={hasConstraints}
 	    							nodeJsonData={nodeData}
-	    							updateValue={props.updateValue}/>
+									nodeSchemaData={nodeSchemaData}
+	    							updateValue={updateBaseValue}/>
 							 	 	,
 							    	key: 1,
 							    	tabClassName: 'tab',
@@ -47,7 +66,6 @@ export const DetailsModelComponent = (props)=>{
 		if(nodeData.type==='ChoiceClass'){
 			tabsArr.push({title:'Values',
 	             getContent: () =><ChoiceList key={`choice__${nodeData.name}`}
-	             					updateChoiseList={props.updateChoices}
 	             					choices={nodeData.choices} />
 	             				  ,
 						    	key: 2,
@@ -74,6 +92,18 @@ export const DetailsModelComponent = (props)=>{
 				    	tabClassName: 'tab',
 				    	panelClassName: 'tdb__panel'
 				})
+		tabsArr.push({title:'Json',
+		getContent: () =><Fragment>
+							<div ><pre>
+							{JSON.stringify(nodeData.schema,null,2)}	
+							</pre></div>						
+						</Fragment>
+					,
+
+				key: 4,
+				tabClassName: 'tab',
+				panelClassName: 'tdb__panel'
+		})
 
 		return tabsArr;
 	}
@@ -88,19 +118,16 @@ export const DetailsModelComponent = (props)=>{
 	const label=nodeData.label || nodeData.id
 
 	if(props.custom) {
-		return <div class="px-0 col-12 ml-3 mr-3 pr-3">
-			<div class="shadow-sm card border-light">
-				<div class="card-body">
+		return <div class="col-12 bg-dark h-100 pt-4">		
 					<div>
-						<div className="d-flex">
+						<div className="d-flex mb-3">
 							<BiNetworkChart className="schema-summary-icons"/>
 							<h5 className="ml-3" title={label}>{label}</h5>
 						</div>
 						<Tabs panelClassName="bg-dark" tabsWrapperClass="bg-dark" tabClassName="bg-dark" items={getTabs()} transform={false} onChange={setTabKey} selectedTabKey={tabKey}/>
 					</div>
 				</div>
-			</div>
-		</div>
+			
 	}
 
 	return(

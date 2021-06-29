@@ -1,31 +1,56 @@
 import * as NODE_ACTION_NAME from './actionType'
 import {UTILS} from "@terminusdb/terminusdb-client"
+import {PROPERTY_TYPE_BY_CLASS,PROPERTY_TYPE_NAME,CLASS_TYPE_NAME} from './elementsName'
 
 export const removeElementToArr=(arrayList,elementName)=>{
     if(!arrayList)return undefined
     const index=arrayList.findIndex(function(item){return item===elementName || item.name===elementName})
     if(index>-1){
+       //method changes the contents of an array by removing or replacing existing elements
         arrayList.splice(index,1);
         return elementName;
     }
     return undefined;
 }
 
-export const getNewNodeTemplate=(name=null,type=null,label="NEW NODE",comment="",)=>{
-	const nodeId= name ?  UTILS.shorten(name) : ""
+export const getNewPropertyTemplate=(type,name=null)=>{
+    const proId = name ||  ""
+    const propName= name || `PROP_${(new Date()).getTime()}`;
+    let extraVal = '' 
+    const newProp = {
+                  id:proId,
+                  name:propName,
+                  type:type,
+                  newElement:true,
+                  //I need this extra fields for the property list object
+                  label:proId,
+                  value:proId,
+                }
+      if(name) newProp['newElement'] = false
+    return newProp;
+}
+
+
+export const getNewNodeTemplate=(name=null,type=null,parent)=>{
+	  const nodeId = name ||  ""
     const nodeName= name || `CLASS_${(new Date()).getTime()}`;
+    
     const newObj = {
+                     id:nodeId,
                      name:nodeName,
-                     id: nodeId,
-                     label:label,
-                     comment:comment,
                      parents:[],
                      newElement:true,
+                     needToSave:false,
                      children:[],
                      type:type,
                      allChildren:[],
-                     abstract:false
+                     schema:{'@type':'Class', '@id':'','@key':{'@type' : 'Random'}}
                     }
+    if(type===CLASS_TYPE_NAME.CHOICE_CLASS){
+      newObj.schema['@type']='Enum'
+    }else if (type===CLASS_TYPE_NAME.OBJECT_CLASS){
+      newObj.schema['@subdocument']=[]
+    }
     if(name!==null)newObj['newElement']=false;
 	return newObj;
 }
@@ -129,6 +154,21 @@ export const treeModelApplyAction=(nodeName,actionName,graphData,nodeIndex)=>{
                 break;
 
             }
+}
 
+export const getPropertyType = (itemName, itemValue,linkPropList,enumPropList) =>{
+    let property
+    if(typeof itemValue === 'string')property = itemValue
+    else property = itemValue['@class']
+    
+    const getProp = (element) => element === property;
+    //type rpoperty like string,num etc...
+    if(property.indexOf(":")===3){
+      return PROPERTY_TYPE_BY_CLASS[itemValue]
+    }else if(linkPropList.findIndex(getProp)){
+      return PROPERTY_TYPE_NAME.OBJECT_PROPERTY
+    }else if(enumPropList.findIndex(getProp)){ 
+      return PROPERTY_TYPE_NAME.CHOICE_PROPERTY
+    }
 }
 

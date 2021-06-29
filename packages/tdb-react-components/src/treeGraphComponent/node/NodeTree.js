@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {NodeMenu} from './NodeMenu'
 import {groupMenuList , nodeMenuList, elementsStyle} from './NodeConstants'
 import {CLASS_TYPE_NAME} from '../utils/elementsName'
+
 export const NodeTree=(props)=> {
 	const onClick=(evt)=>{
 		if(props.nodeClick){
@@ -38,7 +39,7 @@ export const NodeTree=(props)=> {
 	}
 
 	const node=props.node;
-	const label = node.data.label || node.data.id || '';
+	const label = node.data.schema ? node.data.id : node.data.label;
 	const comment = node.data.comment || label;
 
 	const getNode=()=>{				
@@ -48,7 +49,7 @@ export const NodeTree=(props)=> {
 		let lineSize=elemStyle.lineSize || 2;
 		let lineColor=elemStyle.lineColor || '#1eadfb';	
 
-		if(node.data.abstract===true){
+		if(node.data && node.data.schema && node.data.schema["@abstract"]){
 			fillColor=elemStyle.fillColor_ab
 		}
 

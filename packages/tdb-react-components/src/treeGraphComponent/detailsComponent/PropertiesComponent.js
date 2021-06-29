@@ -10,30 +10,36 @@ import {GraphContextObj} from '../hook/graphObjectContext';
 
 export const PropertiesComponent = (props)=> {
 	
-	const {updateValue,
+	const {mainGraphObj,
 		  nodePropertiesList,
 		  addNewProperty,
 		  removeElement,
 		  objectPropertyList,
 		  objectChoicesList,
-		  selectedNodeObject} = GraphContextObj();
+		  } = GraphContextObj();
 
 	const enumDisabled=!objectChoicesList || objectChoicesList.length===0 ? true : false;
+	
+	const propertyList = nodePropertiesList || {}
 
 	const getPropertiesPanels=()=>{
 		let showBody=true;
 		/*
 		*I open the first property
 		*/
-		return nodePropertiesList.map((propertyItem,index)=>{
+		return propertyList.map((propertyItem,index)=>{
+
+			//const propertyItem=propertyList[propName]
 
 			if(index>0)showBody=false;
 
 			const baseObj= {showBody:showBody,
 				            currentNodeJson:propertyItem,
-				            removeElement:removeElement,
-				        	updateValue:updateValue}
+				            removeElement:removeElement}
 
+			if(propertyItem.type!==PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
+				baseObj['extraInfoValue'] = mainGraphObj.getPropertyInfo(propertyItem.id)
+			}
 			switch(propertyItem.type){
 		   		case PROPERTY_TYPE_NAME.CHOICE_PROPERTY:
 		   			baseObj['showCardinality'] =false;

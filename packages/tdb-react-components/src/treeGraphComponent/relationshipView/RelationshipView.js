@@ -1,7 +1,7 @@
 import React  from 'react'
 import {RelationshipBox} from './RelationshipBox'
 import {GraphContextObj} from '../hook/graphObjectContext'
-import {PROPERTY_TYPE_NAME,PROPERTY_TYPE_LABEL} from '../utils/elementsName'
+import {PROPERTY_TYPE_NAME} from '../utils/elementsName'
 
 export const RelationshipView = (props)=>{
 	const {changeCurrentNode,
@@ -9,18 +9,17 @@ export const RelationshipView = (props)=>{
 		  objPropsRelatedToClass,
 		  mainGraphObj,nodePropertiesList} = GraphContextObj();
 
+	const propertyList = nodePropertiesList || {}
 	/*
 	* get all the relationship where the select node is a target
 	*/
 	const relObjArr= objPropsRelatedToClass.map((complexPropertyObj,index)=>{
+            const propertyDomainName=mainGraphObj.getElement(complexPropertyObj.nodeName,false) || {};
+            
+			const property = mainGraphObj.getObjectProperty(complexPropertyObj.nodeName,complexPropertyObj.propName)
+			const label = property.id || ''
 
-            const propType=complexPropertyObj.type===PROPERTY_TYPE_NAME.CHOICE_PROPERTY 
-                           ? PROPERTY_TYPE_LABEL.CHOICE_PROPERTY : PROPERTY_TYPE_LABEL.OBJECT_PROPERTY
-
-            const domainData=mainGraphObj.getElement(complexPropertyObj.domain) || {};
-            const label = complexPropertyObj.label || complexPropertyObj.id
-
-            return <RelationshipBox source={domainData} 
+            return <RelationshipBox source={propertyDomainName} 
             					sourceAction={changeCurrentNode}
 	   	                        target={selectedNodeObject}
 	   	                        label={label} 
@@ -29,17 +28,20 @@ export const RelationshipView = (props)=>{
 
 	/*
 	* get all the relationship where the select node is a source
+	* current node properties 
 	*/
-	const domainToProp=[]
-	nodePropertiesList.forEach((propertyItem,index)=>{
+	const domainToProp = propertyList.map((propertyItem,index)=>{
+		
 		if(propertyItem.type===PROPERTY_TYPE_NAME.CHOICE_PROPERTY || 
 		   propertyItem.type===PROPERTY_TYPE_NAME.OBJECT_PROPERTY){
+		   const info = mainGraphObj.getPropertyInfo(propertyItem.id)
+           
+		   if(info.range){
+           		const label =  propertyItem.id
+				
+           		const rangeElement=mainGraphObj.getElement(info.range,false) 
 
-           if(propertyItem.range){
-           		const label = propertyItem.label || propertyItem.id
-           		const rangeElement=mainGraphObj.getElement(propertyItem.range) 
-
-		   		domainToProp.push(<RelationshipBox source={selectedNodeObject} 
+		   		return(<RelationshipBox source={selectedNodeObject} 
             					targetAction={changeCurrentNode}
 	   	                        target={rangeElement}
 	   	                        label={label} 

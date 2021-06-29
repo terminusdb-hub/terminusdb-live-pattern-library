@@ -2,7 +2,7 @@ import React from 'react';
 
 export const RemoveElementComponent = (props) =>{
 
-	const tooltip=props.hasConstraints ? "This node cannot be removed" : `Remove the current ${props.elementType}`;
+  const tooltip=props.hasConstraints ? "This node cannot be removed" : `Remove the current ${props.elementType}`;
 
   const removeElement=()=>{
       if(props.removeElement){
@@ -10,7 +10,7 @@ export const RemoveElementComponent = (props) =>{
       }
   }
 
-  const onClick= props.hasConstraints===true ? {disabled:true} : {onClick:removeElement} 
+  const onClick= props.hasConstraints === true ? {disabled:true} : {onClick:removeElement} 
 		
   return(
          <div className="tdb__panel__row">                                      

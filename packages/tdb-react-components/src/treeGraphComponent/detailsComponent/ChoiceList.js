@@ -2,52 +2,42 @@ import React, {useState} from 'react'
 import {BaseInputElement} from './BaseInputElement';
 import {Accordion} from '../../form/Accordion';
 import {ListComponent} from './ListComponent';
+import {GraphContextObj} from '../hook/graphObjectContext';
+
 //import Select from 'react-select';
 //import {ADD_NEW_CHOICE,REMOVE_CHOICE} from '../../constants/ActionTypes'
 
 export const ChoiceList =(props)=> {
-	const [choicesList,setChoiceList] =useState(props.choices || [])
+	const {mainGraphObj} = GraphContextObj();
+	const choicesList = mainGraphObj.getEnumValues()
 
-	const [labelValue,setLabel]=useState('')
-	const [commentValue,setComment]=useState('')
+	const [needUpate,setNeedUpdate] =useState('')
 	const [idValue,setId]=useState('')
-
 	const [idReqError,setIdReqError] =useState('')
 	
 
 	const addNewBox =()=>{
 		if(!idValue){
-			setIdReqError('This item is required')
+				('This item is required')
 		}else{
 			const tmpList=choicesList.slice();		
-			tmpList.push({label:labelValue,comment:commentValue,id:idValue});			
-			//setItemData({label:'',comment:'',id:''})
-			setComment("")
-			setLabel("")
+			tmpList.push(idValue);			
 			setId("")
-			
-			setChoiceList(tmpList);
-			if(props.updateChoiseList)props.updateChoiseList(tmpList)
+			mainGraphObj.updateEnumValues(tmpList);
+			setNeedUpdate(Date.now())
 		}
 	}
 
-
 	const removeChoice=(choiceName)=>{
-		const index= choicesList.findIndex(x => x.id ===choiceName);
+		const index= choicesList.findIndex(x => x ===choiceName);
 		const tmpList=choicesList.slice();
 		tmpList.splice(index,1);
-		setChoiceList(tmpList);
-		if(props.updateChoiseList)props.updateChoiseList(tmpList)
+		mainGraphObj.updateEnumValues(tmpList);
+		setNeedUpdate(Date.now())
 	}
 
 	const onBlur=(name,value)=>{		
 		switch (name){
-			case "comment":
-				setComment(value)
-				break;
-			case "label":
-				setLabel(value)
-				break;
 			case "id":
 				const idval=value.trim();
 				setId(idval)				
@@ -75,8 +65,6 @@ export const ChoiceList =(props)=> {
 		<div className="tdb__panel__box" >		   
 	   		<span className="tdb__panel__subtitle">New Value</span>		  		
   			<BaseInputElement help="choice_id" itemError={idReqError} title="ID" name="id"  onBlur={onBlur} defaultValue={idValue}/>
-	  		<BaseInputElement help="choice_label" title="Label" name="label"  onBlur={onBlur} defaultValue={labelValue}/>
-	  		<BaseInputElement help="choice_comment" title="Comment"  name="comment" onBlur={onBlur} defaultValue={commentValue}/>
 	  		<button className="tdb__button__base tdb__button__base--green" onClick={addNewBox}>{choiceTitle}</button>  			  
 		</div>
 		</>

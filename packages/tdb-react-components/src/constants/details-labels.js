@@ -16,6 +16,14 @@ export const TOOLBAR_LABELS={"ResetButtonTooltip":"Reset the schema to the last 
 export const TERMINUS_IMAGE_BASE = "https://assets.terminusdb.com/terminusdb-console/images/"
 export const TERMINUS_FONT_BASE = "https://assets.terminusdb.com/terminusdb-console/fonts/"
 
+export const PROPERTY_TYPE_BY_CLASS = {'string':'xsd:string',
+										'json':'xdd:json',
+										'base64Binary':'xsd:base64Binary',
+										'html':'xdd:html',
+										'url':'xdd:url',
+										'email':'xdd:email'};
+
+
 //decimal, integer ,  decimalRange,long, bite,short,
 export const PROPERTY_STRING_BY_RANGE={'string':'xsd:string',
 										'json':'xdd:json',

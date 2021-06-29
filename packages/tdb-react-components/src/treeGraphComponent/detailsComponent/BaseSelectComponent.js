@@ -1,6 +1,4 @@
 import React, {useState,useEffect} from 'react';
-//import {schemaElementSelectOption} from '../../actions/graphActions';
-//import {changeDataValueToMainGraph} from '../../actions/treeModelActions';
 import PropTypes from 'prop-types'; 
 import {HelpComponent} from './HelpComponent' 
 

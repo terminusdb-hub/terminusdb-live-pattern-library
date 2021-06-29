@@ -1,24 +1,23 @@
-import React,{useState,useEffect} from 'react';
-import {ELEMENT_BASE_CONST, ELEMENT_HELP}  from '../../constants/details-labels.js';
+import React,{useState,useEffect, Fragment} from 'react';
+import {ELEMENT_BASE_CONST}  from '../../constants/details-labels.js';
 import {RemoveElementComponent} from './RemoveElementComponent';
 import PropTypes from "prop-types";
-import {HelpComponent} from "./HelpComponent";
 import {BaseInputElement} from './BaseInputElement';
 import {BaseTextareaElement} from './BaseTextareaElement';
 import {BaseCheckboxElement} from './BaseCheckboxElement';
-/*
-* I change the value in the dataprovider but don't render
-*/
+import {KeyComponent} from './KeyComponent';
+
 
 export const BaseElement = (props)=>{	
-
     const [indexError,setIndexError]=useState(false);
     const nodeJsonData=props.nodeJsonData || {}
+    const nodeSchemaData=props.nodeSchemaData || {}
+    const subdocument_disabled = nodeSchemaData.subdocument_disabled === true ? {disabled:true} : {}
 
     const changeElement=(name,value)=>{
         let val=value;
-        if(name==="id"){  
-            val = value.trim();       
+        if(name === 'id'){ 
+            val = value.trim();
             if(val.indexOf(" ")>-1){
                 setIndexError("Please remove all the white space");
                 return;
@@ -30,7 +29,7 @@ export const BaseElement = (props)=>{
             setIndexError(false);
         }
         if(props.updateValue){
-            props.updateValue(name,val,nodeJsonData);
+            props.updateValue(name,val)
         }
     }
 
@@ -46,7 +45,10 @@ export const BaseElement = (props)=>{
                 elementType={nodeJsonData.type}
                 removeElement={props.removeElement}/>
        	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
-                    <BaseCheckboxElement title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeJsonData.abstract || false} onBlur={changeElement} />
+                    <Fragment>
+                        <BaseCheckboxElement title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
+                        <BaseCheckboxElement {...subdocument_disabled} title={'Subdocument'} help={"Subdocument"} name='subdocument' defaultValue={nodeSchemaData.subdocument} onBlur={changeElement} />
+                    </Fragment>
                 }
                 <BaseInputElement
                     autoFocus={true} 
@@ -57,17 +59,12 @@ export const BaseElement = (props)=>{
                     panelName={nodeJsonData.name}
                     help={"class_id"}
                     onBlur={changeElement}
-                    defaultValue={nodeJsonData.id || ''}
+                    defaultValue={nodeSchemaData.id}
                     itemError={indexError}
                     />
-                <BaseInputElement 
-                    title={ELEMENT_BASE_CONST.LABEL_TEXT}
-                    name='label'
-                    placeholder={ELEMENT_BASE_CONST.LABEL_PLACEHOLDER}
-                    help={"class_label"}
-                    onBlur={changeElement}
-                    defaultValue={nodeJsonData.label || ''}
-                    />
+                {props.isNodeObject  && nodeJsonData.type!=='ChoiceClass' && 
+                    <KeyComponent/>
+                }
                 {props.children}
 	            <BaseTextareaElement
                     placeholder={ELEMENT_BASE_CONST.DESCRIPTION_PLACEHOLDER} 
@@ -75,7 +72,7 @@ export const BaseElement = (props)=>{
                     name='comment'
                     help={"class_comment"}
                     onBlur={changeElement}
-                    defaultValue={nodeJsonData.comment || ''}
+                    defaultValue={nodeSchemaData.comment || ''}
             />
     	</div>
     )
@@ -83,12 +80,14 @@ export const BaseElement = (props)=>{
 
 BaseElement.propTypes = {
     nodeJsonData:PropTypes.object,
+    nodeSchemaData:PropTypes.object,
     isNodeObject:PropTypes.bool,
     hasConstraints:PropTypes.bool
 }
 
 BaseElement.defaultProps = {
     nodeJsonData: {},
+    nodeSchemaData:{},
     isNodeObject:true,
     hasConstraints:false
 };

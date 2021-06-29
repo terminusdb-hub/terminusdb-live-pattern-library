@@ -36,7 +36,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName}) => 
 	*/
 	useEffect(() => {
 
-		if(mainGraphDataProvider && mainGraphDataProvider.classesResult!==null){
+		if(mainGraphDataProvider && mainGraphDataProvider.length>0){
 			const mainGraphObject= new MainGraphObject(mainGraphDataProvider,dbName);
 			setMainGraphObj(mainGraphObject)
 			setGraphDataProvider(mainGraphObject.getDescendantsNode())
@@ -67,8 +67,11 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName}) => 
 			resetSelection()
 		}else if(mainGraphObj && mainGraphObj.getElement(nodeId)){
 			setSelectedNodeObject(mainGraphObj.getElement(nodeId));
+			//I not need this there are inside the json schema
 			setNodePropertiesList(mainGraphObj.getPropertyListByDomain(nodeId));
 			setObjPropsRelatedToClass(mainGraphObj.getObjPropsRelatedToClass(nodeId))
+			
+			//I NEED THE AVALAIBLE PARENT LIST
 			setAvailableParentsList(mainGraphObj.getAvailableParentsList(nodeId))
 		}
 	}
@@ -99,21 +102,12 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName}) => 
 		
 	}
 
-	const updateValue = (propName,propValue,elementDataObject)=>{
-		mainGraphObj.changeElementDataValue(propName,propValue,elementDataObject)
-		if(elementDataObject.type!=='Property' && (propName==='label' || propName==='abstract')){
-			setGraphUpdateLabel(Date.now())
-		}
-	}
-
+	const updateGraphNode = ()=>{setGraphUpdateLabel(Date.now())}
+	
 	const updateParentsList =(parentName,action)=>{
 		mainGraphObj.updateNodeParents(selectedNodeObject.name,parentName,action)
 		setAvailableParentsList(mainGraphObj.getAvailableParentsList(selectedNodeObject.name))
 		setGraphUpdateLabel(Date.now());
-	}
-
-	const updateChoices =(choicesList)=>{
-		mainGraphObj.updateChoices(selectedNodeObject.name,choicesList)	
 	}
 
 	const savedObjectToWOQL=()=>{
@@ -124,9 +118,11 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName}) => 
 		setResetGraph(Date.now())
 	}
 
+
 	return (
 		<GraphContext.Provider
             value={{
+			updateGraphNode,
             resetTreeModel,
             mainGraphObj,
             objectPropertyToRange,
@@ -136,7 +132,6 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName}) => 
 	        graphUpdateLabel,
 	        changeCurrentNode,
 	        setNodeAction,
-	        updateValue,
 	        addNewProperty,
 	        removeElement,
 	        objectPropertyList,
@@ -144,9 +139,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName}) => 
 	        savedObjectToWOQL,
 	        updateParentsList,
 	        availableParentsList,
-	        mainGraphObj,
 	        objectChoicesList,
-	        updateChoices,
 	        isFocusOnNode,
 	        needToSave
 	    	}}>

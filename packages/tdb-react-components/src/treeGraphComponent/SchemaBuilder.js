@@ -21,12 +21,11 @@ export const SchemaBuilder = (props)=>{
 		  changeCurrentNode,
 		  nodePropertiesList,
 		  objectPropertyToRange,
-		  updateValue,
 		  addNewProperty,
 		  removeElement,
 		  objectPropertyList,
 		  objPropsRelatedToClass,
-		  savedObjectToWOQL,updateChoices,isFocusOnNode
+		  savedObjectToWOQL,isFocusOnNode
 		  } = GraphContextObj();
 
 	const [isEditMode,setIsEditMode]=useState(false)
@@ -118,14 +117,12 @@ export const SchemaBuilder = (props)=>{
 			    	<ObjectClassModelViewMode />}
 		        {!showInfoComp &&
 		        	<DetailsModelComponent
-		        		updateChoices={updateChoices}
 			        	objPropsRelatedToClass={objPropsRelatedToClass}
 			        	objectPropertyList={objectPropertyList}
 			        	removeElement={removeElement}
 			        	addNewProperty={addNewProperty}
 			        	nodePropertiesList={nodePropertiesList}
-			        	currentNodeJson={selectedNodeObject}
-			        	updateValue={updateValue}/>	}
+			        	currentNodeJson={selectedNodeObject}/>	}
 		    </SplitPane>
 			<div className="tdb__model__footer"/>
 		</>}
@@ -175,14 +172,12 @@ export const SchemaBuilder = (props)=>{
 				<ObjectClassModelViewMode />}
 			{!showInfoComp &&
 				<DetailsModelComponent
-					updateChoices={updateChoices}
 					objPropsRelatedToClass={objPropsRelatedToClass}
 					objectPropertyList={objectPropertyList}
 					removeElement={removeElement}
 					addNewProperty={addNewProperty}
 					nodePropertiesList={nodePropertiesList}
-					currentNodeJson={selectedNodeObject}
-					updateValue={updateValue}/>	}
+					currentNodeJson={selectedNodeObject}/>	}
 			</>
 		}
 

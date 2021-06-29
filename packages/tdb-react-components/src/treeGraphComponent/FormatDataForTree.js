@@ -1,165 +1,23 @@
 import { tree, hierarchy } from 'd3-hierarchy';
-import {PROPERTY_TYPE_NAME, CLASS_TYPE_NAME, getRootIndexObj} from './utils/elementsName';
-import {PROPERTY_STRING_BY_RANGE,
-		PROPERTY_NUMBER_BY_RANGE,
-		PROPERTY_GEO_BY_RANGE,
-		PROPERTY_TEMPORAL_BY_RANGE} from '../constants/details-labels'
-import {removeElementToArr,getNewNodeTemplate} from './utils/modelTreeUtils'
-import {UTILS} from "@terminusdb/terminusdb-client"
-
-
-const addTypeRange=(item,newProperty,_rootIndexObj) =>{
-	const range=item["Property Range"]
-	/*
-	* if the range is a node element
-	* I have 2 types of special property LinkProperty and ChoiceProperty
- 	*/
-	if(_rootIndexObj[range]){	
-		newProperty['range']=range;
-		if(_rootIndexObj[range] && _rootIndexObj[range].type===CLASS_TYPE_NAME.CHOICE_CLASS){
-			newProperty['type']=PROPERTY_TYPE_NAME.CHOICE_PROPERTY
-		}else{
-			newProperty['type']=PROPERTY_TYPE_NAME.OBJECT_PROPERTY;
-		}
-
-		return;
-	}
-	//"http://terminusdb.com/schema/xdd#url"
-	const rangeArr=range.split('#');
-	const rangeStr=rangeArr[1];
-	
-	if(PROPERTY_STRING_BY_RANGE[rangeStr]){
-		newProperty['range']=PROPERTY_STRING_BY_RANGE[rangeStr];
-		newProperty['type']=PROPERTY_TYPE_NAME.STRING_PROPERTY;
-		return
-	}
-
-	if(PROPERTY_NUMBER_BY_RANGE[rangeStr]){
-		newProperty['range']=PROPERTY_NUMBER_BY_RANGE[rangeStr];
-		newProperty['type']=PROPERTY_TYPE_NAME.NUMERIC_PROPERTY;
-		return
-	}
-
-	if(PROPERTY_GEO_BY_RANGE[rangeStr]){
-		newProperty['range']=PROPERTY_GEO_BY_RANGE[rangeStr];
-		newProperty['type']=PROPERTY_TYPE_NAME.GEO_PROPERTY;
-		return
-	}
-
-	if(PROPERTY_TEMPORAL_BY_RANGE[rangeStr]){
-		newProperty['range']=PROPERTY_TEMPORAL_BY_RANGE[rangeStr];
-		newProperty['type']=PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY;
-		return
-	}	
-}
-
-/*
-* add restrictions to properties
-*/
-export const addRestictionToProps=(propertiesList,restrDataProvider)=>{
-	const bindings = restrDataProvider.bindings || [];
-	bindings.forEach((item)=>{
-		const property=propertiesList.get(item['Property']);
-		if(property){
-			if(item.cardinality!=="system:unknown"){
-				property['cardinality']=item.cardinality['@value'];
-
-				property['cardinality_start']=item.cardinality['@value'];
-				//min and max 
-				property['min']=item.cardinality['@value'];
-				property['max']=item.cardinality['@value'];
-			}
-			if(item.min!=="system:unknown"){
-				property['min_start']=item.min['@value'];
-				property['min']=item.min['@value'];
-			}
-			if(item.max!=="system:unknown"){
-				property['min_stop']=item.min['@value'];
-				property['max']=item.max['@value'];
-			}
-		}
-	})
-}
-
-export const formatProperties=(dataProvider,restrDataProvider,_rootIndexObj)=>{
-
-	const propertyByDomain={}
-	const objectPropertyRange={}
-	const propertiesList=new Map()
-
-	const bindings = dataProvider.bindings || [];
-
-	bindings.forEach((item)=>{
-		const classDomain=item['Property Domain'];
-
-		if(!propertyByDomain[classDomain]){
-			propertyByDomain[classDomain]=[]
-		}
-
-		const newProperty={name:item['Property ID'],
-						   id: getId(item['Property ID']),
-					       label:item['Property Name']['@value'],
-					       comment:item['Property Description']['@value'],
-					       newElement:false,
-					       domain:classDomain
-						 }
-
-		addTypeRange(item,newProperty,_rootIndexObj);
-
-		if(newProperty.type===PROPERTY_TYPE_NAME.OBJECT_PROPERTY || newProperty.type===PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
-            // newProperty.range is the className
-            if(newProperty.domain && _rootIndexObj[newProperty.domain]){
-    			const classDomain=_rootIndexObj[newProperty.domain];
-                addObjectPropertyRangeItem(objectPropertyRange,newProperty,classDomain)
-            }
-            else if(newProperty.domain && !_rootIndexObj[newProperty.domain]){
-                alert(newProperty.domain )
-            }
-		}
-		propertiesList.set(newProperty.name,newProperty);
-
-		propertyByDomain[classDomain].push(newProperty)
-	})
-	/*
-	* add cardinality restrictions
-	*/
-	addRestictionToProps(propertiesList,restrDataProvider);
-
-	return [propertyByDomain,objectPropertyRange,propertiesList];
-}
-
-/*
-* to be review of don't get the label change
-*/
-export const addObjectPropertyRangeItem=(objectPropertyRange,propertyElement,classDomain,previewRange=undefined)=>{
-	/*
-	* remove the relation
-	*/
-	if(previewRange){
-		const arrList=objectPropertyRange[previewRange];
-		if(arrList){ 
-			if(arrList.length===1)objectPropertyRange[previewRange]=[];
-			const index=arrList.findIndex((item)=>{return item.name===propertyElement.name})
-			arrList.splice(index,1)
-		}
-		//const index= arrList.find(propertyElement.name);
-	}
-	if(!objectPropertyRange[propertyElement.range]){
-		 objectPropertyRange[propertyElement.range]=[]
-	}
-	objectPropertyRange[propertyElement.range].push(propertyElement)
-											
-}
+import {PROPERTY_TYPE_NAME, CLASS_TYPE_NAME, getRootIndexObj,PROPERTY_TYPE_BY_CLASS} from './utils/elementsName';
+import {removeElementToArr,getNewNodeTemplate,getNewPropertyTemplate} from './utils/modelTreeUtils'
 
 export const formatData =(dataProvider,dbName)=>{
 	let _rootIndexObj=getRootIndexObj(dbName);	
 	_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.CHOICE_CLASSES]);
 	_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.OBJECT_CLASSES]);	
 	_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.DOCUMENT_CLASSES]);
-	                             
-	addElements(_rootIndexObj,dataProvider)
 
-	return _rootIndexObj;
+	dataProvider.forEach((element)=>{
+		const classId=element['@id'];
+		_rootIndexObj[classId]=getNewNodeTemplate(classId,getType(element))
+		_rootIndexObj[classId]['schema']= element
+	})
+
+	readSchema(_rootIndexObj,dataProvider)
+	//addElements(_rootIndexObj,dataProvider)
+
+	return {rootIndexObj:_rootIndexObj};
 }
 
 
@@ -195,6 +53,9 @@ export const formatDataForTreeChart =(rootElement)=>{
 	const objectPropertyList=[];
 	const objectChoiceList=[];
 
+	//
+	const classesPropertyList=[]
+
 
 	//this._descendantsNode=new Map();
     for(let node of treeNode){
@@ -202,19 +63,24 @@ export const formatDataForTreeChart =(rootElement)=>{
        		node.x=node.x*2;
        		//node.y=node.y/1.5;
        }*/
+	   //to be review for new node
        if(!descendantsNode.has(node.data.name)){
 	       if(node.data.type===CLASS_TYPE_NAME.DOCUMENT_CLASS){
+			    //the document list for the parent list 
 	       		documentTypeList.push(node.data.name);
-	      		objectPropertyList.push({type:node.data.type,value:node.data.name,name:node.data.name,label:node.data.label})
+				//the list of all available class to create a link-property
+	      		objectPropertyList.push({type:node.data.type,value:node.data.name,name:node.data.name,label:node.data.id})
 	       }else if (node.data.type===CLASS_TYPE_NAME.OBJECT_CLASS){
 	       		objectTypeList.push(node.data.name);
-	       		objectPropertyList.push({type:node.data.type,value:node.data.name,name:node.data.name,label:node.data.label})
+	       		objectPropertyList.push({type:node.data.type,value:node.data.name,name:node.data.name,label:node.data.id})
 	       }else if (node.data.type===CLASS_TYPE_NAME.CHOICE_CLASS){
-	       		objectChoiceList.push({value:node.data.name,name:node.data.name,label:node.data.label});
+	       		objectChoiceList.push({value:node.data.name,name:node.data.name,label:node.data.name});
 	       }	        	       	   	
 	   }
 	   descendantsNode.set(node.data.name,node);      
     }
+
+	
 
     return [descendantsNode,objectTypeList,documentTypeList,objectPropertyList,objectChoiceList];
 }
@@ -223,189 +89,133 @@ export const addElementToPropertyList=(elementsObj,objectPropertyList)=>{
    		objectPropertyList.push({type:elementsObj.type,
    								 value:elementsObj.name,
    								 name:elementsObj.name,
-   								 label:elementsObj.label})
+   								 label:elementsObj.id})
        
 }
 
 
-
-const SCOPED_VALUE_ID="terminusdb:///schema#ScopedValue";
-const BOX_ID="terminusdb:///schema#Box";
-
-const getLabel=(item,idName) =>{
-	if(item['Class Name']['@value']){
-		return item['Class Name']['@value']
-	}
-	if(idName.indexOf(":")){
-		const idArr=idName.split(":")
-		return idArr[1]
-	}
-	return idName
-}
-//terminusdb:///schema#Box
-const getId=(classId) =>{
-	return UTILS.shorten(classId)
-	//classId.replace("terminusdb:///schema#","");
+const getType = (element) =>{
+	if(element['@type']==='Enum'){
+		return  CLASS_TYPE_NAME.CHOICE_CLASS
+	 }else if(element['@type']==='Class' && !isSubDocument(element)){
+		return  CLASS_TYPE_NAME.DOCUMENT_CLASS
+	 }else{
+		return CLASS_TYPE_NAME.OBJECT_CLASS
+	 }
 }
 
-/*
-* abstract value 'Yes/No'
-*/
-const getAbstractValue=(item)=>{
-	return item['Abstract']['@value']==='Yes' ? true : false;
+export const getPropertyType = (itemName, itemValue,linkPropList,enumPropList) =>{
+    let property
+    if(typeof itemValue === 'string')property = itemValue
+    else property = itemValue['@class']
+    
+    const getProp = (element) => element === property;
+    //type rpoperty like string,num etc...
+    if(property.indexOf(":")===3){
+      return {value:property,type:PROPERTY_TYPE_BY_CLASS[itemValue]}
+    }else if(linkPropList.findIndex(getProp)){
+      return {value:property,type:PROPERTY_TYPE_NAME.OBJECT_PROPERTY}
+    }else if(enumPropList.findIndex(getProp)){ 
+      return {value:property,type:PROPERTY_TYPE_NAME.CHOICE_PROPERTY}
+    }
 }
 
-const getClassType=(classId,item,_rootIndexObj)=>{
-	/*
-	* check if it is an enumClass, 
-	* Enum Type is an special class No properties no children but can have a Object Type
-	* as parent
-	*/
-	if(isEnumClassType(_rootIndexObj[classId],item,_rootIndexObj)) return
-	/*
-	* I have to find the object type
-	*/
-	if(Array.isArray(item['Parents'])){		
-		item['Parents'].forEach((parentId)=>{
-			/*
-			* if I know the type and it is Document, the type can not change.
-			*/
-			if(_rootIndexObj[classId]['type']===CLASS_TYPE_NAME.DOCUMENT_CLASS){
-				return
-			}
-			/*
-			* one node can be child of an Document and a Object Class
-			* so the parents can have 2 different types
-			*/
-			if(parentId==='http://terminusdb.com/schema/system#Document'){
-				_rootIndexObj[classId]['type']='Document';
-				/*
-				* Temporarily, I add the node as a child of Document Group
-				*/						
-				_rootIndexObj.DocumentClasses.children.push(_rootIndexObj[classId])
-				/*
-				* if the call is child of document it is a document too so I don't need to check more
-				*/
-				return
-			}else if(_rootIndexObj[parentId] && _rootIndexObj[parentId]['type']){
-				/*
-				* I have already add the parent Obj and I know the type of the parent
-				* I can use the parent type 
-				*/
-				_rootIndexObj[classId]['type']=_rootIndexObj[parentId].type;
-			}
-		})
-	}else{
-		/*
-		* if no parents it is  a first level Object class
-		*/
-		_rootIndexObj[classId]['type']=CLASS_TYPE_NAME.OBJECT_CLASS;
-		_rootIndexObj[CLASS_TYPE_NAME.OBJECT_CLASSES].children.push(_rootIndexObj[classId])
-	}
-}
+export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
+	//{classId:{listofProperty}}
 
-const isEnumClassType=(classElement,item,_rootIndexObj)=>{
-	/*
-	* check if it is a enum node
-	*/
-	if(item["Choices"]!=="system:unknown" && Array.isArray(item["Choices"])){
-		const choicesList=[]
-		item["Choices"].forEach((choice)=>{
-			const  choiceId=getId(choice[0]);
-			const  choiceLabel=choice[1]['@value'];
-			const  choiceComment=choice[2]['@value'];
-			choicesList.push({id:choiceId,label:choiceLabel,comment:choiceComment})
+	const propertiesOfClass={}
+	//{classLink:[classId]}
+	const linkPropertyClass={}
 
-		})
-		classElement['type']=CLASS_TYPE_NAME.CHOICE_CLASS;
-		classElement['choices']=choicesList;
-		_rootIndexObj[CLASS_TYPE_NAME.CHOICE_CLASSES].children.push(classElement)
-		return true;
-	}
-
-	return false;
-}
-
-	
-const addElements=( _rootIndexObj, dataProvider=[])=>{
-	const bindings = dataProvider.bindings || [];
-	
-	bindings.forEach((item)=>{
-		const classId=item['Class ID'];
-		const description=item['Description']['@value'];
-		const abstract=getAbstractValue(item);
-		
-		//
-		/* this is an Object 
-		* "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
-		*/
-		if(!_rootIndexObj[classId]){
-			_rootIndexObj[classId]=getNewNodeTemplate(classId)
-		}
-		/*
-		* we review this
-		*/
-		const label=getLabel(item,_rootIndexObj[classId]['id'])
-
-		_rootIndexObj[classId]['abstract']=abstract;		
-		_rootIndexObj[classId]['label']=label;
-		_rootIndexObj[classId]['comment']=description;
-
-		getClassType(classId,item,_rootIndexObj)
-
-		//add for children
-		if(Array.isArray(item['Children'])){
-			/*
-			* I can't remove this node before move or remove all the children
-			*/
-			item['Children'].forEach((childId)=>{
-				if(!_rootIndexObj[childId]){
-					_rootIndexObj[childId]=getNewNodeTemplate(childId,_rootIndexObj[classId].type)
-				}else{
-					/*
-					* if exist I remove it from document group
-					*/
-					if(_rootIndexObj[childId].type===CLASS_TYPE_NAME.DOCUMENT_CLASS && _rootIndexObj[classId].type===CLASS_TYPE_NAME.DOCUMENT_CLASS){
-						removeElementToArr(_rootIndexObj[CLASS_TYPE_NAME.DOCUMENT_CLASSES].children,childId);						 
-					}
-					
-					/*
-					* if it has multi parents type the node is always a document type
-					* if child_type id undefined or object type
-					*/
-				
-					if(_rootIndexObj[classId].type && _rootIndexObj[childId].type!==CLASS_TYPE_NAME.DOCUMENT_CLASS
-						&& _rootIndexObj[childId].type!==CLASS_TYPE_NAME.CHOICE_CLASS){
-
-						_rootIndexObj[childId]['type']=_rootIndexObj[classId].type;
-						
-						/*
-						* check the other levels of relationship  
-						*/						
-						checkChildrenType(_rootIndexObj[childId].children,_rootIndexObj[classId].type);
-					}									
-				}				
-
-				//children property is for d3 hierarchy I add the node only at the first parent 
-				if(_rootIndexObj[childId]['parents'].length===0){
-					_rootIndexObj[classId]['children'].push(_rootIndexObj[childId])
+	dataProvider.forEach((element)=>{
+		const classId = element['@id']
+		propertiesOfClass[classId]=[]
+		Object.keys(element).forEach(key=>{
+			if(key.indexOf("@") === -1){
+				//it is a property
+				const property = element[key]
+				const {value, type} = getPropertyType(key,property,linkPropList,enumPropList)
+				if(type === PROPERTY_TYPE_NAME.OBJECT_PROPERTY && type ===PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
+					//value or range is the class linked 
+					linkPropertyClass[value].push({nodeName:classId,propName:key})
 				}
-				// add the current node as parent				
-				_rootIndexObj[childId]['parents'].push(classId);
-				// add child to the current node
-				_rootIndexObj[classId]['allChildren'].push(_rootIndexObj[childId])
+				propertiesOfClass[classId].push(getNewPropertyTemplate(type,key))//value,property))
 
-			})
+			}
+		})
+	})
+
+	return [propertiesOfClass,linkPropertyClass]
+}
+
+
+const readSchema = ( _rootIndexObj, dataProvider=[]) =>{
+	//add all the element in _rootIndexObj by id
+
+	dataProvider.forEach((element)=>{
+		const classId=element['@id'];
+		//I add by parent 
+		switch(element['@type']){
+			case 'Enum':
+				_rootIndexObj[CLASS_TYPE_NAME.CHOICE_CLASSES].children.push(_rootIndexObj[classId])
+				if(typeof element['@inherits'] === 'string'){
+					const parent = element['@inherits']
+					//it must be there but we check the same
+					if(_rootIndexObj[parent]){
+						_rootIndexObj[parent].allChildren.push(_rootIndexObj[classId])
+						//id don't need this I can use @inherits field
+						//to be review
+						_rootIndexObj[classId].parent.push(parent)
+					}
+				}
+				break;
+			case 'Class':
+				let ROOT_TYPE =CLASS_TYPE_NAME.DOCUMENT_CLASSES
+				//it is a Document class
+				//if(isSubDocument(element)){
+					//ROOT_TYPE=CLASS_TYPE_NAME.OBJECT_CLASSES
+				//}
+				//let parentTypeDoc = false 
+				//no parents be child of the root document node
+				if( typeof element['@inherits'] === 'string'){
+					const parent = element['@inherits'] 
+					_rootIndexObj[parent].children.push(_rootIndexObj[classId])
+					_rootIndexObj[parent].allChildren.push(_rootIndexObj[classId])
+					_rootIndexObj[classId].parents.push(parent)
+					
+					//parentTypeDoc = isParentDoc(_rootIndexObj[parent])
+					
+
+				}else if( typeof element['@inherits'] === "object"){
+					element['@inherits'].forEach(parent=>{
+						if(_rootIndexObj[classId].parents.length===0){
+							_rootIndexObj[parent].children.push(_rootIndexObj[classId])
+						}
+						_rootIndexObj[parent].allChildren.push(_rootIndexObj[classId])
+						_rootIndexObj[classId].parents.push(parent)
+						//parentTypeDoc = isParentDoc(_rootIndexObj[parent])
+					})
+				}
+				//to be review or I see 2 node with the same name 
+				if(_rootIndexObj[classId].parents.length===0 ){//|| 
+					//(ROOT_TYPE === CLASS_TYPE_NAME.DOCUMENT_CLASSES && parentTypeDoc === false)){
+					_rootIndexObj[ROOT_TYPE].children.push(_rootIndexObj[classId])
+				}
 		}
 	})
 }
 
-function checkChildrenType(childrenElements,parentType){
-	childrenElements.forEach((childrenEl)=>{
-		childrenEl.type=parentType;
-		checkChildrenType(childrenEl.children,parentType);
-	})
+const isParentDoc = (element)=>{
+	if(element.type === CLASS_TYPE_NAME.DOCUMENT_CLASS){
+		return true 
+	}
+	return false
 }
+
+const isSubDocument = (element)=>{
+	return element['@subdocument'] ? true : false
+}
+
 /*
 *the list of available parents depends on the type of node
 *the list can not have the node currents parents or the currents children
@@ -477,4 +287,33 @@ const removeRelatedChildren=(childrenList,classList)=>{
 		removeElementToArr(classList,childObj.name)
 		removeRelatedChildren(childObj.children,classList)
 	})
+}
+
+//{classRangeName:[{nodeName:classId,propName:key}]
+/**
+ * 
+ * @param {obejct} propertyLinkDict 
+ * @param {string} nodeName - the selected node element (the current class)
+ * @param {string} propName - the selected property
+ * @param {string} newLink  - the link property range 
+ * @param {string} previewLink - the old link property range 
+ */
+export const addObjectPropertyRangeItem=(propertyLinkDict,nodeName,propName,newLink,previewLink=undefined)=>{
+	/*
+	* remove the relation
+	*/
+	if(previewLink){
+		const arrList=propertyLinkDict[previewLink];
+		if(arrList){ 
+			if(arrList.length===1)propertyLinkDict[previewLink]=[];
+			const index=arrList.findIndex((item)=>{return item.propName===propName && item.nodeName === nodeName })
+			arrList.splice(index,1)
+		}
+		//const index= arrList.find(propertyElement.name);
+	}
+	if(!propertyLinkDict[newLink]){
+		propertyLinkDict[newLink]=[]
+	}
+	propertyLinkDict[newLink].push({proName:propName,nodeName:nodeName})
+											
 }

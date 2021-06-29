@@ -2,11 +2,10 @@ import React, {useState,useEffect} from "react";
 import MainGraphObject from "../MainGraphObject"
 import TerminusClient from '@terminusdb/terminusdb-client'
 
-export const modelCallServerHook = (woqlClient,branch,ref) => {
+export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 
-	const [mainGraphDataProvider, setResultMainGraph] = useState({classesResult:null,
-																  propsResult:null,
-																  restResult:null});
+	//const [mainGraphDataProvider, setResultMainGraph] = useState({classesResult:null,propsResult:null,restResult:null});*/
+	const [mainGraphDataProvider, setResultMainGraph] = useState([])
 	const [reloadGraph, setReloadGraph] = useState(null);
 
 	const [callServerLoading, setLoading] = useState(false);
@@ -18,45 +17,60 @@ export const modelCallServerHook = (woqlClient,branch,ref) => {
 	* create the mainGraphObject and format the data
 	*/
 	useEffect(() => {
-		const loadGraphData=()=> {
+		const loadGraphData= async ()=> {
 			setLoading(true)
-			const classQuery = TerminusClient.WOQL.lib().classesAndChoices();
+			let jsonSchema=[]
+			try{
+				const params={"as_list":true,"graph_type":"schema"}
+				const jsonArr = await woqlClient.getDocument(params)	
+				jsonSchema = jsonArr.slice(1)
+			}catch(err){
+				//tobe review				
+				setReport(err.message)
+			}finally{
+				setResultMainGraph(jsonSchema);
+				setLoading(false)
+			}
+			
+
+			//const classQuery = TerminusClient.WOQL.lib().classesAndChoices();
     		//const classesResult = await woqlClient.query(classQuery);
 
-    		const propsQuery = TerminusClient.WOQL.lib().properties();
+    		//const propsQuery = TerminusClient.WOQL.lib().properties();
     		//const propsResult = await woqlClient.query(propsQuery);
 
-    		const restictions = TerminusClient.WOQL.quad("v:Restriction", "type", "owl:Restriction", "schema/main").
-											quad("v:Restriction", "owl:onProperty", "v:Property", "schema/main").
-											and(
-												TerminusClient.WOQL.opt().quad("v:Restriction", "owl:cardinality", "v:cardinality", "schema/main"),
-												TerminusClient.WOQL.opt().quad("v:Restriction", "owl:maxCardinality", "v:max", "schema/main"),
-												TerminusClient.WOQL.opt().quad("v:Restriction", "owl:minCardinality", "v:min", "schema/main")
-											)
+    		//const restictions = TerminusClient.WOQL.quad("v:Restriction", "type", "owl:Restriction", "schema/main").
+			//								quad("v:Restriction", "owl:onProperty", "v:Property", "schema/main").
+			//								and(
+			//									TerminusClient.WOQL.opt().quad("v:Restriction", "owl:cardinality", "v:cardinality", "schema/main"),
+			//									TerminusClient.WOQL.opt().quad("v:Restriction", "owl:maxCardinality", "v:max", "schema/main"),
+			//									TerminusClient.WOQL.opt().quad("v:Restriction", "owl:minCardinality", "v:min", "schema/main")
+		//									)
 			//const restResult = await woqlClient.query(restictions);
 
-			Promise.all([woqlClient.query(classQuery), woqlClient.query(propsQuery), woqlClient.query(restictions)]).then((results)=>{
+		/*	Promise.all([woqlClient.query(classQuery), woqlClient.query(propsQuery), woqlClient.query(restictions)]).then((results)=>{
 				/*
 				* CLEANING THE CARDINALITY NOT Linked WITH PROPERTY
 				*/
-				cleaningCardinality().then((value) => {
+				//cleaningCardinality().then((value) => {
 					//do nothing
-				}).catch(err=>{
-					console.log(err.message)
-				}).finally(()=>{
-					setResultMainGraph({classesResult:results[0],propsResult:results[1],restResult:results[2]})			
-				})	
+			//	}).catch(err=>{
+			//		console.log(err.message)
+			//	}).finally(()=>{
+			//		setResultMainGraph(jsonSchema);
+					//setResultMainGraph({classesResult:results[0],propsResult:results[1],restResult:results[2]})			
+			//	})	
 				
-			}).catch(err=>{
+		//	}).catch(err=>{
 				//setReport(err.message)
-			}).finally(()=>{setLoading(false)})
+		//	}).finally(()=>{setLoading(false)})
 			
     		
     	}
     	if(woqlClient)loadGraphData()
    		//Promise.all([someCall(), anotherCall()]).then((results)=>{
 
-	}, [reloadGraph,branch,ref])
+	}, [reloadGraph,branch,ref,dbId])
 
 	//lets see how use it
 	async function cleaningCardinality() {
