@@ -9,21 +9,17 @@ import {CurrentDataProductState} from "./CurrentDataProductState"
 
 export const MainNavBar = (props) => {
     const { user, isAuthenticated, logout } = useAuth0();
-    
+    const base_url =process.env.REACT_APP_BASE_ROUTER || ''
+
     let profile_arg = `?console=console`
 
+    const base_router = process.env.REACT_APP_BASE_ROUTER ||  '';
+    const redirect_uri=`${window.location.origin}/${base_router}`
 
     const logoutWithRedirect = () =>
         logout({
-            returnTo: window.location.origin
+            returnTo:redirect_uri
     })
-
-
-    /*
-    <Nav className="mr-auto">
-                <CurrentDataProductState/>
-            </Nav>
-            */
 
 
     return <Navbar className="navbar-dark bg-dark p-0">
