@@ -27,16 +27,16 @@ export const TerminusInfo = (props) => {
                 <div>
                     <h5 className="text-center mt-2">About TerminusX  </h5>
                     <Row className="w-100 mt-5 ml-5">
-                        <Col md={6} className="text-muted">Console Version</Col>
-                        <Col md={6}>{packageJson.version}</Col>
+                        <Col md={5} className="text-muted">Console Version</Col>
+                        <Col md={7}>{packageJson.version}</Col>
                     </Row>
                     <Row className="w-100 mt-3 ml-5">
-                        <Col md={6} className="text-muted">Server Version</Col>
-                        <Col md={6}>{serverVersion}</Col>
+                        <Col md={5} className="text-muted">Server Version</Col>
+                        <Col md={7}>{serverVersion}</Col>
                     </Row>
-                    <Row className="w-100 mt-3 ml-5">
-                        <Col md={6} className="text-muted">Server Url</Col>
-                        <Col md={6}>{woqlClient.connectionConfig.serverURL()}</Col>
+                    <Row className="w-100 mt-3 ml-5 mb-4">
+                        <Col md={5} className="text-muted">Server Url</Col>
+                        <Col md={7}>{woqlClient.connectionConfig.serverURL()}</Col>
                     </Row>
                 </div>
             </Card>

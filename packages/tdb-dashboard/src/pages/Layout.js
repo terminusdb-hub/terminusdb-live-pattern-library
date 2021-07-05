@@ -6,7 +6,7 @@ import {IconBar} from "../components/IconBar"
 import {DBContextObj} from "../hooks/DBContext"
 import {TimeTravelWidget} from "../components/TimeTravelWidget"
 
-export const Layout = (props) => {
+export const Layout = (props) => { 
     const {branch} = DBContextObj()
     
     return <Container fluid className="p-0 flex-row">                              

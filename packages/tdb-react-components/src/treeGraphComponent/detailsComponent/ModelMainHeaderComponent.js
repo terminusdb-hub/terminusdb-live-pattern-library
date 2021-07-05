@@ -88,34 +88,34 @@ export const ModelMainHeaderComponent =(props)=>{
 
 		return <div className="d-block ml-3 mr-3 pr-3">
 			<div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-				<div role="group" class="btn-group">
-					<button title={TOOLBAR_LABELS.ZoomInTooltip} type="button" class="btn btn-outline-info btn-lg" onClick={setZoomIn}>
+				<div role="group" className="btn-group">
+					<button title={TOOLBAR_LABELS.ZoomInTooltip} type="button" className="btn btn-outline-info btn-lg" onClick={setZoomIn}>
 						<AiOutlineZoomIn/>
 					</button>
-					<button title={TOOLBAR_LABELS.ZoomOutTooltip} type="button" class="btn btn-outline-info btn-lg" onClick={setZoomOut}>
+					<button title={TOOLBAR_LABELS.ZoomOutTooltip} type="button" className="btn btn-outline-info btn-lg" onClick={setZoomOut}>
 						<AiOutlineZoomOut/>
 					</button>
-					<button title={TOOLBAR_LABELS.ResetViewPoint} type="button" class="btn btn-outline-info btn-lg" onClick={setResetView}>
+					<button title={TOOLBAR_LABELS.ResetViewPoint} type="button" className="btn btn-outline-info btn-lg" onClick={setResetView}>
 						<BiReset/>
 					</button>
-					{!showCommitBox && <button title={TOOLBAR_LABELS.EditModeTooltip} type="button" class="btn btn-outline-info btn-lg" onClick={handleEdit}>
+					{!showCommitBox && <button title={TOOLBAR_LABELS.EditModeTooltip} type="button" className="btn btn-outline-info btn-lg" onClick={handleEdit}>
 						<AiOutlineEdit/>
 					</button>}
 				</div>
 
 			</div>
 			{showCommitBox && <div >
-				<form class="" className="">
-					<div class="mb-3">
-						<label class="form-label">{TOOLBAR_LABELS.CommitLabel}</label>
-						<input placeholder={"Description"} type="text" class="form-control" onBlur={handleCommitMessage}/>
+				<form className="" className="">
+					<div className="mb-3">
+						<label className="form-label">{TOOLBAR_LABELS.CommitLabel}</label>
+						<input placeholder={"Description"} type="text" className="form-control" onBlur={handleCommitMessage}/>
 					</div>
-					<div role="group" class="btn-group">
-						<button title={TOOLBAR_LABELS.SaveButtonTooltip} type="button" class="btn btn-outline-info btn-lg"
+					<div role="group" className="btn-group">
+						<button title={TOOLBAR_LABELS.SaveButtonTooltip} type="button" className="btn btn-outline-info btn-lg"
 							onClick={handleSave}>
 							<AiOutlineSave/>
 						</button>
-						<button title={TOOLBAR_LABELS.ViewModeTooltip} type="button" class="btn btn-outline-info btn-lg" onClick={handleCancelEdit}>
+						<button title={TOOLBAR_LABELS.ViewModeTooltip} type="button" className="btn btn-outline-info btn-lg" onClick={handleCancelEdit}>
 							<BiUndo/>
 						</button>
 					</div>

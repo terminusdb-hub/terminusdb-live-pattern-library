@@ -6,7 +6,7 @@ import {IconBarConfig} from  "./constants"
 import {WOQLClientObj} from '../init-woql-client'
 
 export const IconBar =  () => {
-    const {dataProduct} = WOQLClientObj()
+    const {dataProduct, setRoute} = WOQLClientObj()
     let disabled =  {disabled:true} 
 
     if(dataProduct && dataProduct!=='_system'){
@@ -30,7 +30,7 @@ export const IconBar =  () => {
                     as={RouterNavLink} 
                     title={IconBarConfig.dataProductView.title} 
                     className="nav-icon"
-                   // activeClassName="nav-icon--selected"
+                    onClick={(e) => setRoute(IconBarConfig.dataProductView.path)}
                     to={IconBarConfig.dataProductView.path} 
                     exact
                     id={IconBarConfig.dataProductView.key}
@@ -45,6 +45,7 @@ export const IconBar =  () => {
                     {...disabled}
                     to={IconBarConfig.dataProductModal.path} 
                     exact
+                    onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
                     id={IconBarConfig.dataProductModal.key}>
                     {IconBarConfig.dataProductModal.icon}
                 </Nav.Link>
@@ -56,6 +57,7 @@ export const IconBar =  () => {
                     {...disabled}
                     to={IconBarConfig.documentExplorer.path} 
                     exact
+                    onClick={(e) => setRoute(IconBarConfig.documentExplorer.path)}
                     id={IconBarConfig.documentExplorer.key}>
                     {IconBarConfig.documentExplorer.icon}
                 </Nav.Link>
@@ -66,6 +68,7 @@ export const IconBar =  () => {
                     className="nav-icon" 
                     {...disabled}
                     to={IconBarConfig.dataProductExplorer.path} 
+                    onClick={(e) => setRoute(IconBarConfig.dataProductExplorer.path)}
                     exact
                     id={IconBarConfig.dataProductExplorer.key}>
                     {IconBarConfig.dataProductExplorer.icon}
@@ -80,6 +83,7 @@ export const IconBar =  () => {
                         className="nav-icon"
                         to={IconBarConfig.feedback.path} 
                         exact
+                        onClick={(e) => setRoute(IconBarConfig.feedback.path)}
                         id={IconBarConfig.feedback.key}
                         >
                         {IconBarConfig.feedback.icon}
@@ -91,6 +95,7 @@ export const IconBar =  () => {
                         className="nav-icon"
                         to={IconBarConfig.tutorials.path} 
                         exact
+                        onClick={(e) => setRoute(IconBarConfig.tutorials.path)}
                         id={IconBarConfig.tutorials.key}
                         >
                         {IconBarConfig.tutorials.icon}
@@ -103,6 +108,7 @@ export const IconBar =  () => {
                         className="nav-icon"
                         to={IconBarConfig.settings.path} 
                         exact
+                        onClick={(e) => setRoute(IconBarConfig.settings.path)}
                         id={IconBarConfig.settings.key}
                         >
                         {IconBarConfig.settings.icon}

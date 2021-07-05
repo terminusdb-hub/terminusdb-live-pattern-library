@@ -51,7 +51,7 @@ export const TimeTravelWidget = (props) => {
       let opts = []
       for (var item in branchList) {
         opts.push(
-          <option>{item}</option>
+          <option key={`opt_${item}`}>{item}</option>
         )
       }
       return opts
@@ -79,12 +79,12 @@ export const TimeTravelWidget = (props) => {
                 <h6 className="mr-4 mt-2">Time travel on collection  -  <strong className="text-success">{branch}</strong></h6>
                 <BsBriefcase className="me-2 mr-5 mt-2" style={{fontSize: "20px"}}/>
                 <Form className="mb-0 mr-4 ml-3">
-                    <Form.Group controlId="exampleForm.ControlSelect1" className="mb-0">
+                    <Form.Group controlId="timetravel_select" className="mb-0">
                         <Form.Control as="select" 
                           onChange={handleOnChange} 
                           className="bg-transparent border-1-light text-light mb-0" 
                           style={{width: "270px"}}>
-                            <BsBriefcase className="me-2 mr-4 mt-1"/><option defaultValue>{branch}</option>
+                            <option defaultValue>{branch}</option>
                             <BranchOptions branchList={branchList}/>
                         </Form.Control>
                     </Form.Group>
@@ -107,35 +107,3 @@ export const TimeTravelWidget = (props) => {
 
     
 }
-
-/*
-
-<div>
-          {sidebar && <button className= "time-travel-widget" onClick={() => openSidebar(false)} title="Time Travel through history of Data Product" >
-            <h3  style={{color: iconColor}}><BiChevronRight/><BiTimer /></h3>
-        </button>}
-      
-     
-      <Sidebar
-          sidebar={<div>
-              <button className= "time-travel-widget" onClick={() => openSidebar(false)} title="Time Travel through history of Data Product" >
-                  <h3  style={{color: iconColor}}><BiChevronRight/><BiTimer /></h3>
-              </button>
-              <TimeTravel/>
-            </div>}
-          open={sidebar}
-          onSetOpen={openSidebar}
-          pullRight={true}
-          styles={{ sidebar: { background: "#303030" } }}
-        >
-          {!sidebar && <button className= "time-travel-widget" onClick={() => openSidebar(true)} title="Time Travel through history of Data Product" >
-            <h3  style={{color: iconColor}}><BiChevronLeft/><BiTimer /></h3>
-          </button>}
- 
-          
-        </Sidebar>
-
-      </div>
-
-
-      */

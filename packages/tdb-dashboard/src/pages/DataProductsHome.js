@@ -4,7 +4,6 @@ import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
 //import {dataProductList} from "../hooks/DataProductList"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
-import {Sidebar} from './Sidebar'
 import {DATA_PRODUCTS} from "../routing/constants"
 import {AiOutlineDelete} from "react-icons/ai"
 import {NewDatabaseModal} from "../components/NewDatabaseModal"
@@ -16,7 +15,7 @@ import {NoDataProductSelected} from "../components/NoDataProductSelected"
 import {TimeTravel} from "../components/TimeTravel"
 import {BsBriefcase} from "react-icons/bs"
 import {MANAGE_COLLECTIONS} from "../components/constants"
-import { LeftSideBar } from "../components/LeftSideBar"
+import {LeftSideBar} from "../components/LeftSideBar"
 
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
@@ -77,16 +76,14 @@ export const DataProductsHome = (props) => {
                             </div>
                         </Card.Header>
                         <Card.Body>
-                            <Card.Text>
-                                <div className="d-flex align-items-center col-md-12">
-                                    <h6 class="fw-normal text-muted mb-2">Data Product ID </h6>
-                                    <h6 className="ml-3">{dataProductDetails.id}</h6>
-                                </div>
-                                <div className="d-flex align-items-center col-md-12">
-                                    {dataProductDetails.comment}
-                                </div>
-                                <DataProductSummary dataProductDetails={dataProductDetails}/>
-                            </Card.Text>
+                            <div className="d-flex align-items-center col-md-12">
+                                <h6 className="fw-normal text-muted mb-2">Data Product ID </h6>
+                                <h6 className="ml-3">{dataProductDetails.name}</h6>
+                            </div>
+                            {dataProductDetails.comment && <div className="d-flex align-items-center col-md-12">
+                                {dataProductDetails.comment}
+                            </div>}
+                            <DataProductSummary dataProductDetails={dataProductDetails}/>
                         </Card.Body>
                     </Card>
                 </Col>

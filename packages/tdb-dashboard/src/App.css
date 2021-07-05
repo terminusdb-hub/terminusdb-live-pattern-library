@@ -461,6 +461,19 @@ tbody, td, tfoot, th, thead, tr {
   display: none !important;
 }
 
-.pro-item-content {
-  color: #d0d4d8 ;
+.react-slidedown {
+  height: 0;
+  transition-property: none;
+  transition-duration: 0s !important;
+  transition-timing-function: none !important; 
+}
+
+.menu-title {
+  color: #6c757d !important;
+  font-weight: 700 !important;
+}
+
+.sub-menu-title {
+  color: #d0d4d8  !important;
+  font-weight: 100 !important;
 }

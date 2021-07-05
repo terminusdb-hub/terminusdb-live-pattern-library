@@ -67,14 +67,13 @@ export async function createNewDataProduct (woqlClient, meta, onDone, setLoading
             setShowNewDataProductModal(false)
             woqlClient.db(meta.id)
             setDataProduct(meta.id)
-            console.log("woqlClient.databaseInfo()", woqlClient.databaseInfo())
         })
         .catch((err) => console.log(err))
 }
 
 export async function deleteDataProduct (woqlClient, meta, onDone, setLoading, setShowDeleteDataProductModal, setDataProduct) {
     setLoading(true)
-    let id=meta["@id"]
+    let id=meta.name
     await woqlClient.deleteDatabase(id, woqlClient.organization(), true)
         .then((res) => {
             onDone(res)
