@@ -3,7 +3,7 @@ import {WOQLEditorControlled} from '@terminusdb-live/tdb-react-components'
 import {LANGUAGE_LIST} from './constants.js'
 import {QueryPaneObj} from '../hooks/queryPaneContext'
 
-export const QueryEditor = ({queryObj, handleLanguageChange}) => { 
+export const QueryEditor = ({queryObj, handleLanguageChange, setMainError}) => { 
     //every time it change we set the query
     //string and type
 
@@ -16,6 +16,7 @@ export const QueryEditor = ({queryObj, handleLanguageChange}) => {
     //to be review
     const handleError = (err) => {
         console.log("error", err)
+        setMainError(err)
     }
     
     //language switcher what it have to do

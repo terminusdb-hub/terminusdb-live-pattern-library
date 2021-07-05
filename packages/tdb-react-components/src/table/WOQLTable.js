@@ -10,7 +10,7 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
     let pagenum = (limit ? parseInt((start) / limit) : 1)
     let pages = (limit ? parseInt(((totalRows-1)/limit)+1) : 1)
     if(totalRows == 0) pages = 0
-    let prefixes = (result && result.prefixes ? result.prefixes : (query ? query.getContext() : {}))
+    let prefixes = {} // (result && result.prefixes ? result.prefixes : (query ? query.getContext() : {}))
 
     const [data, columns]  = useMemo(() => makeData(), [bindings, result])
 

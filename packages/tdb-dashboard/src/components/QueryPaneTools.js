@@ -9,15 +9,16 @@ import {QueryPaneObj} from '../hooks/queryPaneContext'
 import {makeWOQLFromString, makeWOQLIntoString} from "@terminusdb-live/tdb-react-components"
 import {JSONLD, JS} from "./constants"
 
-export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
+export const QueryPaneTools = ({queryObj, setExpanded, runQuery}) => {
 
     const [commitModal, setCommitModal] = useState(false)
 
     const {WOQLQueryChange, QueryBuilderChange} = QueryPaneObj()
 
-
     // "default Commit msg"
     const handleRunQuery = () => {
+        //to be review maybe
+        //setViewResult(false)
         if(queryObj.editorObj.query){
             let woql = queryObj.editorObj.query
             if(woql.containsUpdate()) {
@@ -30,7 +31,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
 
     const handleRun = () => {
         if(queryObj.editorObj.query){
-            setViewResult(Date.now())
+            runQuery()
         }
     }
 
@@ -77,6 +78,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
         </Modal.Body>
         <Modal.Footer>
             <TDBReactButton 
+                className="pt-2 pb-2 pr-4 pl-4"
                 config={RUN_QUERY_CONFIG} 
                 onClick={(e) => handleClick()}/>
         </Modal.Footer>
@@ -85,8 +87,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
 
     return <React.Fragment> 
         <Row className="w-100"> 
-
-            <Col md={11}>
+            <Col md={10}>
                 <TDBReactButton 
                     config={QUERY_BUILDER_CONFIG}  
                     onClick={(e) => QueryBuilderChange(queryObj.id, !queryObj.queryBuilderObj.isOpen)}/>
@@ -98,17 +99,20 @@ export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
                     onClick={(e) => copyToClipboard(queryObj.editorObj.text)}/>
             </Col> 
 
-            <Col md={1}>
+            <Col md={2} className="d-flex justify-content-end">
                 <TDBReactButton 
+                    className="pt-2 pb-2 pr-4 pl-4"
                     config={RUN_QUERY_CONFIG} 
                     onClick={handleRunQuery}/>
 
                 <PopCommitModal commitModal={commitModal} setCommitModal={setCommitModal}/>
-                {queryObj.editorPanelIsOpen && <Button className="btn-light" title="Hide Editor">
-                    <BiChevronUp onClick={(e) => setExpanded(false)}/>
+                {queryObj.editorPanelIsOpen && 
+                    <Button onClick={(e) => setExpanded(false)} className="ml-auto bg-transparent border-0 p-0 color-white" title="Hide Editor">
+                        <BiChevronUp  size={32}/>
                     </Button>}
-                {!queryObj.editorPanelIsOpen && <Button className="btn-light" title="Show Editor">
-                    <BiChevronDown onClick={(e) => setExpanded(true)}/>
+                {!queryObj.editorPanelIsOpen && 
+                <Button onClick={(e) => setExpanded(true)} className="ml-auto bg-transparent border-0 p-0 color-white" title="Show Editor">
+                    <BiChevronDown  size={32}/>
                 </Button>}
 
             </Col>

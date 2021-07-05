@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {executeQueryHook} from "./executeQueryHook"
-import {graphStructureFromBindings, branchStructureFromBindings, dbStructureFromBindings} from "./utils"
+import {graphStructureFromBindings, dbStructureFromBindings} from "./utils"
 export const DBContext = React.createContext()
 export const DBContextObj = () => useContext(DBContext)
 import {WOQLClientObj} from '../init-woql-client'
@@ -26,15 +26,16 @@ export const DBContextProvider = ({children}) => {
 
     // branchesstates 
     const [branches, setBranches] = useState(false)
-    const [branchesQuery, setBranchesQuery] = useState(false)
+    //const [branchesQuery, setBranchesQuery] = useState(false)
     const [branchesReload, setBranchesReload] = useState(false)
-    const [branchesDataProvider]=executeQueryHook(woqlClient, branchesQuery)
+    //const [branchesDataProvider, setBranchesData] = useState([])
+    //const [branchesDataProvider]=executeQueryHook(woqlClient, branchesQuery)
 
     // graph states
-    const [graphs, setGraphs] = useState(false)
-    const [graphQuery, setGraphQuery] = useState(false)
+   // const [graphs, setGraphs] = useState(false)
+    //const [graphQuery, setGraphQuery] = useState(false)
     const [graphsReload, setGraphsReload] = useState(0)
-    const [graphDataProvider]=executeQueryHook(woqlClient, graphQuery)
+    //const [graphDataProvider]=executeQueryHook(woqlClient, graphQuery)
 
     // DB Info 
     const [DBInfo, setDBInfo] = useState()
@@ -42,18 +43,19 @@ export const DBContextProvider = ({children}) => {
 
     //load branches
     useEffect(() => {
-        if(dataProduct){
-            let q = WOQL.lib().branches()
-            setBranchesQuery(q)
-            //console.log("woqlClient.db()", woqlClient.db())
-            //console.log("woqlClient.checkout()", woqlClient.checkout())
+        if(dataProduct,woqlClient){
+            woqlClient.branches().then(result=>{
+                setBranches(result)
+            }).catch(err=>{
+                console.log("GET BRANCH ERROR",err.message)
+            })
         }
-    }, [branchesReload, dataProduct])
+    }, [branchesReload, dataProduct,woqlClient])
 
-    useEffect(() => {
+   /* useEffect(() => {
         let binds = branchesDataProvider ? branchStructureFromBindings(branchesDataProvider) : []
         setBranches(binds)
-    }, [branchesDataProvider])
+    }, [branchesDataProvider])*/
 
     function updateBranches(bid) {
         if(bid) {
@@ -65,7 +67,7 @@ export const DBContextProvider = ({children}) => {
     }
 
     //load graphs
-    useEffect(() => {
+    /*useEffect(() => {
         if(dataProduct){
             let constraint = WOQL.query()
             if (woqlClient.ref()) {
@@ -77,16 +79,16 @@ export const DBContextProvider = ({children}) => {
             let q = WOQL.lib().graphs(constraint)
             setGraphQuery(q)
         }
-    }, [dataProduct, branch, ref, branches, graphsReload])
+    }, [dataProduct, branch, ref, branches, graphsReload])*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         let binds = graphDataProvider ? graphStructureFromBindings(graphDataProvider) : []
         setGraphs(binds)
-    }, [graphDataProvider])
+    }, [graphDataProvider])*/
 
-    function updateGraphs(){
+   /* function updateGraphs(){
         setGraphsReload(graphsReload + 1)
-    }
+    }*/
 
     // set Head
     function setHead(branchID, refObject={}){// ridConsoleTime=false) 
@@ -128,9 +130,6 @@ export const DBContextProvider = ({children}) => {
     return (
         <DBContext.Provider
             value={{
-                graphs,
-                setGraphs,
-                updateGraphs,
                 branches,
                 updateBranches,
                 branch,

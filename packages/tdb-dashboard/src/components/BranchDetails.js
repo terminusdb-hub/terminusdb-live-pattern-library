@@ -5,7 +5,7 @@ import {RiBubbleChartLine} from "react-icons/ri"
 import {GoLink} from "react-icons/go"
 import {BsPencil, BsThreeDots, BsLayoutThreeColumns} from "react-icons/bs"
 import {ScopedDetails} from "../hooks/ScopedDetails"
-import {formatBytes, formatTripleCount, formatCommits, formatGraphs, formatPropertiesCount, formatClassesCount, formatLastCommitTimeStamp} from "./utils"
+import {formatBytes, formatTripleCount, formatCommits, formatPropertiesCount, formatClassesCount, formatLastCommitTimeStamp} from "./utils"
 
 export const BranchDetails = ({woqlClient, branch, dataProduct}) => {
 

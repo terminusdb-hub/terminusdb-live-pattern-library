@@ -14,7 +14,7 @@ export const ModelProductPage = () => {
     }
      
     return <Layout sideBarContent={<Sidebar setSelectedDataProduct={setSelectedDataProduct}></Sidebar>}>
-        <main role="main" className="m-4">
+        <main role="main">
             <ModelBuilder/>
         </main>
     </Layout>

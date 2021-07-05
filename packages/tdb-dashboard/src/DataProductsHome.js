@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {Row, Col, Card, Button} from "react-bootstrap"
 import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
-import {meta.name} from "../hooks/DataProductList"
+//import {meta.name} from "../hooks/DataProductList"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
 import {Sidebar} from './Sidebar'
@@ -21,7 +21,8 @@ export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
     const [dataProductDetails, setDataProductDetails] = useState(false)
 
-    const {list} = meta.name(woqlClient)
+    const list =woqlClient.databases()
+    //const {list} = meta.name(woqlClient)
 
     const [dataProductSettings, setDataProductSettings] = useState(false)
 

@@ -9,7 +9,7 @@ import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {WOQLClientObj} from '../init-woql-client'
 import ReactJson from 'react-json-view'
 
-export const Results = ({freewidth,queryObj})=>{
+export const Results = ({freewidth,queryObj,setError,runQuery})=>{
     const {woqlClient} = WOQLClientObj()
     const queryResult = queryObj.resultObj
     const {
@@ -25,7 +25,7 @@ export const Results = ({freewidth,queryObj})=>{
         totalRows,//(woqlClient, query, results, queryLimit, queryStart, order)
     } = ControlledQueryHook(woqlClient, queryObj.editorObj.query, 
                             queryResult.result, queryResult.limit, queryResult.start,
-                            queryResult.orderBy,queryResult.totalRows) 
+                            queryResult.orderBy,queryResult.totalRows,runQuery) 
 
     
     const bindings = (result && result.bindings) ? result.bindings : []
@@ -67,6 +67,9 @@ export const Results = ({freewidth,queryObj})=>{
     useMemo(()=>{
         queryObj.updateResultProps("result",result)
         queryObj.updateResultProps("totalRows",totalRows)
+        if(result && result.error){
+            setError(result)
+        }
     },[result,totalRows])
     
     if(!result) return ""

@@ -16,6 +16,16 @@ export class PanelQueryObj {
         this.queryBuilderObj = {isOpen: false}
     }
 
+    resetResultObj(){
+        this.resultObj = {
+            result: null, limit: 50, currentView: TABLE_VIEW,
+            start: 0,
+            orderBy: null,
+            totalRows: null,
+            graph: null, isOpen: true
+        }
+    }
+
     updateEditorProps(propID, propValue) {
         this.editorObj[propID] = propValue
     }

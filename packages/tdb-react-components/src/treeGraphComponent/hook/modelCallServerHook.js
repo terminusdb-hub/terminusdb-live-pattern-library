@@ -96,21 +96,28 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 		}
 	}
 	
-	const saveGraphChanges=(query,commitMessage)=>{
-		if(query!==undefined){
+	const saveGraphChanges= async (updateObject,commitMessage)=>{
+		if(updateObject!==undefined){
 			let ts = Date.now()
 			setLoading(true)
 			const commitM=commitMessage || "Update from model builder"
-			woqlClient.query(query,commitM).then(result=>{				
-				let msg = `Successfully updated schema graph`
-	            setReport({
-	                status: 'success',
-	                message:  msg,
-	                time: Date.now() - ts,
-				})
-				
+			try{
+				if(updateObject.deleteList.length>0){
+					await woqlClient.deleteDocument({id:updateObject.deleteList})
+				}
+				if(updateObject.updateList.length>0){
+					await woqlClient.updateDocument(updateObject.updateList)
+				}
+				/*woqlClient.query(query,commitM).then(result=>{				
+					let msg = `Successfully updated schema graph`
+					setReport({
+						status: 'success',
+						message:  msg,
+						time: Date.now() - ts,
+					})*/
+					
 	            setReloadGraph(Date.now())
-			}).catch(err=>{
+			}catch(err){
 				//setError(err.message)
 				let rep = {status: 'error', error: err}
                 let failureMessage = `Failed to load schema graph`
@@ -123,9 +130,9 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 	                error: err,
 	                time: Date.now() - ts,
             	})
-			}).finally(()=>{
+			}finally{
 				setLoading(false)
-			})
+			}
 		}
 	}
 

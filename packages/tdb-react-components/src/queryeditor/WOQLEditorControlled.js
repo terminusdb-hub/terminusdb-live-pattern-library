@@ -11,7 +11,7 @@ import {useEditorControl} from "./hook/useEditorControl"
  * @param {String}           - startLanguage type
  * ..
  */
-export const WOQLEditorControlled = ({query, startLanguage, initcontent, editable, languages,setWOQLQuery, mainError, showLanguageSwitcher, theme}) => {
+export const WOQLEditorControlled = ({query, startLanguage, initcontent, editable, languages,setWOQLQuery, setMainError, showLanguageSwitcher, theme}) => {
  
     const {changeEditableLanguage,
             changeCurrentLanguage,
@@ -20,7 +20,7 @@ export const WOQLEditorControlled = ({query, startLanguage, initcontent, editabl
             isEditable,
             setEditableContent,
             editableContent,
-            showEditableButton} = useEditorControl(startLanguage, mainError, initcontent, editable);
+            showEditableButton} = useEditorControl(startLanguage, setMainError, initcontent, editable);
 
     return (
     <div className="tdb__qpane__editor" >
@@ -40,7 +40,7 @@ export const WOQLEditorControlled = ({query, startLanguage, initcontent, editabl
 	           	content={editableContent}
 	           	language={editorLanguage}
 	           	editable={isEditable}
-	           	setMainError={mainError}
+	           	setMainError={setMainError}
 	           	setWOQLQuery={setWOQLQuery}
                 theme={theme}
            />
