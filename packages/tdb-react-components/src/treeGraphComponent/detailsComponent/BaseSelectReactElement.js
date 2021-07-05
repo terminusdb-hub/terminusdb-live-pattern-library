@@ -34,13 +34,21 @@ export const BaseSelectReactElement=(props)=>{
   const value = selectedOption!==null ? {value:selectedOption} : {}
   const itemError = selectedOption===null ? props.itemError : ''
 
+  const customStyles = {
+	option: (provided, state) => ({
+	  ...provided,
+	  color: state.isSelected ? '#00C08B' : '#495057',
+	 // padding: 20,
+	})
+}
+
 	return(
 		 <div className={props.groupClassName}>
         <div className="tdb__form__help">
           <label className={props.labelClassName} >{props.title}</label>
           <HelpComponent text={props.help}/>
         </div>
-		  	<Select  
+		  	<Select   styles={customStyles}
           value={selectedOption}
 			  	isClearable={isClearable} 
 			  	onChange={onChange} 

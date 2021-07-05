@@ -5,11 +5,11 @@ import {FaPlus} from "react-icons/fa"
 import {WOQLClientObj} from '../init-woql-client'
 import {DATA_PRODUCTS} from "../routing/constants"
 
-import {dataProductList} from "../hooks/DataProductList"
+//import {dataProductList} from "../hooks/DataProductList"
 
 const List = () => {  
     const {dataProduct, woqlClient, setDataProduct} = WOQLClientObj()
-    const {list} = dataProductList(woqlClient)
+    const list = woqlClient.databases()//dataProductList(woqlClient)
 
     function handleClick(e) {
         setDataProduct(e.target.id) 
@@ -18,6 +18,7 @@ const List = () => {
     return  <ListGroup  defaultActiveKey={`key_${dataProduct}`}>
         {list.map(item => <ListGroup.Item action 
             id={item.name}
+            key={`key_${item.name}`}
             eventKey={`key_${item.name}`} 
             onClick={(e) => handleClick(e)} 
             className="bg-transparent text-light border-0 ">

@@ -28,13 +28,14 @@ export const QuerySidebar= (props) =>{
             title: SAMPLE_QUERIES,
             description: <SampleQueries/>
         }, 
-        {
+        // we have to review the query to get 
+       /* {
             id: 3,
             eventKey: "3",
             title: SAVED_QUERIES,
             icon: "fas fa-map-pin",
             description: <SavedQueries/>
-        }
+        }*/
     ]
 
     return <React.Fragment>

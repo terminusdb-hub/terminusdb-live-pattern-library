@@ -17,7 +17,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
     const {branches, branch, ref, updateBranches}=DBContextObj()
 
     const { 
-        branchList,
+       // branchList,
         newBranch,
         setNewBranch,
         setNewBranchInfo,
@@ -70,7 +70,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 loading={loading} 
                 branches={branches}/>
 
-            <DisplayBranchList branchList={branchList} 
+            <DisplayBranchList branchList={branches} 
                 branch={branch} 
                 setShowDefault={setShowDefault} 
                 branchCount={branchCount}

@@ -2,17 +2,15 @@ import React, {useState, useEffect} from "react"
 import {TDBReactButton, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
 import {UNCOLLAPSE_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
 import {Results} from "./Results"
-import {Row, Col, Card} from "react-bootstrap"
+import {Row, Col, Card, Alert} from "react-bootstrap"
 import {QueryPaneControl} from "../hooks/QueryPaneControl"
 import {QueryEditor} from "./QueryEditor"
 import {WOQLClientObj} from '../init-woql-client'
 import {QueryPaneTools} from "./QueryPaneTools"
 import {QueryBuilder} from "./QueryBuilder"
-import {QueryPaneObj} from "../hooks/queryPaneContext" 
+//import {QueryPaneObj} from "../hooks/queryPaneContext" 
 
 export const QueryPane = ({id, name, queryObj}) => {
-
-
     const [viewResult, setViewResult]=useState(0)
     const result = queryObj.resultObj.result
     const showResult = viewResult || result ? true : false
@@ -21,6 +19,7 @@ export const QueryPane = ({id, name, queryObj}) => {
     //const [queryBuilder, showQueryBuilder] = useState(false)
     const queryBuilder = queryObj.queryBuilderObj.isOpen
     const [size, setSize] = useState(12)
+    const [queryError, setQueryError] = useState(false) 
 
 
     //maybe we not need an external hook
@@ -35,10 +34,22 @@ export const QueryPane = ({id, name, queryObj}) => {
         if(queryObj.queryBuilderObj.isOpen) setSize(10)
         else setSize(12)
     }, [queryObj.queryBuilderObj.isOpen])
- 
+    
+    const runQuery = () =>{
+        //reset the result
+        queryObj.resetResultObj()
+        setQueryError(false)
+        setViewResult(Date.now())
+    }
+    
     return <React.Fragment>
         <div className="query-pane-pallet mb-3 mt-3 mr-4" >
             <Row>
+                <Col md={10}>
+                    {queryError && <Alert variant="danger" className="w-100">
+                    {queryError.message || queryError.error.message}
+                    </Alert>}
+                </Col>
                 <Col md={10}>
                     <h1 className="h5 ml-3">
                         {name} , Explore the 
@@ -64,21 +75,22 @@ export const QueryPane = ({id, name, queryObj}) => {
                             setSaveQuery={setSaveQuery} 
                             setSaveQueryName={setSaveQueryName} 
                             saveQueryName={saveQueryName}
-                            setViewResult={setViewResult}
+                            runQuery={runQuery}
                             queryBuilder={queryBuilder}/>    
                     </Card.Header>
                     <Card.Body>
                         <TDBReactCollapse isExpanded={queryObj.editorPanelIsOpen}> 
                             <Row className="w-100">
                                 <Col md={size}> 
-                                    <QueryEditor queryObj={queryObj} id={id}/>  
+                                    <QueryEditor queryObj={queryObj} id={id} setMainError={setQueryError}/>  
                                 </Col>
                                 {queryObj.queryBuilderObj.isOpen && <Col md={12 - size}>
                                     <QueryBuilder/>
                                 </Col>}   
                             </Row>                       
                         </TDBReactCollapse>
-                        {showResult && <Results 
+                        {showResult && <Results
+                                setError={setQueryError}
                                 freewidth={true}
                                 queryObj={queryObj}
                             />

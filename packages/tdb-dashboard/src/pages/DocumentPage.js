@@ -16,6 +16,10 @@ export const DocumentPage = (props) => {
      const getResult = useRef(null);
      const dbName = useRef(null)
      const replaceData= useRef(null)
+     const getResultDelete = useRef(null)
+
+     const graphTypeDelete = useRef(null);
+     const docIdDelete = useRef(null);
 
      const addDocument = async () =>{
            try{
@@ -64,8 +68,11 @@ export const DocumentPage = (props) => {
             if(!params['id'] && !params["type"]){
                 params['as_list']=true
             }
-            const dbNameValue = dbName.current.value || undefined//"test_profile"  
-            //woqlClient.branch("_commits")      
+            let dbNameValue = dbName.current.value || undefined//"test_profile" 
+            if(dbNameValue==='_commits'){
+                woqlClient.checkout("_commits") 
+                dbNameValue='test_db'
+            }     
             const result = await woqlClient.getDocument(params,dbNameValue)
             
             getResult.current.value = JSON.stringify(result,null,4)
@@ -74,6 +81,21 @@ export const DocumentPage = (props) => {
         }catch(err){
             setError(err.message) 
         }        
+     }
+
+     const deleteDocument = async () =>{
+        const dbNameValue = dbName.current.value || undefined//"test_profile"  
+        const params={}
+        if(docIdDelete.current.value){
+            params['id'] =  docIdDelete.current.value;
+        }
+        if(graphTypeDelete.current.value){
+            params['graph_type'] = graphTypeDelete.current.value;
+        }
+        
+        const result = await woqlClient.deleteDocument(params,dbNameValue)
+        getResultDelete.current.value = JSON.stringify(result,null,4)
+        //setSelectResult(JSON.stringify(result,null,4))
      }
 
      return  <Layout sideBarContent={<div>document</div>}>
@@ -141,6 +163,32 @@ export const DocumentPage = (props) => {
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Get Document Result</label>
                             <textarea readOnly ref={getResult} class="form-control" id="exampleFormControlTextarea1" rows="10">
+                                {selectResult}
+                            </textarea>
+                        </div>
+                </Card.Body>
+                </Card>
+                <Card className="p-4 mb-4">
+                        <Card.Body className="p-4">
+                        <Row className="mb-4">
+                        <Col>
+                        <Button onClick={deleteDocument}>delete document</Button>
+                        </Col>
+                        </Row>
+                        <Form.Group >
+                                <Form.Label>DELETE A DOCUMENT IN A GRAPH</Form.Label>
+                                <Row>
+                                <Col>      
+                                <Form.Control type="text" placeholder="Graph type" ref={graphTypeDelete}/>
+                                </Col>
+                                <Col>
+                                    <Form.Control type="text" placeholder="document id" ref={docIdDelete}/>
+                                </Col>
+                                </Row>
+                        </Form.Group>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Delete Document Result</label>
+                            <textarea readOnly ref={getResultDelete} class="form-control" id="exampleFormControlTextarea1" rows="10">
                                 {selectResult}
                             </textarea>
                         </div>

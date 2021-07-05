@@ -64,7 +64,7 @@ export function formatCommits (ct) {
 }
 
 
-export function formatGraphs (graphs) {
+/*export function formatGraphs (graphs) {
     let str
 
     if(graphs) {
@@ -91,7 +91,7 @@ export function formatGraphs (graphs) {
         str = "schema free database - single graph"
     }
     return str
-}
+}*/
 
 export function formatClassesCount (ct) {
     if(ct == 1) ct += " class"

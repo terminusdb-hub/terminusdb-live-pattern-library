@@ -9,25 +9,29 @@ import {GraphContextObj} from '../hook/graphObjectContext';
 
 export const BasePropertyComponent = (props)=> {
 		const {mainGraphObj} =GraphContextObj()
-
-		const extraInfoValue = props.extraInfoValue || {}
-
+		//const extraInfoValue = props.extraInfoValue || {}
+		//all the information about the property in the 
+		const nodeSchemaData = props.nodeSchemaData || {}
 		const currentNodeJson=props.currentNodeJson || {}
-		let title=currentNodeJson.label || currentNodeJson.id
+		let currentPropId = nodeSchemaData.id
 		const viewBaseSchema=props.viewBaseSchema===false ? false : true;
 		const showAllButton=props.showAllButton || {};
 		const leftIconClassName=GET_ICON_NAME[currentNodeJson.type] || "custom-img-string"
-	
+		
+		const [propId,setPropId] =  useState(currentPropId)
+
 		const changePropertyValue=(propName,propValue)=>{
 			mainGraphObj.setPropertyInfo(currentNodeJson.id,propName,propValue)
 		}
 		
 		const updateBaseValue = (propName,propValue)=>{
 			if(propName === 'id'){
-				title=propValue;
 				const defaultValue = props.selectDataProvider ? props.selectDataProvider.options[0].value : 'NoClass'
-				
-				mainGraphObj.setId(propValue,currentNodeJson,defaultValue)
+				//set the id and the type of the property 
+				mainGraphObj.setPropertyId(currentNodeJson,propValue,defaultValue)
+				setPropId(propValue)
+			}else if(propName === 'comment'){
+				mainGraphObj.setPropertyInfo(propId,propName,propValue)				
 			}
 		}
 		
@@ -36,13 +40,14 @@ export const BasePropertyComponent = (props)=> {
 			<Accordion showBody={props.showBody} 
 					   arrowOpenClassName = "accordion__arrow fa fa-caret-up"
 					   arrowCloseClassName = "accordion__arrow fa fa-caret-down"
-					   title={title}
+					   title={currentPropId}
 					   leftIconClassName={leftIconClassName}
 					   tooltip={currentNodeJson.type || ''}>
 				{viewBaseSchema && <BaseElement updateValue={updateBaseValue}
 										   removeElement={props.removeElement} 
 										   nodeJsonData={currentNodeJson}
 										   showAllButton={showAllButton}
+										   nodeSchemaData={nodeSchemaData}
 										   isNodeObject={false}
 								   >
 								   {props.selectDataProvider &&
@@ -52,14 +57,14 @@ export const BasePropertyComponent = (props)=> {
 			                            title={props.selectDataProvider.label}
 					            		dataProvider={props.selectDataProvider.options}
 					            		name={props.selectDataProvider.id}
-					               		defaultValue={extraInfoValue.range || ''}
+					               		defaultValue={nodeSchemaData.range || ''}
 					               		/>
 	               					}
 	               					{props.children}
 								   </BaseElement>}
 				<div className="tdb__panel__box">	               
 	               	{props.showCardinality &&
-	               	  <PropertyExtraInfo extraInfoValue={props.extraInfoValue} propId={currentNodeJson.id}/>
+	               	  <PropertyExtraInfo extraInfoValue={nodeSchemaData} propId={currentNodeJson.id}/>
 	               	}         					
 				</div>
 			</Accordion>

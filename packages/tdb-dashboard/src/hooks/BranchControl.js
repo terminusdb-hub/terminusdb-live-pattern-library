@@ -2,33 +2,18 @@
 import React, {useState, useEffect} from "react"
 import {newBranchForm, TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/constants"
 import {Alerts} from "../components/Alerts"
-import {getBranchCountQuery} from "../queries/BranchQueries"
-import {executeQueryHook} from "./executeQueryHook"
+//import {getBranchCountQuery} from "../queries/BranchQueries"
+//import {executeQueryHook} from "./executeQueryHook"
 import {WOQLClientObj} from '../init-woql-client'
  
 export function BranchControl (branches, branch, ref, updateBranches, setHead)  {
     const {woqlClient, dataProduct} = WOQLClientObj()
+    const branchCount = typeof branches === 'object' ? branches.length : 0  
 
-    //get branch count 
-    const [branchCount, setBranchCount]=useState(0)
-    const [branchCountQuery, setBranchCountQuery]=useState(getBranchCountQuery())
-    const [branchCountDataProvider] = executeQueryHook(woqlClient, branchCountQuery)
-
-    useEffect(() => {
-        if(branchCountDataProvider) {
-            setBranchCount(branchCountDataProvider[0]['Count']['@value'])
-        }
-    }, [branchCountDataProvider])
-
-    useEffect(() => {
-        if(dataProduct) {
-            setBranchCountQuery(getBranchCountQuery())
-        }
-    }, [dataProduct])
-
-    // branch states
     const [sourceCommit, setSourceCommit] = useState(false)
-    const [branchList, setBranchList] = useState([])
+    
+    //const [branchList, setBranchList] = useState([])
+    
     const [newBranch, setNewBranch] = useState(false)
     const [newBranchInfo, setNewBranchInfo] = useState(false)
     const [selectedBranch, setSelectedBranch] = useState(false)
@@ -60,7 +45,7 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
             setNewBranch(false)
             updateBranches(branchInfo.id)
-            setBranchCountQuery(getBranchCountQuery())
+            //setBranchCountQuery(getBranchCountQuery())
         })
         .catch((err) => {
             let message = `Error in creating branch - ${branchInfo.id}. ${message}`;
@@ -71,9 +56,9 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
         }) 
     }
 
-     useEffect(() => {
+    /* useEffect(() => {
         if(branches) setBranchList(branches)
-    }, [branches])
+    }, [branches])*/
 
     useEffect(() => {
         if(newBranchInfo) onCreate(newBranchInfo)
@@ -87,7 +72,7 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
             let message = `Success in deleteing branch - ${branch}`;
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
             updateBranches("main")
-            setBranchCountQuery(getBranchCountQuery())
+            //setBranchCountQuery(getBranchCountQuery())
         })
         .catch((err) => {
             let message = `Error in deleteing branch - ${branch}. ${message}`;
@@ -163,7 +148,7 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
     }
 
     return {
-        branchList,
+       // branchList,
         newBranch,
         branchCount,
         setNewBranch,

@@ -47,8 +47,8 @@ const DataProductItems = (props) => {
     const {dataProduct, woqlClient, setDataProduct} = WOQLClientObj()
     const {list} = dataProductList(woqlClient)
 
-    function handleClick(id) {
-        setDataProduct(id) 
+    function handleClick(dp) {
+        setDataProduct(dp.name ) 
     }
 
     return <SubMenu title="Data Products" 
@@ -56,7 +56,7 @@ const DataProductItems = (props) => {
         defaultOpen={true}
         suffix={<NewDataProduct/>}>
         {list.map(item => 
-            <MenuItem id={item.id} onClick={(e) => handleClick(item.id)} icon={false}>
+            <MenuItem id={item.id} onClick={(e) => handleClick(item)} icon={false}>
                 {item.label}
             </MenuItem>)}
     </SubMenu>

@@ -19,7 +19,9 @@ export const TimeTravelWidget = (props) => {
     const [iconColor, setIconColor] = useState("#00bc8c")
 
     const {branches, branch, ref, updateBranches, consoleTime, chosenCommit}=DBContextObj()
-    const {branchList} = BranchControl(branches, branch, ref, updateBranches)
+    const branchList = branches
+    
+    //BranchControl(branches, branch, ref, updateBranches)
 
     const [cssWidget, setCssWidget] = useState("")
     const [cssTimeTravel, setCssTimeTravel] = useState("display-none")
@@ -45,7 +47,7 @@ export const TimeTravelWidget = (props) => {
     }
 
     const BranchOptions = ({branchList}) => {
-      if(!branchList) return
+      if(!branchList) return []
       let opts = []
       for (var item in branchList) {
         opts.push(

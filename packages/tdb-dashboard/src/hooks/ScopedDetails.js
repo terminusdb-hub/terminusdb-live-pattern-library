@@ -5,16 +5,16 @@ import {DBContextObj} from "./DBContext"
 
 export function ScopedDetails (woqlClient, branch, dataProduct)  {
 
-    let {branches, ref, graphs} = DBContextObj(woqlClient, dataProduct)
+    let {branches, ref} = DBContextObj(woqlClient, dataProduct)
     const [latest, setLatest] = useState([])
     const [contextQuery, setContextQuery] = useState(false)
     let [contextDataProvider] = executeQueryHook(woqlClient, contextQuery)
 
     useEffect(() => {
-        if(branch && graphs){
+        if(branch){
             load_context(branch, ref)
         }
-    }, [branch, ref, branches, graphs])
+    }, [branch, ref, branches])
 
     useEffect(() => {
         if(contextDataProvider) setLatest(contextDataProvider)

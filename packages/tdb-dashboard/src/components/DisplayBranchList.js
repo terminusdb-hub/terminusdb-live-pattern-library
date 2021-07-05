@@ -7,8 +7,8 @@ import {timeConverter} from "../pages/utils"
 
 
 const BranchItem = (props) => {
-    const { id, head, updated, branch, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
-
+    const { name, head, updated, branch, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
+    const id=name
     function handleOnClick (id) {
         if(handleBranchClick) handleBranchClick(id)
         //setSelectedCommit(false)

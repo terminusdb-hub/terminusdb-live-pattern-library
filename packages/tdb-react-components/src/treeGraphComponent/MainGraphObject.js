@@ -58,6 +58,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	let _mainGraphElementsJson={};
 
+	const deleteDocList = []
 	/*
 	* this object registers all the graph changes 
 	*/
@@ -521,7 +522,13 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	}
 
 	const savedObjectToWOQL=()=>{
-		//return _graphUpdateObject.savedObjectToWOQL(_rootIndexObj,_propertiesList);
+		const updateList=[]
+		Object.keys(_rootIndexObj).forEach(item=>{
+			if(item.needToSave===true){
+				updateList.push(item.schema)
+			}
+		})
+		return {deleteList : deleteDocList,updateList:updateList}
 	}
 
 	const updateObjectPropertyListLabel=(objectPropList,elementDataObject)=>{
@@ -586,12 +593,6 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			node.abstract=_currentNode.schema['@abstract'] ? true : false
 			node.id = _currentNode.schema['@id'] || ''
 			node.subdocument = _currentNode.schema['@subdocument'] ? true : false
-			if(_currentNode.newElement === false){
-				node.subdocument_disabled = true
-			}else{
-				node.subdocument_disabled = node.subdocument && _currentNode.schema['@inherits'] ? true : false
-			}
-			
 		}
 
 		return node
@@ -649,17 +650,17 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			}
 			//change the label in the list of object for the link properties
 			updateObjectPropertyListLabel(_objectPropertyList,_currentNode)
-		}else{
-			//it is a property
-
-			const oldPropId = classPropertyObj['id']
-			classPropertyObj['id'] = newId
-			let currentPropertyValue = _currentNode.schema[oldPropId] 
-			if(currentPropertyValue!== undefined){
-				delete _currentNode.schema[oldPropId]
-			}
-			_currentNode.schema[newId] = currentPropertyValue || defaultRange
 		}
+	}
+	
+
+	const setPropertyId = (propertyObj, newPropId, rangePropValue) =>{
+		const oldPropId = propertyObj.id
+		let currentPropertyValue = _currentNode.schema[oldPropId] 
+		if(currentPropertyValue!== undefined){
+			delete _currentNode.schema[oldPropId]
+		}
+		_currentNode.schema[newId] = currentPropertyValue || defaultRange
 	}
 
 	const getEnumValues =()=>{
@@ -672,24 +673,27 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	const getPropertyInfo = (propId)=>{	
 		switch(typeof _currentNode.schema[propId]){
 			case 'string':
-				return {range:_currentNode.schema[propId],option:''}
+				return {range:_currentNode.schema[propId],option:'',id:propId}
 			case 'object':
 				const propInfo = _currentNode.schema[propId]
-				const obj = {range:propInfo['@class'],option:propInfo['@type']} 				
+				const obj = {range:propInfo['@class'],option:propInfo['@type'],id:propId} 				
 				if(propInfo['@type'] === 'Cardinality'){
 					obj['cardinality'] = propInfo['@cardinality']
 				}else if(propInfo['@type'] === 'Cardinality_Between'){
 					obj['min_cardinality'] = propInfo['@min_cardinality']
 					obj['max_cardinality'] = propInfo['@max_cardinality']
 				}
-				return obj
+				break
 			default:
-				return {}
+				obj= {id:propId}
 		}
+		obj['comment'] = getPropertyComment(propId)
+		return obj
 
 	}
 	//range 
 	//option
+	//what happen if I change something before setting the id???
 	const setPropertyInfo = (propId,fieldName,fieldValue)=>{
 		if(!_currentNode.schema[propId])return
 		switch(fieldName){
@@ -732,7 +736,28 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 				_currentNode.schema[propId][`@${fieldName}`]=fieldValue
 				break;
 			}
+			case 'comment':
+				setPropertyComment(propId,fieldValue)
+			    break
 		}
+		_currentNode.needToSave = true
+	}
+
+	const setPropertyComment = (propId,comment) =>{
+		if(!_currentNode.schema['@documetations'])_currentNode.schema['@documetations']={}
+		if(!_currentNode.schema['@documetations']['@properties'])
+			_currentNode.schema['@documetations']['@properties']={}
+			_currentNode.schema['@documetations']['@properties'][propId]=comment
+		//properties
+	}
+
+	const getPropertyComment = (propId) =>{
+		if(_currentNode.schema['@documetations'] && currentNode.schema['@documentation']['@properties'] 
+			&& _currentNode.schema['@documetations']['@properties'][propId]){
+				return _currentNode.schema['@documetations']['@properties'][propId]
+		}
+		return ''
+		//properties
 	}
 
 	const updateEnumValues = (enumArr) =>{

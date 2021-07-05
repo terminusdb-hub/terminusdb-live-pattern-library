@@ -16,10 +16,10 @@ export const ModelProductPage = () => {
     }
 
     return <Layout sideBarContent={<LeftSideBar route={PRODUCT_MODELS}/>}>
-    <main role="main" className="m-4">
-        <ModelBuilder/>
-    </main>
-</Layout>
+        <main role="main" className="m-4">
+            <ModelBuilder/>
+        </main>
+    </Layout>
      
     /*return <Layout sideBarContent={<Sidebar setSelectedDataProduct={setSelectedDataProduct}></Sidebar>}>
         <main role="main" className="m-4">

@@ -7,12 +7,11 @@ import {BaseTextareaElement} from './BaseTextareaElement';
 import {BaseCheckboxElement} from './BaseCheckboxElement';
 import {KeyComponent} from './KeyComponent';
 
-
 export const BaseElement = (props)=>{	
     const [indexError,setIndexError]=useState(false);
     const nodeJsonData=props.nodeJsonData || {}
     const nodeSchemaData=props.nodeSchemaData || {}
-    const subdocument_disabled = nodeSchemaData.subdocument_disabled === true ? {disabled:true} : {}
+    //const subdocument_disabled = nodeSchemaData.subdocument_disabled === true ? {disabled:true} : {}
 
     const changeElement=(name,value)=>{
         let val=value;
@@ -47,7 +46,6 @@ export const BaseElement = (props)=>{
        	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
                     <Fragment>
                         <BaseCheckboxElement title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
-                        <BaseCheckboxElement {...subdocument_disabled} title={'Subdocument'} help={"Subdocument"} name='subdocument' defaultValue={nodeSchemaData.subdocument} onBlur={changeElement} />
                     </Fragment>
                 }
                 <BaseInputElement

@@ -38,7 +38,7 @@ export const PropertiesComponent = (props)=> {
 				            removeElement:removeElement}
 
 			if(propertyItem.type!==PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
-				baseObj['extraInfoValue'] = mainGraphObj.getPropertyInfo(propertyItem.id)
+				baseObj['nodeSchemaData'] = mainGraphObj.getPropertyInfo(propertyItem.id)
 			}
 			switch(propertyItem.type){
 		   		case PROPERTY_TYPE_NAME.CHOICE_PROPERTY:

@@ -21,8 +21,9 @@ export function dataProductList (props)  {
         let mdbs = []
         let dbs = woqlClient.databases()
         for(var i = 0; i<dbs.length; i++){
-            //if(dbs[i].name) 
-            if(dbs[i].id) mdbs.push(dbs[i])
+            //if(dbs[i].id) 
+            if(dbs[i].name) 
+                mdbs.push(dbs[i])
         }
         return mdbs
     }

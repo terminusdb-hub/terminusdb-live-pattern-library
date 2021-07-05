@@ -111,6 +111,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName}) => 
 	}
 
 	const savedObjectToWOQL=()=>{
+		
 		return mainGraphObj.savedObjectToWOQL()
 	}
 
