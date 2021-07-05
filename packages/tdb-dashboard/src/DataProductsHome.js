@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {Row, Col, Card, Button} from "react-bootstrap"
 import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
-import {meta.name} from "../hooks/DataProductList"
+import {dataProductList} from "../hooks/DataProductList"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
 import {Sidebar} from './Sidebar'
@@ -20,12 +20,13 @@ import {MANAGE_COLLECTIONS} from "../components/constants"
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
     const [dataProductDetails, setDataProductDetails] = useState(false)
-
-    const {list} = meta.name(woqlClient)
+    
+    const {list} = dataProductList()
 
     const [dataProductSettings, setDataProductSettings] = useState(false)
 
     useEffect (() => {
+        if(!list) return
         list.map(dp => {
             if(dp.name == dataProduct) {
                 setDataProductDetails(dp)
@@ -44,7 +45,7 @@ export const DataProductsHome = (props) => {
         setShowDeleteDataProductModal} = useCreateNewDataProductStates(woqlClient)
 
     return  <Layout sideBarContent={<Sidebar page = {DATA_PRODUCTS} handleNew={handleNew}></Sidebar>}>
-        <main className="content mr-3 ml-5 w-95">
+        <main className="content mr-3 ml-5 w-95"> 
 
             <NewDatabaseModal setShowNewDataProductModal={setShowNewDataProductModal} 
                 showNewDataProductModal={showNewDataProductModal} 
@@ -69,7 +70,7 @@ export const DataProductsHome = (props) => {
                                 <Button variant="light" className="mr-3" onClick={(e) => setDataProductSettings(MANAGE_COLLECTIONS)}>
                                     <BsBriefcase className="me-2"/> {MANAGE_COLLECTIONS}
                                 </Button>
-                                <Button variant="danger" title={`Delete Data Product ${dataProduct}`} 
+                                <Button variant="danger" title={`Delete Data Product ${dataProductDetails.label}`} 
                                         onClick={(e) =>setShowDeleteDataProductModal(true)}>
                                     <AiOutlineDelete className="me-2" /> Delete 
                                 </Button>

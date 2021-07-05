@@ -8,7 +8,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {SidebarAccordianTitle} from "./SidebarAccordianTitle"
 import SimpleBarReact from "simplebar-react"
 import "simplebar/src/simplebar.css"
- 
+  
 export const QuerySidebar= (props) =>{
     const {dataProduct} = WOQLClientObj()
   

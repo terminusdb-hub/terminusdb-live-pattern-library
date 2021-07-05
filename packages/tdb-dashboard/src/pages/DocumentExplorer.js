@@ -4,6 +4,8 @@ import {DocumentView} from "../components/DocumentView"
 import {DocumentSidebar} from "../components/DocumentSidebar"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
+import {LeftSideBar} from "../components/LeftSideBar"
+import { DOCUMENT_EXPLORER } from "../routing/constants"
 
 export const DocumentExplorer = (props) => {
     const {setDataProduct} = WOQLClientObj()
@@ -12,7 +14,7 @@ export const DocumentExplorer = (props) => {
         setDataProduct(dataProductID)
     } 
      
-    return <Layout sideBarContent={<DocumentSidebar/>}>
+    return <Layout sideBarContent={<LeftSideBar route={DOCUMENT_EXPLORER}/>}>
             <main role="main" className="m-4">
                 <DocumentView/>
             </main>

@@ -26,7 +26,8 @@ export const getPropertiesOfClass = (id, dataProduct, woqlClient) => {
         WOQL.quad("v:Property ID", "type", "v:OWL Type", "schema/main"),
         WOQL.and(
             WOQL.quad("v:Property ID", "domain", id, "schema/main"),
-            WOQL.quad("v:Property ID", "range", "v:Property Range", "schema/main")
+            WOQL.quad("v:Property ID", "range", "v:Property Range", "schema/main"),
+            WOQL.quad("v:Property ID", "domain", "v:Property Domain", "schema/main")
         ),
         WOQL.limit(1).or(
             WOQL.and(

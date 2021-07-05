@@ -10,12 +10,12 @@ export const DeleteDatabaseModal = ({showDeleteDataProductModal, setShowDeleteDa
 
     function handleClick () {
         event.preventDefault()
-        let dbInfo = {id: id}
+        let dbInfo = dataProductDetails
         if(setDeleteDataProductInfo) setDeleteDataProductInfo(dbInfo)
     }
-
+    
     function handleOnBlur (e) {
-        if(e.target.id == deleteDataProductForm.id.id)
+        if(e.target.id == dataProductDetails.name)
             setID(e.target.value)
     }
  
@@ -32,23 +32,23 @@ export const DeleteDatabaseModal = ({showDeleteDataProductModal, setShowDeleteDa
         <Modal.Body className="p-5">
             <div className="d-flex align-items-center col-md-12 mb-3">
                 <h6 class="fw-normal text-muted mb-2">Data Product ID </h6>
-                <h6 className="ml-3">{dataProductDetails.id}</h6>
+                <h6 className="ml-3">{dataProductDetails.name}</h6>
             </div>
             <div className="d-flex align-items-center col-md-12 mb-3">
                 <h6 class="fw-normal text-muted mb-2">Name </h6>
                 <h6 className="ml-3">{dataProductDetails.label}</h6>
             </div>
-            <div className="d-flex align-items-center col-md-12 mb-3">
+            {dataProductDetails.comment && <div className="d-flex align-items-center col-md-12 mb-3">
                 {dataProductDetails.comment}
-            </div>
+            </div>}
             <Form>
                 <Form.Group className="mb-3">
-                    <Form.Control required id={deleteDataProductForm.id.id} type={"text"} onBlur={handleOnBlur} placeholder={deleteDataProductForm.id.placeholder} />
+                    <Form.Control required id={dataProductDetails.name} type={deleteDataProductForm.type} onBlur={handleOnBlur} placeholder={deleteDataProductForm.placeholder} />
                 </Form.Group>
             </Form>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="danger" title={`Delete Data Product ${dataProductDetails.id}`} onClick={handleClick}>
+            <Button variant="danger" title={`Delete Data Product ${dataProductDetails.name}`} onClick={handleClick}>
                 <AiOutlineDelete className="me-2" /> Delete 
             </Button>
         </Modal.Footer>

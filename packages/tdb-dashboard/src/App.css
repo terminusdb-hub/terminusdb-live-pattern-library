@@ -83,7 +83,7 @@ div.SplitPane  .horizontal {
 }
 .Pane1 {
   background-color: #222;
-  min-width: 420px !important; 
+  min-width: 320px !important; 
 }
 .Pane2 {
   background-color: transparent;
@@ -452,3 +452,15 @@ tbody, td, tfoot, th, thead, tr {
     object-fit: cover;  
 }
 /* ---------- example data product card image  ---------- */
+
+.pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item {
+  background: transparent !important;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item .pro-inner-item:before {
+  display: none !important;
+}
+
+.pro-item-content {
+  color: #d0d4d8 ;
+}

@@ -86,7 +86,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
     return <React.Fragment> 
         <Row className="w-100"> 
 
-            <Col md={11}>
+            <Col md={10}>
                 <TDBReactButton 
                     config={QUERY_BUILDER_CONFIG}  
                     onClick={(e) => QueryBuilderChange(queryObj.id, !queryObj.queryBuilderObj.isOpen)}/>
@@ -98,7 +98,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, setViewResult}) => {
                     onClick={(e) => copyToClipboard(queryObj.editorObj.text)}/>
             </Col> 
 
-            <Col md={1}>
+            <Col md={2} className="text-right">
                 <TDBReactButton 
                     config={RUN_QUERY_CONFIG} 
                     onClick={handleRunQuery}/>

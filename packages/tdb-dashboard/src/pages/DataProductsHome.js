@@ -16,6 +16,7 @@ import {NoDataProductSelected} from "../components/NoDataProductSelected"
 import {TimeTravel} from "../components/TimeTravel"
 import {BsBriefcase} from "react-icons/bs"
 import {MANAGE_COLLECTIONS} from "../components/constants"
+import { LeftSideBar } from "../components/LeftSideBar"
 
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
@@ -43,7 +44,7 @@ export const DataProductsHome = (props) => {
         setDeleteDataProductInfo,
         setShowDeleteDataProductModal} = useCreateNewDataProductStates(woqlClient)
 
-    return  <Layout sideBarContent={<Sidebar page = {DATA_PRODUCTS} handleNew={handleNew}></Sidebar>}>
+    return  <Layout sideBarContent={<LeftSideBar route={DATA_PRODUCTS}/>}>
         <main className="content mr-3 ml-5 w-95">
 
             <NewDatabaseModal setShowNewDataProductModal={setShowNewDataProductModal} 
