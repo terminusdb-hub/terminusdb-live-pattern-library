@@ -1,57 +1,62 @@
-
 import React from "react"
-import {ListGroup, Row, Col, Button} from "react-bootstrap"
-import {FaPlus} from "react-icons/fa"
 import {WOQLClientObj} from '../init-woql-client'
-import {DATA_PRODUCTS} from "../routing/constants"
+import {dataProductList} from "../hooks/DataProductList"
+import {MenuItem, SubMenu} from 'react-pro-sidebar'
+import 'react-pro-sidebar/dist/css/styles.css'
+import {NewDatabaseModal} from "../components/NewDatabaseModal"
+import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
+import {Badge} from "react-bootstrap"
+import {FaPlus} from "react-icons/fa"
 
-//import {dataProductList} from "../hooks/DataProductList"
+/* returns a list of data products */
+const NewDataProduct = () => {
+    const {woqlClient} = WOQLClientObj()
 
-const List = () => {  
-    const {dataProduct, woqlClient, setDataProduct} = WOQLClientObj()
-    const list = woqlClient.databases()//dataProductList(woqlClient)
+    const {
+        setNewDataProductInfo,
+        loading,
+        handleNew,
+        setShowNewDataProductModal,
+        showNewDataProductModal} = useCreateNewDataProductStates(woqlClient)
 
-    function handleClick(e) {
-        setDataProduct(e.target.id) 
-    }
 
-    return  <ListGroup  defaultActiveKey={`key_${dataProduct}`}>
-        {list.map(item => <ListGroup.Item action 
-            id={item.name}
-            key={`key_${item.name}`}
-            eventKey={`key_${item.name}`} 
-            onClick={(e) => handleClick(e)} 
-            className="bg-transparent text-light border-0 ">
-            {item.label}
-        </ListGroup.Item>)}
-  </ListGroup>
- 
-}
-
-export const DatabaseHeader = ({page, handleNew}) => {
-
-    function handleClick(e, handleNew) {
-        if(handleNew) handleNew(true)
-    }
-
-    return <Row className="w-100 text-left ml-1" >
-        <Col md={8} className="mb-1">
-            <h6 className="text-muted mt-2">DATA PRODUCTS</h6>
-        </Col>
-        {(page == DATA_PRODUCTS) && handleNew && <Col md={4} className="mb-3 d-grid mt-1 mb-1">
-            <Button variant="info" className="float-right" size="sm" title="Create New Data Product" onClick={(e) => handleClick(e, handleNew)}>
-                <FaPlus className="me-2"/>New
-            </Button>
-        </Col>}
-     
-    </Row>
-}
-
-export const DatabaseList = ({page, handleNew}) => {
     return <React.Fragment>
-        
-            <List/>
+        <Badge variant="info" size="sm" title="Create New Data Product" onClick={handleNew}>
+            <FaPlus className="me-2"/>New
+        </Badge>
+        <NewDatabaseModal setShowNewDataProductModal={setShowNewDataProductModal} 
+                showNewDataProductModal={showNewDataProductModal} 
+                setNewDataProductInfo={setNewDataProductInfo} 
+                loading={loading}/>
     </React.Fragment>
 }
 
-//<DatabaseHeader page={page} handleNew={handleNew}/>
+export const DataProductItems = (props) => {
+    const {
+        woqlClient, 
+        setDataProduct, 
+        sidebarDataProductListState, 
+        setSidebarDataProductListState
+    } = WOQLClientObj()
+
+    const {list} = dataProductList(woqlClient)
+
+    function handleClick(dp) {
+        setDataProduct(dp.name ) 
+    }
+
+    return <SubMenu title="Data Products" 
+        className="menu-title"
+        defaultOpen={sidebarDataProductListState}
+        onOpenChange={(e) => setSidebarDataProductListState(e)}
+        suffix={<NewDataProduct/>}>
+        {list.map(item => 
+            <MenuItem id={item.name} 
+                onClick={(e) => handleClick(item)} 
+                key={`key_${item.name}`}
+                icon={false} 
+                className="sub-menu-title">
+                {item.label}
+            </MenuItem>)}
+    </SubMenu>
+}

@@ -6,7 +6,7 @@ import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
 import {SiGithubactions} from "react-icons/si"
 import {BsBookmarkPlus} from "react-icons/bs"
-import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS} from "../routing/constants"
+import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS, INFO} from "../routing/constants"
 
 //User Messages 
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
@@ -74,7 +74,7 @@ export const IconBarConfig = {
     settings: {
         title: "Settings",
         key : "Settings",
-        path: "/settings",
+        path: INFO,
         icon: <AiOutlineInfoCircle/>
     }
 }
@@ -106,11 +106,8 @@ export const newDataProductForm = {
 
 // Delete Data product Form configurations
 export const deleteDataProductForm = {
-    id: {
-        placeholder: "Please type the Data Product ID you wish to delete",
-        type: "text",
-        id: "id"
-    }
+    placeholder: "Please type the Data Product ID you wish to delete",
+    type: "text"
 }
 
 

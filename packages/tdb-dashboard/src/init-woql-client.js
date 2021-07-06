@@ -2,14 +2,22 @@ import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient from '@terminusdb/terminusdb-client'
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext)
-
+import { DATA_PRODUCTS } from './routing/constants'
 
 export const WOQLClientProvider = ({children, params}) => {
     const [woqlClient, setWoqlClient] = useState(null)
     const [loadingServer, setLoadingServer] = useState(true)
     const [dataProduct, setDatabase] = useState(false)
     const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
+    
+    // sets current page
+    const [route, setRoute]=useState(DATA_PRODUCTS)
 
+    // set left side bar open close state 
+    const [sidebarDataProductListState, setSidebarDataProductListState] = useState(true)
+    const [sidebarDataProductConnectedState, setSidebarDataProductConnectedState] = useState(false)
+    const [sidebarDocumentListState, setSidebarDocumentListState] = useState(false)
+    const [sidebarSampleQueriesState, setSidebarSampleQueriesState] = useState(false)
 
     const [opts, setOpts] = useState(false)
 
@@ -62,7 +70,17 @@ export const WOQLClientProvider = ({children, params}) => {
                 dataProduct, 
                 setDataProduct,
                 currentDocument, 
-                setCurrentDocument
+                setCurrentDocument,
+                route,
+                setRoute,
+                sidebarDataProductListState, 
+                setSidebarDataProductListState,
+                sidebarDataProductConnectedState, 
+                setSidebarDataProductConnectedState,
+                sidebarDocumentListState, 
+                setSidebarDocumentListState,
+                sidebarSampleQueriesState, 
+                setSidebarSampleQueriesState
             }}
         >
             {children}

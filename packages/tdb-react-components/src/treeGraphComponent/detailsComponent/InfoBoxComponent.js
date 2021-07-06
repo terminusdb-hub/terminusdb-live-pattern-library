@@ -3,7 +3,7 @@ import {mainGraphDescriptionText,ELEMENT_DESCRIPTIONS} from '../../constants/det
 import {GraphContextObj} from '../hook/graphObjectContext';
 import {CLASS_TYPE_NAME_LABEL} from "../utils/elementsName";
 import {BiNetworkChart} from "react-icons/bi"
-import {AiOutlineNodeIndex} from "react-icons/ai"
+import {FiArrowRightCircle} from "react-icons/fi"
 import {MdCallSplit} from "react-icons/md"
 
 export const InfoBoxComponent =(props)=> {
@@ -18,7 +18,7 @@ export const InfoBoxComponent =(props)=> {
 	const choiceClassesNum=elementsNumber.choiceClasses || 0
 
 	if(props.custom) {
-		return <div class="col-12 bg-dark">
+		return <div className="col-12 bg-dark">
 				<h5>{props.dbName} - Schema</h5>
 				<p>{mainGraphDescriptionText}</p>
 				<div className="d-flex align-items-center justify-content-between border-bottom border-light pb-3 mt-3 mb-3">
@@ -31,7 +31,7 @@ export const InfoBoxComponent =(props)=> {
 				</div>
 				<div className="d-flex align-items-center justify-content-between border-bottom border-light pb-3 mt-3 mb-3">
 					<div title={ELEMENT_DESCRIPTIONS.Properties} className="d-flex">
-						<h6><AiOutlineNodeIndex className="schema-summary-icons"/> <strong className="ml-3">{(propertiesNum == 1 ? "Property" : "Properties")}</strong></h6>
+						<h6><FiArrowRightCircle className="schema-summary-icons"/> <strong className="ml-3">{(propertiesNum == 1 ? "Property" : "Properties")}</strong></h6>
 					</div>
 					<div className="text-success fw-bold">
 							{propertiesNum}

@@ -107,11 +107,11 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery}) => {
 
                 <PopCommitModal commitModal={commitModal} setCommitModal={setCommitModal}/>
                 {queryObj.editorPanelIsOpen && 
-                    <Button onClick={(e) => setExpanded(false)} className="ml-auto bg-transparent border-0 p-0 color-white" title="Hide Editor">
+                    <Button onClick={(e) => setExpanded(false)} className="bg-transparent border-0 p-0 color-white" title="Hide Editor">
                         <BiChevronUp  size={32}/>
                     </Button>}
                 {!queryObj.editorPanelIsOpen && 
-                <Button onClick={(e) => setExpanded(true)} className="ml-auto bg-transparent border-0 p-0 color-white" title="Show Editor">
+                <Button onClick={(e) => setExpanded(true)} className="bg-transparent border-0 p-0 color-white" title="Show Editor">
                     <BiChevronDown  size={32}/>
                 </Button>}
 

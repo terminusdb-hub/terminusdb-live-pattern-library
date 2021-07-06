@@ -16,7 +16,7 @@ export const NewDatabaseModal = ({showNewDataProductModal, setShowNewDataProduct
     function handleCreate () {
         event.preventDefault()
         let dbInfo = {id: id, label: label, comment: description}
-        if(setNewDataProductInfo) setNewDataProductInfo(dbInfo)
+        if(setNewDataProductInfo) setNewDataProductInfo(dbInfo) 
     }
 
     function handleOnBlur (e) {

@@ -1,18 +1,12 @@
 
 import React from "react"
 import {DocumentView} from "../components/DocumentView"
-import {DocumentSidebar} from "../components/DocumentSidebar"
 import {Layout} from "./Layout"
-import {WOQLClientObj} from '../init-woql-client'
+import {LeftSideBar} from "../components/LeftSideBar"
 
 export const DocumentExplorer = (props) => {
-    const {setDataProduct} = WOQLClientObj()
-
-    const setSelectedDataProduct = (dataProductID) =>{
-        setDataProduct(dataProductID)
-    } 
-     
-    return <Layout sideBarContent={<DocumentSidebar/>}>
+    
+    return <Layout sideBarContent={<LeftSideBar/>}>
             <main role="main" className="m-4">
                 <DocumentView/>
             </main>

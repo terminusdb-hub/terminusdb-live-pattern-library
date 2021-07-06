@@ -1,16 +1,17 @@
 import React from "react"
 import {Container, Card, CardGroup, Badge, Button} from "react-bootstrap"
-import {Sidebar} from "./Sidebar"
+import {LeftSideBar} from "../components/LeftSideBar"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
 import {FaClone} from "react-icons/fa"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CLONE_DATA_PRODUCT_CONFIG} from "../components/constants"
+import {EXAMPLES_PRODUCTS} from "../routing/constants"
 
 export const ExampleProducts = (props) => {
     const {setSelectedDataProduct} = WOQLClientObj()
 
-    return <Layout sideBarContent={<Sidebar setSelectedDataProduct={setSelectedDataProduct}></Sidebar>}>
+    return <Layout sideBarContent={<LeftSideBar route={EXAMPLES_PRODUCTS}></LeftSideBar>}>
         <Container style={{marginTop: "125px"}}>
             <CardGroup>
                 <Card className="mr-3">

@@ -2,7 +2,7 @@
 import React, {useState} from "react"
 import {Card, Container, Form} from "react-bootstrap"
 import {useAuth0} from "../react-auth0-spa"
-import {Sidebar} from "./Sidebar"
+import {LeftSideBar} from "../components/LeftSideBar"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
@@ -10,6 +10,7 @@ import {SEND_FEEDBACK_CONFIG} from "./constants"
 import {SendEmailHook} from "../hooks/SendEmailHook"
 import {Alerts} from "../components/Alerts"
 import {TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/constants"
+import {FEEDBACK} from "../routing/constants"
 
 export const Feedback = (props) => {
     const {setSelectedDataProduct} = WOQLClientObj()
@@ -30,11 +31,11 @@ export const Feedback = (props) => {
     }
 
     function handleMessage (e) {
-        setMessage(e.target.value)
+        setMessage(e.target.value) 
     }
 
 
-    return <Layout sideBarContent={<Sidebar setSelectedDataProduct={setSelectedDataProduct}></Sidebar>}>
+    return <Layout sideBarContent={<LeftSideBar route={FEEDBACK}></LeftSideBar>}>
         <Container style={{marginTop: "125px"}}>
              <Card className="shadow-sm border-0 px-3 rounded-2 mb-3 py-4 mx-auto mt-5" style={{width: "500px"}}>
                 <div className="cowduck-top-sec bg-transparent border-0 text-center "> 
