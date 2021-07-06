@@ -40,9 +40,9 @@ export const DocumentPage = (props) => {
             const dbNameValue = dbName.current.value || undefined//"test_profile"
             //createDoc.current;
             console.log("JSON______",json)
-            const params={'graph_type':'schema'} 
+            const params={'graph_type':'schema'}
             if(replaceData.current.checked === true){
-                params['full_replace'] =true;
+                params['overwrite'] =true;
             }
             
             const result = await woqlClient.addDocument(json,params,dbNameValue)
@@ -51,6 +51,23 @@ export const DocumentPage = (props) => {
             setError(err.message)  
         }       
     }
+
+    const updateSchemaDocument = async () =>{
+        try{
+            setError(null)
+            const json = JSON.parse(createDoc.current.value)
+            const dbNameValue = dbName.current.value || undefined//"test_profile"
+            //createDoc.current;
+            console.log("JSON______",json)
+            const params={'graph_type':'schema'}
+            
+            const result = await woqlClient.updateDocument(json,params,dbNameValue)
+            setInsertResult(result)
+        }catch(err){
+            setError(err.message)  
+        }       
+    }
+
 
      const readDocument = async () =>{
         try{
@@ -118,8 +135,10 @@ export const DocumentPage = (props) => {
                         <Col>
                         <Button onClick={addDocument}>Add Document to the instance graph</Button>
                         </Col>
+                        <Col><Button className="btn btn-success" onClick={updateSchemaDocument}>UPDATE THE SCHEMA DOCUMENT (PUT CALL)</Button>
+                        </Col>
                         <Col>
-                        <Button className="btn btn-success" onClick={addSchemaDocument}>Add a Class to the schema graph</Button>
+                        <Button className="btn btn-success" onClick={addSchemaDocument}>Add a Class to the schema graph</Button>                     
                         <Form.Group controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="REPLACE MODE" ref={replaceData}/>
                         </Form.Group>

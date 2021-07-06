@@ -1,6 +1,5 @@
 import * as NODE_ACTION_NAME from './utils/actionType';
 import {removeElementToArr,getPropertyType} from './utils/modelTreeUtils'
-
 import {formatData,
 		formatProperties,
 		formatDataForTreeChart,
@@ -523,7 +522,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	const savedObjectToWOQL=()=>{
 		const updateList=[]
-		Object.keys(_rootIndexObj).forEach(item=>{
+		Object.values(_rootIndexObj).forEach(item=>{
 			if(item.needToSave===true){
 				updateList.push(item.schema)
 			}
@@ -670,13 +669,15 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return []
 	}
 
-	const getPropertyInfo = (propId)=>{	
+	const getPropertyInfo = (propId)=>{
+		let obj = {}
 		switch(typeof _currentNode.schema[propId]){
 			case 'string':
-				return {range:_currentNode.schema[propId],option:'',id:propId}
+				obj= {range:_currentNode.schema[propId],option:'',id:propId}
+				break;
 			case 'object':
 				const propInfo = _currentNode.schema[propId]
-				const obj = {range:propInfo['@class'],option:propInfo['@type'],id:propId} 				
+				obj = {range:propInfo['@class'],option:propInfo['@type'],id:propId} 				
 				if(propInfo['@type'] === 'Cardinality'){
 					obj['cardinality'] = propInfo['@cardinality']
 				}else if(propInfo['@type'] === 'Cardinality_Between'){
@@ -747,14 +748,19 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		if(!_currentNode.schema['@documetations'])_currentNode.schema['@documetations']={}
 		if(!_currentNode.schema['@documetations']['@properties'])
 			_currentNode.schema['@documetations']['@properties']={}
+		if(comment && comment.trim()!==''){
 			_currentNode.schema['@documetations']['@properties'][propId]=comment
+		}else if(_currentNode.schema['@documetations']['@properties'][propId]){
+			delete _currentNode.schema['@documetations']['@properties'][propId]
+		}
 		//properties
 	}
 
 	const getPropertyComment = (propId) =>{
-		if(_currentNode.schema['@documetations'] && currentNode.schema['@documentation']['@properties'] 
-			&& _currentNode.schema['@documetations']['@properties'][propId]){
-				return _currentNode.schema['@documetations']['@properties'][propId]
+		if(_currentNode.schema['@documetations'] && 
+		   _currentNode.schema['@documetations']['@properties'] &&
+		   _currentNode.schema['@documetations']['@properties'][propId]){
+			return _currentNode.schema['@documetations']['@properties'][propId]
 		}
 		return ''
 		//properties

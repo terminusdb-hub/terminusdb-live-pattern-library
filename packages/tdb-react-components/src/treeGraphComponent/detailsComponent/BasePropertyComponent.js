@@ -6,6 +6,7 @@ import {BaseSelectComponent} from './BaseSelectComponent';
 import PropTypes from "prop-types";
 import {PropertyExtraInfo} from './PropertyExtraInfo'
 import {GraphContextObj} from '../hook/graphObjectContext'; 
+import {TDBReactAccordian}  from '@terminusdb-live/tdb-react-layout'
 
 export const BasePropertyComponent = (props)=> {
 		const {mainGraphObj} =GraphContextObj()

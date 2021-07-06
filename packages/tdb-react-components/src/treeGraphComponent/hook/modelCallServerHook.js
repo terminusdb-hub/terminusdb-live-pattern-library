@@ -30,42 +30,7 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 			}finally{
 				setResultMainGraph(jsonSchema);
 				setLoading(false)
-			}
-			
-
-			//const classQuery = TerminusClient.WOQL.lib().classesAndChoices();
-    		//const classesResult = await woqlClient.query(classQuery);
-
-    		//const propsQuery = TerminusClient.WOQL.lib().properties();
-    		//const propsResult = await woqlClient.query(propsQuery);
-
-    		//const restictions = TerminusClient.WOQL.quad("v:Restriction", "type", "owl:Restriction", "schema/main").
-			//								quad("v:Restriction", "owl:onProperty", "v:Property", "schema/main").
-			//								and(
-			//									TerminusClient.WOQL.opt().quad("v:Restriction", "owl:cardinality", "v:cardinality", "schema/main"),
-			//									TerminusClient.WOQL.opt().quad("v:Restriction", "owl:maxCardinality", "v:max", "schema/main"),
-			//									TerminusClient.WOQL.opt().quad("v:Restriction", "owl:minCardinality", "v:min", "schema/main")
-		//									)
-			//const restResult = await woqlClient.query(restictions);
-
-		/*	Promise.all([woqlClient.query(classQuery), woqlClient.query(propsQuery), woqlClient.query(restictions)]).then((results)=>{
-				/*
-				* CLEANING THE CARDINALITY NOT Linked WITH PROPERTY
-				*/
-				//cleaningCardinality().then((value) => {
-					//do nothing
-			//	}).catch(err=>{
-			//		console.log(err.message)
-			//	}).finally(()=>{
-			//		setResultMainGraph(jsonSchema);
-					//setResultMainGraph({classesResult:results[0],propsResult:results[1],restResult:results[2]})			
-			//	})	
-				
-		//	}).catch(err=>{
-				//setReport(err.message)
-		//	}).finally(()=>{setLoading(false)})
-			
-    		
+			}	
     	}
     	if(woqlClient)loadGraphData()
    		//Promise.all([someCall(), anotherCall()]).then((results)=>{
