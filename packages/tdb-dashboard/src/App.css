@@ -212,6 +212,14 @@ div.progress-bar-position {
   border: 0px solid transparent !important;
 }
 
+.table td, .table th {
+  border-top: 0 !important; 
+}
+
+.table thead th {
+  color: #a3b6ca !important;
+}
+
 .RRT__tab {
   background: transparent !important;
   border-style: solid; 
@@ -250,6 +258,19 @@ tbody, td, tfoot, th, thead, tr {
 .form-select {
   mix-blend-mode: difference;
   border: 1px solid #adb5bd;
+}
+
+.css-yk16xz-control {
+  background-color: transparent !important;
+}
+
+input {
+  border-color: hsl(0,0%,80%)!important;
+  border-radius: 4px !important;
+  border-style: solid !important;
+  background-color: transparent !important;
+  min-height: 38px !important;
+  color: hsl(0,0%,50%) !important;
 }
 /* ---------- form control custom dark mode ---------- */
 
@@ -451,6 +472,13 @@ tbody, td, tfoot, th, thead, tr {
     height: 220px !important;
     object-fit: cover;  
 }
+.activity-icon{
+  font-size: 3rem;
+  background-color: #2b2c2b !important;
+  background: rgba(0,0,0,.3) !important;
+  border-radius: 4px;
+  padding: 10px;
+}
 /* ---------- example data product card image  ---------- */
 
 .pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item {
@@ -477,3 +505,8 @@ tbody, td, tfoot, th, thead, tr {
   color: #d0d4d8  !important;
   font-weight: 100 !important;
 }
+/* ---------- example data product card image  ---------- */
+
+
+
+

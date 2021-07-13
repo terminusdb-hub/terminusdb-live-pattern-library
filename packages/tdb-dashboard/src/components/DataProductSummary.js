@@ -1,50 +1,68 @@
 import React from "react"
 import {Col} from "react-bootstrap"
+import {BsBriefcase, BsBucket} from "react-icons/bs"
+import {BiGitCommit} from "react-icons/bi"
 
 export const DataProductSummary = ({dataProductDetails}) => {
+    return <div className="d-flex mb-5">
+        <div class="col-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center gx-0">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted mb-2">
+                            Collections
+                            </h6>
+                            <span class="h2 mb-0">
+                            5
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span class="h2 text-muted mb-0"><BsBriefcase/></span>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
 
-    return <Col md={12} className="px-xl-0 mt-5">
-        {<React.Fragment>
-            <div className="d-flex align-items-center">
-                <div className="d-block col-md-2">
-                    <h6 className="fw-normal text-muted mb-2">Size</h6>
-                    <h3>{"234 KB"}</h3>
-                    {/*<h3>{formatBytes(details['Size']['@value'])}</h3>*/}
-                </div>
-                <div className="d-block col-md-2">
-                    <h6 className="fw-normal text-muted mb-2">Triples</h6>
-                    <h3>{"3243 triples"}</h3>
-                    {/*<h3>{formatTripleCount(details['Triples']['@value'])}</h3>*/}
-                </div>
-                <div className="d-block col-md-2">
-                    <h6 className="fw-normal text-muted mb-2">Commits</h6>
-                    <h3>{"520 commits"}</h3>
-                    {/*<h3>{formatCommits(details['Commits']['@value'])}</h3>*/}
-                </div>
-                <div className="d-block col-md-2">
-                    <h6 className="fw-normal text-muted mb-2">Classes</h6>
-                    <h3>{"90 classes"}</h3>
-                   {/* <h3>{formatClassesCount(details['Classes']['@value'])}</h3>*/}
-                </div>
-                <div className="d-block col-md-2">
-                    <h6 className="fw-normal text-muted mb-2">Properties</h6>
-                    <h3>{"875 properties"}</h3>
-                    {/*<h3>{formatPropertiesCount(details['Properties']['@value'])}</h3>*/}
+        <div class="col-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center gx-0">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted mb-2">
+                            Size
+                            </h6>
+                            <span class="h2 mb-0">
+                            345 KB
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span class="h2 text-muted mb-0"><BsBucket/></span>
+                        </div>
+                    </div> 
                 </div>
             </div>
-            <div className="d-flex align-items-center">
-                <div className="d-block mt-5 mb-5 align-items-center col-md-2">
-                    <h6 className="fw-normal text-muted mb-2">Most recent commit </h6>
-                    <h6>{"10.17, May 27 2021 by TerminusDB"}</h6>
-                    {/*<h6>{formatLastCommitTimeStamp(details)}</h6>*/}
-                </div>
-                <div className="d-block mt-5 mb-5 align-items-center col-md-2">
-                    <h6 className="fw-normal text-muted mb-2">First commit </h6>
-                    <h6>{"10.17, May 27 2021"}</h6>
-                    {/*<h6>{formatLastCommitTimeStamp(details)}</h6>*/}
+        </div>
+
+        <div class="col-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center gx-0">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted mb-2">
+                            COMMITS
+                            </h6>
+                            <span class="h2 mb-0">
+                            7344
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span class="h2 text-muted mb-0"><BiGitCommit/></span>
+                        </div>
+                    </div> 
                 </div>
             </div>
-        </React.Fragment>
-        }
-    </Col>
+        </div>
+    </div>
 }

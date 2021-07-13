@@ -4,7 +4,7 @@ import {CREATE_NEW_DOCUMENT_BUTTON, SEARCH_DOCUMENTS_PLACEHOLDER} from "./consta
 import SplitPane from 'react-split-pane'
 import {handleWidthChange} from "../pages/utils"
 import {Badge, Button, Card, Form} from "react-bootstrap"
-import {DocumentConrtol} from "../hooks/DocumentControl"
+import {DocumentControl} from "../hooks/DocumentControl"
 import {WOQLTable} from '@terminusdb-live/tdb-react-components'
 import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {getDocumentOfTypeTabConfig} from "./ViewConfig"
@@ -23,7 +23,7 @@ export const DocumentView = () => {
         setCurrentDocument,
         currentDocument,
         documentsOfTypeQuery
-    } = DocumentConrtol()
+    } = DocumentControl()
     
     const {
         updateQuery,
@@ -136,7 +136,7 @@ export const DocumentView = () => {
 import React, {useState, useEffect} from "react"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CREATE_NEW_DOCUMENT_BUTTON} from "./constants"
-import {DocumentConrtol} from "../hooks/DocumentControl"
+import {DocumentControl} from "../hooks/DocumentControl"
 import {CardGroup, Card, Row, Col, DropdownButton, ButtonGroup, Dropdown} from "react-bootstrap"
 import {trimText} from "./utils"
 
@@ -149,7 +149,7 @@ export const DocumentView = () => {
         setCurrentDocument,
         currentDocument,
         documentsOfTypeQuery
-    } = DocumentConrtol()
+    } = DocumentControl()
 
     useEffect(() => {
         setDataProvider(documentTypeDataProvider)

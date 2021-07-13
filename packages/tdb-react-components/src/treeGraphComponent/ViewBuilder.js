@@ -11,6 +11,7 @@ import {ModelMainHeaderComponent} from './detailsComponent/ModelMainHeaderCompon
 import {InfoBoxComponent} from './detailsComponent/InfoBoxComponent'
 import {InfoObjectComponent} from './detailsComponent/InfoObjectComponent'
 import {BsChevronRight, BsChevronLeft} from "react-icons/bs"
+import {Card, Row, Col} from "react-bootstrap"
 
 export const ViewBuilder = (props)=>{
 
@@ -86,58 +87,62 @@ export const ViewBuilder = (props)=>{
 				onChange={size => handleWidthChange(size, setWidth)}>
 
 				<SizeMe monitorHeight={true}>{({ size }) =>
-		            <div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%"}}>
-		                {graphDataProvider && <>
-							<ModelTreeComponent
-			              		objectPropertyToRange={objectPropertyToRange}
-			              		zoomEvent={zoomEvent}
-			              		isEditMode={isEditMode}
-			              		setNodeAction={setNodeAction}
-			              		selectedNodeObject={selectedNodeObject}
-			              		changeCurrentNode={changeCurrentNode}
-			              		width={size.width} height={size.height}
-			              		addedNewNode={selectedNodeObject.newNode}
-			              		graphUpdateLabel={graphUpdateLabel}
-			              		graphDataProvider={graphDataProvider}
-			              		isFocusOnNode={isFocusOnNode}/>
-						</>}
-		              </div>
-		              }
+					<Col md={12}>
+						<Card className="p-4 ml-5 mr-4">
+							<div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%", background: "#2a2a2e", borderRadius: "4px"}}>
+								{graphDataProvider && <>
+									<ModelTreeComponent
+										objectPropertyToRange={objectPropertyToRange}
+										zoomEvent={zoomEvent}
+										isEditMode={isEditMode}
+										setNodeAction={setNodeAction}
+										selectedNodeObject={selectedNodeObject}
+										changeCurrentNode={changeCurrentNode}
+										width={size.width} height={size.height}
+										addedNewNode={selectedNodeObject.newNode}
+										graphUpdateLabel={graphUpdateLabel}
+										graphDataProvider={graphDataProvider}
+										isFocusOnNode={isFocusOnNode}/>
+								</>}
+							</div>
+						</Card>
+					</Col>}
 		        </SizeMe>
-				<div className="mr-4">
-					<ModelMainHeaderComponent
-						panelIsOpen={panelIsOpen}
-						openClosePanel={setOpenClosePanel}
-						setNodeAction={setNodeAction}
-						extraTools={props.extraTools}
-						setZoomEvent={setZoomEvent}
-						saveData={saveData}
-						view={view}
-						changeMode={setIsEditMode}
-						isEditMode={isEditMode}
-						custom={props.custom}/>
-				    {showInfoComp && selectedNodeObject.type!==CLASS_TYPE_NAME.SCHEMA_GROUP &&
-				    	<InfoBoxComponent dbName={props.dbName} custom={props.custom}/>
-				    }
-				    {showInfoComp && selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_GROUP &&
-				    	<InfoObjectComponent panelType={selectedNodeObject.name} custom={props.custom}/>
-				    }
-				    {/* commenting out object views temporarily
-						!showInfoComp && props.isEditMode===false &&
-				    	<ObjectClassModelViewMode custom={props.custom}/>*/}
-			        {!showInfoComp &&
-			        	<DetailsModelComponent
-			        		objPropsRelatedToClass={objPropsRelatedToClass}
-				        	objectPropertyList={objectPropertyList}
-				        	removeElement={removeElement}
-				        	addNewProperty={addNewProperty}
-				        	nodePropertiesList={nodePropertiesList}
-				        	currentNodeJson={selectedNodeObject}
-							custom={props.custom}/>	}
+				<Col md={12}>
+					<div className="mr-4">
+						{showInfoComp && selectedNodeObject.type!==CLASS_TYPE_NAME.SCHEMA_GROUP &&
+							<InfoBoxComponent dbName={props.dbName} custom={props.custom}/>
+						}
+						{showInfoComp && selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_GROUP &&
+							<InfoObjectComponent panelType={selectedNodeObject.name} custom={props.custom}/>
+						}
+						{/* commenting out object views temporarily
+							!showInfoComp && props.isEditMode===false &&
+							<ObjectClassModelViewMode custom={props.custom}/>*/}
+						{!showInfoComp &&
+							<DetailsModelComponent
+								objPropsRelatedToClass={objPropsRelatedToClass}
+								objectPropertyList={objectPropertyList}
+								removeElement={removeElement}
+								addNewProperty={addNewProperty}
+								nodePropertiesList={nodePropertiesList}
+								currentNodeJson={selectedNodeObject}
+								custom={props.custom}/>	}
+						<ModelMainHeaderComponent
+							panelIsOpen={panelIsOpen}
+							openClosePanel={setOpenClosePanel}
+							setNodeAction={setNodeAction}
+							extraTools={props.extraTools}
+							setZoomEvent={setZoomEvent}
+							saveData={saveData}
+							view={view}
+							changeMode={setIsEditMode}
+							isEditMode={isEditMode}
+							custom={props.custom}/>
 
-
-				</div>
-		    </SplitPane>
+					</div>
+				</Col>
+			</SplitPane>
 
 	    </div>
 	)

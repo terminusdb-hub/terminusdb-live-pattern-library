@@ -1,6 +1,7 @@
 import React,{useState,useEffect,useRef} from 'react';
 import {Tree} from './graph/graphTree';
 import { tree, hierarchy } from 'd3-hierarchy';
+import {Card} from "react-bootstrap"
 
 import { select as d3Select, selectAll as d3SelectAll, event as d3Event } from 'd3-selection';
 import { zoom as d3Zoom } from 'd3-zoom';

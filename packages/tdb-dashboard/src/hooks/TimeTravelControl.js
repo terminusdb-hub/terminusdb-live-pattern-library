@@ -25,6 +25,7 @@ export const TimeTravelControl = () => {
         loadNextPage
     } = useCommitsControl(woqlClient, setReport, branch, currentDay.unix(), ref, firstCommit)
 
+
     useEffect(() => {
         setDataProvider(dataProviderValues.dataProvider)
     }, [dataProviderValues])

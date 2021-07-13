@@ -98,6 +98,6 @@ export function FrameViewer({classframe, doc, type, view, mode, errors, extract,
         return <FancyRenderer frame={docobj} mode={mode} view = {view} errors={errors} client={client}/>
     }
     else {
-        return <TableRenderer frame={docobj} mode={mode} view = {view} errors={errors} client={client} setExtractDocs={setExtractDocs} extractDocs={extractDocs} loading={loading} setLoading={setLoading}/>
+        return <TableRenderer frame={classframe} mode={mode} view = {view} errors={errors} client={client} setExtractDocs={setExtractDocs} extractDocs={extractDocs} loading={loading} setLoading={setLoading}/>
     }
 }

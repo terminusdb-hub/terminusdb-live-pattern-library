@@ -14,12 +14,21 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
 
     const [data, columns]  = useMemo(() => makeData(), [bindings, result])
 
-    function makeData(){
+    /*function makeData(){
         let qres = result || {bindings: bindings}
         if(woqt.bindings()){
             let trans = woqt.bindings()
             qres.bindings = trans(qres.bindings)
         }
+        let wr = new TerminusClient.WOQLResult(qres, query)
+        woqt.setResult(wr, query)
+        const columns = formatTableColumns(woqt)
+        return [wr.rows(), columns];
+    }*/
+
+    function makeData () {
+        let qres = {}
+        qres.bindings = result
         let wr = new TerminusClient.WOQLResult(qres, query)
         woqt.setResult(wr, query)
         const columns = formatTableColumns(woqt)

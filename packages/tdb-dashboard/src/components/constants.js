@@ -6,7 +6,7 @@ import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
 import {SiGithubactions} from "react-icons/si"
 import {BsBookmarkPlus} from "react-icons/bs"
-import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS, INFO} from "../routing/constants"
+import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS} from "../routing/constants"
 
 //User Messages 
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusDB Cloud ... "
@@ -70,12 +70,6 @@ export const IconBarConfig = {
         key: "Example Data Products",
         path: EXAMPLES_PRODUCTS,
         icon: <BsBookmarkPlus/>
-    },
-    settings: {
-        title: "Settings",
-        key : "Settings",
-        path: INFO,
-        icon: <AiOutlineInfoCircle/>
     }
 }
 
@@ -321,6 +315,7 @@ export const NoDataProductSelectedStyle = {top: "30%", position: "absolute", wid
 export const SEARCH_DATAPRODUCTS_PLACEHOLDER = "Search Data Products"
 export const SEARCH_DOCUMENTS_PLACEHOLDER = "Search Document Types"
 
+
 // SIMPLE BAR MAX HEIGHT
 export const SIMPLE_BAR_MAX_HEIGHT= 300
 
@@ -333,3 +328,10 @@ export const CLONE_DATA_PRODUCT_CONFIG = {label:"Clone", title: "Clone Data Prod
 export const CREATE_NEW_DOCUMENT_BUTTON ={label: "New Document", title: "Create a new Document", icon: "fas fa-plus", size:"sm", variant:"info"}// New Branch Form configurations
 
 
+// GRAPH_TYPES
+export const SCHEMA_GRAPH_TYPE = "schema"
+export const INSTANCE_GRAPH_TYPE = "instance"
+
+// DATA PROPERTY TYPE
+export const XSD_DATA_TYPE_PREFIX = "xsd:"
+export const XDD_DATA_TYPE_PREFIX = "xdd:"

@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {dataProductList} from "../hooks/DataProductList"
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
@@ -36,13 +36,15 @@ export const DataProductItems = (props) => {
         woqlClient, 
         setDataProduct, 
         sidebarDataProductListState, 
-        setSidebarDataProductListState
+        setSidebarDataProductListState,
+        dataProduct
     } = WOQLClientObj()
 
-    const {list} = dataProductList(woqlClient)
+    let {list} = dataProductList(woqlClient, dataProduct)
+
 
     function handleClick(dp) {
-        setDataProduct(dp.name ) 
+        setDataProduct(dp.name) 
     }
 
     return <SubMenu title="Data Products" 

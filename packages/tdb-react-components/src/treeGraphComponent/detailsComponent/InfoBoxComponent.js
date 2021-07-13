@@ -18,33 +18,33 @@ export const InfoBoxComponent =(props)=> {
 	const choiceClassesNum=elementsNumber.choiceClasses || 0
 
 	if(props.custom) {
-		return <div className="col-12 bg-dark">
-				<h5>{props.dbName} - Schema</h5>
-				<p>{mainGraphDescriptionText}</p>
-				<div className="d-flex align-items-center justify-content-between border-bottom border-light pb-3 mt-3 mb-3">
-					<div className="d-flex" title={ELEMENT_DESCRIPTIONS.Document}>
-						<h6><BiNetworkChart className="schema-summary-icons"/> <strong className="ml-3">{CLASS_TYPE_NAME_LABEL.DOCUMENT_CLASSES} </strong></h6>
+		return <div className="col-12">
+				<h4 className="text-muted mb-3 fw-bold">{props.dbName} - Schema</h4>
+				<p className="text-muted">{mainGraphDescriptionText}</p>
+				<div className="d-flex mt-5 align-items-center justify-content-between pb-3 mt-3 mb-3">
+					<div className="d-flex text-muted " title={ELEMENT_DESCRIPTIONS.Document}>
+						<h6><BiNetworkChart className="schema-summary-icons text-muted"/> <strong className="ml-3 text-muted ">{CLASS_TYPE_NAME_LABEL.DOCUMENT_CLASSES} </strong></h6>
 					</div>
-					<div className="text-success fw-bold">
+					<h4 className="text-success fw-bold">
 						{entitiesNum}
-					</div>
+					</h4>
 				</div>
-				<div className="d-flex align-items-center justify-content-between border-bottom border-light pb-3 mt-3 mb-3">
+				<div className="d-flex align-items-center justify-content-between pb-3 mt-3 mb-3">
 					<div title={ELEMENT_DESCRIPTIONS.Properties} className="d-flex">
-						<h6><FiArrowRightCircle className="schema-summary-icons"/> <strong className="ml-3">{(propertiesNum == 1 ? "Property" : "Properties")}</strong></h6>
+						<h6><FiArrowRightCircle className="schema-summary-icons text-muted"/> <strong className="ml-3 text-muted ">{(propertiesNum == 1 ? "Property" : "Properties")}</strong></h6>
 					</div>
-					<div className="text-success fw-bold">
+					<h4 className="text-success fw-bold">
 							{propertiesNum}
-					</div>
+					</h4>
 				</div>
 
-				<div className="d-flex align-items-center justify-content-between border-bottom border-light pb-3 mt-3 mb-3">
+				<div className="d-flex align-items-center justify-content-between pb-3 mt-3 mb-3">
 					<div title={ELEMENT_DESCRIPTIONS.ChoiceClass} className="d-flex">
-						<h6><MdCallSplit className="schema-summary-icons"/> <strong className="ml-3">{CLASS_TYPE_NAME_LABEL.CHOICE_CLASSES}</strong></h6>
+						<h6><MdCallSplit className="schema-summary-icons text-muted"/> <strong className="ml-3 text-muted ">{CLASS_TYPE_NAME_LABEL.CHOICE_CLASSES}</strong></h6>
 					</div>
-					<div className="text-success fw-bold">
+					<h4 className="text-success fw-bold">
 							{choiceClassesNum}
-					</div>
+					</h4>
 				</div>			
 		</div>
 	}

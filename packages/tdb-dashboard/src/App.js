@@ -6,7 +6,7 @@ import {trackWithPendo} from "./trackWithPendo"
 import {useAuth0} from "./react-auth0-spa"
 import {ProductsExplorer} from "./pages/ProductsExplorer"
 import history from "./routing/history"
-import {DOCUMENT,INVITE_PAGE,ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS, INFO} from "./routing/constants"
+import {DOCUMENT,INVITE_PAGE,ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS} from "./routing/constants"
 import {InitSetupPage} from "./pages/InitSetupPage"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
@@ -19,7 +19,6 @@ import {DocumentPage} from "./pages/DocumentPage"
 import {DocumentExplorer} from "./pages/DocumentExplorer"
 import {Feedback} from "./pages/Feedback"
 import {ExampleProducts} from "./pages/ExampleProducts"
-import {TerminusInfo} from "./pages/TerminusInfo"
 
 export function App (props){
     const { user, loading} = useAuth0();
@@ -51,7 +50,7 @@ export function App (props){
                 <Route path="/verify" exact>
                     <VerifyEmail />
                 </Route>
-                <DBContextProvider> 
+                <DBContextProvider>  
                     <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
                     <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
                     <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
@@ -59,7 +58,6 @@ export function App (props){
                     <PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/> 
                     <PrivateRoute path={FEEDBACK} component = {Feedback} exact/>               
                     <PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} exact/>  
-                    <PrivateRoute path={INFO} component = {TerminusInfo} exact/>  
                 </DBContextProvider> 
                 <Route path = {INVITE_PAGE} >
                     <PrivateRoute path = {INVITE_PAGE} component = {Home} exact />

@@ -2,13 +2,13 @@ import React, {useState, useEffect} from "react"
 import {TDBReactButton, TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
 import {UNCOLLAPSE_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
 import {Results} from "./Results"
-import {Row, Col, Card, Alert} from "react-bootstrap"
+import {Row, Col, Card, Alert, Toast} from "react-bootstrap"
 import {QueryPaneControl} from "../hooks/QueryPaneControl"
 import {QueryEditor} from "./QueryEditor"
 import {WOQLClientObj} from '../init-woql-client'
 import {QueryPaneTools} from "./QueryPaneTools"
 import {QueryBuilder} from "./QueryBuilder"
-//import {QueryPaneObj} from "../hooks/queryPaneContext" 
+import {ResultErrors} from "./Errors"
 
 export const QueryPane = ({id, name, queryObj}) => {
     const [viewResult, setViewResult]=useState(0)
@@ -21,9 +21,9 @@ export const QueryPane = ({id, name, queryObj}) => {
     const [size, setSize] = useState(12)
     const [queryError, setQueryError] = useState(false) 
 
-
-    //maybe we not need an external hook
-    const {setExpanded,
+    //maybe we not need an external hook 
+    const {
+        setExpanded,
         setQpExpanded,
         setSaveQuery,
         setSaveQueryName,
@@ -41,14 +41,16 @@ export const QueryPane = ({id, name, queryObj}) => {
         setQueryError(false)
         setViewResult(Date.now())
     }
-    
+
+
     return <React.Fragment>
-        <div className="query-pane-pallet mb-3 mt-3 mr-4" >
-            <Row>
-                <Col md={10}>
-                    {queryError && <Alert variant="danger" className="w-100">
-                    {queryError.message || queryError.error.message}
-                    </Alert>}
+        <div className="query-pane-pallet mb-3 mt-3" >
+            <Row className="w-100">
+                <Col md={12}>
+                    {queryError && <ResultErrors error={queryError}/>}
+                    {/*queryError && <Alert variant="danger" className="w-100">
+                    {queryError.message || queryError.error.message} 
+                    </Alert>*/}
                 </Col>
                 <Col md={10}>
                     <h1 className="h5 ml-3">
@@ -89,6 +91,7 @@ export const QueryPane = ({id, name, queryObj}) => {
                                 </Col>}   
                             </Row>                       
                         </TDBReactCollapse>
+
                         {showResult && <Results
                                 setError={setQueryError}
                                 freewidth={true}
@@ -102,28 +105,4 @@ export const QueryPane = ({id, name, queryObj}) => {
         </div>
     </React.Fragment>
 }
-
-/*
-
-<TDBReactCollapse isExpanded={queryObj.mainPanelIsOpen}>
-                <div className="pallet mb-3 mt-3">
-                    <div className="d-flex justify-content-start">
-                            <QueryPaneTools queryObj={queryObj}
-                                setExpanded={setExpanded} 
-                                setSaveQuery={setSaveQuery} 
-                                setSaveQueryName={setSaveQueryName} 
-                                saveQueryName={saveQueryName}
-                                setViewResult={setViewResult}/>      
-                    </div>
-                    <TDBReactCollapse isExpanded={queryObj.editorPanelIsOpen}>                        
-                        <QueryEditor queryObj={queryObj} id={id}/>                
-                    </TDBReactCollapse>
-                </div>                                
-                  {showResult && <Results 
-                        freewidth={true}
-                        queryObj={queryObj}
-                    />
-                  }
-            </TDBReactCollapse>
-
-*/            
+   

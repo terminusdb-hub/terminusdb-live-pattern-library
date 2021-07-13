@@ -98,7 +98,6 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery}) => {
                     config={COPY_QUERY_CONFIG} 
                     onClick={(e) => copyToClipboard(queryObj.editorObj.text)}/>
             </Col> 
-
             <Col md={2} className="d-flex justify-content-end">
                 <TDBReactButton 
                     className="pt-2 pb-2 pr-4 pl-4"

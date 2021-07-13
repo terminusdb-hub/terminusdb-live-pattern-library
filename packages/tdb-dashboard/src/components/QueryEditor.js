@@ -12,10 +12,9 @@ export const QueryEditor = ({queryObj, handleLanguageChange, setMainError}) => {
     //save the change in the context obj
     const handleWOQLQueryChange =(query, text, language)=>{ 
         WOQLQueryChange(queryObj.id, query, text, language) 
-    }
+    } 
     //to be review
     const handleError = (err) => {
-        console.log("error", err)
         setMainError(err)
     }
     
@@ -35,7 +34,7 @@ export const QueryEditor = ({queryObj, handleLanguageChange, setMainError}) => {
                 query={queryObj.editorObj.query}
                 editable={true}
                 handleLanguageChange={handleLanguageChange}
-                setMainError={(e) => handleError(e)}
+                setMainError={handleError}
                 showLanguageSwitcher={false} 
                 theme="dark"/>
         </div> 

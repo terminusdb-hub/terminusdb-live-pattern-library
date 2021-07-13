@@ -42,22 +42,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
 
     
     return <React.Fragment>
-        <Card className="mt-5 mr-4 mb-5">
-        <Card.Header as="h3"> 
-            {`Manage ${MANAGE_COLLECTIONS} `}
-            <div className="float-right d-flex">
-                {/*<Button variant="light" className="mr-3" title={VIEW_HISTORY.title} onClick={(e) => setHistory(true)}>
-                    <MdTimer className="me-2"/>{VIEW_HISTORY.label}
-                </Button>*/}
-                <Button variant="light" className="mr-3" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
-                    <AiOutlinePlus className="me-2"/>{CREATE_NEW_BRANCH_BUTTON.label}
-                </Button>
-                <Button variant="light" title={"Close Manage Products"} onClick={(e) => setNewBranch(true)}>
-                    <AiOutlineClose className="me-2" onClick={(e) => setDataProductSettings(false)}/>
-                </Button>
-            </div>
-        </Card.Header>
-        <Card.Body>
+            
             <Card.Text className="ms--2 mb-3 mt-3 h6 text-gray"> 
                 <BsBriefcase className="me-2"/>
                 {`You are currently in collection - `} 
@@ -88,8 +73,19 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 setSelectedCommit={setSelectedCommit}
                 selectedCommit={selectedCommit}/>
 
-        </Card.Body>
-    </Card>
+            <div className="float-right text-right d-flex">
+                {/*<Button variant="light" className="mr-3" title={VIEW_HISTORY.title} onClick={(e) => setHistory(true)}>
+                    <MdTimer className="me-2"/>{VIEW_HISTORY.label}
+                </Button>*/}
+                <Button variant="light" className="mr-3 btn btn-sm" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
+                    <AiOutlinePlus className="me-2 "/>{CREATE_NEW_BRANCH_BUTTON.label}
+                </Button>
+                <Button variant="light" className="btn btn-sm" title={"Close Manage Products"} onClick={(e) => setNewBranch(true)}>
+                    <AiOutlineClose className="me-2 " onClick={(e) => setDataProductSettings(false)}/>
+                </Button>
+            </div>
+
+       
     {/*history && <History onClose={setHistory}/>*/}
     </React.Fragment>
 }

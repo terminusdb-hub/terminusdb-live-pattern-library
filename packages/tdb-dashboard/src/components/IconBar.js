@@ -101,19 +101,6 @@ export const IconBar =  () => {
                         {IconBarConfig.tutorials.icon}
                     </Nav.Link>
                 </Nav.Item>
-                <hr className="my-3" role="separator"></hr>
-                <Nav.Item>
-                    <Nav.Link as={RouterNavLink} 
-                        title={IconBarConfig.settings.title} 
-                        className="nav-icon"
-                        to={IconBarConfig.settings.path} 
-                        exact
-                        onClick={(e) => setRoute(IconBarConfig.settings.path)}
-                        id={IconBarConfig.settings.key}
-                        >
-                        {IconBarConfig.settings.icon}
-                    </Nav.Link>
-                </Nav.Item>
             </div>
         </Nav>            
    </Navbar>

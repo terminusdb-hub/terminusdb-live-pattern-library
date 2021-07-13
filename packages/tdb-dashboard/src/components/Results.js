@@ -9,7 +9,7 @@ import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {WOQLClientObj} from '../init-woql-client'
 import ReactJson from 'react-json-view'
 
-export const Results = ({freewidth,queryObj,setError,runQuery})=>{
+export const Results = ({freewidth, queryObj, setError, runQuery})=>{
     const {woqlClient} = WOQLClientObj()
     const queryResult = queryObj.resultObj
     const {
@@ -34,6 +34,11 @@ export const Results = ({freewidth,queryObj,setError,runQuery})=>{
     const [tableConfig, setTableConfig]=useState(tableViewConfig())
     const [currentView, setCurrentView]=useState(queryResult.currentView)
     const [isExpanded, setPanelExpanded] = useState(queryObj.resultPanelIsOpen)
+
+    const [queryRunTime, setQueryRunTime] = useState(false)
+
+
+    console.log("result ****", result)
     
     const setGraphConfig=(config)=>{
         setGraphConf(config)
@@ -43,7 +48,7 @@ export const Results = ({freewidth,queryObj,setError,runQuery})=>{
 
     const setExpanded = ()=>{
         const newStatus=!isExpanded
-       // setPanelExpanded(newStatus)
+        // setPanelExpanded(newStatus)
         queryObj.resultPanelIsOpen = newStatus
 
     }
@@ -63,14 +68,21 @@ export const Results = ({freewidth,queryObj,setError,runQuery})=>{
 
     }
 
+    function queryTimeDisplay(currentReport){
+        let qtime = (currentReport.duration ? currentReport.duration / 1000 : false)
+        return (qtime ? qtime + " seconds" : false)
+    }
+
 
     useMemo(()=>{
-        queryObj.updateResultProps("result",result)
-        queryObj.updateResultProps("totalRows",totalRows)
         if(result && result.error){
             setError(result)
         }
-    },[result,totalRows])
+        if(result) {
+            let qtime = queryTimeDisplay(result)
+            setQueryRunTime(qtime)
+        }
+    },[result, totalRows])
     
     if(!result) return ""
 
@@ -81,7 +93,8 @@ export const Results = ({freewidth,queryObj,setError,runQuery})=>{
             <ResultController onClick={setView} 
                              isExpanded={queryObj.resultPanelIsOpen} 
                              setExpanded={setExpanded}
-                             currentView={currentView}/>                                      
+                             currentView={currentView}
+                             queryRunTime={queryRunTime}/>                                      
             {/*<ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/> */}  
             <TDBReactCollapse isExpanded={queryObj.resultPanelIsOpen}>
                 {currentView==GRAPH_VIEW && 

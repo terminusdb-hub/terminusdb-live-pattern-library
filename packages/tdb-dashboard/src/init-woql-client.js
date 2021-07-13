@@ -21,6 +21,9 @@ export const WOQLClientProvider = ({children, params}) => {
 
     const [opts, setOpts] = useState(false)
 
+    // document consts 
+    const [createDocument, setCreateDocument] = useState(false)
+
 
     useEffect(() => {
         setOpts(params)
@@ -80,7 +83,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 sidebarDocumentListState, 
                 setSidebarDocumentListState,
                 sidebarSampleQueriesState, 
-                setSidebarSampleQueriesState
+                setSidebarSampleQueriesState,
+                setCreateDocument,
+                createDocument
             }}
         >
             {children}

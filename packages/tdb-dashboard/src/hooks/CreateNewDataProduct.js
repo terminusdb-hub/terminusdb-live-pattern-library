@@ -1,7 +1,7 @@
 
 import {useState, useEffect} from "react"
 import {WOQLClientObj} from "../init-woql-client"
-import {TerminusClient} from "@terminusdb/terminusdb-client"
+import {refreshDBList} from "../components/utils"
 
 export function useCreateNewDataProductStates () {
     const {woqlClient, setDataProduct} = WOQLClientObj()
@@ -58,19 +58,20 @@ export async function createNewDataProduct (woqlClient, meta, onDone, setLoading
     let org = meta.organization || "admin" // get this organization from log in details once intergrated
     setLoading(true)
 
-   
-
     await woqlClient.createDatabase(meta.id, meta, org)
         .then((res) => {
-            onDone(res)
             setLoading(false)
+            //onDone(res)
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {
             setShowNewDataProductModal(false)
             woqlClient.db(meta.id)
             setDataProduct(meta.id)
+            refreshDBList(meta, woqlClient)
         })
-        .catch((err) => console.log(err))
 }
-
+ 
 export async function deleteDataProduct (woqlClient, meta, onDone, setLoading, setShowDeleteDataProductModal, setDataProduct) {
     setLoading(true)
     let id=meta.name

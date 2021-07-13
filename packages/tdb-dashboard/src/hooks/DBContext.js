@@ -43,13 +43,13 @@ export const DBContextProvider = ({children}) => {
 
     //load branches
     useEffect(() => {
-        if(dataProduct,woqlClient){
-            woqlClient.branches().then(result=>{
+        /*if(dataProduct && woqlClient){
+            WOQL.lib().branches().execute(woqlClient).then(result=>{
                 setBranches(result)
             }).catch(err=>{
                 console.log("GET BRANCH ERROR",err.message)
             })
-        }
+        }*/
     }, [branchesReload, dataProduct,woqlClient])
 
    /* useEffect(() => {
