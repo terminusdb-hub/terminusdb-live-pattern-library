@@ -10,7 +10,6 @@ import {DOCUMENT,INVITE_PAGE,ORGANIZATION, DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUC
 import {InitSetupPage} from "./pages/InitSetupPage"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
-import {DBContextProvider} from "./hooks/DBContext"
 import {Home} from "./pages/Home"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
@@ -50,17 +49,15 @@ export function App (props){
                 </Route>
                 <Route path="/verify" exact>
                     <VerifyEmail />
-                </Route>
-                <DBContextProvider> 
-                    <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
-                    <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
-                    <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
-                    <Route path={DOCUMENT} component = {DocumentPage} exact/>               
-                    <PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/> 
-                    <PrivateRoute path={FEEDBACK} component = {Feedback} exact/>               
-                    <PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} exact/>  
-                    <PrivateRoute path={INFO} component = {TerminusInfo} exact/>  
-                </DBContextProvider> 
+                </Route>               
+                <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
+                <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
+                <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
+                <Route path={DOCUMENT} component = {DocumentPage} exact/>               
+                <PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/> 
+                <PrivateRoute path={FEEDBACK} component = {Feedback} exact/>               
+                <PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} exact/>  
+                <PrivateRoute path={INFO} component = {TerminusInfo} exact/>  
                 <Route path = {INVITE_PAGE} >
                     <PrivateRoute path = {INVITE_PAGE} component = {Home} exact />
                 </Route> 

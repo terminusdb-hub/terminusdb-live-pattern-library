@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import {DBContextObj} from "../hooks/DBContext"
 import {Card, Button} from "react-bootstrap"
 import {AiOutlinePlus, AiOutlineClose} from "react-icons/ai"
 import {BsBriefcase} from "react-icons/bs"
@@ -8,16 +7,14 @@ import {BranchControl} from "../hooks/BranchControl"
 import {WOQLClientObj} from '../init-woql-client'
 import {DisplayBranchList} from "../components/DisplayBranchList"
 import {NewBranchModal} from "../components/NewBranchModal"
-import {MANAGE_COLLECTIONS, CREATE_NEW_BRANCH_BUTTON, VIEW_HISTORY} from "./constants"
-import {MdTimer} from "react-icons/md"
-import {History} from "./History"
+import {MANAGE_COLLECTIONS, CREATE_NEW_BRANCH_BUTTON} from "./constants"
 
 export const ManageProducts = ({setDataProductSettings}) => {
-    const {woqlClient, dataProduct} = WOQLClientObj()
-    const {branches, branch, ref, updateBranches}=DBContextObj()
-
+    const {woqlClient, dataProduct,branches, branch} = WOQLClientObj()
+    
     const { 
        // branchList,
+        createBranch,
         newBranch,
         setNewBranch,
         setNewBranchInfo,
@@ -28,7 +25,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
         handleDelete,
         handleBranchClick,
         setSelectedBranch
-    } = BranchControl(branches, branch, ref, updateBranches)
+    } = BranchControl()
 
     const [showDefault, setShowDefault] = useState(false)
     const [selectedCommit, setSelectedCommit] = useState(false)
@@ -68,7 +65,8 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 onCancel={setNewBranch} 
                 setNewBranchInfo={setNewBranchInfo} 
                 loading={loading} 
-                branches={branches}/>
+                branches={branches}
+                createBranch={createBranch}/>
 
             <DisplayBranchList branchList={branches} 
                 branch={branch} 
@@ -90,6 +88,5 @@ export const ManageProducts = ({setDataProductSettings}) => {
 
         </Card.Body>
     </Card>
-    {/*history && <History onClose={setHistory}/>*/}
-    </React.Fragment>
+</React.Fragment>
 }

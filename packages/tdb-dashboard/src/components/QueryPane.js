@@ -89,12 +89,11 @@ export const QueryPane = ({id, name, queryObj}) => {
                                 </Col>}   
                             </Row>                       
                         </TDBReactCollapse>
-                        {showResult && <Results
-                                setError={setQueryError}
-                                freewidth={true}
-                                queryObj={queryObj}
-                            />
-                        }
+                        <Results
+                            setError={setQueryError}
+                            freewidth={true}
+                            queryObj={queryObj}
+                        />                        
                     </Card.Body>
                 </Card>
                 

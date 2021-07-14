@@ -25,8 +25,14 @@ export const DocumentPage = (props) => {
            try{
                 const json = JSON.parse(createDoc.current.value)
                 //console.log(json)
-                const dbNameValue = dbName.current.value || undefined //"test_profile"
+                let dbNameValue = dbName.current.value || undefined //"test_profile"
+               
+                if(dbNameValue==='_commits'){
+                    woqlClient.checkout("_commits") 
+                    dbNameValue='test_db'
+                } 
                 const result = await woqlClient.addDocument(json,null,dbNameValue)
+                woqlClient.checkout("main")
                 setInsertResult(result)
            }catch(err){
                 setError(err.message)
@@ -42,7 +48,7 @@ export const DocumentPage = (props) => {
             console.log("JSON______",json)
             const params={'graph_type':'schema'}
             if(replaceData.current.checked === true){
-                params['overwrite'] =true;
+                params['full_replace'] =true;
             }
             
             const result = await woqlClient.addDocument(json,params,dbNameValue)
@@ -62,16 +68,39 @@ export const DocumentPage = (props) => {
             const params={'graph_type':'schema'}
             
             const result = await woqlClient.updateDocument(json,params,dbNameValue)
+            getResult.current.value = JSON.stringify(result,null,4)
             setInsertResult(result)
         }catch(err){
             setError(err.message)  
         }       
     }
 
+    const getFrame = async () =>{
+        try{
+            resetResult()
+            const dbNameValue = dbName.current.value || undefined//"test_profile"
+            //createDoc.current;
+            let type
+            if(docType.current.value){
+                type = docType.current.value;
+            }
+            
+            const result = await woqlClient.schema(type,dbNameValue)
+            getResult.current.value = JSON.stringify(result,null,4)
+            setSelectResult(result)
+        }catch(err){
+            setError(err.message)  
+        }  
+    }
+    function resetResult(){
+        setError(null)
+        getResult.current.value = ''
+        setSelectResult('')
+    }
 
      const readDocument = async () =>{
         try{
-            setError(null) 
+            resetResult()
             const params={}
             if(docType.current.value){
                 params['type'] = docType.current.value;
@@ -83,8 +112,9 @@ export const DocumentPage = (props) => {
                 params['graph_type'] = graphType.current.value;
             }
             if(!params['id'] && !params["type"]){
-                params['as_list']=true
+                
             }
+            params['as_list']=true
             let dbNameValue = dbName.current.value || undefined//"test_profile" 
             if(dbNameValue==='_commits'){
                 woqlClient.checkout("_commits") 
@@ -101,7 +131,12 @@ export const DocumentPage = (props) => {
      }
 
      const deleteDocument = async () =>{
-        const dbNameValue = dbName.current.value || undefined//"test_profile"  
+        let dbNameValue = dbName.current.value || undefined //"test_profile"
+               
+        if(dbNameValue==='_commits'){
+            woqlClient.checkout("_commits") 
+            dbNameValue='test_db'
+        } 
         const params={}
         if(docIdDelete.current.value){
             params['id'] =  docIdDelete.current.value;
@@ -163,6 +198,9 @@ export const DocumentPage = (props) => {
                         <Row className="mb-4">
                         <Col>
                         <Button onClick={readDocument}>Select a Document or a Class from the schema</Button>
+                        </Col>
+                        <Col>
+                        <Button onClick={getFrame}>Select the document frame</Button>
                         </Col>
                         </Row>
                         <Form.Group >

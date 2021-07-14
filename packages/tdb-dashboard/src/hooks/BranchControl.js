@@ -2,26 +2,32 @@
 import React, {useState, useEffect} from "react"
 import {newBranchForm, TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/constants"
 import {Alerts} from "../components/Alerts"
-//import {getBranchCountQuery} from "../queries/BranchQueries"
-//import {executeQueryHook} from "./executeQueryHook"
 import {WOQLClientObj} from '../init-woql-client'
- 
-export function BranchControl (branches, branch, ref, updateBranches, setHead)  {
-    const {woqlClient, dataProduct} = WOQLClientObj()
-    const branchCount = typeof branches === 'object' ? branches.length : 0  
+//I have to review this
+export function BranchControl (branchesReload)  {
+    const {woqlClient,
+           ref,
+           setHead,
+           setRef,
+           branch,
+           branches,
+           setBranch,
+           branchNeedReload,
+           setConsoleTime} = WOQLClientObj()
+
+    let branchCount = typeof branches === 'object' ? Object.keys(branches).length : 0
 
     const [sourceCommit, setSourceCommit] = useState(false)
     
     //const [branchList, setBranchList] = useState([])
     
     const [newBranch, setNewBranch] = useState(false)
-    const [newBranchInfo, setNewBranchInfo] = useState(false)
+    //const [newBranchInfo, setNewBranchInfo] = useState(false)
     const [selectedBranch, setSelectedBranch] = useState(false)
 
     const [loading, setLoading] = useState(false)
     const [reportAlert, setReportAlert] = useState(false)
     
-
     useEffect(() => {
         if(ref && !sourceCommit){
             setSourceCommit(ref)
@@ -31,12 +37,14 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
         }
     }, [branch, ref, branches])
 
-    function onCreate (branchInfo) {
-        setLoading(true)
+    
+    function createBranch (branchInfo) {
         let update_start = Date.now()
+        setLoading(true)
         let nc = woqlClient.copy()
+
         let source_free = (branchInfo.branchType == newBranchForm.select.empty)
-        if(branchInfo.branchType != newBranchForm.select.empty){
+        if(branchInfo.branchType !== newBranchForm.select.empty){
             nc.ref(sourceCommit)
         }
         nc.branch(branchInfo.id, source_free)
@@ -44,8 +52,8 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
             let message = `Success in creating branch - ${branchInfo.id}`;
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
             setNewBranch(false)
-            updateBranches(branchInfo.id)
-            //setBranchCountQuery(getBranchCountQuery())
+            handleSwitch(branchInfo.id)
+            branchNeedReload()
         })
         .catch((err) => {
             let message = `Error in creating branch - ${branchInfo.id}. ${message}`;
@@ -60,9 +68,9 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
         if(branches) setBranchList(branches)
     }, [branches])*/
 
-    useEffect(() => {
+   /* useEffect(() => {
         if(newBranchInfo) onCreate(newBranchInfo)
-    }, [newBranchInfo])
+    }, [newBranchInfo])*/
 
 
     function handleDelete (branch) {
@@ -71,8 +79,10 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
         woqlClient.deleteBranch(branch).then((results) => {
             let message = `Success in deleteing branch - ${branch}`;
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
-            updateBranches("main")
-            //setBranchCountQuery(getBranchCountQuery())
+            handleSwitch("main")
+            //this do a set in the init-main-client
+            //to be review 
+            branchNeedReload()
         })
         .catch((err) => {
             let message = `Error in deleteing branch - ${branch}. ${message}`;
@@ -84,11 +94,16 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
         })
     }
 
+    //change the branch
     function handleSwitch (branch) {
         if(!branch) return null
         let message = `Switched to branch - ${branch}`
+        woqlClient.ref(false)
+        woqlClient.checkout(branch)
+        setBranch(branch)
         //setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
-        updateBranches(branch)
+        
+        //updateBranches(branch)
     }
 
     function handleBranchClick (branch) {
@@ -148,11 +163,10 @@ export function BranchControl (branches, branch, ref, updateBranches, setHead)  
     }
 
     return {
-       // branchList,
+        createBranch,
         newBranch,
         branchCount,
         setNewBranch,
-        setNewBranchInfo,
         loading,
         reportAlert,
         handleDelete,

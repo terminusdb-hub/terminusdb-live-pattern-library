@@ -1,14 +1,14 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {executeQueryHook} from "./executeQueryHook"
-import {graphStructureFromBindings, dbStructureFromBindings} from "./utils"
+//import {graphStructureFromBindings, dbStructureFromBindings} from "./utils"
 export const DBContext = React.createContext()
 export const DBContextObj = () => useContext(DBContext)
 import {WOQLClientObj} from '../init-woql-client'
 
 export const DBContextProvider = ({children}) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
-    
+    if(!woqlClient) return ''
     if (!woqlClient.db()) {
         return (
             <DBContext.Provider value={NullDBProvider(woqlClient)}>
@@ -25,7 +25,7 @@ export const DBContextProvider = ({children}) => {
     const [ref, setRef] = useState(woqlClient.ref())
 
     // branchesstates 
-    const [branches, setBranches] = useState(false)
+    const [branches, setBranches] = useState({})
     //const [branchesQuery, setBranchesQuery] = useState(false)
     const [branchesReload, setBranchesReload] = useState(false)
     //const [branchesDataProvider, setBranchesData] = useState([])
@@ -43,12 +43,33 @@ export const DBContextProvider = ({children}) => {
 
     //load branches
     useEffect(() => {
-        if(dataProduct,woqlClient){
-            woqlClient.branches().then(result=>{
-                setBranches(result)
-            }).catch(err=>{
-                console.log("GET BRANCH ERROR",err.message)
-            })
+        if(woqlClient && dataProduct){
+            //there is a bug with using in query so we have to set commits as branch
+            woqlClient.checkout("_commits")
+            const branchQuery = WOQL.lib().branches();
+            console.log(woqlClient.connectionConfig.queryURL())
+            woqlClient.query(branchQuery).then(result=>{
+                 console.log("___BRANCHES___",result)
+                 const branchesObj={}
+                 if(result.bindings.length>0){
+                    result.bindings.forEach(item=>{
+                        const head = item.Head.split('/').pop()
+                        const branchItem={id:item.Branch,
+                                            head_id:item.Head,
+                                            head:head,
+                                            name:item.Name['@value'],
+                                            timestamp:item.Timestamp['@value']
+                                        }
+                        branchesObj[branchItem.name] = branchItem
+                    })
+                 }
+                 setBranches(branchesObj)
+             }).catch(err=>{
+                  console.log("GET BRANCH ERROR",err.message)
+              }).finally(()=>{
+                 //reset the main branch
+                 woqlClient.checkout("main")
+              })
         }
     }, [branchesReload, dataProduct,woqlClient])
 
@@ -65,30 +86,6 @@ export const DBContextProvider = ({children}) => {
         }
         setBranchesReload(branchesReload + 1)
     }
-
-    //load graphs
-    /*useEffect(() => {
-        if(dataProduct){
-            let constraint = WOQL.query()
-            if (woqlClient.ref()) {
-                constraint.eq('v:Commit ID', woqlClient.ref())
-            } else {
-                constraint.eq('v:Branch ID', woqlClient.checkout())
-            }
-
-            let q = WOQL.lib().graphs(constraint)
-            setGraphQuery(q)
-        }
-    }, [dataProduct, branch, ref, branches, graphsReload])*/
-
-    /*useEffect(() => {
-        let binds = graphDataProvider ? graphStructureFromBindings(graphDataProvider) : []
-        setGraphs(binds)
-    }, [graphDataProvider])*/
-
-   /* function updateGraphs(){
-        setGraphsReload(graphsReload + 1)
-    }*/
 
     // set Head
     function setHead(branchID, refObject={}){// ridConsoleTime=false) 
@@ -111,16 +108,16 @@ export const DBContextProvider = ({children}) => {
     //load db info
     useEffect(() => {
         //setLoading(loading + 1)
-        WOQL.lib()
-            .first_commit()
-            .execute(woqlClient)
-            .then((res) => {
-                let binds = res && res.bindings ? dbStructureFromBindings(res.bindings) : []
-                setDBInfo(binds)
-            })
-            .catch((e) => {
-                //setReport({error: e, status: TERMINUS_ERROR})
-            })
+    //    // WOQL.lib()
+    //         .first_commit()
+    //         .execute(woqlClient)
+    //         .then((res) => {
+    //             let binds = res && res.bindings ? dbStructureFromBindings(res.bindings) : []
+    //             setDBInfo(binds)
+    //         })
+    //         .catch((e) => {
+    //             //setReport({error: e, status: TERMINUS_ERROR})
+    //         })
             //.finally(() => setLoading(loading - 1))
     }, [])
 

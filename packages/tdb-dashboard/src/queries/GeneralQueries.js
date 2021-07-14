@@ -1,19 +1,21 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {shortenURL, covertStringToId} from "../components/utils" 
 
-
+//KITTY IF YOU DON'T NEED THIS FILE WE CAN REMOVE IT!!!!
+//I LEAVE THE FUNCTIONS FOR NOT BROKEN NOTHING
 export const ClassFromSchema = () => {
     let WOQL=TerminusClient.WOQL
     return WOQL.quad("v:Class ID", 'type', 'owl:Class', "schema/main").
         quad("v:Class ID", 'label', "v:Class Name", "schema/main")
 }
-
+//.lib().document_classes() removed
 export const getDocumentClasses = (dataProduct) => {
-    if(!dataProduct) return null
+   return 
+   /* if(!dataProduct) return null
     let WOQL=TerminusClient.WOQL
     return WOQL.using(dataProduct).lib().document_classes()
       .eq("v:Class ID", "v:Class")
-      .count("v:Count", WOQL.triple("v:Class Count", "type", "v:Class"))
+      .count("v:Count", WOQL.triple("v:Class Count", "type", "v:Class"))*/
 }
 
 export const getPropertiesOfClass = (id, dataProduct, woqlClient) => {
@@ -62,28 +64,33 @@ export const getPropertyRelation = (id, dataProduct, woqlClient) => {
 }
 
 
+//lib().classes removed
 export const getClassesLib = (dataProduct, woqlClient) => {
-    if(!dataProduct && !woqlClient) return
+    return
+   /* if(!dataProduct && !woqlClient) 
     let WOQL=TerminusClient.WOQL
     let user=woqlClient.user()
     let dp = `${user.id}/${dataProduct}`
-    return WOQL.using(dp).lib().classes()
-} 
+    return //WOQL.using(dp).lib().classes()*/
+}
 
+//WOQL.using(dp).lib().properties() removed from the woqlLibrary
 export const getPropertiesLib = (dataProduct, woqlClient) => {
-    if(!dataProduct && !woqlClient) return
+    return ''
+   /* if(!dataProduct && !woqlClient) 
     let WOQL=TerminusClient.WOQL
     let user=woqlClient.user()
     let dp = `${user.id}/${dataProduct}`
-    return WOQL.using(dp).lib().properties()
+    return WOQL.using(dp).lib().properties()*/
 } 
-
+//WOQL.using(dp).lib().document_metadata() removed from the woqlLibrary
 export const getDocumentMetadataLib = (dataProduct, woqlClient) => {
-    if(!dataProduct && !woqlClient) return
+    return 
+    /*if(!dataProduct && !woqlClient) return
     let WOQL=TerminusClient.WOQL
     let user=woqlClient.user()
     let dp = `${user.id}/${dataProduct}`
-    return WOQL.using(dp).lib().document_metadata()
+    return WOQL.using(dp).lib().document_metadata()*/
 } 
 
 // query to store query object in query library database
@@ -140,6 +147,7 @@ export const getStoredQueryObject = (id) => {
 
 
 export const getPropertyMeta = () => {
+  return ''
   let WOQL =  TerminusClient.WOQL
   let gstr =  "schema/main"
 
@@ -188,8 +196,9 @@ export const getPropertyMeta = () => {
 
 /**** Document Queries  ****/
 export const getDocumentsOfType = (doctype) => {
-    let WOQL =  TerminusClient.WOQL
+    return ''
+   /* let WOQL =  TerminusClient.WOQL
     return  WOQL.and(
         WOQL.lib().document_metadata()
-    ).sub(doctype, "v:Type ID")
+    ).sub(doctype, "v:Type ID")*/
 }

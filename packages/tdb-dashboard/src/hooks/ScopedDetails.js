@@ -1,18 +1,18 @@
 import React, {useState, useEffect} from "react"
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {executeQueryHook} from "./executeQueryHook"
-import {DBContextObj} from "./DBContext"
-
+//import {DBContextObj} from "./DBContext"
+import {WOQLClientObj} from '../init-woql-client'
 export function ScopedDetails (woqlClient, branch, dataProduct)  {
 
-    let {branches, ref} = DBContextObj(woqlClient, dataProduct)
+    let {branches, ref} = WOQLClientObj()
     const [latest, setLatest] = useState([])
     const [contextQuery, setContextQuery] = useState(false)
     let [contextDataProvider] = executeQueryHook(woqlClient, contextQuery)
 
     useEffect(() => {
         if(branch){
-            load_context(branch, ref)
+            //load_context(branch, ref)
         }
     }, [branch, ref, branches])
 
@@ -24,6 +24,7 @@ export function ScopedDetails (woqlClient, branch, dataProduct)  {
     function load_context(b, r){
         let WOQL = TerminusClient.WOQL
         let woql = WOQL.query();
+        return woql;
         let commit_id = "v:Active ID"
         if(r){
             commit_id = r

@@ -5,12 +5,9 @@ import {branchActionConfig, squashFormConfig, resetFormConfig, RESET_BUTTON_CONF
 import {BiGitMerge} from "react-icons/bi"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {AiOutlineUndo, AiOutlineCompress, AiOutlineDelete, AiOutlineCheckCircle} from "react-icons/ai"
-import {DBContextObj} from "../hooks/DBContext"
 import {BranchControl} from "../hooks/BranchControl"
 
-export const BranchActions = ({woqlClient, branch, handleClose, setRefresh}) => {
-
-    const {branches, ref, updateBranches, setHead}=DBContextObj()
+export const BranchActions = ({branch, handleClose, setRefresh}) => {
     const [resetForm, setResetForm] = useState(false)
     const [squashForm, setSquashForm] = useState(false)
     const [commit, setCommit] = useState(false)
@@ -21,8 +18,7 @@ export const BranchActions = ({woqlClient, branch, handleClose, setRefresh}) => 
         handleOptimize,
         handleReset,
         handleSquash
-    } = BranchControl(woqlClient, branches, branch, ref, updateBranches, setHead)
-
+    } = BranchControl()
 
     function onDelete () {
         if(handleDelete) handleDelete(branch)

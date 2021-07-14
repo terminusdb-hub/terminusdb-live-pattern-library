@@ -1,5 +1,6 @@
+
 import React,{useState} from "react"
-import {Container, Button} from "react-bootstrap"
+import {Container, Button,Row,Col} from "react-bootstrap"
 import { MdCopyright } from "react-icons/md";
 import { useAuth0 } from "../react-auth0-spa";
 import history from "../routing/history"
@@ -34,17 +35,22 @@ export const Home = (props) => {
             LOG IN TEST....
         </Button>}
         {isAuthenticated &&  
-        <React.Fragment>          
-            <Button id = "qsLoginBtn"
-                className = "btn-margin m-4 btn-warning"
-                onClick = {logoutWithRedirect}>
-                LOG OUT TEST....
-            </Button>
-            <Button id = "qsLoginBtn"
-                className = "btn-margin m-4"
-                onClick = {goToDash}>
-                DASHBOARD
+        <React.Fragment> 
+            <Col>
+            <Row>      
+                <Button id = "qsLoginBtn"
+                    className = "btn-margin m-4 btn-warning"
+                    onClick = {logoutWithRedirect}>
+                    LOG OUT TEST....
                 </Button>
+                <Button id = "qsLoginBtn"
+                    className = "btn-margin m-4"
+                    onClick = {goToDash}>
+                    DASHBOARD
+                </Button>
+            </Row>
+            
+            </Col>  
         </React.Fragment>
         }
     </Container>

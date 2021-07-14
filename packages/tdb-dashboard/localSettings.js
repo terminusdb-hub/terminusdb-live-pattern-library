@@ -4,9 +4,11 @@ let key=  localStorage.getItem("terminusdb-key-override") || process.env.TERMINU
 
 const userName=  localStorage.getItem("terminusdb-user-override") || process.env.TERMINUSDB_USER 
 
+const connection_type = process.env.CONNECTION_TYPE 
 
 export const localSettings = {server : server,
     key : key,
-    user: userName
+    user: userName,
+    connection_type :connection_type
 }
 

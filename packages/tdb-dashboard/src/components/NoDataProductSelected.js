@@ -51,6 +51,7 @@ export const NoDataProductSelected = (props) => {
         </div>
     </div>*/
     return <div style={NoDataProductSelectedStyle}>
+        {props.children}
         <Col xs={12} className="text-center d-block align-items-center justify-content-center">
             <img src="../assets/favicon-dark.png" style={{width: "10%"}}/>
             <h1 className="text-dark mt-5">

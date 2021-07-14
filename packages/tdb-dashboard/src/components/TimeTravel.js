@@ -9,12 +9,13 @@ import {TERMINUS_SUCCESS} from "./constants"
 import {Alerts} from "./Alerts"
 import {AiOutlineUser} from "react-icons/ai"
 import {printtsDate, printtsTime} from "./utils"
-import {DBContextObj} from "../hooks/DBContext"
+//import {DBContextObj} from "../hooks/DBContext"
 
 export const TimeTravel = (props) => {
  
     let cardColor = "#303030", transparantColor = "transparent", activeColor = "#00bc8c"
-    const {chosenCommit, setChosenCommit} = DBContextObj()
+    const [chosenCommit,setChosenCommit]=useState({})
+    //const {chosenCommit, setChosenCommit} = DBContextObj()
     const {currentItem, 
         dataProvider, 
         setSelectedValue, 

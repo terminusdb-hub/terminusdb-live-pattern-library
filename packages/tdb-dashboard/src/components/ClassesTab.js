@@ -27,7 +27,7 @@ export const ClassesTab = ({dataProduct, woqlClient}) => {
         orderBy,
         loading,
         rowCount,
-    } = ControlledQueryHook(woqlClient, query, false, 20)
+    } = {}//ControlledQueryHook(woqlClient, query, false, 20)
 
      useEffect(() => {
         let tConf = getPropertyMetaTabConfig(result)

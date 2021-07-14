@@ -19,7 +19,7 @@ export const SampleQueries = (props) => {
     function handleQuery(query) {
         var q
         if(query == GET_CLASSES_LINK.label) {
-            q=getClassesLib(dataProduct, woqlClient)
+           // q=getClassesLib(dataProduct, woqlClient)
         }
         else if (query == GET_PROPERTIES_LINK.label){
             q=getPropertiesLib(dataProduct, woqlClient)

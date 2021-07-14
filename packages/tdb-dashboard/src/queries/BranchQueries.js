@@ -3,6 +3,7 @@ import TerminusClient from '@terminusdb/terminusdb-client'
 
 export const getBranchCommits = (branch, ref) => {
     if(!branch) return null
+    return null    
     let WOQL = TerminusClient.WOQL
     let q = WOQL.query()
     if(ref){
@@ -18,19 +19,7 @@ export const getBranchCommits = (branch, ref) => {
 }
 
 
-export const getBranchQuery = (dataProduct, woqlClient) => {
-    if(!dataProduct) return
-    let WOQL=TerminusClient.WOQL
-    let user=woqlClient.user()
-    let dp = `${user.id}/${dataProduct}`
-    return WOQL.using(dp).lib().branches()
-}
-
-export const getBranchCountQuery = () => {
-    let WOQL=TerminusClient.WOQL
-    return WOQL.count("v:Count", WOQL.lib().branches())
-}
-
+//WOQL.using doesn't work we have to wait that it will be fixed
 export const getAddedTriplesQuery = (commit) => {
     let WOQL=TerminusClient.WOQL
     return WOQL.using(commit).added_triple("v:Added Subject", "v:Added Property", "v:Added Object")

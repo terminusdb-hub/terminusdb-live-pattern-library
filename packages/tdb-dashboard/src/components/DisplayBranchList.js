@@ -7,7 +7,7 @@ import {timeConverter} from "../pages/utils"
 
 
 const BranchItem = (props) => {
-    const { name, head, updated, branch, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
+    const { name, head, timestamp, branch, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
     const id=name
     function handleOnClick (id) {
         if(handleBranchClick) handleBranchClick(id)
@@ -31,7 +31,7 @@ const BranchItem = (props) => {
             <h6><span className="text-muted"> {`Head Commit `} </span>{head}</h6>
           </Col>
           <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
-            <h6><span className="text-muted"> {`Updated on `} </span>{timeConverter(updated)}</h6>
+            <h6><span className="text-muted"> {`Updated on `} </span>{timeConverter(timestamp)}</h6>
           </Col>
           <Col className="col-auto">
             {(id ==  "main") && <RiDeleteBin7Line className="mr-2 mb-1 react-icons danger disabled"/>}
@@ -52,10 +52,8 @@ const BranchItem = (props) => {
   const List = ({branchList, branch, setShowDefault, handleSwitch, handleBranchClick, handleDelete}) => {
       let lst = []
       for (var key in branchList) {
-        if (branchList.hasOwnProperty(key)) {
-            let item = branchList[key]
-            lst.push(<BranchItem branch={branch} handleBranchClick={handleBranchClick} handleSwitch={handleSwitch} handleDelete={handleDelete} setShowDefault={setShowDefault} key={`team-member-${item.id}`} {...item} />)
-        }
+          let item = branchList[key]
+          lst.push(<BranchItem branch={branch} handleBranchClick={handleBranchClick} handleSwitch={handleSwitch} handleDelete={handleDelete} setShowDefault={setShowDefault} key={`team-member-${item.id}`} {...item} />)
     }
     return lst
 } 

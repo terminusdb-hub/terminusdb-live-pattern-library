@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react"
+import {Link} from "react-router-dom" 
 import {Row, Col, Card, Button} from "react-bootstrap"
 import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
 //import {dataProductList} from "../hooks/DataProductList"
@@ -12,10 +13,11 @@ import {DataProductSummary} from "../components/DataProductSummary"
 import {ManageProducts} from "../components/ManageProducts"
 import {PRODUCT_SUMMARY_NAV, PRODUCT_COLLECTIONS_NAV} from "../components/constants"
 import {NoDataProductSelected} from "../components/NoDataProductSelected"
-import {TimeTravel} from "../components/TimeTravel"
 import {BsBriefcase} from "react-icons/bs"
+import {FaNodeJs,FaPython} from "react-icons/fa"
 import {MANAGE_COLLECTIONS} from "../components/constants"
 import {LeftSideBar} from "../components/LeftSideBar"
+
 
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
@@ -96,7 +98,33 @@ export const DataProductsHome = (props) => {
         
             }
             
-            {!dataProduct && <NoDataProductSelected/>}
+            {!dataProduct && <NoDataProductSelected>
+                <Row>
+                <Col></Col>
+                <Col>
+                <Card >
+                    <Card.Body className="d-flex align-items-center flex-column">
+                    <Link to="/files/start_js.zip" target="_blank" download>
+                        CONNECT WITH YOUR CLOUD BY NODEJS 
+                    </Link>
+                    <FaNodeJs size="5em" className="mt-2"/>
+                    </Card.Body>
+                </Card>
+                </Col> 
+                <Col >
+                <Card >
+                    <Card.Body className="d-flex align-items-center flex-column">         
+                    <Link to="/files/start_py.zip" target="_blank" download>
+                        CONNECT WITH YOUR CLOUD BY PYTHON 
+                    </Link> 
+                    <FaPython  size="5em" className="mt-2"/>
+                    </Card.Body>
+                </Card>
+                </Col>
+                <Col></Col>
+                </Row> 
+            </NoDataProductSelected>    
+            }
         </main>
     </Layout>
 }

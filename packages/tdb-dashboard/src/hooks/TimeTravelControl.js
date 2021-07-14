@@ -1,13 +1,11 @@
 import React, {useState, useEffect} from "react"
-import {DBContextObj} from "../hooks/DBContext"
 import {WOQLClientObj} from '../init-woql-client'
 import {useCommitsControl} from '@terminusdb-live/tdb-react-components'
 import moment from 'moment'
 
 export const TimeTravelControl = () => {
-    const {woqlClient, dataProduct} = WOQLClientObj()
-    const {setHead, branch, ref, branches, DBInfo, consoleTime} = DBContextObj()
-
+    const {woqlClient, branch, ref, consoleTime,setHead} = WOQLClientObj()
+   
     const [report, setReport] = useState(false)
 
     const currentDay = consoleTime ? moment.unix(consoleTime) : moment()
@@ -32,5 +30,11 @@ export const TimeTravelControl = () => {
     //const dataProvider= dataProviderValues.dataProvider;
     const currentItem = dataProvider.length>0  ? dataProvider[dataProviderValues.selectedValue] : {label:'No Value',author:'',message:''}
 
-    return {currentItem, dataProvider, setSelectedValue, setHead, branch, loadPreviousPage, loadNextPage}
+    return {currentItem, 
+            setHead, 
+            dataProvider, 
+            setSelectedValue, 
+            branch, 
+            loadPreviousPage, 
+            loadNextPage}
 }

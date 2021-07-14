@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {DBContextObj} from "../hooks/DBContext"
 import {getCommitTime} from "./utils"
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
@@ -12,10 +11,10 @@ export const ConnectedDataProduct = (props) => {
     const {
         dataProduct, 
         sidebarDataProductConnectedState, 
-        setSidebarDataProductConnectedState
+        setSidebarDataProductConnectedState,
+        branch, consoleTime
     } = WOQLClientObj()
 
-    const {branch, consoleTime} = DBContextObj() 
     const [status, setStatus] = useState("text-success")
     const [currentCommit, setCurrentCommit] = useState("latest")
 

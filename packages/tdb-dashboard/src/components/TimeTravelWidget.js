@@ -1,15 +1,11 @@
 import React, {useEffect, useState} from "react"
 import {Card, Button, Row, Col, Form} from "react-bootstrap"
 import {BiTimer, BiChevronLeft, BiChevronRight} from "react-icons/bi"
-import {History} from "./History"
 import {getCommitTime} from "./utils"
-import {DBContextObj} from "../hooks/DBContext"
 import {WOQLClientObj} from '../init-woql-client'
 import {TimeTravel}  from "./TimeTravel"
 import {AiOutlineClose} from "react-icons/ai"
 import {BsBriefcase} from "react-icons/bs"
-import {BranchControl} from "../hooks/BranchControl"
-
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 
 
@@ -17,12 +13,10 @@ export const TimeTravelWidget = (props) => {
     const [showTimeTravel, setShowTimeTravel] = useState(false)
       
     const [iconColor, setIconColor] = useState("#00bc8c")
-
-    const {branches, branch, ref, updateBranches, consoleTime, chosenCommit}=DBContextObj()
+    const {branches,branch,ref,consoleTime}=WOQLClientObj()
+    const chosenCommit={}
     const branchList = branches
     
-    //BranchControl(branches, branch, ref, updateBranches)
-
     const [cssWidget, setCssWidget] = useState("")
     const [cssTimeTravel, setCssTimeTravel] = useState("display-none")
 
@@ -59,19 +53,19 @@ export const TimeTravelWidget = (props) => {
 
   return <React.Fragment>
 
-      {/*!showTimeTravel && 
+      {!showTimeTravel && 
         <Button className=" time-travel-control time-travel-widget" title="Time Travel through history of Data Product" onClick={handleTimeTravel} style={{top: "55"}}> 
             <h3  style={{color: iconColor}}><BiTimer /></h3>
         </Button>
-      */}  
+      }  
 
-      {
+      {/*
         <AnchorLink href={`#${chosenCommit.commit}`}>
           <Button className={` ${cssWidget} time-travel-control time-travel-widget`} title="Time Travel through history of Data Product" onClick={handleTimeTravel} style={{top: "55"}}> 
             <h3  style={{color: iconColor}}><BiTimer /></h3>
           </Button>
         </AnchorLink> 
-      }
+      */}
 
     {<div className={` ${cssTimeTravel} time-travel-control`}>
         <Card className="mt-5">

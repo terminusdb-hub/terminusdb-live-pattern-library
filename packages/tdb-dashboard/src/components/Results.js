@@ -76,7 +76,9 @@ export const Results = ({freewidth,queryObj,setError,runQuery})=>{
 
     return(
     <div className="pallet mb-3 mt-4">
-    <React.Fragment> 
+        {loading && <div>LOADING!!!</div>}
+        {!loading && bindings.length>0 && 
+        <React.Fragment>
         <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>
             <ResultController onClick={setView} 
                              isExpanded={queryObj.resultPanelIsOpen} 
@@ -110,6 +112,7 @@ export const Results = ({freewidth,queryObj,setError,runQuery})=>{
                 }
             </TDBReactCollapse>
         </TDBReactResizable>
-    </React.Fragment>
+        </React.Fragment>
+        }   
     </div>)
 }

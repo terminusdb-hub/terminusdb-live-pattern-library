@@ -26,7 +26,7 @@ const AddedData = ({woqlClient, selectedCommit}) => {
         orderBy,
         loading,
         rowCount,
-    } = ControlledQueryHook(woqlClient, query, false, 20)
+    } = {}//ControlledQueryHook(woqlClient, query, false, 20)
 
     useEffect(() => {
         if(result && result.bindings.length > 0) {
@@ -73,7 +73,7 @@ const RemovedData = ({woqlClient, selectedCommit}) => {
         orderBy,
         loading,
         rowCount,
-    } = ControlledQueryHook(woqlClient, query, false, 20)
+    } = {}//ControlledQueryHook(woqlClient, query, false, 20)
 
     useEffect(() => {
         if(result && result.bindings.length > 0) {
@@ -185,7 +185,7 @@ export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => 
         orderBy,
         loading,
         rowCount,
-    } = ControlledQueryHook(woqlClient, query, false, 20)
+    } = {} //ControlledQueryHook(woqlClient, query, false, 20)
 
     function handleCopy (commit) {
         copyToClipboard(commit)

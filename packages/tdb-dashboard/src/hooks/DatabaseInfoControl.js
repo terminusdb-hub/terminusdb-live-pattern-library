@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react"
 import {executeQueryHook} from "./executeQueryHook"
-import {getDocumentClasses} from '../queries/GeneralQueries'
+//import {getDocumentClasses} from '../queries/GeneralQueries'
 
 export const DatabaseInfoControl = (woqlClient, dataProduct) => {
 
     const [currentClass, setCurrentClass] = useState(false)
-    const [classQuery, setClassQuery] = useState(false)
+   // const [classQuery, setClassQuery] = useState(false)
     const [query, setQuery]=useState(false)
     const [properties, setProperties]=useState(false)
     const [classes, setClasses]=useState(false)
     const [propertyResults]=executeQueryHook(woqlClient, query)
-    const [classesResults]=executeQueryHook(woqlClient, classQuery)
+   // const [classesResults]=executeQueryHook(woqlClient, classQuery)
 
     useEffect(() => {
         setCurrentClass(false)
@@ -20,8 +20,10 @@ export const DatabaseInfoControl = (woqlClient, dataProduct) => {
 
     useEffect(() => {
         if(woqlClient){
-            let q = getDocumentClasses(dataProduct)
-            setClassQuery(q)
+            woqlClient.document_classes
+            //old query for document
+            //let q = getDocumentClasses(dataProduct)
+            //setClassQuery(q)
         }
     }, [woqlClient, dataProduct])
 
@@ -32,12 +34,15 @@ export const DatabaseInfoControl = (woqlClient, dataProduct) => {
         
     }, [propertyResults])
 
-    useEffect(()=> {
-        if(classesResults){
+   /* useEffect(()=> {
+        woqlClient.classes().then(result=>{
+            setClasses.prototype(result)
+        })
+         if(classesResults){
             setClasses(classesResults)
         }
         
-    }, [classesResults])
+    }, [classesResults])*/
 
     return {
         setCurrentClass,

@@ -3,13 +3,24 @@ import TerminusClient from '@terminusdb/terminusdb-client'
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext)
 import { DATA_PRODUCTS } from './routing/constants'
+import { useAuth0 } from "./react-auth0-spa";
 
 export const WOQLClientProvider = ({children, params}) => {
+    
+    const {isAuthenticated,user,getTokenSilently} = useAuth0()
     const [woqlClient, setWoqlClient] = useState(null)
     const [loadingServer, setLoadingServer] = useState(true)
     const [dataProduct, setDatabase] = useState(false)
     const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
-    
+    const [branchesReload,setBranchReload] =useState(0)
+    const [branch, setBranch] = useState(false)
+    const [ref, setRef] = useState(false)
+
+    // branchesstates 
+    const [branches, setBranches] = useState(false)
+    const [DBInfo, setDBInfo] = useState()
+    const [consoleTime, setConsoleTime] = useState()
+
     // sets current page
     const [route, setRoute]=useState(DATA_PRODUCTS)
 
@@ -19,52 +30,133 @@ export const WOQLClientProvider = ({children, params}) => {
     const [sidebarDocumentListState, setSidebarDocumentListState] = useState(false)
     const [sidebarSampleQueriesState, setSidebarSampleQueriesState] = useState(false)
 
-    const [opts, setOpts] = useState(false)
-
-
-    useEffect(() => {
-        setOpts(params)
-    }, [params])
+    //maybe we can change this for the local connection
+    const [opts, setOpts] = useState(params)
+    const [connectionError, setError] = useState(false)
 
      useEffect(() => {
-        const initWoqlClient = async () => {
-            //const opts = params || {}
-            const dbClient = new TerminusClient.WOQLClient(opts.server)
-            TerminusClient.WOQL.client(dbClient)
-            if (!opts.key || opts.key === 'undefined') {
-                console.log("Key not included") 
+        const initWoqlClientRemote = async()=>{
+            //create the connection url by organization name
+            const orgName = user['http://terminusdb.com/schema/system#team']
+            const orgRemoteUrl=`${opts.server}${orgName}`
+            const hubClient = new TerminusClient.WOQLClient(orgRemoteUrl)
+
+            const jwtoken = await getTokenSilently()
+            let hubcreds = {type: "jwt", key: jwtoken}         
+            hubClient.localAuth(hubcreds)
+            hubClient.organization(orgName) 
+            try{
+                await hubClient.connect()
+                setWoqlClient(hubClient)
+                //if(opts.db) dbClient.db(opts.db)
+            } catch (err) {
+                console.log("__CONNECT_ERROR__",err)
+                setError("Connection Error")   
+            }finally {
+                setLoadingServer(false)
             }
-            else {
-                try {
-                    await dbClient.connect(opts)
-                    setWoqlClient(dbClient)
-                    if(opts.db) dbClient.db(opts.db)
-                } catch (err) {
-                    console.log("__CONNECT_ERROR__",err)
-                    setLoadingServer(false)
-                }
+        }
+        const initWoqlClientLocal = async()=>{
+            const dbClient = new TerminusClient.WOQLClient(opts.server,opts)
+            try{
+                await dbClient.connect()
+                setWoqlClient(dbClient)
+            } catch (err) {
+                console.log("__CONNECT_ERROR__",err)
+                setError("Connection Error")   
+            }finally {
+                setLoadingServer(false)
             }
         }
         if(opts && opts.server){
-            initWoqlClient()
+            if(opts.connection_type === 'LOCAL'){
+                initWoqlClientLocal()
+            }else if(isAuthenticated){
+                initWoqlClientRemote()
+            }
         }      
-    }, [opts])
+    }, [opts,user])
 
-    useEffect(() => {
-        if(woqlClient)
-            setLoadingServer(false)
-    }, [woqlClient])
 
     const setDataProduct = (id) =>{
         if(woqlClient){
             woqlClient.db(id)
             setDatabase(id)
+            setBranch('main')
+           // woqlClient.checkout('_commits')
         }
     }
-    
+    //I know I have to review this file!!!!!!!!
+    useEffect(() => {
+        if(woqlClient && dataProduct){
+            //there is a bug with using in query so we have to set commits as branch
+            const tmpClient = woqlClient.copy()
+            tmpClient.checkout("_commits")
+            const branchQuery = TerminusClient.WOQL.lib().branches();
+            tmpClient.query(branchQuery).then(result=>{
+                 //console.log("___BRANCHES___",result)
+                 const branchesObj={}
+                 if(result.bindings.length>0){
+                    result.bindings.forEach(item=>{
+                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
+                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier : ''
+                        const branchItem={id:item.Branch,
+                                            head_id:head_id,
+                                            head:head,
+                                            name:item.Name['@value'],
+                                            timestamp:item.Timestamp['@value']
+                                        }
+                        branchesObj[branchItem.name] = branchItem
+                    })
+                 }
+                 setBranches(branchesObj)
+             }).catch(err=>{
+                  console.log("GET BRANCH ERROR",err.message)
+              })
+        }
+    }, [branchesReload, dataProduct])
+    //maybe we can combine this information
+    //I have this info with woqlClient
+    /* ref,
+       branch,
+    branches,
+                setBranches,
+                setRef,
+                setBranch,*/
+    const branchNeedReload = ()=>{
+        setBranchReload(Date.now())
+    }
+
+    //to be review 
+    //to much set state we can optimize this !!!
+    function setHead(branchID, refObject={}){// ridConsoleTime=false) 
+        woqlClient.checkout(branchID)
+        let sref=refObject.commit
+        let refTime=refObject.time
+
+        if(branches && branches[branchID] && branches[branchID].head == sref){
+            sref = false
+            refTime=false
+        }
+        sref = sref || false
+        woqlClient.ref(sref)
+      
+        setBranch(branchID)
+        setRef(sref)
+        setConsoleTime(refTime)
+    }
+
     return (
         <WOQLContext.Provider
             value={{
+                setHead,
+                branchNeedReload,
+                branches,
+                setRef,
+                setBranch,
+                ref,
+                branch,
+                connectionError,
                 woqlClient,
                 loadingServer,
                 dataProduct, 

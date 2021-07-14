@@ -31,7 +31,7 @@ export const DocumentView = () => {
         orderBy,
         loading,
         rowCount,
-    } = ControlledQueryHook(woqlClient, documentsOfTypeQuery, false, 20)
+    } = {}//ControlledQueryHook(woqlClient, documentsOfTypeQuery, false, 20)
  
     useEffect(() => {
         let tConf = getDocumentOfTypeTabConfig(result, getDocumentTools)

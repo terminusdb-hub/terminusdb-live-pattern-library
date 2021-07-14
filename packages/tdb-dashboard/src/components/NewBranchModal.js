@@ -7,11 +7,11 @@ import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {Alerts} from "./Alerts"
 import {TERMINUS_WARNING} from "./constants"
 import {legalURLID} from "./utils"
-import {DBContextObj} from "../hooks/DBContext"
+import {WOQLClientObj} from '../init-woql-client'
 import {FaPlus} from "react-icons/fa"
 
-export const NewBranchModal = ({newBranch, onCancel, setNewBranchInfo, loading}) => {
-    const {branches, branch, ref, updateBranches}=DBContextObj()
+export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => {
+    const {branches, branch, ref}=WOQLClientObj()
 
     const [id, setID]=useState(false)
     const [select, setSelect]=useState(newBranchForm.select.head)
@@ -20,7 +20,7 @@ export const NewBranchModal = ({newBranch, onCancel, setNewBranchInfo, loading})
     function handleCreate (e) {
         event.preventDefault()
         if (checkSubmission(id, branches, setReportAlert)) {
-            setNewBranchInfo({id: id, branchType: select})
+            createBranch({id: id, branchType: select})
         }
     }
 

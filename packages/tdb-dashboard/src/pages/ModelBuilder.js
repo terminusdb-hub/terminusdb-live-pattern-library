@@ -1,5 +1,4 @@
 import React,{useEffect,useState} from "react"
-//import {DBContextObj} from "../hooks/DBContext"
 import {SchemaBuilder, modelCallServerHook, GraphObjectProvider, ViewBuilder} from "@terminusdb-live/tdb-react-components"
 import {Row, Button} from "react-bootstrap"
 import {SCHEMA_MODEL_VIEW, SCHEMA_CLASSES_VIEW, SCHEMA_PROPERTIES_VIEW, SCHEMA_EDITOR_VIEW} from "./constants"
@@ -10,7 +9,6 @@ import {ClassesTab} from "../components/ClassesTab"
 export const ModelBuilder = (props) =>{   
     const {woqlClient,dataProduct} = WOQLClientObj()
 
-    //const {graphs} = DBContextObj(woqlClient, dataProduct)
     const [width, setWidth] = useState("")
     const [schemaView, setSchemaView] = useState(SCHEMA_MODEL_VIEW)
 
