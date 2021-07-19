@@ -74,8 +74,10 @@ export const useCommitsControl = (woqlClient, setError, branch='main', currentSt
                 }
 
         }
-
-        woqlClient.query(queryObj).then((result) => {
+        const tmpWoqlClient =  woqlClient.copy()
+        
+        tmpWoqlClient.checkout('_commits')
+        tmpWoqlClient.query(queryObj).then((result) => {
             if (result.bindings) {
                 const dataFormatted=formatResult(result.bindings);
                 let newPoss=dataFormatted.newPoss;

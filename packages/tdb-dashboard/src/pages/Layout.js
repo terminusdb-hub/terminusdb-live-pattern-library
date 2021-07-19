@@ -7,7 +7,7 @@ import {TimeTravelWidget} from "../components/TimeTravelWidget"
 import {WOQLClientObj} from '../init-woql-client'
 
 export const Layout = (props) => { 
-    const {branch} = WOQLClientObj()
+    const {dataProduct} = WOQLClientObj()
     
     return <Container fluid className="p-0 flex-row">                              
             <SplitPane split="vertical" minSize={70} defaultSize={350} primary="first">                                                    
@@ -18,7 +18,7 @@ export const Layout = (props) => {
                 <div className="h-100 main-content">
                     <MainNavBar/>
                     {props.children} 
-                    {branch && <TimeTravelWidget/>  }                                    
+                    {dataProduct && <TimeTravelWidget/>  }                                    
                 </div>
             </SplitPane>
         </Container>

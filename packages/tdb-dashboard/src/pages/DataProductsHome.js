@@ -22,8 +22,8 @@ import {LeftSideBar} from "../components/LeftSideBar"
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct} = WOQLClientObj()
     const [dataProductDetails, setDataProductDetails] = useState(false)
-
-    const list = woqlClient.databases() //dataProductList(woqlClient)
+ 
+    const list = woqlClient ?  woqlClient.databases() : [] //dataProductList(woqlClient)
 
     const [dataProductSettings, setDataProductSettings] = useState(false)
 

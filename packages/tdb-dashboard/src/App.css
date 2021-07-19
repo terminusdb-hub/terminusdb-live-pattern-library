@@ -1,3 +1,7 @@
+html, body {
+  height: 100% ;
+}
+
 
 body{
   /*color: #4a5073;
@@ -299,9 +303,23 @@ tbody, td, tfoot, th, thead, tr {
 
 
 ::-webkit-scrollbar {
-  width: 0px; 
-  background: transparent; 
+  width: 12px; 
+  background: transparent;
+  border: 1px solid grey;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #444;
+  max-height: 50%; 
+  height: 50%;
+}
+
 
 .time-travel-control {
   transition: 1s;

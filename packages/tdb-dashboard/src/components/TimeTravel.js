@@ -9,51 +9,40 @@ import {TERMINUS_SUCCESS} from "./constants"
 import {Alerts} from "./Alerts"
 import {AiOutlineUser} from "react-icons/ai"
 import {printtsDate, printtsTime} from "./utils"
-//import {DBContextObj} from "../hooks/DBContext"
+import {WOQLClientObj} from '../init-woql-client'
 
 export const TimeTravel = (props) => {
  
     let cardColor = "#303030", transparantColor = "transparent", activeColor = "#00bc8c"
-    const [chosenCommit,setChosenCommit]=useState({})
-    //const {chosenCommit, setChosenCommit} = DBContextObj()
+    const  {branch, chosenCommit,setHead} = WOQLClientObj()
+  
     const {currentItem, 
         dataProvider, 
-        setSelectedValue, 
-        setHead, 
-        branch, 
+        //setSelectedValue, 
         setCurrentDay,
         loadNextPage,
+        olderCommit,
         loadPreviousPage
         } = TimeTravelControl()
-
+    
     const [reportAlert, setReportAlert] = useState(false)
-
-
-    const [commits, setCommits] = useState([])
-
 
     const handleTimeTravel = (e, commit, selectedVaue) => {
         e.preventDefault()
-        setChosenCommit(commit)
-        setSelectedValue(selectedVaue)
+        //setSelectedValue(selectedVaue)
+        //setHead sets chosenCommit too
         if(commit && setHead){
             setHead(branch, commit)
          }
     }
 
-    /*useEffect(() => {
-      if(dataProvider.length > 0) {
-          setCommits(dataProvider)
-      }
-    }, [dataProvider])*/
-
-    /*useEffect(() => {
+    useEffect(() => {
         if(chosenCommit && setHead){
             setHead(branch, chosenCommit)
             let message = `The state of data product has been set to date ${chosenCommit.label}`
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
          }
-    }, [chosenCommit])*/
+    }, [chosenCommit])
 
 
     const TimelineElements = () => {
@@ -62,32 +51,31 @@ export const TimeTravel = (props) => {
         let timeElements = []
         let selectedCounter = 0
 
-        dataProvider.slice(0).reverse().map((item) => {
+        dataProvider.map((item) => {
 
             var iconStyle = { background: transparantColor, color: '#444' }
             var disabled = false
             var currentDateColor 
-
-            if(!chosenCommit && item.isLastCommit) { // when nothing is selected to point to latest commit
+            //to be review I had select in the dataprovider
+            
+            if(chosenCommit && chosenCommit.commit == item.commit) { // to highlight current commit on jumping to a particular commit
+                iconStyle = { background: activeColor, color: '#444' }
+                disabled = true
+                currentDateColor = "current-time-point"
+            }else if (item.isHeadCommit){
                 iconStyle = { background: activeColor, color: '#444' }
                 disabled = true 
                 currentDateColor = "current-time-point"
             }
-            
-            if(chosenCommit.commit == item.commit) { // to highlight current commit on jumping to a particular commit
-                iconStyle = { background: activeColor, color: '#444' }
-                disabled = true
-                currentDateColor = "current-time-point"
-            }
 
-            timeElements.push(<VerticalTimelineElement    
+            timeElements.push(<VerticalTimelineElement    key={item.commit} 
                 className="vertical-timeline-element--work"
                 contentStyle={{ background: cardColor, color: '#fff' }}
                 contentArrowStyle={{ borderRight: '7px solid #00bc8c' }}
                 iconStyle={iconStyle}
                 icon={<BsFillCircleFill />}
                 >
-                <Card variant="success" className=" time-travel-card" id={item.commit}>
+                <Card  variant="success" className=" time-travel-card" id={item.commit}>
 
                     <Card.Header className={`d-flex ${currentDateColor}`}>
                       <h6>{`Commited on ${printtsDate(item.time)}`} </h6>
@@ -121,17 +109,14 @@ export const TimeTravel = (props) => {
         return timeElements
     }
 
-    const loadMore = () => {
-        console.log("loading more")
-    } 
- 
+    //only if the older commit has a parent we can load extra commit
     return <React.Fragment>
-               
-        {/*reportAlert && <React.Fragment>{reportAlert}</React.Fragment>*/}
-
+        {/*reportAlert && <React.Fragment>{reportAlert}</React.Fragment>*/}        
         <VerticalTimeline layout="1-column-left">
             <TimelineElements/>
-            <Button variant="link" className="float-right text-info" onClick={loadPreviousPage}>Load More</Button>
+            {olderCommit && olderCommit.parent && 
+                <Button variant="link" className="float-right text-info" onClick={loadPreviousPage}>Load More</Button>
+            }
         </VerticalTimeline>
 
                 

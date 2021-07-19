@@ -32,7 +32,7 @@ export const DocumentPage = (props) => {
                     dbNameValue='test_db'
                 } 
                 const result = await woqlClient.addDocument(json,null,dbNameValue)
-                woqlClient.checkout("main")
+                
                 setInsertResult(result)
            }catch(err){
                 setError(err.message)
@@ -181,7 +181,7 @@ export const DocumentPage = (props) => {
                         </Row>
                         <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Add a Json Document</Form.Label>
-                                <textarea className="text-muted" ref={createDoc} class="form-control" rows="10">
+                                <textarea className="text-muted" ref={createDoc} className="form-control" rows="10">
                                 </textarea>
                         </Form.Group>
 
@@ -217,9 +217,9 @@ export const DocumentPage = (props) => {
                                 </Col>
                                 </Row>
                         </Form.Group>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label for="exampleFormControlTextarea1">Get Document Result</label>
-                            <textarea readOnly ref={getResult} class="form-control" id="exampleFormControlTextarea1" rows="10">
+                            <textarea readOnly ref={getResult} className="form-control" id="exampleFormControlTextarea1" rows="10">
                                 {selectResult}
                             </textarea>
                         </div>
@@ -243,9 +243,9 @@ export const DocumentPage = (props) => {
                                 </Col>
                                 </Row>
                         </Form.Group>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label for="exampleFormControlTextarea1">Delete Document Result</label>
-                            <textarea readOnly ref={getResultDelete} class="form-control" id="exampleFormControlTextarea1" rows="10">
+                            <textarea readOnly ref={getResultDelete} className="form-control" id="exampleFormControlTextarea1" rows="10">
                                 {selectResult}
                             </textarea>
                         </div>

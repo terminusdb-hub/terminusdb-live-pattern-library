@@ -14,7 +14,12 @@ export const QueryPane = ({id, name, queryObj}) => {
     const [viewResult, setViewResult]=useState(0)
     const result = queryObj.resultObj.result
     const showResult = viewResult || result ? true : false
-    const {dataProduct} = WOQLClientObj()
+    const {dataProduct,woqlClient} = WOQLClientObj()
+
+    //using dosen't work if you need to query the commit db 
+    if(woqlClient && dataProduct){
+        woqlClient.checkout("_commits")
+    }
 
     //const [queryBuilder, showQueryBuilder] = useState(false)
     const queryBuilder = queryObj.queryBuilderObj.isOpen

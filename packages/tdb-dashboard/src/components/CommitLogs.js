@@ -112,16 +112,16 @@ const CommitHeader = ({selectedCommit, onClose}) => {
 
     return <React.Fragment> 
         <div className="d-flex align-items-center">
-            <div class="d-block col-md-6">
-                <h6 class="fw-normal text-muted mb-2">Commit ID</h6>
+            <div className="d-block col-md-6">
+                <h6 className="fw-normal text-muted mb-2">Commit ID</h6>
                 <h5>{selectedCommit.id}</h5>
             </div>
-            <div class="d-block col-md-3">
-                <h6 class="fw-normal text-muted mb-2">Commited at</h6>
+            <div className="d-block col-md-3">
+                <h6 className="fw-normal text-muted mb-2">Commited at</h6>
                 <h5>{dt}</h5>
             </div>
-            <div class="d-block col-md-3">
-                <h6 class="fw-normal text-muted mb-2">Commited by</h6>
+            <div className="d-block col-md-3">
+                <h6 className="fw-normal text-muted mb-2">Commited by</h6>
                 <h5>{selectedCommit.author}</h5>
             </div>
         </div>
@@ -216,7 +216,7 @@ export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => 
                 {copied} !
             </Toast.Body>
         </Toast>}
-        <h6 class="fw-normal text-muted mb-2">{`Latest Updates on ${branch} branch`}</h6>
+        <h6 className="fw-normal text-muted mb-2">{`Latest Updates on ${branch} branch`}</h6>
         {result && tableConfig && <WOQLTable
             result={result}
             freewidth={true}

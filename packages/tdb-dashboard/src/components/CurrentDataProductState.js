@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {getCommitTime} from "./utils"
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {BsFillExclamationTriangleFill, BsBriefcase} from "react-icons/bs"
@@ -12,15 +11,24 @@ export const ConnectedDataProduct = (props) => {
         dataProduct, 
         sidebarDataProductConnectedState, 
         setSidebarDataProductConnectedState,
-        branch, consoleTime
+        branch, chosenCommit
     } = WOQLClientObj()
 
     const [status, setStatus] = useState("text-success")
     const [currentCommit, setCurrentCommit] = useState("latest")
 
     useEffect(() => {
-        getCommitTime(consoleTime, setStatus, setCurrentCommit)
-    }, [consoleTime])
+            if (chosenCommit && chosenCommit.time) {
+                if(setCurrentCommit) setCurrentCommit(printts(chosenCommit.time))
+                //if(setIconColor) setIconColor("#f39c12")
+                if(setStatus) setStatus("text-warning")
+            }
+            else {
+                if(setCurrentCommit) setCurrentCommit("latest")
+                if(setStatus)setStatus("text-muted")
+            }
+       
+    }, [chosenCommit])
 
     function title (dataProduct) {
         return <span className="pro-item-content">Connected to <strong className="text-success">{dataProduct}</strong></span>

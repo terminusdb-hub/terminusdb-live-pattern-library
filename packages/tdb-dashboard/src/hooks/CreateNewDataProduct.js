@@ -1,4 +1,3 @@
-
 import {useState, useEffect} from "react"
 import {WOQLClientObj} from "../init-woql-client"
 import {TerminusClient} from "@terminusdb/terminusdb-client"

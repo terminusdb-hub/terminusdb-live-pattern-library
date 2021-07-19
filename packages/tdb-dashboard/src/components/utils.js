@@ -63,36 +63,6 @@ export function formatCommits (ct) {
     return ct
 }
 
-
-/*export function formatGraphs (graphs) {
-    let str
-
-    if(graphs) {
-        let inf = 0;
-        let sch = 0;
-        let ins = 0;
-        str = Object.keys(graphs).length + " graphs: "
-        for(var k in graphs){
-            if(graphs[k].type == "schema") sch++
-            else if(graphs[k].type == "inference") inf++
-            else if(graphs[k].type == "instance") ins++
-        }
-        if(sch > 0){
-            str += sch + " schema "
-        }
-        if(ins > 0){
-            str += ins + " instance "
-        }
-        if(inf > 0){
-            str += inf + " inference "
-        }
-    }
-    else {
-        str = "schema free database - single graph"
-    }
-    return str
-}*/
-
 export function formatClassesCount (ct) {
     if(ct == 1) ct += " class"
     else ct += " classes"
@@ -141,20 +111,6 @@ export const copyToClipboard = str => {
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-}
-
-// set status and current time on time travel jump
-export function getCommitTime(consoleTime, setStatus, setCurrentCommit, setIconColor) {
-    if (consoleTime) {
-        if(setCurrentCommit) setCurrentCommit(printts(consoleTime))
-        if(setIconColor) setIconColor("#f39c12")
-        if(setStatus) setStatus("text-warning")
-    }
-    else {
-        if(setCurrentCommit) setCurrentCommit("latest")
-        if(setIconColor) setIconColor("#00bc8c")
-        if(setStatus)setStatus("text-muted")
-    }
 }
 
 export function trimWOQL (str) {

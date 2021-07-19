@@ -1,28 +1,41 @@
 import React, {useEffect, useState} from "react"
 import {Card, Button, Row, Col, Form} from "react-bootstrap"
-import {BiTimer, BiChevronLeft, BiChevronRight} from "react-icons/bi"
-import {getCommitTime} from "./utils"
+import {BiTimer} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
 import {TimeTravel}  from "./TimeTravel"
 import {AiOutlineClose} from "react-icons/ai"
 import {BsBriefcase} from "react-icons/bs"
-import AnchorLink from 'react-anchor-link-smooth-scroll'
-
+//import AnchorLink from 'react-anchor-link-smooth-scroll'
 
 export const TimeTravelWidget = (props) => {
     const [showTimeTravel, setShowTimeTravel] = useState(false)
       
-    const [iconColor, setIconColor] = useState("#00bc8c")
-    const {branches,branch,ref,consoleTime}=WOQLClientObj()
-    const chosenCommit={}
-    const branchList = branches
+    //const [iconColor, setIconColor] = useState("#00bc8c")
+
+    const {branches,branch,chosenCommit}=WOQLClientObj()
     
     const [cssWidget, setCssWidget] = useState("")
     const [cssTimeTravel, setCssTimeTravel] = useState("display-none")
 
-    useEffect(() => {
+    const iconColor = chosenCommit && chosenCommit.time ? "#f39c12" : "#00bc8c"
+
+   /* useEffect(() => {
+      // set status and current time on time travel jump
+      function getCommitTime() {
+        if (consoleTime) {
+            //if(setCurrentCommit) setCurrentCommit(printts(consoleTime))
+            if(setIconColor) setIconColor("#f39c12")
+            if(setStatus) setStatus("text-warning")
+        }
+        else {
+            setIconColor("#00bc8c")
+            if(setStatus)setStatus("text-muted")
+        }
+      }
+
+
       getCommitTime(consoleTime, null, null, setIconColor)
-    }, [consoleTime])
+    }, [consoleTime])*/
 
     function handleTimeTravel() {
       setCssTimeTravel("")
@@ -79,7 +92,7 @@ export const TimeTravelWidget = (props) => {
                           className="bg-transparent border-1-light text-light mb-0" 
                           style={{width: "270px"}}>
                             <option defaultValue>{branch}</option>
-                            <BranchOptions branchList={branchList}/>
+                            <BranchOptions branchList={branches}/>
                         </Form.Control>
                     </Form.Group>
                 </Form>
@@ -90,8 +103,82 @@ export const TimeTravelWidget = (props) => {
                 </div>
                 
             </Card.Header>
-            <Card.Body className="time-travel-card-body">
-                <TimeTravel/>
+            <Card.Body className="time-travel-card-body overflow-auto">
+              <div>
+            Years ago, my ex-girlfriend gave me a pair of Bluetooth headphones as a birthday present. I tried so hard to make them work. But they irritated my ears and always fell out. I went back to my regular wired headphones.
+Unfortunately, this decision became a source of torment. Every time we went to the gym she brought it up, “It’s a shame you aren’t using those $150 headphones I got you.” She brought it up for months and months. It felt like I’d loaned money to the devil.
+Humans are strongly reciprocal in nature. Healthy relationships are built on giving and getting in return. A gulf in reciprocity creates a power imbalance. This is why gifts are a common tool for manipulation.
+Even worse, bestowing presents is a common tactic by abusers. Each of Michael Jackson’s accusers made similar claims of him showering them with amazing gifts. They felt a sense of loyalty to him, particularly when it came time to defend him.
+With my aforementioned ex, we eventually reached a resolution that once a gift is given, it is released. There are no clawbacks. There is no weaponizing them during arguments. Thank god it only took us 300 fights to figure that out. Reciprocity is important but don’t let it stray into scorekeeping. Beware of gifts.
+The Ben Franklin Effect
+The most advanced manipulators use this trick and you can too, in a good way. It’s one of the easiest ways to get someone to like you.
+Ben Franklin had a political enemy who was making speeches against him. Franklin remembered an old quote, “He that has once done you a kindness will be more ready to do you another than he whom you yourself have obliged.” Then he asked that political enemy to loan him a rare book. Then, Ben returned it to him with a nice thank you note. Suddenly, their political rivalry vanished and Franklin had a new friend.
+Asking for a favor is a conveyance of trust and need. That person feels chosen. You are suggesting they have something you don’t: knowledge, ability, resources. It appeals to their insecurities. If you don’t know the requester or are angry at them, it creates a cognitive dissonance: why am I helping someone I don’t know or am mad at?
+Your brain watches you behaving in conflict and creates a subconscious conclusion: you must like the person. After all, we ask favors of people we trust and care for. Beware of favor requests from people who have something to gain from you.
+Years ago, my ex-girlfriend gave me a pair of Bluetooth headphones as a birthday present. I tried so hard to make them work. But they irritated my ears and always fell out. I went back to my regular wired headphones.
+Unfortunately, this decision became a source of torment. Every time we went to the gym she brought it up, “It’s a shame you aren’t using those $150 headphones I got you.” She brought it up for months and months. It felt like I’d loaned money to the devil.
+Humans are strongly reciprocal in nature. Healthy relationships are built on giving and getting in return. A gulf in reciprocity creates a power imbalance. This is why gifts are a common tool for manipulation.
+Even worse, bestowing presents is a common tactic by abusers. Each of Michael Jackson’s accusers made similar claims of him showering them with amazing gifts. They felt a sense of loyalty to him, particularly when it came time to defend him.
+With my aforementioned ex, we eventually reached a resolution that once a gift is given, it is released. There are no clawbacks. There is no weaponizing them during arguments. Thank god it only took us 300 fights to figure that out. Reciprocity is important but don’t let it stray into scorekeeping. Beware of gifts.
+The Ben Franklin Effect
+The most advanced manipulators use this trick and you can too, in a good way. It’s one of the easiest ways to get someone to like you.
+Ben Franklin had a political enemy who was making speeches against him. Franklin remembered an old quote, “He that has once done you a kindness will be more ready to do you another than he whom you yourself have obliged.” Then he asked that political enemy to loan him a rare book. Then, Ben returned it to him with a nice thank you note. Suddenly, their political rivalry vanished and Franklin had a new friend.
+Asking for a favor is a conveyance of trust and need. That person feels chosen. You are suggesting they have something you don’t: knowledge, ability, resources. It appeals to their insecurities. If you don’t know the requester or are angry at them, it creates a cognitive dissonance: why am I helping someone I don’t know or am mad at?
+Your brain watches you behaving in conflict and creates a subconscious conclusion: you must like the person. After all, we ask favors of people we trust and care for. Beware of favor requests from people who have something to gain from you.
+Years ago, my ex-girlfriend gave me a pair of Bluetooth headphones as a birthday present. I tried so hard to make them work. But they irritated my ears and always fell out. I went back to my regular wired headphones.
+Unfortunately, this decision became a source of torment. Every time we went to the gym she brought it up, “It’s a shame you aren’t using those $150 headphones I got you.” She brought it up for months and months. It felt like I’d loaned money to the devil.
+Humans are strongly reciprocal in nature. Healthy relationships are built on giving and getting in return. A gulf in reciprocity creates a power imbalance. This is why gifts are a common tool for manipulation.
+Even worse, bestowing presents is a common tactic by abusers. Each of Michael Jackson’s accusers made similar claims of him showering them with amazing gifts. They felt a sense of loyalty to him, particularly when it came time to defend him.
+With my aforementioned ex, we eventually reached a resolution that once a gift is given, it is released. There are no clawbacks. There is no weaponizing them during arguments. Thank god it only took us 300 fights to figure that out. Reciprocity is important but don’t let it stray into scorekeeping. Beware of gifts.
+The Ben Franklin Effect
+The most advanced manipulators use this trick and you can too, in a good way. It’s one of the easiest ways to get someone to like you.
+Ben Franklin had a political enemy who was making speeches against him. Franklin remembered an old quote, “He that has once done you a kindness will be more ready to do you another than he whom you yourself have obliged.” Then he asked that political enemy to loan him a rare book. Then, Ben returned it to him with a nice thank you note. Suddenly, their political rivalry vanished and Franklin had a new friend.
+Asking for a favor is a conveyance of trust and need. That person feels chosen. You are suggesting they have something you don’t: knowledge, ability, resources. It appeals to their insecurities. If you don’t know the requester or are angry at them, it creates a cognitive dissonance: why am I helping someone I don’t know or am mad at?
+Your brain watches you behaving in conflict and creates a subconscious conclusion: you must like the person. After all, we ask favors of people we trust and care for. Beware of favor requests from people who have something to gain from you.
+Years ago, my ex-girlfriend gave me a pair of Bluetooth headphones as a birthday present. I tried so hard to make them work. But they irritated my ears and always fell out. I went back to my regular wired headphones.
+Unfortunately, this decision became a source of torment. Every time we went to the gym she brought it up, “It’s a shame you aren’t using those $150 headphones I got you.” She brought it up for months and months. It felt like I’d loaned money to the devil.
+Humans are strongly reciprocal in nature. Healthy relationships are built on giving and getting in return. A gulf in reciprocity creates a power imbalance. This is why gifts are a common tool for manipulation.
+Even worse, bestowing presents is a common tactic by abusers. Each of Michael Jackson’s accusers made similar claims of him showering them with amazing gifts. They felt a sense of loyalty to him, particularly when it came time to defend him.
+With my aforementioned ex, we eventually reached a resolution that once a gift is given, it is released. There are no clawbacks. There is no weaponizing them during arguments. Thank god it only took us 300 fights to figure that out. Reciprocity is important but don’t let it stray into scorekeeping. Beware of gifts.
+The Ben Franklin Effect
+The most advanced manipulators use this trick and you can too, in a good way. It’s one of the easiest ways to get someone to like you.
+Ben Franklin had a political enemy who was making speeches against him. Franklin remembered an old quote, “He that has once done you a kindness will be more ready to do you another than he whom you yourself have obliged.” Then he asked that political enemy to loan him a rare book. Then, Ben returned it to him with a nice thank you note. Suddenly, their political rivalry vanished and Franklin had a new friend.
+Asking for a favor is a conveyance of trust and need. That person feels chosen. You are suggesting they have something you don’t: knowledge, ability, resources. It appeals to their insecurities. If you don’t know the requester or are angry at them, it creates a cognitive dissonance: why am I helping someone I don’t know or am mad at?
+Your brain watches you behaving in conflict and creates a subconscious conclusion: you must like the person. After all, we ask favors of people we trust and care for. Beware of favor requests from people who have something to gain from you.
+Years ago, my ex-girlfriend gave me a pair of Bluetooth headphones as a birthday present. I tried so hard to make them work. But they irritated my ears and always fell out. I went back to my regular wired headphones.
+Unfortunately, this decision became a source of torment. Every time we went to the gym she brought it up, “It’s a shame you aren’t using those $150 headphones I got you.” She brought it up for months and months. It felt like I’d loaned money to the devil.
+Humans are strongly reciprocal in nature. Healthy relationships are built on giving and getting in return. A gulf in reciprocity creates a power imbalance. This is why gifts are a common tool for manipulation.
+Even worse, bestowing presents is a common tactic by abusers. Each of Michael Jackson’s accusers made similar claims of him showering them with amazing gifts. They felt a sense of loyalty to him, particularly when it came time to defend him.
+With my aforementioned ex, we eventually reached a resolution that once a gift is given, it is released. There are no clawbacks. There is no weaponizing them during arguments. Thank god it only took us 300 fights to figure that out. Reciprocity is important but don’t let it stray into scorekeeping. Beware of gifts.
+The Ben Franklin Effect
+The most advanced manipulators use this trick and you can too, in a good way. It’s one of the easiest ways to get someone to like you.
+Ben Franklin had a political enemy who was making speeches against him. Franklin remembered an old quote, “He that has once done you a kindness will be more ready to do you another than he whom you yourself have obliged.” Then he asked that political enemy to loan him a rare book. Then, Ben returned it to him with a nice thank you note. Suddenly, their political rivalry vanished and Franklin had a new friend.
+Asking for a favor is a conveyance of trust and need. That person feels chosen. You are suggesting they have something you don’t: knowledge, ability, resources. It appeals to their insecurities. If you don’t know the requester or are angry at them, it creates a cognitive dissonance: why am I helping someone I don’t know or am mad at?
+Your brain watches you behaving in conflict and creates a subconscious conclusion: you must like the person. After all, we ask favors of people we trust and care for. Beware of favor requests from people who have something to gain from you.
+Years ago, my ex-girlfriend gave me a pair of Bluetooth headphones as a birthday present. I tried so hard to make them work. But they irritated my ears and always fell out. I went back to my regular wired headphones.
+Unfortunately, this decision became a source of torment. Every time we went to the gym she brought it up, “It’s a shame you aren’t using those $150 headphones I got you.” She brought it up for months and months. It felt like I’d loaned money to the devil.
+Humans are strongly reciprocal in nature. Healthy relationships are built on giving and getting in return. A gulf in reciprocity creates a power imbalance. This is why gifts are a common tool for manipulation.
+Even worse, bestowing presents is a common tactic by abusers. Each of Michael Jackson’s accusers made similar claims of him showering them with amazing gifts. They felt a sense of loyalty to him, particularly when it came time to defend him.
+With my aforementioned ex, we eventually reached a resolution that once a gift is given, it is released. There are no clawbacks. There is no weaponizing them during arguments. Thank god it only took us 300 fights to figure that out. Reciprocity is important but don’t let it stray into scorekeeping. Beware of gifts.
+The Ben Franklin Effect
+The most advanced manipulators use this trick and you can too, in a good way. It’s one of the easiest ways to get someone to like you.
+Ben Franklin had a political enemy who was making speeches against him. Franklin remembered an old quote, “He that has once done you a kindness will be more ready to do you another than he whom you yourself have obliged.” Then he asked that political enemy to loan him a rare book. Then, Ben returned it to him with a nice thank you note. Suddenly, their political rivalry vanished and Franklin had a new friend.
+Asking for a favor is a conveyance of trust and need. That person feels chosen. You are suggesting they have something you don’t: knowledge, ability, resources. It appeals to their insecurities. If you don’t know the requester or are angry at them, it creates a cognitive dissonance: why am I helping someone I don’t know or am mad at?
+Your brain watches you behaving in conflict and creates a subconscious conclusion: you must like the person. After all, we ask favors of people we trust and care for. Beware of favor requests from people who have something to gain from you.
+Years ago, my ex-girlfriend gave me a pair of Bluetooth headphones as a birthday present. I tried so hard to make them work. But they irritated my ears and always fell out. I went back to my regular wired headphones.
+Unfortunately, this decision became a source of torment. Every time we went to the gym she brought it up, “It’s a shame you aren’t using those $150 headphones I got you.” She brought it up for months and months. It felt like I’d loaned money to the devil.
+Humans are strongly reciprocal in nature. Healthy relationships are built on giving and getting in return. A gulf in reciprocity creates a power imbalance. This is why gifts are a common tool for manipulation.
+Even worse, bestowing presents is a common tactic by abusers. Each of Michael Jackson’s accusers made similar claims of him showering them with amazing gifts. They felt a sense of loyalty to him, particularly when it came time to defend him.
+With my aforementioned ex, we eventually reached a resolution that once a gift is given, it is released. There are no clawbacks. There is no weaponizing them during arguments. Thank god it only took us 300 fights to figure that out. Reciprocity is important but don’t let it stray into scorekeeping. Beware of gifts.
+The Ben Franklin Effect
+The most advanced manipulators use this trick and you can too, in a good way. It’s one of the easiest ways to get someone to like you.
+Ben Franklin had a political enemy who was making speeches against him. Franklin remembered an old quote, “He that has once done you a kindness will be more ready to do you another than he whom you yourself have obliged.” Then he asked that political enemy to loan him a rare book. Then, Ben returned it to him with a nice thank you note. Suddenly, their political rivalry vanished and Franklin had a new friend.
+Asking for a favor is a conveyance of trust and need. That person feels chosen. You are suggesting they have something you don’t: knowledge, ability, resources. It appeals to their insecurities. If you don’t know the requester or are angry at them, it creates a cognitive dissonance: why am I helping someone I don’t know or am mad at?
+Your brain watches you behaving in conflict and creates a subconscious conclusion: you must like the person. After all, we ask favors of people we trust and care for. Beware of favor requests from people who have something to gain from you.
+   
+   
+            </div>
+   
             </Card.Body>   
           </Card>
       
@@ -101,3 +188,4 @@ export const TimeTravelWidget = (props) => {
 
     
 }
+//<TimeTravel/>

@@ -19,7 +19,8 @@ export const WOQLClientProvider = ({children, params}) => {
     // branchesstates 
     const [branches, setBranches] = useState(false)
     const [DBInfo, setDBInfo] = useState()
-    const [consoleTime, setConsoleTime] = useState()
+    const [chosenCommit,setChosenCommit]=useState({})
+    // const [consoleTime, setConsoleTime] = useState()
 
     // sets current page
     const [route, setRoute]=useState(DATA_PRODUCTS)
@@ -82,8 +83,8 @@ export const WOQLClientProvider = ({children, params}) => {
         if(woqlClient){
             woqlClient.db(id)
             setDatabase(id)
-            setBranch('main')
-           // woqlClient.checkout('_commits')
+            //reset the head
+            setHead('main',{commit:false,time:false})
         }
     }
     //I know I have to review this file!!!!!!!!
@@ -99,7 +100,7 @@ export const WOQLClientProvider = ({children, params}) => {
                  if(result.bindings.length>0){
                     result.bindings.forEach(item=>{
                         const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
-                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier : ''
+                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
                         const branchItem={id:item.Branch,
                                             head_id:head_id,
                                             head:head,
@@ -130,7 +131,7 @@ export const WOQLClientProvider = ({children, params}) => {
     //to be review 
     //to much set state we can optimize this !!!
     function setHead(branchID, refObject={}){// ridConsoleTime=false) 
-        woqlClient.checkout(branchID)
+        if(branchID)woqlClient.checkout(branchID)
         let sref=refObject.commit
         let refTime=refObject.time
 
@@ -143,12 +144,13 @@ export const WOQLClientProvider = ({children, params}) => {
       
         setBranch(branchID)
         setRef(sref)
-        setConsoleTime(refTime)
+        setChosenCommit(refObject)
     }
 
     return (
         <WOQLContext.Provider
             value={{
+                chosenCommit,
                 setHead,
                 branchNeedReload,
                 branches,
