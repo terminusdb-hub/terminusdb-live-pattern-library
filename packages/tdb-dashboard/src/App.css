@@ -313,6 +313,10 @@ input {
   min-height: 38px !important;
   color: hsl(0,0%,50%) !important;
 }
+
+.search-input {
+  font-size: 13px !important;
+}
 /* ---------- form control custom dark mode ---------- */
 
 .accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{

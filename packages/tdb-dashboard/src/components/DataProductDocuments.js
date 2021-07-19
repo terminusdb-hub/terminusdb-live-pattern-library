@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
@@ -8,6 +8,7 @@ import {DocumentControl} from "../hooks/DocumentControl"
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
+import {SearchBox} from "./SearchBox"
 
 export const DataProductDocuments = () => {
     const {woqlClient, dataProduct} = WOQLClientObj()
@@ -86,6 +87,7 @@ export const DataProductDocuments = () => {
 }
 
 export const DocumentExplorerDocuments = () => { 
+
     const {
         woqlClient, 
         dataProduct, 
@@ -115,46 +117,54 @@ export const DocumentExplorerDocuments = () => {
         setCreateNewDocument(id)
     }
 
+    // search docs constant
+    const [searchDocument, setSearchDocument]=useState(false)
+
+
+    const DocumentMenu = ({item, handleCreate}) => {
+        return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
+            <ButtonGroup>
+                <Button className="pro-item-content btn-sm" 
+                    variant="dark" 
+                    title={`View documents of type ${item["@id"]}`}
+                    onClick={(e) => handleClassClick(item["@id"])}>
+                        
+                        <span className="text-gray">{item["@id"]}</span>
+                        
+                </Button>
+                <Button 
+                    className="pro-item-content btn-sm" 
+                    variant="dark"
+                    title={`Add a new ${item["@id"]}`}
+                    onClick={(e) => handleCreate(item["@id"])}>
+                        <Badge variant="dark">
+                            <BiPlus style={{fontSize: "14px"}} color="#fff" onClick={handleCreate}/>
+                        </Badge>
+                </Button>
+            </ButtonGroup>
+        </MenuItem>
+    }
 
 
     return <SubMenu title={"Document Types"}
         className="menu-title"
         defaultOpen={sidebarDocumentListState}
         onOpenChange={(e) => setSidebarDocumentListState(e)}>
+        
+        <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
+
         {documentClasses && documentClasses.map(item => {
             if (item["@type"] == "Class") {
-                return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
-                    <ButtonGroup>
-                        <Button className="pro-item-content btn-sm" 
-                            variant="dark" 
-                            title={`View documents of type ${item["@id"]}`}
-                            onClick={(e) => handleClassClick(item["@id"])}>
-                                
-                                <span className="text-gray">{item["@id"]}</span>
-                                
-                        </Button>
-                        <Button 
-                            className="pro-item-content btn-sm" 
-                            variant="dark"
-                            title={`Add a new ${item["@id"]}`}
-                            onClick={(e) => handleCreate(item["@id"])}>
-                                <Badge variant="dark">
-                                    <BiPlus style={{fontSize: "14px"}} color="#fff" onClick={handleCreate}/>
-                                </Badge>
-                        </Button>
-                    </ButtonGroup>
-                </MenuItem>
+                if(!searchDocument) {
+                    return <DocumentMenu handleCreate={handleCreate} item={item}/>
+                }
+                if(searchDocument) {
+                    if(item["@id"].includes(searchDocument)) {
+                        return <DocumentMenu handleCreate={handleCreate} item={item}/>
+                    }
+                }
             }
         })}
     </SubMenu>
 }
 
-
-/*
-
-
-<Badge title={`${item["Count"]["@value"]} ${item["Class Name"]["@value"]} available`}
-                        className="ml-3 cursor-auto text-gray" 
-                        variant="dark">{item["Count"]["@value"]}</Badge>
-
-                        */
