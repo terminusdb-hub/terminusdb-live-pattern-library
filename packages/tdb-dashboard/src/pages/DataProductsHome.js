@@ -43,7 +43,7 @@ export const DataProductsHome = (props) => {
             }
         })
         setCurrentDay(moment())
-        setReloadQuery(Date.now())
+        if(setReloadQuery) setReloadQuery(Date.now())
     }, [dataProduct]) 
       
 
@@ -72,6 +72,7 @@ export const DataProductsHome = (props) => {
 
 
     useEffect(() => {
+        if(!dataProviderValues) return
         setDataProvider(dataProviderValues.dataProvider)
     }, [dataProviderValues])
     

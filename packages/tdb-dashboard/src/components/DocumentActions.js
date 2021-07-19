@@ -15,3 +15,19 @@ export const getDocumentTools = () => {
         </ButtonGroup>
     </ButtonToolbar>
 }
+
+export const getDeleteTool = () => {
+
+    
+    //onClick={(e) => setDeleteDocument()}
+
+    return <Button variant="secondary" className="text-danger" title={"Delete Document"} >
+        <AiFillDelete/>
+    </Button>
+}
+
+export const getCopyIDTool = () => {
+    return <Button variant="secondary" title={"Copy Document ID"}>
+        <BsClipboard/>
+    </Button>
+}

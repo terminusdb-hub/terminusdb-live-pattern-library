@@ -9,9 +9,20 @@ import {
     Legend
   } from "recharts"
   import {data} from "../../DataProductGraphInfo"
+  import {DocumentControl} from "../hooks/DocumentControl"
+  import {WOQLClientObj} from '../init-woql-client'
 
 
 export const AboutDataProduct = ({dataProductDetails}) =>{
+
+    const {dataProduct} = WOQLClientObj()
+
+    const {
+        documentClasses
+    } = DocumentControl(dataProduct)
+
+    
+
     return <React.Fragment>
         <h4 className="text-muted mb-3 fw-bold">About</h4>
         <span className="d-flex mb-2">
@@ -31,7 +42,7 @@ export const AboutDataProduct = ({dataProductDetails}) =>{
         <span className="d-flex">
             <span className="d-flex mb-2 mr-3">
                 <h6 className="fw-normal text-muted mb-2 fw-bold">Classes</h6>
-                <h6 className="ml-3">{30}</h6>
+                <h6 className="ml-3">{documentClasses.length}</h6>
             </span>
             <span className="d-flex mb-2 mr-3">
                 <h6 className="fw-normal text-muted mb-2 fw-bold">Properties</h6>

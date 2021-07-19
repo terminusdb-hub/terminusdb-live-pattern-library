@@ -8,7 +8,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [woqlClient, setWoqlClient] = useState(null)
     const [loadingServer, setLoadingServer] = useState(true)
     const [dataProduct, setDatabase] = useState(false)
-    const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
+    
     
     // sets current page
     const [route, setRoute]=useState(DATA_PRODUCTS)
@@ -21,9 +21,17 @@ export const WOQLClientProvider = ({children, params}) => {
 
     const [opts, setOpts] = useState(false)
 
-    // document consts 
-    const [createDocument, setCreateDocument] = useState(false)
-
+    // document explorer consts 
+    const [currentdocumentClass, setCurrentDocumentClass] = useState(false) 
+    const [createNewDocument, setCreateNewDocument] = useState(false)
+    const [currentDocument, setCurrentDocument] = useState(false)
+    // clear document consts on change of data products
+    useEffect(() => {
+        setCurrentDocumentClass(false)
+        setCreateNewDocument(false)
+        setCurrentDocument(false)
+    }, [dataProduct])
+        
 
     useEffect(() => {
         setOpts(params)
@@ -72,8 +80,6 @@ export const WOQLClientProvider = ({children, params}) => {
                 loadingServer,
                 dataProduct, 
                 setDataProduct,
-                currentDocument, 
-                setCurrentDocument,
                 route,
                 setRoute,
                 sidebarDataProductListState, 
@@ -84,8 +90,12 @@ export const WOQLClientProvider = ({children, params}) => {
                 setSidebarDocumentListState,
                 sidebarSampleQueriesState, 
                 setSidebarSampleQueriesState,
-                setCreateDocument,
-                createDocument
+                currentdocumentClass, 
+                setCurrentDocumentClass,
+                createNewDocument, 
+                setCreateNewDocument,
+                currentDocument, 
+                setCurrentDocument
             }}
         >
             {children}

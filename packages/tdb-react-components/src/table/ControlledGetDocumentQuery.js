@@ -9,14 +9,14 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
     const [rowCount, setRowCount] = useState()
     const [result, setResult] = useState(results)
     const [loading, setLoading] = useState(false)
-    const [chosenDocument, setChosenDocument] = useState(document || false)
+    const [controlledDocument, setControlledDocument] = useState(document || false)
     const [loaded, setLoaded] = useState(false)
     const [commitMsg, setCommitMsg]=useState()
     const [refresh, setRefresh] = useState(0)
     const [documentResults, setDocumentResults]= useState(false)
 
     useEffect(() => {
-        setChosenDocument(document)
+        setControlledDocument(document)
     }, [document])
 
     /*const docQuery = (q) => {
@@ -59,16 +59,15 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
     }
 
     const executeQuery = async () => {
-        if(chosenDocument && woqlClient){
+        if(controlledDocument && woqlClient){
             let params = {}
             setLoading(true)
             let tstart = Date.now()
             let db=woqlClient.db()
-            params['type'] = chosenDocument
+            params['type'] = controlledDocument
             params['as_list'] = true
             await woqlClient.getDocument(params, db).then((response) => {
                 //processSuccessfulResult(response, tstart)
-                console.log("response", response)
                 setDocumentResults(response)
             })
             .catch((error) => {
@@ -132,7 +131,7 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
     }, [limit, start, orderBy, refresh])
 
     useEffect( () => {
-        if(chosenDocument){
+        if(controlledDocument){
             if(start > 0){
                 setStart(0)
             }
@@ -141,20 +140,22 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
             }
             //if(!woql.containsUpdate()) executeCountQuery()
         }
-    }, [chosenDocument,runQuery])
+    }, [controlledDocument,runQuery])
 
     return {
         updateQuery,
         changeOrder,
         changeLimits,
-        chosenDocument,
+        controlledDocument,
         result,
         limit,
         start,
         loading,
         rowCount,
         onRefresh,
-        documentResults
+        documentResults,
+        setRefresh,
+        refresh
     }
 }
 

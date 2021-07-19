@@ -327,6 +327,7 @@ export const CLONE_DATA_PRODUCT_CONFIG = {label:"Clone", title: "Clone Data Prod
 //New Document create button configurations
 export const CREATE_NEW_DOCUMENT_BUTTON ={label: "New Document", title: "Create a new Document", icon: "fas fa-plus", size:"sm", variant:"info"}// New Branch Form configurations
 
+export const NEW_OBJECT = "NEW_OBJECT"
 
 // GRAPH_TYPES
 export const SCHEMA_GRAPH_TYPE = "schema"
@@ -335,3 +336,11 @@ export const INSTANCE_GRAPH_TYPE = "instance"
 // DATA PROPERTY TYPE
 export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
+
+//select styles 
+export const multiSelectStyle = {
+    multiValue: (base, state) => {
+      return state.data.isFixed ? { ...base, backgroundColor: 'gray' } : base;
+    }
+}
+

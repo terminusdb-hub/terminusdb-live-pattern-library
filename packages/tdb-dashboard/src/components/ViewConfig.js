@@ -1,5 +1,7 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {arrayEquals} from "./utils"
+import {arrayEquals, getColumnsFromResults} from "./utils"
+import {deleteDocument} from "./DocumentActions"
+import { DocumentControl } from '../hooks/DocumentControl'
 
 export const getCommitViewTabConfig = (result) => {
     const tabConfig= TerminusClient.View.table();
@@ -136,39 +138,25 @@ export const graphViewConfig = (result) => {
 
 
 // table configuration for document of a class
-export const getDocumentOfTypeTabConfig = (result, getDocumentTools) => {
+export const getDocumentOfTypeTabConfig = (result, getDeleteTool, getCopyIDTool, onRowClick) => {
     const tabConfig= TerminusClient.View.table()
 
+    
     tabConfig.pager("remote")
     tabConfig.pagesize(20)
+    
+    let columns = getColumnsFromResults(result)
 
-    tabConfig.column_order("@id", "@type", "organization_name", "Tools")
+    tabConfig.column_order(...columns)
+
+    /*tabConfig.column_order("@id", "@type", "organization_name", "Tools")
     tabConfig.column("@id").header("Document ID").width(100)
     tabConfig.column("@type").header("Type").width(120) 
-    tabConfig.column("organization_name").header("Organization Name").width(120)
-    tabConfig.column("Tools").header("Organization Name").width(20).render(getDocumentTools)
+    tabConfig.column("organization_name").header("Organization Name").width(120)*/
+    tabConfig.column("Copy").header("Copy ID").width(80).render(getCopyIDTool)
+    tabConfig.column("Delete").header("Delete").width(80).render(getDeleteTool)
+    tabConfig.row().click(onRowClick)
 
     return tabConfig
 }
-
-// get frame viewer for document create
-export function loadFrameViewer(docView){
-    let frameconf = TerminusClient.View.document()
-    var property_style = "display: block; padding: 0.3em 1em;"
-    var box_style = "padding: 8px; border: 1px solid #afafaf; background-color: #efefef;"
-    var label_style = "display: inline-block; min-width: 100px; font-weight: 600; color: #446ba0;";
-    var value_style = "font-weight: 400; color: #002856;";
-    frameconf.show_all(docView == "frame" ? "fancy" : "table");
-    frameconf.show_id = true
-    frameconf.object().style(box_style);
-    frameconf.object().headerFeatures("id").style(property_style).args({headerStyle: label_style + " padding-right: 10px;", bodyStyle: value_style, label: "Database ID", removePrefixes: true});
-    frameconf.object().headerFeatures("type").style(property_style).args({headerStyle: label_style + " padding-right: 10px;", bodyStyle: value_style})
-    frameconf.object().features("value").style(property_style);
-    frameconf.property().features("label").style(label_style);
-    frameconf.property().features("label", "value");
-    frameconf.property().property("terminus:id").hidden(true);
-    frameconf.data().features("value").style(value_style);
-    return frameconf
-} 
-
 

@@ -2,8 +2,19 @@ import React from "react"
 import {Col} from "react-bootstrap"
 import {BsBriefcase, BsBucket} from "react-icons/bs"
 import {BiGitCommit} from "react-icons/bi"
+import {WOQLClientObj} from '../init-woql-client'
+import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
+import {BranchControl} from "../hooks/BranchControl"
+import {DBContextObj} from "../hooks/DBContext"
+
 
 export const DataProductSummary = ({dataProductDetails}) => {
+
+    const {woqlClient, dataProduct} = WOQLClientObj()
+    const {branches, branch, ref, updateBranches}=DBContextObj()
+
+    
+
     return <div className="d-flex mb-5">
         <div class="col-4 col-xl">
             <div class="card">

@@ -239,6 +239,21 @@ div.tdb__accordion__head{
   border-radius: 4px;
   margin-top: 5px;
 }
+
+.accordion__button {
+  background-color: transparent !important; 
+  color: #cae4fd !important; 
+  padding: 12px !important;
+  border-radius: 4px !important;
+
+}
+
+.accordion__button:hover {
+  background-color: #414141 !important; 
+  color: #cae4fd !important; 
+
+}
+
 /* ---------- overriding react components schema builder css ---------- */
 
 
@@ -248,6 +263,7 @@ div.tdb__accordion__head{
   /*background-color: #444 !important;*/
   background-color: transparent !important;
   border-color: rgb(102, 102, 102) !important;
+  min-height: 49px !important;
 }
 
 tbody, td, tfoot, th, thead, tr {
@@ -255,20 +271,45 @@ tbody, td, tfoot, th, thead, tr {
   border-bottom: 1px solid #444 !important;
 }
 
+
 .form-select {
   mix-blend-mode: difference;
   border: 1px solid #adb5bd;
 }
 
-.css-yk16xz-control {
-  background-color: transparent !important;
+.css-yk16xz-control,  .css-1960ht7-control {
+  background-color: #303030 !important;
+  border-color: rgb(102, 102, 102) !important;
 }
+
+.css-1uccc91-singleValue {
+  color: #adb5bd !important;
+}
+
+.css-g1d714-ValueContainer {
+  background-color: #303030 !important;
+}
+
+.css-26l3qy-menu, .css-1ektx4i-menu {
+  background-color: #303030 !important;
+  border-color: rgb(102, 102, 102) !important;
+  box-shadow: 5px 5px 5px #666;
+}
+
+.css-26l3qy-menu:hover {
+  border-color: #303030 !important;
+}
+
+/*
+.css-1gtuorj-indicatorContainer {
+  background-color: #303030 !important;
+}*/
 
 input {
   border-color: hsl(0,0%,80%)!important;
   border-radius: 4px !important;
   border-style: solid !important;
-  background-color: transparent !important;
+  background-color: #303030 !important;
   min-height: 38px !important;
   color: hsl(0,0%,50%) !important;
 }
@@ -507,6 +548,8 @@ input {
 }
 /* ---------- example data product card image  ---------- */
 
-
+.mandatory-icon {
+  font-size: 10px;
+}
 
 

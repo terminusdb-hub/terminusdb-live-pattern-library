@@ -204,24 +204,37 @@ export const isDataType = (property) => {
 }
 
 // returns true for properties ponting to another document
+//have to compare with enums as well 
 export const isClassType = (property, documentType) => {
     for (var item=0; item < documentType.length; item++) {
         if((documentType[item]["@type"] == "Class") && documentType[item]["@id"] == property){
             return property
         }
     }
+    /*if(typeof property == "object") return false 
+    return true*/
+}
+
+// returns true for properties ponting to another document which can be a set/ list
+export const isSetType = (property, documentType) => {
+    if(typeof property !== "object") return false 
+    if(property["@type"] === "Set") return true
+    if(property["@type"] === "List") return true
     return false
 }
 
-// returns true for properties ponting to another document which can be a set
-export const isObjectType = (property, documentType) => {
-    if(typeof property !== "object") return false 
-    for (var item=0; item < documentType.length; item++) {
-        if((documentType[item]["@type"] == "Class") && 
-            (documentType[item]["@id"] == property["@class"]) && 
-            (property["@type"] == "Set")){
-            return property
-        }
-    }
+// returns true for optional 
+export const isOptionalType = (property) => {
+    if(typeof property !== "object") return false
+    if(property["@type"] === "Optional") return true
     return false
+}
+
+export const getColumnsFromResults = (results) => {
+    let columns = []
+    for(var k in results[0]) columns.push(k) 
+    columns[columns.length] = "Delete"
+    columns[columns.length] = "Copy"
+    // add delete and copy button for document explorer
+    return columns
 }

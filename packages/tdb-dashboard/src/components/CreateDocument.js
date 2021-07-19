@@ -1,39 +1,42 @@
-import React from "react"
+import React, {useState} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {Col, Button, Card, Form, Row} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
 import {FrameViewer} from './FrameViewer'
-import {Loading} from "./Loading"
-import {PROGRESS_BAR_COMPONENT} from "./constants"
-
+import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl"
+import {JsonViewer} from "./JsonViewer"
 
 export const CreateDocument = () => {
-
+    const [jsonView, setJsonView] = useState(false)
     const {
-        woqlClient, 
-        createDocument
+        createNewDocument
     } = WOQLClientObj()
 
     const {
-        dataFrame,
-        frame,
-        loading
+        frame
     } = DocumentControl()
+
+    function handleClick () { // on toggle of json and form controls
+        setJsonView(!jsonView)
+    }
 
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100">
 
             <Col md={9}> 
-                    {loading && <Loading message={`Loading ${createDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
                     <Card>
-                        <Card.Header>
-                            <h5>Create <strong className="text-success">{createDocument}</strong></h5>
+                        <Card.Header className="d-flex">
+                            <h5 className="col-md-11">Create a new <strong className="text-success">{createNewDocument}</strong></h5>
+                            <ToggleJsonAndFormControl jsonView={jsonView} onClick={handleClick}/>
                         </Card.Header>
                         <Card.Body>
-                            {frame && <FrameViewer
+                            {!jsonView && frame && <FrameViewer
                                 frame={frame}
                                 mode="edit"
                             />}
+                            {jsonView && frame && <JsonViewer
+                                frame={frame}
+                                mode="edit"/>}
                         </Card.Body>
                     </Card>
             </Col>
@@ -44,16 +47,3 @@ export const CreateDocument = () => {
     
     
 }
-
-/*
-<FrameViewer
-                            classframe={frame}
-                            mode="edit"
-                            view={dataframe}
-                            type={(docView=="frame" ? "fancy": "table")}
-                            client={woqlClient}
-                            onExtract={setExtractedJSON}
-                            errors={errors}
-                            extract={extract}
-                        />
-*/                        

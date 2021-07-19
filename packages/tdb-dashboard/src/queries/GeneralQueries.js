@@ -187,9 +187,9 @@ export const getPropertyMeta = () => {
 
 
 /**** Document Queries  ****/
-export const getDocumentsOfType = (doctype) => {
+/*export const getDocumentsOfType = (doctype) => {
     let WOQL =  TerminusClient.WOQL
     return  WOQL.and(
         WOQL.lib().document_metadata()
     ).sub(doctype, "v:Type ID")
-}
+}*/

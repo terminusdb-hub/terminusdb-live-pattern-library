@@ -31,6 +31,8 @@ export const DataProductDocuments = () => {
         addQueryPane(q)
     }
 
+    console.log("classes *************", classes)
+
     return <SubMenu title={"Document Types"} className="menu-title">
        {classes && classes.map(item => 
             <MenuItem id={item["Class ID"]} icon={false} className="sub-menu-title">
@@ -65,30 +67,37 @@ export const DocumentExplorerDocuments = () => {
         dataProduct, 
         sidebarDocumentListState, 
         setSidebarDocumentListState, 
-        setCurrentDocument,
-        setCreateDocument
+        setCurrentDocumentClass,
+        setCreateNewDocument,
+        setCurrentDocument
     } = WOQLClientObj()
 
     //const {classes} = DatabaseInfoControl(woqlClient, dataProduct) 
-    const {documentTypes} = DocumentControl(dataProduct)
+    const {
+        documentClasses
+    } = DocumentControl(dataProduct)
 
-    console.log("documentTypes", documentTypes)
-
+    // on select of a class
     function handleClassClick (id) {
-        setCurrentDocument(id)
-        setCreateDocument(false)
+        setCreateNewDocument(false)
+        setCurrentDocument(false)
+        setCurrentDocumentClass(id)
     }
 
+    // on create on new document
     function handleCreate (id) {
-        setCurrentDocument(id)
-        setCreateDocument(id)
+        setCurrentDocumentClass(false)
+        setCurrentDocument(false)
+        setCreateNewDocument(id)
     }
+
+
 
     return <SubMenu title={"Document Types"}
         className="menu-title"
         defaultOpen={sidebarDocumentListState}
         onOpenChange={(e) => setSidebarDocumentListState(e)}>
-        {documentTypes && documentTypes.map(item => {
+        {documentClasses && documentClasses.map(item => {
             if (item["@type"] == "Class") {
                 return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
                     <ButtonGroup>

@@ -1,82 +1,82 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {isDataType, isClassType, isObjectType} from "./utils"
-import {Form, Button} from "react-bootstrap"
+import {isDataType, isClassType, isSetType, isOptionalType} from "./utils"
+import {Form, Button, Row} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
-import {BsPlusSquare} from "react-icons/bs"
 import {BiPlus} from "react-icons/bi"
+import {DataTypeFrame} from "./DataTypeFrame"
+import {ClassTypeFrame} from "./ClassTypeFrame"
+import {ClassSetTypeFrame} from "./ClassSetTypeFrame"
+import {OptionalDataTypeFrame} from "./OptionalDataTypeFrame"
+import {Loading} from "./Loading"
+import {PROGRESS_BAR_COMPONENT, NEW_OBJECT} from "./constants"
 
-export const FrameViewer = ({frame, mode}) => {
+export const FrameViewer = ({frame, mode, type}) => {
 
-    const {woqlClient, createDocument, setCreateDocument} = WOQLClientObj()
     const {
-        documentTypes, 
-        setNewDocument
+        woqlClient, 
+        createNewDocument
+    } = WOQLClientObj()
+
+    const {
+        documentClasses, 
+        setNewDocumentInfo,
+        reportAlert,
+        loading
     } = DocumentControl()
 
-    const [formFields, setFormFields] = useState({"@type": createDocument})
+
+    const [formFields, setFormFields] = useState({"@type": createNewDocument})
 
     function handleChange(e) { // gather all form fields on change
-        e.preventDefault()
         setFormFields({
             ...formFields,
             [e.target.id]: e.target.value
           })
     }
 
-    function submitDocument () {
-        setNewDocument(formFields)
+    function handleSelect(id, value) { // gather all form fields on change
+        setFormFields({
+            ...formFields,
+            [id]: value
+          })
     }
 
-    
+    function submitDocument () {
+        setNewDocumentInfo(formFields)
+    }
 
     function renderProperties () {
         let props = []
 
-        function DataTypeFrame (property, type) {
-            return <Form.Group controlId={property}>
-                <Form.Label>{property}</Form.Label>
-                <Form.Control placeholder={type} onChange={handleChange}/>
-            </Form.Group>
-        }
-
-        function ClassTypeFrame (property, type) {
-            return <Form.Group controlId={property}>
-                <Form.Label>{property}</Form.Label>
-                <Form.Control placeholder={type} onChange={handleChange}/>
-            </Form.Group>
-        }
-
-        function SetClassTypeFrame (property, object) {
-            return <Form.Group controlId={property}>
-                <span className="w-100">
-                    <Form.Label>{property}</Form.Label>
-                    <BsPlusSquare className="text-success ml-4" style={{cursor: "pointer"}}/>
-                </span>
-                <Form.Control placeholder={object["@type"]} onChange={handleChange}/>
-            </Form.Group>
-        }
-
         for(var item in frame){
-            if(frame[item] && isDataType(frame[item])) { // datatype properties
-                props.push(DataTypeFrame(item, frame[item]))
+            if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
+                props.push(<DataTypeFrame property={item} type={frame[item]} onChange={handleChange}/>)
             }
-            else if (frame[item] && isClassType(frame[item], documentTypes)){ // Other documents
-                props.push(ClassTypeFrame(item, frame[item]))
+            else if (frame[item] && isClassType(frame[item], documentClasses)){ // Other documents
+                props.push(<ClassTypeFrame property={item} type={frame[item]} onChange={handleSelect}/>) 
+            } 
+            else if(frame[item] && isSetType(frame[item], documentClasses)) { // set documents
+                props.push(<ClassSetTypeFrame property={item} object={frame[item]} onChange={handleChange}/>)
+               
             }
-            else if(frame[item] && isObjectType(frame[item], documentTypes)) { // set documents
-                props.push(SetClassTypeFrame(item, frame[item]))
+            else if (frame[item] && isOptionalType(frame[item])) { // if Optional xsd:/ xdd:
+                props.push(<OptionalDataTypeFrame property={item} object={frame[item]} onChange={handleChange}/>)
             }
           
         }
         return props
     }
 
-    return <Form >
-        {renderProperties()}
-        <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={submitDocument}>
-            <BiPlus className="mr-1"/>Create
-        </Button>
-    </Form>
+    return <React.Fragment>
+        {loading && <Loading message={`Creating new ${createNewDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
+        {reportAlert && reportAlert}
+        <Form >
+            {renderProperties()}
+            <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={submitDocument}>
+                <BiPlus className="mr-1"/>Create
+            </Button>
+        </Form>
+    </React.Fragment>
 
 }

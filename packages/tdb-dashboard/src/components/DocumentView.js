@@ -8,53 +8,68 @@ import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
 import {getDocumentOfTypeTabConfig} from "./ViewConfig"
 import {WOQLClientObj} from '../init-woql-client'
 import {SearchBox} from "./SearchBox"
-import {getDocumentTools} from "./DocumentActions"
+import {getDocumentTools, getDeleteTool, getCopyIDTool} from "./DocumentActions"
 import {CreateDocument} from "./CreateDocument"
+import {DocumentInfo} from "./DocumentInfo"
+import {getColumnsFromResults} from "./utils"
 
 export const DocumentView = () => {
+
     const {
-        woqlClient, 
-        setCurrentDocument, 
+        woqlClient,
+        currentdocumentClass,
+        createNewDocument,
         currentDocument,
-        createDocument
+        setCurrentDocument,
+        setCreateNewDocument,
+        setCurrentDocumentClass
     } = WOQLClientObj()
 
     const [tableConfig, setTableConfig] = useState(false)
 
     const {
-        documentTypeDataProvider,
-        documentsOfTypeQuery
+        currentDocumentInfo
     } = DocumentControl() 
 
     const {
         updateQuery,
         changeOrder,
         changeLimits,
-        chosenDocument,
+        controlledDocument,
         result,
         limit,
         start,
         orderBy,
         loading,
         rowCount,
-        documentResults
-    } = ControlledGetDocumentQuery(woqlClient, currentDocument, false, 20)
- 
+        documentResults,
+        setRefresh,
+        refresh
+    } = ControlledGetDocumentQuery(woqlClient, currentdocumentClass, false, 20)
+
+    // on change of class clicked on left side bar => reset
     useEffect(() => {
-        //if(!documentResults) return
-        let tConf = getDocumentOfTypeTabConfig(documentResults, getDocumentTools)
+        setTableConfig(false)
+        setRefresh(refresh+1)
+    }, [currentdocumentClass])
+
+    // on click document tablw row
+    function onRowClick (row) { 
+        setCreateNewDocument(false)
+        setCurrentDocumentClass(false)
+        setCurrentDocument(row.original["@id"])
+    }
+
+    useEffect(() => { // set table view config
+        if(!documentResults) return 
+        let tConf = getDocumentOfTypeTabConfig(documentResults, getDeleteTool, getCopyIDTool, onRowClick)
         setTableConfig(tConf)
     }, [documentResults])
 
-    console.log("documentResults", documentResults)
-
     return  <main className="content mr-3 ml-5 w-100">
-        {/*<TDBReactButton config={CREATE_NEW_DOCUMENT_BUTTON}/>*/}
-
-
-        {documentResults && currentDocument && !createDocument && <Card className="mt-4 mr-5" varaint="light"> 
+        {documentResults && tableConfig && <Card className="mt-4 mr-5" varaint="light"> 
             <Card.Header>
-                <h6>Documents of type - <strong className="text-success">{currentDocument}</strong></h6>
+                <h6>Documents of type - <strong className="text-success">{currentdocumentClass}</strong></h6>
             </Card.Header>
             <Card.Body>
                 <WOQLTable
@@ -63,16 +78,20 @@ export const DocumentView = () => {
                     view={(tableConfig ? tableConfig.json() : {})}
                     limit={limit}
                     start={start}
-                    orderBy={orderBy} 
+                    orderBy={orderBy}  
                     setLimits={changeLimits}
                     setOrder={changeOrder}
-                    query={documentsOfTypeQuery}
+                    resultColumns={getColumnsFromResults(documentResults)}
+                    query={false}
                     loading={loading}
                     totalRows={rowCount}
                 />
             </Card.Body>
         </Card>}
 
-        {createDocument && <CreateDocument/>}
+        {createNewDocument && <CreateDocument/>}
+        {currentDocument && !createNewDocument && <DocumentInfo documentIdInfo={currentDocumentInfo} chosenDocument={currentDocument}/>}
     </main>
+
+
 }
