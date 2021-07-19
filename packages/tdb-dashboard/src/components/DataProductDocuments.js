@@ -26,7 +26,9 @@ export const DataProductDocuments = () => {
         documentCount
     } = DocumentControl(dataProduct)
 
-    console.log("documentCount", documentCount)
+    // search docs constant
+    const [searchDocument, setSearchDocument]=useState(false)
+
 
     function handleClassClick (id) {
         /*let q = getPropertiesOfClass(id, dataProduct, woqlClient)
@@ -58,30 +60,40 @@ export const DataProductDocuments = () => {
         
     }
 
+    const DocumentMenu = ({item, handleClassClick}) => {
+        return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
+            <Button className="pro-item-content btn-sm" 
+                variant="dark" 
+                title={`View documents of type ${item["@id"]}`}
+                onClick={(e) => handleClassClick(item["@id"])}>
+                
+                <span className="text-gray">{item["@id"]}</span>
+                <GetCountBadge id={item["@id"]} documentCount={documentCount}/>
+
+            </Button>
+
+            {/*properties && properties.map(property => {
+                if(property["Property Domain"] == item["Class ID"])
+                    return  <MenuItem>
+                        <Button className="pro-item-content btn-sm" variant="light" onClick={(e) => handlePropertyClick(property["Property ID"])}>
+                            {property["Property Name"]["@value"]}
+                        </Button>
+                    </MenuItem>})
+            */}
+        </MenuItem>
+    }
+
 
     return <SubMenu title={"Document Types"} className="menu-title">
-       {documentClasses && documentClasses.map(item => 
-            <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
-                <Button className="pro-item-content btn-sm" 
-                    variant="dark" 
-                    title={`View documents of type ${item["@id"]}`}
-                    onClick={(e) => handleClassClick(item["@id"])}>
-                    
-                    <span className="text-gray">{item["@id"]}</span>
-                    <GetCountBadge id={item["@id"]} documentCount={documentCount}/>
-
-                </Button>
-
-                {/*properties && properties.map(property => {
-                    if(property["Property Domain"] == item["Class ID"])
-                        return  <MenuItem>
-                            <Button className="pro-item-content btn-sm" variant="light" onClick={(e) => handlePropertyClick(property["Property ID"])}>
-                                {property["Property Name"]["@value"]}
-                            </Button>
-                        </MenuItem>})
-                */}
-            </MenuItem>
-            )
+       <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
+       {documentClasses && documentClasses.map(item => {
+            if(!searchDocument) {
+                return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
+            }
+            if(searchDocument && (item["@id"].includes(searchDocument))) {
+                return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
+            }
+        })
         }    
     </SubMenu>
 }
@@ -158,10 +170,8 @@ export const DocumentExplorerDocuments = () => {
                 if(!searchDocument) {
                     return <DocumentMenu handleCreate={handleCreate} item={item}/>
                 }
-                if(searchDocument) {
-                    if(item["@id"].includes(searchDocument)) {
-                        return <DocumentMenu handleCreate={handleCreate} item={item}/>
-                    }
+                if(searchDocument && (item["@id"].includes(searchDocument))) {
+                    return <DocumentMenu handleCreate={handleCreate} item={item}/>
                 }
             }
         })}
