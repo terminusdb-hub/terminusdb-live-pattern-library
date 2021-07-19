@@ -27,6 +27,14 @@ export const DocumentControl = () => {
         }
     }, [dataProduct])
 
+    // get count of documents 
+    const [documentCount, setDocumentCount] = useState([])
+    useEffect(() => { 
+        if(documentClasses) getDocumentCount(woqlClient, documentCount, documentClasses, setDocumentCount, setLoading, setReportAlert)
+    }, [documentClasses])
+
+    console.log("documentClasses", documentClasses)
+
     // get document class frames on click of new class document
     const [frame, setFrame]=useState(false)
     useEffect(() => { 
@@ -70,7 +78,8 @@ export const DocumentControl = () => {
         loading, 
         setLoading,
         setReportAlert,
-        reportAlert
+        reportAlert,
+        documentCount
     }
     
 }
@@ -78,14 +87,35 @@ export const DocumentControl = () => {
 // gets document classes of dp 
 async function getDocumentClasses (woqlClient, setDocumentClasses, setLoading, setReportAlert) {
     let db=woqlClient.db()
-    await woqlClient.getClassDocuments(db).then((res) => {
+    return await woqlClient.getClassDocuments(db).then((res) => {
         setLoading(false)
         setDocumentClasses(res)
+        return res
     })
     .catch((err) =>  {
         let message=`Error in fetching document classes : ${err}`
         setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
+    })
+}
+
+async function getDocumentCount (woqlClient, documentCount, documentClasses, setDocumentCount, setLoading, setReportAlert) {
+    let db=woqlClient.db()
+    let params={}
+    params['as_list'] = true
+    documentClasses.map (doc => {
+        params['type'] = doc["@id"]
+        woqlClient.getDocument(params, db).then((res) => {
+            if(res[0]["@type"]) {
+                setDocumentCount(arr => [...arr, {[res[0]["@type"]]: res.length}])
+            }
+        })
+        .catch((err) => {
+            let message=`Error in fetching documents of class ${doc["@id"]}: ${err}`
+            setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+            setLoading(false)
+        })
+        
     })
 }
 
@@ -135,6 +165,7 @@ async function getDocumentsOfClassOfInterest (woqlClient, classOfInterest, setDo
     await woqlClient.getDocument(params, db).then((res) => {
         setLoading(false)
         setDocumentsOfClassOfInterest(res)
+        return res
     })
     .catch((err) => {
         let message=`Error in fetching documents of class ${classOfInterest}: ${err}`

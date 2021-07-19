@@ -3,7 +3,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {QueryPaneObj} from "../hooks/queryPaneContext"
-import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
+//import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
 import {DocumentControl} from "../hooks/DocumentControl"
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
@@ -13,50 +13,74 @@ export const DataProductDocuments = () => {
     const {woqlClient, dataProduct} = WOQLClientObj()
     const {addQueryPane} = QueryPaneObj() 
 
-    const { 
+    /*//const { 
         setCurrentClass,
         currentClass,
         setQuery,
         properties,
-        classes} = DatabaseInfoControl(woqlClient, dataProduct) 
+        classes} = DatabaseInfoControl(woqlClient, dataProduct) */
+
+    const {
+        documentClasses,
+        documentCount
+    } = DocumentControl(dataProduct)
+
+    console.log("documentCount", documentCount)
 
     function handleClassClick (id) {
-        let q = getPropertiesOfClass(id, dataProduct, woqlClient)
+        /*let q = getPropertiesOfClass(id, dataProduct, woqlClient)
         setCurrentClass(id)
-        setQuery(q)
+        setQuery(q)*/
     }
 
     function handlePropertyClick (property) {
-        let q = getPropertyRelation(property, dataProduct, woqlClient)
-        addQueryPane(q)
+        /*let q = getPropertyRelation(property, dataProduct, woqlClient)
+        addQueryPane(q)*/
     }
 
-    console.log("classes *************", classes)
+    const GetCountBadge = ({id, documentCount}) => {
+        if (!documentCount) return <div/>
+        for (var c=0; c<documentCount.length; c++) {
+            let item = documentCount[c] 
+            for (var key in item) { 
+                if (key == id) {
+                    let count = item[key]
+                    return <Badge title={`${count} ${id} available`}
+                        className="ml-3 cursor-auto text-gray" 
+                        variant="dark">{count}</Badge>
+                }
+            }
+        }
+        return <Badge title={`${0} ${id} available`}
+            className="ml-3 cursor-auto text-gray" 
+            variant="dark">{0}</Badge>
+        
+    }
+
 
     return <SubMenu title={"Document Types"} className="menu-title">
-       {classes && classes.map(item => 
-            <MenuItem id={item["Class ID"]} icon={false} className="sub-menu-title">
+       {documentClasses && documentClasses.map(item => 
+            <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
                 <Button className="pro-item-content btn-sm" 
                     variant="dark" 
-                    title={`View documents of type ${item["Class Name"]["@value"]}`}
-                    onClick={(e) => handleClassClick(item["Class ID"])}>
+                    title={`View documents of type ${item["@id"]}`}
+                    onClick={(e) => handleClassClick(item["@id"])}>
                     
-                    <span className="text-gray">{item["Class Name"]["@value"]}</span>
-                    <Badge title={`${item["Count"]["@value"]} ${item["Class Name"]["@value"]} available`}
-                    className="ml-3 cursor-auto text-gray" 
-                    variant="dark">{item["Count"]["@value"]}</Badge>
+                    <span className="text-gray">{item["@id"]}</span>
+                    <GetCountBadge id={item["@id"]} documentCount={documentCount}/>
 
                 </Button>
 
-                {properties && properties.map(property => {
+                {/*properties && properties.map(property => {
                     if(property["Property Domain"] == item["Class ID"])
                         return  <MenuItem>
                             <Button className="pro-item-content btn-sm" variant="light" onClick={(e) => handlePropertyClick(property["Property ID"])}>
                                 {property["Property Name"]["@value"]}
                             </Button>
                         </MenuItem>})
-                }
-            </MenuItem>)
+                */}
+            </MenuItem>
+            )
         }    
     </SubMenu>
 }
