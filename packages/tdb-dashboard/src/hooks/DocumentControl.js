@@ -92,7 +92,7 @@ async function getDocumentClasses (woqlClient, setDocumentClasses, setLoading, s
 // gets document frames of a document class
 export async function getDocumentFrame (woqlClient, createNewDocument, setFrame, setLoading, setReportAlert) {
     let db=woqlClient.db()
-    await woqlClient.schema(createNewDocument, db).then((res) => {
+    await woqlClient.getSchemaFrame(createNewDocument, db).then((res) => {
         setLoading(false)
         console.log("resr", res)
         setFrame(res)
