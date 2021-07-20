@@ -54,47 +54,49 @@ export const TimeTravelControl = (limit=10) => {
 
     useEffect(() => {
         //start from the branch commit
+        if(dataProduct){
         let queryObj = WOQL.query()
-        switch(queryType){
-            case QUERY_TYPE_NEXT:
-                //to be review get the commits after the actual one in time
-                //const firstElement= dataProviderValues.dataProvider.slice(-1)[0]
-                //queryObj=WOQL.lib().next_commits(firstElement.commit,branch,limit)
-                break;
-            case QUERY_TYPE_PREVIOUS:
-                const lastElement= dataProviderValues.dataProvider.slice(-1)[0]
-                queryObj=previousCommits(lastElement.commit,limit)
-                break;
-            default:
-                //when i change branch or dataprovider 
-                //I start from the head commit 
-                queryObj = commitsQueryByBranch(branch,limit)
+            switch(queryType){
+                case QUERY_TYPE_NEXT:
+                    //to be review get the commits after the actual one in time
+                    //const firstElement= dataProviderValues.dataProvider.slice(-1)[0]
+                    //queryObj=WOQL.lib().next_commits(firstElement.commit,branch,limit)
+                    break;
+                case QUERY_TYPE_PREVIOUS:
+                    const lastElement= dataProviderValues.dataProvider.slice(-1)[0]
+                    queryObj=previousCommits(lastElement.commit,limit)
+                    break;
+                default:
+                    //when i change branch or dataprovider 
+                    //I start from the head commit 
+                    queryObj = commitsQueryByBranch(branch,limit)
 
-        }
-        const tmpWoqlClient =  woqlClient.copy()
-        
-        tmpWoqlClient.checkout('_commits')
-        tmpWoqlClient.query(queryObj).then((result) => {
-            if (result.bindings) {
-                const dataFormatted=formatResult(result.bindings);
-                let newPoss=dataFormatted.newPoss;
-                let selVal=dataFormatted.toBeSelect;
-                /*
-                * if I have the time set and I'm in the first page
-                * I'm not in append mode
-                */
-                //if(startTime && currentPage===0){
-                //newPoss=selVal;
-                //}
-
-                setDataProviderValues({dataProvider:dataFormatted.dataP,selectedValue:selVal})
-                setQueryType(QUERY_TYPE_LOAD);
-                setGotoPosition(newPoss)
             }
-        }).catch((err)=>{
-            if(setError)setError(err);
-            console.log(err);
-        })
+            const tmpWoqlClient =  woqlClient.copy()
+            
+            tmpWoqlClient.checkout('_commits')
+            tmpWoqlClient.query(queryObj).then((result) => {
+                if (result.bindings) {
+                    const dataFormatted=formatResult(result.bindings);
+                    let newPoss=dataFormatted.newPoss;
+                    let selVal=dataFormatted.toBeSelect;
+                    /*
+                    * if I have the time set and I'm in the first page
+                    * I'm not in append mode
+                    */
+                    //if(startTime && currentPage===0){
+                    //newPoss=selVal;
+                    //}
+
+                    setDataProviderValues({dataProvider:dataFormatted.dataP,selectedValue:selVal})
+                    setQueryType(QUERY_TYPE_LOAD);
+                    setGotoPosition(newPoss)
+                }
+            }).catch((err)=>{
+                if(setError)setError(err);
+                console.log(err);
+            })
+        }
     }, [reloadQuery, startTime, branch, dataProduct])
 
     /*
