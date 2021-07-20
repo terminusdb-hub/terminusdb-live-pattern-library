@@ -18,7 +18,7 @@ export const TableRenderer = ({frame, mode, view, errors, client, setExtractDocs
 
     return (<>
         <table style={TAB_STYLE}>
-            <ObjectRenderer frame={frame.document} mode={mode} view={view} ping={ping} client={client} setExtractDocs={setExtractDocs} extractDocs={extractDocs} setLoading={setLoading}/>
+            <ObjectRenderer frame={frame} mode={mode} view={view} ping={ping} client={client} setExtractDocs={setExtractDocs} extractDocs={extractDocs} setLoading={setLoading}/>
         </table>
 
     </>)

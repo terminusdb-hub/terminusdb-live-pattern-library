@@ -1,5 +1,7 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {arrayEquals} from "./utils"
+import {arrayEquals, getColumnsFromResults} from "./utils"
+import {deleteDocument} from "./DocumentActions"
+import { DocumentControl } from '../hooks/DocumentControl'
 
 export const getCommitViewTabConfig = (result) => {
     const tabConfig= TerminusClient.View.table();
@@ -136,20 +138,25 @@ export const graphViewConfig = (result) => {
 
 
 // table configuration for document of a class
-export const getDocumentOfTypeTabConfig = (result, getDocumentTools) => {
+export const getDocumentOfTypeTabConfig = (result, getDeleteTool, getCopyIDTool, onRowClick) => {
     const tabConfig= TerminusClient.View.table()
 
+    
     tabConfig.pager("remote")
     tabConfig.pagesize(20)
+    
+    let columns = getColumnsFromResults(result)
 
-    tabConfig.column_order("Document ID", "Name", "Description", "Type Name", "Tools")
-    tabConfig.column("Document ID").header("Document ID").width(100)
-    tabConfig.column("Name").header("Name").width(160)
-    tabConfig.column("Description").header("Description").width(280)
-    tabConfig.column("Type Name").header("Type").width(120)
-    tabConfig.column("Tools").width(20).render(getDocumentTools)
+    tabConfig.column_order(...columns)
+
+    /*tabConfig.column_order("@id", "@type", "organization_name", "Tools")
+    tabConfig.column("@id").header("Document ID").width(100)
+    tabConfig.column("@type").header("Type").width(120) 
+    tabConfig.column("organization_name").header("Organization Name").width(120)*/
+    tabConfig.column("Copy").header("Copy ID").width(80).render(getCopyIDTool)
+    tabConfig.column("Delete").header("Delete").width(80).render(getDeleteTool)
+    tabConfig.row().click(onRowClick)
 
     return tabConfig
 }
-
 

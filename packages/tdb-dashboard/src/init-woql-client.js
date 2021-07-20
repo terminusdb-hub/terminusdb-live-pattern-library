@@ -11,7 +11,8 @@ export const WOQLClientProvider = ({children, params}) => {
     const [woqlClient, setWoqlClient] = useState(null)
     const [loadingServer, setLoadingServer] = useState(true)
     const [dataProduct, setDatabase] = useState(false)
-    const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
+
+   // const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
     const [branchesReload,setBranchReload] =useState(0)
     const [branch, setBranch] = useState(false)
     const [ref, setRef] = useState(false)
@@ -22,6 +23,8 @@ export const WOQLClientProvider = ({children, params}) => {
     const [chosenCommit,setChosenCommit]=useState({})
     // const [consoleTime, setConsoleTime] = useState()
 
+    
+    
     // sets current page
     const [route, setRoute]=useState(DATA_PRODUCTS)
 
@@ -34,6 +37,25 @@ export const WOQLClientProvider = ({children, params}) => {
     //maybe we can change this for the local connection
     const [opts, setOpts] = useState(params)
     const [connectionError, setError] = useState(false)
+   
+    // document explorer consts 
+    const [currentdocumentClass, setCurrentDocumentClass] = useState(false) 
+    const [createNewDocument, setCreateNewDocument] = useState(false)
+    const [currentDocument, setCurrentDocument] = useState(false)
+    // edit documents 
+    const [editDocument, setEditDocument] = useState(false)
+    // clear document consts on change of data products
+    useEffect(() => {
+        setCurrentDocumentClass(false)
+        setCreateNewDocument(false)
+        setCurrentDocument(false)
+        setEditDocument(false)
+    }, [dataProduct])
+        
+
+    useEffect(() => {
+        setOpts(params)
+    }, [params])
 
      useEffect(() => {
         const initWoqlClientRemote = async()=>{
@@ -163,8 +185,6 @@ export const WOQLClientProvider = ({children, params}) => {
                 loadingServer,
                 dataProduct, 
                 setDataProduct,
-                currentDocument, 
-                setCurrentDocument,
                 route,
                 setRoute,
                 sidebarDataProductListState, 
@@ -174,7 +194,15 @@ export const WOQLClientProvider = ({children, params}) => {
                 sidebarDocumentListState, 
                 setSidebarDocumentListState,
                 sidebarSampleQueriesState, 
-                setSidebarSampleQueriesState
+                setSidebarSampleQueriesState,
+                currentdocumentClass, 
+                setCurrentDocumentClass,
+                createNewDocument, 
+                setCreateNewDocument,
+                currentDocument, 
+                setCurrentDocument,
+                editDocument, 
+                setEditDocument
             }}
         >
             {children}

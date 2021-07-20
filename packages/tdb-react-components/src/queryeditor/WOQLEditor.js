@@ -43,7 +43,7 @@ export const WOQLEditor = ({language, content, editable, setEditorContent, setMa
     */
     function checkContent(content){
         //sets errors internally if doesn't work
-        if(setMainError) setMainError(false)
+        //if(setMainError) setMainError(false)
         if(content){
             try{
                 const woql = makeWOQLFromString(content, language)
@@ -98,3 +98,6 @@ return(
     </>
 )
 */
+
+
+

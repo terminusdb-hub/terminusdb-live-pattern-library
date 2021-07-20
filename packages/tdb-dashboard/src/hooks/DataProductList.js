@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from "../init-woql-client"
 
-export function dataProductList (props)  {
+export function dataProductList (woqlClient, dataProduct)  {
 
-    const {woqlClient, dataProduct} = WOQLClientObj()
+    //const {woqlClient, dataProduct} = WOQLClientObj()
  
     let [list, setList] = useState([])
 
@@ -17,7 +17,7 @@ export function dataProductList (props)  {
     }, [dataProduct])
 
     function get_dbs_to_show(){
-        if(!woqlClient)return []
+        if(!woqlClient) return []
         let mdbs = []
         let dbs = woqlClient.databases()
         for(var i = 0; i<dbs.length; i++){

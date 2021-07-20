@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react"
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {executeQueryHook} from "./executeQueryHook"
-//import {DBContextObj} from "./DBContext"
 import {WOQLClientObj} from '../init-woql-client'
 export function ScopedDetails (woqlClient, branch, dataProduct)  {
 

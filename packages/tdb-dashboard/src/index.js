@@ -8,6 +8,7 @@ import {Auth0Provider} from "./react-auth0-spa"
 import history from "./routing/history"
 import { DATA_PRODUCTS} from "./routing/constants"
 import "./App.css"
+
 //const base_url= process.env.REACT_APP_BASE_ROUTER || ''
 let redirect_uri=`${window.location.origin}/${process.env.REACT_APP_BASE_ROUTER}`
 console.log("redirect_uri",redirect_uri)

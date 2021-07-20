@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {dataProductList} from "../hooks/DataProductList"
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
@@ -7,6 +7,7 @@ import {NewDatabaseModal} from "../components/NewDatabaseModal"
 import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
 import {Badge} from "react-bootstrap"
 import {FaPlus} from "react-icons/fa"
+import {SearchBox} from "./SearchBox"
 
 /* returns a list of data products */
 const NewDataProduct = () => {
@@ -36,13 +37,28 @@ export const DataProductItems = (props) => {
         woqlClient, 
         setDataProduct, 
         sidebarDataProductListState, 
-        setSidebarDataProductListState
+        setSidebarDataProductListState,
+        dataProduct
     } = WOQLClientObj()
 
-    const {list} = dataProductList(woqlClient)
+    let {list} = dataProductList(woqlClient, dataProduct)
+
+    // search data products
+    const [searchDataProduct, setSearchDataProduct]=useState(false)
+
 
     function handleClick(dp) {
-        setDataProduct(dp.name ) 
+        setDataProduct(dp.name) 
+    }
+
+    const DataProductMenu = ({handleClick, item}) => {
+        return <MenuItem id={item.name} 
+            onClick={(e) => handleClick(item)} 
+            key={`key_${item.name}`}
+            icon={false} 
+            className="sub-menu-title">
+            {item.label}
+        </MenuItem>
     }
 
     return <SubMenu title="Data Products" 
@@ -50,13 +66,16 @@ export const DataProductItems = (props) => {
         defaultOpen={sidebarDataProductListState}
         onOpenChange={(e) => setSidebarDataProductListState(e)}
         suffix={<NewDataProduct/>}>
-        {list.map(item => 
-            <MenuItem id={item.name} 
-                onClick={(e) => handleClick(item)} 
-                key={`key_${item.name}`}
-                icon={false} 
-                className="sub-menu-title">
-                {item.label}
-            </MenuItem>)}
+        
+        <SearchBox placeholder={"Search for a Data Product"} onChange={setSearchDataProduct}/>
+        
+        {list.map(item => {
+            if(!searchDataProduct) {
+                return <DataProductMenu item={item} handleClick={handleClick}/>
+            }
+            if(searchDataProduct && (item.name.includes(searchDataProduct))) {
+                return <DataProductMenu item={item} handleClick={handleClick}/>
+            }
+        })}
     </SubMenu>
 }

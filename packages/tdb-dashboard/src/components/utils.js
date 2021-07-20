@@ -1,5 +1,7 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {format, subSeconds} from "date-fns";
+import {format, subSeconds} from "date-fns"
+import deAT from 'date-fns/locale/de-AT/index'
+import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX} from "./constants"
 
 export const isArray = (arr) => {
     if (!Array.isArray(arr) || !arr.length) {
@@ -125,4 +127,70 @@ export function trimText (text) {
     let length = 250
     let trimmedText = text.substring(0, length)
     return trimmedText + "..."
+}
+
+export const refreshDBList = (meta, woqlClient) => {
+    let id = id || woqlClient.db()
+    let org = org || woqlClient.organization()
+    let usings = [org + "/" + id]
+    let sysClient = woqlClient.copy()
+    sysClient.setSystemDb()
+
+    return TerminusClient.WOQL.lib().assets_overview(usings, sysClient, true)
+        .then((res) =>{
+            if(res[0]){
+                let local = res[0]
+                let dbs = woqlClient.databases()
+                local.label = meta.label
+                local.comment = meta.comment
+                dbs.push(local)
+                woqlClient.databases(dbs)
+            }
+        })
+        .catch((err) => console.log(err))
+}
+
+// returns true for data type with prefixes xsd: or xdd
+export const isDataType = (property) => {
+    if(typeof property == "object") return false 
+  
+    if(property.substring(0, 4) ==  XSD_DATA_TYPE_PREFIX) return true
+    else if(property.substring(0, 4) ==  XDD_DATA_TYPE_PREFIX) return true
+    else return false
+}
+
+// returns true for properties ponting to another document
+//have to compare with enums as well 
+export const isClassType = (property, documentType) => {
+    for (var item=0; item < documentType.length; item++) {
+        if((documentType[item]["@type"] == "Class") && documentType[item]["@id"] == property){
+            return property
+        }
+    }
+    /*if(typeof property == "object") return false 
+    return true*/
+}
+
+// returns true for properties ponting to another document which can be a set/ list
+export const isSetType = (property, documentType) => {
+    if(typeof property !== "object") return false 
+    if(property["@type"] === "Set") return true
+    if(property["@type"] === "List") return true
+    return false
+}
+
+// returns true for optional 
+export const isOptionalType = (property) => {
+    if(typeof property !== "object") return false
+    if(property["@type"] === "Optional") return true
+    return false
+}
+
+export const getColumnsFromResults = (results) => {
+    let columns = []
+    for(var k in results[0]) columns.push(k) 
+    columns[columns.length] = "Delete"
+    columns[columns.length] = "Copy"
+    // add delete and copy button for document explorer
+    return columns
 }

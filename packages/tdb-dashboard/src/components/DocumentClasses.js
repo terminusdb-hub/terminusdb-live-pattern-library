@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {DocumentConrtol} from "../hooks/DocumentControl"
+import {DocumentControl} from "../hooks/DocumentControl"
 import {BiPlus} from "react-icons/bi"
 import {CREATE_NEW_DOCUMENT_BUTTON, SEARCH_DOCUMENTS_PLACEHOLDER} from "./constants"
 import {Badge, Button, Card, Form} from "react-bootstrap"
@@ -13,7 +13,7 @@ export const DocumentClasses = () => {
     const {
         documentTypeDataProvider,
         documentsOfTypeQuery,
-    } = DocumentConrtol() 
+    } = DocumentControl() 
 
     useEffect(() => {
         setDataProvider(documentTypeDataProvider)

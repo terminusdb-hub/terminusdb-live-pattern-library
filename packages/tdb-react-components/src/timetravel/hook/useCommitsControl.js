@@ -181,6 +181,9 @@ export const useCommitsControl = (woqlClient, setError, branch='main', currentSt
         startTime,
         setStartTime,
         setSelectedValue,
+        setReloadQuery,
         loadNextPage,//:()=>{setCurrentPage(currentPage+1)}
     }
 }
+
+
