@@ -107,7 +107,8 @@ export const DocumentExplorerDocuments = () => {
         setSidebarDocumentListState, 
         setCurrentDocumentClass,
         setCreateNewDocument,
-        setCurrentDocument
+        setCurrentDocument,
+        setDocumentMode
     } = WOQLClientObj()
 
     //const {classes} = DatabaseInfoControl(woqlClient, dataProduct) 

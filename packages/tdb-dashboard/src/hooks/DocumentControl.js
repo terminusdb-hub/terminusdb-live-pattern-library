@@ -15,7 +15,9 @@ export const DocumentControl = () => {
         setCurrentDocumentClass,
         createNewDocument,
         setCreateNewDocument,
-        currentDocument
+        currentDocument,
+        editDocument,
+        setEditDocument
     } = WOQLClientObj()
 
     // get classes of data product
@@ -30,10 +32,10 @@ export const DocumentControl = () => {
     // get count of documents 
     const [documentCount, setDocumentCount] = useState([])
     useEffect(() => { 
+        console.log("documentClasses", documentClasses)
         if(documentClasses) getDocumentCount(woqlClient, documentCount, documentClasses, setDocumentCount, setLoading, setReportAlert)
     }, [documentClasses])
 
-    console.log("documentClasses", documentClasses)
 
     // get document class frames on click of new class document
     const [frame, setFrame]=useState(false)
@@ -42,6 +44,12 @@ export const DocumentControl = () => {
         setLoading(true)
         getDocumentFrame(woqlClient, createNewDocument, setFrame,setLoading, setReportAlert)
     }, [createNewDocument])
+
+    useEffect(() => { 
+        if(!editDocument) return
+        setLoading(true)
+        getDocumentFrame(woqlClient, editDocument, setFrame,setLoading, setReportAlert)
+    }, [editDocument])
 
     // add a new document 
     const [newDocumentInfo, setNewDocumentInfo] = useState(false)
@@ -68,6 +76,11 @@ export const DocumentControl = () => {
         getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDocumentInfo, setLoading, setReportAlert)
     }, [currentDocument])
 
+    // json view of documents 
+    const [jsonView, setJsonView] = useState(false)
+
+    
+
     return {
         documentClasses,
         frame,
@@ -79,7 +92,9 @@ export const DocumentControl = () => {
         setLoading,
         setReportAlert,
         reportAlert,
-        documentCount
+        documentCount,
+        jsonView, 
+        setJsonView
     }
     
 }
@@ -106,6 +121,7 @@ async function getDocumentCount (woqlClient, documentCount, documentClasses, set
     documentClasses.map (doc => {
         params['type'] = doc["@id"]
         woqlClient.getDocument(params, db).then((res) => {
+            if(res.length==0) return // when empty results 
             if(res[0]["@type"]) {
                 setDocumentCount(arr => [...arr, {[res[0]["@type"]]: res.length}])
             }
@@ -187,6 +203,23 @@ async function getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDo
     })
     .catch((err) => {
         let message=`Error in fetching info of document ${currentDocument}: ${err}`
+        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+}
+
+
+async function updateDocument (woqlClient, json, setReportAlert, setLoading) {
+
+    let db=woqlClient.db()
+    const params={'graph_type':'schema'} 
+    await woqlClient.getDocument(json, params, db).then((res) => {
+        setLoading(false)
+        let message=`Successfully updated document ${json["@id"]}`
+        setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
+    })
+    .catch((err) => {
+        let message=`Error in updating document ${json["@id"]}: ${err}`
         setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
     })

@@ -25,11 +25,14 @@ export const WOQLClientProvider = ({children, params}) => {
     const [currentdocumentClass, setCurrentDocumentClass] = useState(false) 
     const [createNewDocument, setCreateNewDocument] = useState(false)
     const [currentDocument, setCurrentDocument] = useState(false)
+    // edit documents 
+    const [editDocument, setEditDocument] = useState(false)
     // clear document consts on change of data products
     useEffect(() => {
         setCurrentDocumentClass(false)
         setCreateNewDocument(false)
         setCurrentDocument(false)
+        setEditDocument(false)
     }, [dataProduct])
         
 
@@ -95,7 +98,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 createNewDocument, 
                 setCreateNewDocument,
                 currentDocument, 
-                setCurrentDocument
+                setCurrentDocument,
+                editDocument, 
+                setEditDocument
             }}
         >
             {children}

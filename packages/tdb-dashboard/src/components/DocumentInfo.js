@@ -5,22 +5,30 @@ import {AiOutlineDelete} from "react-icons/ai"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {DocumentControl} from "../hooks/DocumentControl"
-import JSONInput from 'react-json-editor-ajrm'
-import locale from 'react-json-editor-ajrm/locale/en'
 import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl" 
 import {Controlled as CodeMirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/ayu-dark.css'
 require('codemirror/mode/css/css')
 require('codemirror/mode/javascript/javascript')
+import {BiEdit} from "react-icons/bi"
+import {FrameViewer} from './FrameViewer'
+import {WOQLClientObj} from '../init-woql-client'
 
 export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
 
-    const [jsonView, setJsonView] = useState(false)
+    const {
+        editDocument,
+        setEditDocument
+    } = WOQLClientObj()
+    
     const {
         setDeleteDocument,
         loading,
-        reportAlert
+        reportAlert,
+        jsonView, 
+        setJsonView,
+        frame
     } = DocumentControl()
 
     const DocumentContents = ({documentIdInfo}) => {
@@ -40,6 +48,13 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
         return contents
     }
 
+    const DocumentForm = ({documentIdInfo, frame, mode}) => {
+        if(!mode) return <DocumentContents documentIdInfo={documentIdInfo}/>
+        else return <FrameViewer
+            frame={frame}
+            mode="edit"/>
+    }
+
     const DocumentJsonView = ({documentIdInfo}) => {
         let docInfo = documentIdInfo[0]
 
@@ -56,6 +71,12 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
         setJsonView(!jsonView)
     }
 
+    function handleEdit () {
+        // get type of chosen document
+        let docInfo = documentIdInfo[0]
+        setEditDocument(docInfo["@type"])
+    }
+
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100">
             <Col md={9}> 
@@ -63,7 +84,12 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
                 {reportAlert && reportAlert}
                 <Card className="d-flex w-100">
                     <Card.Header className="d-flex w-100">
-                        <h5 className="col-md-10"><strong className="text-success">{chosenDocument}</strong></h5>
+                        <h5 className="col-md-9"><strong className="text-success">{chosenDocument}</strong></h5>
+                        
+                        <Button className="btn btn-sm btn-light mr-2" onClick={handleEdit} title={`Edit ${chosenDocument}`}>
+                            <BiEdit className="mr-1"/> Edit
+                        </Button>
+
                         <ToggleJsonAndFormControl jsonView={jsonView} onClick={handleClick}/>
                         
                         <Button className="btn btn-sm btn-danger" onClick={(e) => setDeleteDocument(chosenDocument)} title={`Delete ${chosenDocument}`}>
@@ -73,10 +99,10 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
                     <Card.Body>
                         {!jsonView && 
                             <Form>
-                                <DocumentContents documentIdInfo={documentIdInfo}/>
+                                <DocumentForm documentIdInfo={documentIdInfo} mode={editDocument} frame={frame}/>
                             </Form>
                         }
-                        {jsonView && <DocumentJsonView documentIdInfo={documentIdInfo}/>}
+                        {jsonView && <DocumentJsonView documentIdInfo={documentIdInfo}  mode={editDocument}/>}
                     </Card.Body>
                 </Card>
             </Col>

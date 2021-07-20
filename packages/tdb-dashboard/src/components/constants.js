@@ -329,6 +329,7 @@ export const CREATE_NEW_DOCUMENT_BUTTON ={label: "New Document", title: "Create 
 
 export const NEW_OBJECT = "NEW_OBJECT"
 
+
 // GRAPH_TYPES
 export const SCHEMA_GRAPH_TYPE = "schema"
 export const INSTANCE_GRAPH_TYPE = "instance"
