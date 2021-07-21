@@ -18,7 +18,7 @@ export function useCreateNewDataProductStates () {
 
 
     useEffect(() => {
-        if(newDataProductInfo.id && newDataProductInfo.label) {
+        if(woqlClient && newDataProductInfo.id && newDataProductInfo.label) {
             setLoading(true)
             createNewDataProduct(woqlClient, newDataProductInfo, setResult, setLoading, setShowNewDataProductModal, setDataProduct)
             setUpdateList(Date.now())
@@ -26,7 +26,7 @@ export function useCreateNewDataProductStates () {
     }, [newDataProductInfo])
 
     useEffect(() => {
-        if(deleteDataProductInfo.name && deleteDataProductInfo.name == woqlClient.db() ) { 
+        if(woqlClient && deleteDataProductInfo.name && deleteDataProductInfo.name == woqlClient.db() ) { 
             setLoading(true)
             deleteDataProduct(woqlClient, deleteDataProductInfo, setResult, setLoading, setShowDeleteDataProductModal, setDataProduct)
         }

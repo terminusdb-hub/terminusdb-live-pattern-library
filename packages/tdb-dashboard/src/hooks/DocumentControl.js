@@ -4,10 +4,13 @@ import {executeQueryHook} from "./executeQueryHook"
 //import {getDocumentClasses, getDocumentsOfType} from "../queries/GeneralQueries"
 import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/constants"
 import {Alerts} from "../components/Alerts"
+import { getTotalNumberOfDocuments } from "../queries/GeneralQueries"
 
 export const DocumentControl = () => {
     const [loading, setLoading]=useState(false)
     const [reportAlert, setReportAlert] = useState(false)
+
+    const [refresh, setRefresh] = useState(Date.now())
 
     const {
         woqlClient, 
@@ -16,26 +19,21 @@ export const DocumentControl = () => {
         createNewDocument,
         setCreateNewDocument,
         currentDocument,
+        setCurrentDocument,
         editDocument,
         setEditDocument
     } = WOQLClientObj()
 
     // get classes of data product
     const [documentClasses, setDocumentClasses] = useState(false)
+    const [enums, setEnums] = useState(false)
     useEffect(() => {
         if(dataProduct) {
             setLoading(true)
             getDocumentClasses(woqlClient, setDocumentClasses, setLoading, setReportAlert)
+            getEnums(woqlClient, setEnums, setLoading, setReportAlert)
         }
     }, [dataProduct])
-
-    // get count of documents 
-    const [documentCount, setDocumentCount] = useState([])
-    useEffect(() => { 
-        console.log("documentClasses", documentClasses)
-        if(documentClasses) getDocumentCount(woqlClient, documentCount, documentClasses, setDocumentCount, setLoading, setReportAlert)
-    }, [documentClasses])
-
 
     // get document class frames on click of new class document
     const [frame, setFrame]=useState(false)
@@ -44,12 +42,30 @@ export const DocumentControl = () => {
         setLoading(true)
         getDocumentFrame(woqlClient, createNewDocument, setFrame,setLoading, setReportAlert)
     }, [createNewDocument])
-
+    
+    //update documents const
     useEffect(() => { 
         if(!editDocument) return
         setLoading(true)
-        getDocumentFrame(woqlClient, editDocument, setFrame,setLoading, setReportAlert)
+        let type = editDocument["@type"] // get type of document
+        getDocumentFrame(woqlClient, type, setFrame, setLoading, setReportAlert)
     }, [editDocument])
+
+    const [updateJson, setUpdateJson] = useState(false) 
+    useEffect(() => {
+        if(!updateJson) return
+        updateDocument(woqlClient, updateJson, setUpdateJson, setEditDocument, setRefresh, setReportAlert, setLoading) 
+    }, [updateJson])
+
+    console.log("currentDocument", currentDocument)
+
+    // if on edit document get frames and then 
+    const [filledFrames, setFilledFrames]=useState({})
+    useEffect(() => {
+        if(!editDocument) return
+        setCurrentDocument(editDocument["@id"]) // set current document to get its info 
+        //getFilledFrames(woqlClient, editDocument, frame, setFilledFrames, setLoading, setReportAlert)
+    }, [frame])
 
     // add a new document 
     const [newDocumentInfo, setNewDocumentInfo] = useState(false)
@@ -74,7 +90,7 @@ export const DocumentControl = () => {
         if(!currentDocument) return
         setLoading(true)
         getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDocumentInfo, setLoading, setReportAlert)
-    }, [currentDocument])
+    }, [currentDocument, refresh])
 
     // json view of documents 
     const [jsonView, setJsonView] = useState(false)
@@ -92,9 +108,12 @@ export const DocumentControl = () => {
         setLoading,
         setReportAlert,
         reportAlert,
-        documentCount,
         jsonView, 
-        setJsonView
+        setJsonView,
+        updateJson, 
+        setUpdateJson,
+        refresh,
+        enums
     }
     
 }
@@ -111,27 +130,6 @@ async function getDocumentClasses (woqlClient, setDocumentClasses, setLoading, s
         let message=`Error in fetching document classes : ${err}`
         setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
-    })
-}
-
-async function getDocumentCount (woqlClient, documentCount, documentClasses, setDocumentCount, setLoading, setReportAlert) {
-    let db=woqlClient.db()
-    let params={}
-    params['as_list'] = true
-    documentClasses.map (doc => {
-        params['type'] = doc["@id"]
-        woqlClient.getDocument(params, db).then((res) => {
-            if(res.length==0) return // when empty results 
-            if(res[0]["@type"]) {
-                setDocumentCount(arr => [...arr, {[res[0]["@type"]]: res.length}])
-            }
-        })
-        .catch((err) => {
-            let message=`Error in fetching documents of class ${doc["@id"]}: ${err}`
-            setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
-            setLoading(false)
-        })
-        
     })
 }
 
@@ -195,11 +193,11 @@ async function getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDo
     let db=woqlClient.db()
     let params={}
     params['id'] = currentDocument
-    params['as_list'] = true
+    //params['as_list'] = true
     await woqlClient.getDocument(params, db).then((res) => {
         setLoading(false)
         setCurrentDocumentInfo(res)
-       
+        console.log("updated doc", res)
     })
     .catch((err) => {
         let message=`Error in fetching info of document ${currentDocument}: ${err}`
@@ -208,15 +206,19 @@ async function getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDo
     })
 }
 
-
-async function updateDocument (woqlClient, json, setReportAlert, setLoading) {
+// update document 
+async function updateDocument (woqlClient, json, setUpdateJson, setEditDocument, setRefresh, setReportAlert, setLoading) {
 
     let db=woqlClient.db()
-    const params={'graph_type':'schema'} 
-    await woqlClient.getDocument(json, params, db).then((res) => {
+    //const params={'graph_type':'schema'} 
+    let params={}
+    await woqlClient.updateDocument(json, params, db).then((res) => {
         setLoading(false)
         let message=`Successfully updated document ${json["@id"]}`
         setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
+        setUpdateJson(false)
+        setEditDocument(false)
+        setRefresh(Date.now())
     })
     .catch((err) => {
         let message=`Error in updating document ${json["@id"]}: ${err}`
@@ -226,3 +228,39 @@ async function updateDocument (woqlClient, json, setReportAlert, setLoading) {
 }
 
 
+// get filled frame of document 
+async function getFilledFrames(woqlClient, document, frame, setFilledFrames, setLoading, setReportAlert) {
+    let db=woqlClient.db()
+    let params={}
+    params['id'] = document["@id"]
+    params['as_list'] = true
+    // get info of document
+    await woqlClient.getDocument(params, db).then((res) => {
+        setLoading(false)
+        console.log("frame", frame)
+        console.log("res ////", res)
+
+       
+    })
+    .catch((err) => {
+        let message=`Error in fetching info of document ${currentDocument}: ${err}`
+        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+
+}
+
+// get enum types 
+async function getEnums(woqlClient, setEnums, setLoading, setReportAlert) {
+    let db=woqlClient.db()
+    
+    await woqlClient.getEnums(db).then((res) => {
+        setLoading(false)
+        setEnums(res)
+    })
+    .catch((err) => {
+        let message=`Error in fetching Enuma of ${db}: ${err}`
+        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+}

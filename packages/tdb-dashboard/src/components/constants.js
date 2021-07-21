@@ -345,3 +345,12 @@ export const multiSelectStyle = {
     }
 }
 
+export const singleSelectStyle = {
+    singleValue: (base, state) => {
+      return state.data.isFixed ? { ...base, backgroundColor: 'gray' } : base;
+    }
+}
+
+// Code mirror variables
+export const EDITOR_READ_OPTIONS = {lineNumbers: true, mode: "javascript", theme: 'ayu-dark'}
+export const EDITOR_WRITE_OPTIONS = {lineNumbers: true, mode: "javascript", theme: 'ayu-dark', readOnly:true}

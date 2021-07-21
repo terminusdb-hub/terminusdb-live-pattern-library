@@ -208,3 +208,32 @@ export const getDocumentsOfType = (doctype) => {
         WOQL.lib().document_metadata()
     ).sub(doctype, "v:Type ID")
 }*/
+
+// get count of document class instance
+export const getCountOfDocumentClass = (documentClasses) => {
+    let WOQL =  TerminusClient.WOQL
+    let CountArray=[]
+    documentClasses.map(item => { // set type of document 
+        let scmType="@schema:"+item["@id"]
+        let variable="v:"+item["@id"]
+        CountArray.push(WOQL.count (variable, WOQL.triple("v:Doc", "rdf:type", scmType)))
+    })
+
+    let q = WOQL.and(...CountArray)
+    return q
+}
+
+export const getTotalNumberOfDocuments = (documentClasses) => {
+    let WOQL =  TerminusClient.WOQL
+    let CountArray=[]
+    let variableList = []
+    documentClasses.map(item => { // set type of document 
+        let scmType="@schema:"+item["@id"]
+        let variable="v:"+item["@id"]
+        variableList.push(variable)
+        CountArray.push(WOQL.count (variable, WOQL.triple("v:Doc", "rdf:type", scmType)))
+    })
+
+    let q = WOQL.and(...CountArray, WOQL.sum(variableList, "v:Count"))
+    return q
+}

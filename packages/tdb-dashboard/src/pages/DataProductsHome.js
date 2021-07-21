@@ -35,6 +35,7 @@ export const DataProductsHome = (props) => {
     const [dataProvider, setDataProvider] = useState(false)
 
     useEffect (() => {
+        if(!woqlClient) return
         const newList = woqlClient.databases()
         newList.map(dp => {
             if(dp.name == dataProduct) {
@@ -42,7 +43,7 @@ export const DataProductsHome = (props) => {
             }
         })
         setCurrentDay(moment())
-        if(setReloadQuery) setReloadQuery(Date.now())
+        //if(setReloadQuery) setReloadQuery(Date.now())
     }, [dataProduct]) 
       
 
@@ -57,7 +58,7 @@ export const DataProductsHome = (props) => {
         setShowDeleteDataProductModal} = useCreateNewDataProductStates(woqlClient)
 
     
-    let { 
+    /*let { 
         dataProviderValues,
         loadPreviousPage,
         gotoPosition,
@@ -72,7 +73,7 @@ export const DataProductsHome = (props) => {
     useEffect(() => {
         if(!dataProviderValues) return
         setDataProvider(dataProviderValues.dataProvider)
-    }, [dataProviderValues])
+    }, [dataProviderValues]) */
     
 
     const TimelineElements = () => {
@@ -151,7 +152,7 @@ export const DataProductsHome = (props) => {
                             <div class="card-body">
 
                                 <div class="list-group list-group-flush list-group-activity my-n3">
-                                    <TimelineElements/>
+                                    {/*<TimelineElements/>*/}
                                 </div>
                             </div>
 

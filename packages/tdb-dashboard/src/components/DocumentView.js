@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CREATE_NEW_DOCUMENT_BUTTON, SEARCH_DOCUMENTS_PLACEHOLDER} from "./constants"
-import {Card} from "react-bootstrap"
+import {Card, Row} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
 import {WOQLTable} from '@terminusdb-live/tdb-react-components'
 import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
@@ -12,11 +12,15 @@ import {getDocumentTools, getDeleteTool, getCopyIDTool} from "./DocumentActions"
 import {CreateDocument} from "./CreateDocument"
 import {DocumentInfo} from "./DocumentInfo"
 import {getColumnsFromResults} from "./utils"
+import {DocumentSummary} from "./DocumentSummary"
 
 export const DocumentView = () => {
 
+    const [update, setUpdate]=useState(Date.now())
+
     const {
         woqlClient,
+        dataProduct,
         currentdocumentClass,
         createNewDocument,
         currentDocument,
@@ -30,6 +34,9 @@ export const DocumentView = () => {
     const {
         currentDocumentInfo
     } = DocumentControl() 
+
+
+    
 
     const {
         updateQuery,
@@ -66,32 +73,37 @@ export const DocumentView = () => {
         setTableConfig(tConf)
     }, [documentResults])
 
-    return  <main className="content mr-3 ml-5 w-100">
-        {documentResults && tableConfig && <Card className="mt-4 mr-5" varaint="light"> 
-            <Card.Header>
-                <h6>Documents of type - <strong className="text-success">{currentdocumentClass}</strong></h6>
-            </Card.Header>
-            <Card.Body>
-                <WOQLTable
-                    result={documentResults}
-                    freewidth={true}
-                    view={(tableConfig ? tableConfig.json() : {})}
-                    limit={limit}
-                    start={start}
-                    orderBy={orderBy}  
-                    setLimits={changeLimits}
-                    setOrder={changeOrder}
-                    resultColumns={getColumnsFromResults(documentResults)}
-                    query={false}
-                    loading={loading}
-                    totalRows={rowCount}
-                />
-            </Card.Body>
-        </Card>}
+    return  <React.Fragment>
+        <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
+        <Row className="mt-5 w-100 justify-content-md-center">
+            {!documentResults && !createNewDocument && !currentDocument && <DocumentSummary/>}
+            {documentResults && tableConfig && <Card className="content mr-3 ml-5 w-100" varaint="light"> 
+                <Card.Header>
+                    <h6>Documents of type - <strong className="text-success">{currentdocumentClass}</strong></h6>
+                </Card.Header>
+                <Card.Body>
+                    <WOQLTable
+                        result={documentResults}
+                        freewidth={true}
+                        view={(tableConfig ? tableConfig.json() : {})}
+                        limit={limit}
+                        start={start}
+                        orderBy={orderBy}  
+                        setLimits={changeLimits}
+                        setOrder={changeOrder}
+                        resultColumns={getColumnsFromResults(documentResults)}
+                        query={false}
+                        loading={loading}
+                        totalRows={rowCount}
+                    />
+                </Card.Body>
+            </Card>}
 
-        {createNewDocument && <CreateDocument/>}
-        {currentDocument && !createNewDocument && <DocumentInfo documentIdInfo={currentDocumentInfo} chosenDocument={currentDocument}/>}
-    </main>
+            {createNewDocument && <CreateDocument/>}
+            {currentDocument && !createNewDocument && <DocumentInfo documentIdInfo={currentDocumentInfo} chosenDocument={currentDocument}/>}
+    
+        </Row>
+        </React.Fragment>
 
 
 }

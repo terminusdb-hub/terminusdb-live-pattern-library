@@ -1,33 +1,38 @@
-import React, {useState, useEffect} from "react"
-import {Row, Form} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
-import Select from 'react-select'
-import {FaStarOfLife} from "react-icons/fa"
-import {singleSelectStyle} from "./constants"
 
-export const ClassTypeFrame = ({property, type, onChange}) => {
+
+import React, {useState, useEffect} from "react"
+import {DocumentControl} from "../hooks/DocumentControl"
+import {Row, Form} from "react-bootstrap"
+import Select from 'react-select'
+import {singleSelectStyle} from "./constants"
+import {FaStarOfLife} from "react-icons/fa"
+
+export const EnumTypeFrame = ({property, type, onChange}) => {
+
     const [options, setOptions] = useState(false)
 
     const {
-        setClassOfInterest,
-        documentsOfClassOfInterest
+        enums
     } = DocumentControl()
 
     useEffect(() => {
-        setClassOfInterest(type)
-    }, [type])
-
-    useEffect(() => {
-        if(!documentsOfClassOfInterest) return
+        if(!enums) return
         let opts =[]
-        documentsOfClassOfInterest.map(item => {
-            opts.push({value: item["@id"], label: item["@id"]})
+        enums.map(item => {
+            if(type == item["@id"]){
+                let valArray = item["@value"]
+                valArray.map (val =>{
+                    opts.push({value: val, label: val})
+                })
+                return
+            }
         })
+        console.log("opts", opts)
         setOptions(opts)
-    }, [documentsOfClassOfInterest])
+    }, [enums])
 
-    function handleChange(val) {
-        onChange(property, val.value)
+    function handleChange () {
+
     }
 
     return <Row className="mt-2">
@@ -40,7 +45,6 @@ export const ClassTypeFrame = ({property, type, onChange}) => {
             
             
         </Form.Group>
+      
     </Row>
 }
-
-/*<Form.Control placeholder={type} onChange={onChange}/>*/

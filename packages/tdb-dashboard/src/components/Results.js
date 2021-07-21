@@ -1,13 +1,19 @@
 import React, {useState,useMemo} from "react"
 import {WOQLTable, WOQLGraph} from '@terminusdb-live/tdb-react-components'
-import {ResultController} from "./ResultController"
+import {ResultController} from "./ResultController" 
 import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
-import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW} from "./constants"
+import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constants"
 import {TDBReactCollapse, TDBReactResizable} from '@terminusdb-live/tdb-react-layout'
 import {ViewPane} from "./ViewPane"
 import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {WOQLClientObj} from '../init-woql-client'
 import ReactJson from 'react-json-view'
+import {UnControlled as CodeMirror} from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/ayu-dark.css'
+require('codemirror/mode/css/css')
+require('codemirror/mode/javascript/javascript')
+
 
 export const Results = ({freewidth, queryObj, setError, runQuery})=>{
     const {woqlClient} = WOQLClientObj()
@@ -36,6 +42,8 @@ export const Results = ({freewidth, queryObj, setError, runQuery})=>{
     const [isExpanded, setPanelExpanded] = useState(queryObj.resultPanelIsOpen)
 
     const [queryRunTime, setQueryRunTime] = useState(false)
+
+    let options = EDITOR_WRITE_OPTIONS
 
 
     console.log("result ****", result)
@@ -86,6 +94,8 @@ export const Results = ({freewidth, queryObj, setError, runQuery})=>{
     
     if(!result) return ""
 
+    console.log("currentView", currentView)
+
     return(
     <div className="pallet mb-3 mt-4">
         {loading && <div>LOADING!!!</div>}
@@ -121,7 +131,11 @@ export const Results = ({freewidth, queryObj, setError, runQuery})=>{
                         totalRows={totalRows}
                     />}
                 {currentView==JSON_VIEW &&
-                    <ReactJson src={result.bindings} theme="eighties" />
+                    <CodeMirror
+                        value={JSON.stringify(result.bindings, null, 2)}
+                        readOnly= {true}
+                        options={options}
+                    />
                 }
             </TDBReactCollapse>
         </TDBReactResizable>

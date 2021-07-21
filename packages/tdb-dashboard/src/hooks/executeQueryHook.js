@@ -14,6 +14,7 @@ function executeQueryHook(woqlClient, startQuery) {
         q.execute(woqlClient, cmsg)
         .then((response) => {
             // set the bindings 
+            console.log("response", response)
             setResult(response.bindings)
         })
         .catch((error) => {
@@ -29,6 +30,7 @@ function executeQueryHook(woqlClient, startQuery) {
             executeQuery(query)
     }, [query])
 
+    console.log("result", result)
     return [result]
 }
 

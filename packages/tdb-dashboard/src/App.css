@@ -574,4 +574,7 @@ input {
   font-size: 10px;
 }
 
-
+.CodeMirror {
+  height: auto !important;
+  min-height: 400px !important;
+}
