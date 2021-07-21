@@ -1,9 +1,14 @@
 import {useState, useEffect} from "react"
 import {WOQLClientObj} from "../init-woql-client"
 import {refreshDBList} from "../components/utils"
+import {get_dbs_to_show} from "../hooks/DataProductList"
 
 export function useCreateNewDataProductStates () {
-    const {woqlClient, setDataProduct} = WOQLClientObj()
+    const {
+        woqlClient, 
+        setDataProduct,
+        reconnectToServer
+    } = WOQLClientObj()
 
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState(false)
@@ -20,15 +25,14 @@ export function useCreateNewDataProductStates () {
     useEffect(() => {
         if(woqlClient && newDataProductInfo.id && newDataProductInfo.label) {
             setLoading(true)
-            createNewDataProduct(woqlClient, newDataProductInfo, setResult, setLoading, setShowNewDataProductModal, setDataProduct)
-            setUpdateList(Date.now())
+            createNewDataProduct(woqlClient, newDataProductInfo, setResult, setLoading, setShowNewDataProductModal, setDataProduct, reconnectToServer)
         }
     }, [newDataProductInfo])
 
     useEffect(() => {
         if(woqlClient && deleteDataProductInfo.name && deleteDataProductInfo.name == woqlClient.db() ) { 
             setLoading(true)
-            deleteDataProduct(woqlClient, deleteDataProductInfo, setResult, setLoading, setShowDeleteDataProductModal, setDataProduct)
+            deleteDataProduct(woqlClient, deleteDataProductInfo, setResult, setLoading, setShowDeleteDataProductModal, setDataProduct,reconnectToServer)
         }
     }, [deleteDataProductInfo])
 
@@ -53,7 +57,7 @@ export function useCreateNewDataProductStates () {
 } 
 
 
-export async function createNewDataProduct (woqlClient, meta, onDone, setLoading, setShowNewDataProductModal, setDataProduct) {
+export async function createNewDataProduct (woqlClient, meta, onDone, setLoading, setShowNewDataProductModal, setDataProduct, reconnectToServer) {
     let org = meta.organization || "admin" // get this organization from log in details once intergrated
     setLoading(true)
 
@@ -66,12 +70,11 @@ export async function createNewDataProduct (woqlClient, meta, onDone, setLoading
         .finally(() => {
             setShowNewDataProductModal(false)
             woqlClient.db(meta.id)
-            setDataProduct(meta.id)
-            refreshDBList(meta, woqlClient)
+            reconnectToServer()
         })
 }
  
-export async function deleteDataProduct (woqlClient, meta, onDone, setLoading, setShowDeleteDataProductModal, setDataProduct) {
+export async function deleteDataProduct (woqlClient, meta, onDone, setLoading, setShowDeleteDataProductModal, setDataProduct, reconnectToServer) {
     setLoading(true)
     let id=meta.name
     await woqlClient.deleteDatabase(id, woqlClient.organization(), true)
@@ -80,6 +83,7 @@ export async function deleteDataProduct (woqlClient, meta, onDone, setLoading, s
             setLoading(false)
             setShowDeleteDataProductModal(false)
             setDataProduct(false)
+            reconnectToServer()
         })
         .catch((err) => console.log(err))
 }

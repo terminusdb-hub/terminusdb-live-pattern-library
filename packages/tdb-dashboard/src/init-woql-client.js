@@ -169,6 +169,10 @@ export const WOQLClientProvider = ({children, params}) => {
         setChosenCommit(refObject)
     }
 
+    function reconnectToServer () { // temporary fix for loading new woqlClient when create/ delete of a data product, have to review
+        location.reload()
+    }
+
     return (
         <WOQLContext.Provider
             value={{
@@ -202,7 +206,8 @@ export const WOQLClientProvider = ({children, params}) => {
                 currentDocument, 
                 setCurrentDocument,
                 editDocument, 
-                setEditDocument
+                setEditDocument,
+                reconnectToServer
             }}
         >
             {children}

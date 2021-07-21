@@ -7,13 +7,13 @@ import {Row, Col, Toast} from "react-bootstrap"
 
 export const ResultController=({queryRunTime, onClick}) =>{
 
-
-    function handleClick(view, onClick){
+    let clickView = onClick
+    function handleClick(view){
         if(onClick){
-            onClick(view)
+            clickView(view)
         }
     }
- 
+  
     
     return  <React.Fragment>
         <Row>

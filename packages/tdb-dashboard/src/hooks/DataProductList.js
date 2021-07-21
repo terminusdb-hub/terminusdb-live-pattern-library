@@ -16,20 +16,20 @@ export function dataProductList (woqlClient, dataProduct)  {
         setList(dbs)
     }, [dataProduct])
 
-    function get_dbs_to_show(){
-        if(!woqlClient) return []
-        let mdbs = []
-        let dbs = woqlClient.databases()
-        for(var i = 0; i<dbs.length; i++){
-            //if(dbs[i].id) 
-            if(dbs[i].name) 
-                mdbs.push(dbs[i])
-        }
-        return mdbs
-    }
-
     return {
         list, 
         setList
     }
+}
+
+export function get_dbs_to_show(woqlClient){
+    if(!woqlClient) return []
+    let mdbs = []
+    let dbs = woqlClient.databases()
+    for(var i = 0; i<dbs.length; i++){
+        //if(dbs[i].id) 
+        if(dbs[i].name) 
+            mdbs.push(dbs[i])
+    }
+    return mdbs
 }

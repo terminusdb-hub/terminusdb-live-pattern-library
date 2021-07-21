@@ -45,9 +45,6 @@ export const Results = ({freewidth, queryObj, setError, runQuery})=>{
 
     let options = EDITOR_WRITE_OPTIONS
 
-
-    console.log("result ****", result)
-    
     const setGraphConfig=(config)=>{
         setGraphConf(config)
         queryObj.updateResultProps('graph',config)
