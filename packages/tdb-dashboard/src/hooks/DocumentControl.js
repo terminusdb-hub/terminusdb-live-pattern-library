@@ -54,10 +54,8 @@ export const DocumentControl = () => {
     const [updateJson, setUpdateJson] = useState(false) 
     useEffect(() => {
         if(!updateJson) return
-        updateDocument(woqlClient, updateJson, setUpdateJson, setEditDocument, setRefresh, setReportAlert, setLoading) 
+        updateDocument(woqlClient, updateJson, setUpdateJson, setEditDocument, setCurrentDocument, setRefresh, setReportAlert, setLoading) 
     }, [updateJson])
-
-    console.log("currentDocument", currentDocument)
 
     // if on edit document get frames and then 
     const [filledFrames, setFilledFrames]=useState({})
@@ -89,13 +87,11 @@ export const DocumentControl = () => {
     useEffect(() => {
         if(!currentDocument) return
         setLoading(true)
-        getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDocumentInfo, setLoading, setReportAlert)
+        getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDocumentInfo, setRefresh, setLoading, setReportAlert)
     }, [currentDocument, refresh])
 
     // json view of documents 
     const [jsonView, setJsonView] = useState(false)
-
-    
 
     return {
         documentClasses,
@@ -189,7 +185,7 @@ async function getDocumentsOfClassOfInterest (woqlClient, classOfInterest, setDo
 }
 
 // gets info of a chosen document ID
-async function getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDocumentInfo, setLoading, setReportAlert){
+async function getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDocumentInfo, setRefresh, setLoading, setReportAlert){
     let db=woqlClient.db()
     let params={}
     params['id'] = currentDocument
@@ -197,7 +193,8 @@ async function getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDo
     await woqlClient.getDocument(params, db).then((res) => {
         setLoading(false)
         setCurrentDocumentInfo(res)
-        console.log("updated doc", res)
+        
+        //setRefresh(Date.now())
     })
     .catch((err) => {
         let message=`Error in fetching info of document ${currentDocument}: ${err}`
@@ -216,6 +213,7 @@ async function updateDocument (woqlClient, json, setUpdateJson, setEditDocument,
         setLoading(false)
         let message=`Successfully updated document ${json["@id"]}`
         setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
+        setCurrentDocument(json["@id"])
         setUpdateJson(false)
         setEditDocument(false)
         setRefresh(Date.now())

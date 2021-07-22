@@ -12,7 +12,7 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
     const [controlledDocument, setControlledDocument] = useState(document || false)
     const [loaded, setLoaded] = useState(false)
     const [commitMsg, setCommitMsg]=useState()
-    const [refresh, setRefresh] = useState(0)
+    const [controlledRefresh, setControlledRefresh] = useState(0)
     const [documentResults, setDocumentResults]= useState(false)
 
     useEffect(() => {
@@ -40,7 +40,7 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
     }
 
     const onRefresh = () => {
-        setRefresh(refresh+1)
+        setRefresh(controlledRefresh+1)
     }
 
 
@@ -128,7 +128,7 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
         else {
             setLoaded(true)
         }
-    }, [limit, start, orderBy, refresh])
+    }, [limit, start, orderBy, controlledRefresh])
 
     useEffect( () => {
         if(controlledDocument){
@@ -154,8 +154,8 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
         rowCount,
         onRefresh,
         documentResults,
-        setRefresh,
-        refresh
+        setControlledRefresh,
+        controlledRefresh
     }
 }
 

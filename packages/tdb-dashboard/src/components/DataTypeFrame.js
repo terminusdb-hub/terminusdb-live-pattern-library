@@ -1,48 +1,45 @@
-import React from "react"
-import {Row, Form} from "react-bootstrap"
+import React, { useState, useEffect } from "react"
+import {Row, Form, Col} from "react-bootstrap"
 import {FaStarOfLife} from "react-icons/fa"
 import {DocumentControl} from "../hooks/DocumentControl"
 
-export const DataTypeFrame = ({property, type, onChange, mode, formFields, setFormFields}) => {
+// data type frame is usualy xsd or xdd datatype and is required to be filled
+export const DataTypeFrame = ({property, type, mode, onChange}) => {
 
     const {
         currentDocumentInfo
     } = DocumentControl()
 
 
-    function handleChange (e) {
-        console.log("e.target.value", e.target.value)
-        console.log("e.target.id", e.target.id)
-        setFormFields({
-            ...formFields,
-            [e.target.id]: e.target.value
-        })
-    }
+    return <Form.Group as={Col} md="12" controlId={property}>
+        <Form.Label>{property}</Form.Label>
 
-    const FilledFormFields = ({onChange, property, type, currentDocumentInfo}) => {
+        {(mode!=="edit") && <Form.Control
+            required
+            type="text"
+            placeholder={type}
+            onChange={onChange}
+        />}
+        
+        {(mode=="edit") && currentDocumentInfo && currentDocumentInfo[property] && <Form.Control
+                required
+                type="text"
+                placeholder={type}
+                defaultValue={currentDocumentInfo[property]}
+                onChange={onChange}
+            />}
 
-        // get match of filed fields in frames
-        for (var item in currentDocumentInfo){
-            if(item == property) {
-                return <Form.Control defaultValue ={currentDocumentInfo[property]} onChange={onChange}/>
-            }
-        }
+        {(mode=="edit") && currentDocumentInfo && !currentDocumentInfo[property] && <Form.Control
+                required
+                type="text"
+                placeholder={type}
+                onChange={onChange}
+            />}
 
-        return  <Form.Control placeholder={type} onChange={onChange}/>
-    }
-
-    return  <Row className="mt-2">
-        <Form.Group controlId={property}>
-            <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
-
-            {(mode!=="edit") && <Form.Control placeholder={type} onChange={handleChange}/>}
-
-            {(mode=="edit") && currentDocumentInfo && <FilledFormFields 
-                onChange={handleChange} 
-                property={property} 
-                type={type} 
-                currentDocumentInfo={currentDocumentInfo}/>}
-        </Form.Group>
-    </Row>
-
+        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">
+            {`Please provide a valid ${property}.`}
+        </Form.Control.Feedback>
+    </Form.Group>
+    
 }

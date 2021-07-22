@@ -16,8 +16,6 @@ import {DocumentSummary} from "./DocumentSummary"
 
 export const DocumentView = () => {
 
-    const [update, setUpdate]=useState(Date.now())
-
     const {
         woqlClient,
         dataProduct,
@@ -26,16 +24,18 @@ export const DocumentView = () => {
         currentDocument,
         setCurrentDocument,
         setCreateNewDocument,
-        setCurrentDocumentClass
+        setCurrentDocumentClass,
+        editDocument
     } = WOQLClientObj()
 
     const [tableConfig, setTableConfig] = useState(false)
 
     const {
-        currentDocumentInfo
+        currentDocumentInfo,
+        refresh
     } = DocumentControl() 
 
-
+    console.log("currentDocumentInfo in view", currentDocumentInfo)
     
 
     const {
@@ -50,14 +50,14 @@ export const DocumentView = () => {
         loading,
         rowCount,
         documentResults,
-        setRefresh,
-        refresh
+        setControlledRefresh,
+        controlledRefresh
     } = ControlledGetDocumentQuery(woqlClient, currentdocumentClass, false, 20)
 
     // on change of class clicked on left side bar => reset
     useEffect(() => {
         setTableConfig(false)
-        setRefresh(refresh+1)
+        setControlledRefresh(controlledRefresh+1)
     }, [currentdocumentClass])
 
     // on click document tablw row
@@ -100,7 +100,7 @@ export const DocumentView = () => {
             </Card>}
 
             {createNewDocument && <CreateDocument/>}
-            {currentDocument && !createNewDocument && <DocumentInfo documentIdInfo={currentDocumentInfo} chosenDocument={currentDocument}/>}
+            {currentDocument && !createNewDocument && currentDocumentInfo && <DocumentInfo documentIdInfo={currentDocumentInfo} chosenDocument={currentDocument}/>}
     
         </Row>
         </React.Fragment>

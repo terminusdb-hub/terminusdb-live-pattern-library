@@ -36,7 +36,7 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
         currentDocumentInfo
     } = DocumentControl()
 
-    console.log("currentDocumentInfo in doc info", currentDocumentInfo)
+    console.log("editDocument in INFO", editDocument)
 
     useEffect(() => {
         setDocumentInfo(currentDocumentInfo)
@@ -59,17 +59,17 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
         return contents
     }
 
-    const DocumentForm = ({documentInfo, frame, mode}) => {
-        if(!mode) return <DocumentContents documentInfo={documentInfo}/>
+    const DocumentForm = ({documentInfo, frame, edit}) => {
+        if(!edit) return <DocumentContents documentInfo={documentInfo}/>
         else return <FrameViewer
             frame={frame}
             mode="edit"/>
     }
 
-    const DocumentJsonView = ({documentInfo, mode, setUpdateJson}) => {
+    const DocumentJsonView = ({documentInfo, edit, setUpdateJson}) => {
         let docInfo = documentInfo
         var options = EDITOR_READ_OPTIONS
-        if(mode) options =EDITOR_WRITE_OPTIONS // on edit 
+        if(edit) options =EDITOR_WRITE_OPTIONS // on edit 
         
         const [value, setValue]=useState(false) // sets value from editor 
         
@@ -78,12 +78,12 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
         }
 
         return <React.Fragment>
-                {!mode && <CodeMirror
+                {!edit && <CodeMirror
                     value={JSON.stringify(docInfo, null, 2)}
                     readOnly= {true}
                     options={options}
                 />}
-                {mode && <React.Fragment>
+                {edit && <React.Fragment>
                     <CodeMirror
                         value={JSON.stringify(docInfo, null, 2)}
                         options={options}
@@ -136,10 +136,10 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
                     <Card.Body>
                         {!jsonView && 
                             <Form>
-                                <DocumentForm documentInfo={documentInfo} mode={editDocument} frame={frame}/>
+                                <DocumentForm documentInfo={documentInfo} edit={editDocument} frame={frame}/>
                             </Form>
                         }
-                        {jsonView && <DocumentJsonView documentInfo={documentInfo} mode={editDocument} setUpdateJson={setUpdateJson}/>}
+                        {jsonView && <DocumentJsonView documentInfo={documentInfo} edit={editDocument} setUpdateJson={setUpdateJson}/>}
                     </Card.Body>
                 </Card>
             </Col>
