@@ -43,7 +43,7 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
-    "@terminusdb/terminusdb-client": "terminusdb/terminusdb-client-js#dev",
+    "@terminusdb/terminusdb-client": "git+https://github.com/terminusdb/terminusdb-client-js.git#dev",
     "@terminusdb-live/tdb-react-layout": "^0.1.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
