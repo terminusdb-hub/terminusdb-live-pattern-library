@@ -171,13 +171,19 @@ export const isClassType = (property, documentType) => {
 }
 
 // returns true for properties ponting to an enum class
-export const isEnumType = (property, enums) => {
-    for (var item=0; item < enums.length; item++) {
-        if((enums[item]["@type"] == "Enum") && enums[item]["@id"] == property){
-            return property
-        }
+export const isEnumType = (property) => {
+    if(typeof property !== "object") return false 
+    if(property["@type"] === "Enum") return true
+}
+
+// returns true for properties which are subdocuments
+export const isSubDocumentType = (property) => {
+    if(typeof property !== "object") return false 
+    if(property["@class"]){
+        let classObject=property["@class"]
+        if(classObject["@subdocument"]) return true
     }
-    return false
+    return false 
 }
 
 // returns true for properties ponting to another document which can be a set/ list

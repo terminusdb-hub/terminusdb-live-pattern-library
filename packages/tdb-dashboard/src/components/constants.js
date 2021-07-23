@@ -162,6 +162,7 @@ export const GET_DOCUMENT_METADATA_LINK={label:"Get Document Meta data", title: 
 export const TABLE_VIEW = "TABLE"
 export const GRAPH_VIEW = "GRAPH"
 export const JSON_VIEW = "JSON"
+export const FORM_VIEW="FORM"
 
 // download controllers for result views
 export const TABLE_RESULT_CONTROLLER = {variant: "outline-info", list:["Save as .csv", "Save as .txt", "Save as .json"]}
@@ -329,6 +330,10 @@ export const CREATE_NEW_DOCUMENT_BUTTON ={label: "New Document", title: "Create 
 
 export const NEW_OBJECT = "NEW_OBJECT"
 
+export const CREATE_DOCUMENT = "Create"
+export const EDIT_DOCUMENT = "Edit"
+export const VIEW_DOCUMENT = "View"
+export const GET_FRAMES_DOCUMENT = "Frames"
 
 // GRAPH_TYPES
 export const SCHEMA_GRAPH_TYPE = "schema"

@@ -39,17 +39,25 @@ export const WOQLClientProvider = ({children, params}) => {
     const [connectionError, setError] = useState(false)
    
     // document explorer consts 
-    const [currentdocumentClass, setCurrentDocumentClass] = useState(false) 
-    const [createNewDocument, setCreateNewDocument] = useState(false)
-    const [currentDocument, setCurrentDocument] = useState(false)
-    // edit documents 
-    const [editDocument, setEditDocument] = useState(false)
+    const [documentObject, setDocumentObject] = useState({
+        type: false,
+        action: false,
+        view: false,
+        submit: false,
+        currentDocument: false,
+        frames: {}
+    }) 
+    
     // clear document consts on change of data products
     useEffect(() => {
-        setCurrentDocumentClass(false)
-        setCreateNewDocument(false)
-        setCurrentDocument(false)
-        setEditDocument(false)
+        setDocumentObject({
+            type: false,
+            action: false,
+            view: false,
+            submit: false,
+            currentDocument: false,
+            frames: {}
+          })
     }, [dataProduct])
         
 
@@ -199,14 +207,8 @@ export const WOQLClientProvider = ({children, params}) => {
                 setSidebarDocumentListState,
                 sidebarSampleQueriesState, 
                 setSidebarSampleQueriesState,
-                currentdocumentClass, 
-                setCurrentDocumentClass,
-                createNewDocument, 
-                setCreateNewDocument,
-                currentDocument, 
-                setCurrentDocument,
-                editDocument, 
-                setEditDocument,
+                documentObject, 
+                setDocumentObject,
                 reconnectToServer
             }}
         >

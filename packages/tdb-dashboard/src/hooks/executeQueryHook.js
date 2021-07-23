@@ -30,7 +30,6 @@ function executeQueryHook(woqlClient, startQuery) {
             executeQuery(query)
     }, [query])
 
-    console.log("result", result)
     return [result]
 }
 

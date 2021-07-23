@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react"
 import {Form, Row, Card, Col, Button} from "react-bootstrap"
 import {AiOutlineDelete} from "react-icons/ai"
 import {Loading} from "./Loading"
-import {PROGRESS_BAR_COMPONENT, EDITOR_READ_OPTIONS, EDITOR_WRITE_OPTIONS} from "./constants"
+import {PROGRESS_BAR_COMPONENT, EDITOR_READ_OPTIONS, EDITOR_WRITE_OPTIONS, EDIT_DOCUMENT, GET_FRAMES_DOCUMENT, VIEW_DOCUMENT, FORM_VIEW} from "./constants"
 import {DocumentControl} from "../hooks/DocumentControl"
 import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl" 
 import {UnControlled as CodeMirror} from 'react-codemirror2'
@@ -12,38 +12,30 @@ import 'codemirror/theme/ayu-dark.css'
 require('codemirror/mode/css/css')
 require('codemirror/mode/javascript/javascript')
 import {BiEdit, BiEditAlt} from "react-icons/bi"
-import {FrameViewer} from './FrameViewer'
+
 import {WOQLClientObj} from '../init-woql-client'
 
-export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
-
-    const [documentInfo, setDocumentInfo] = useState(documentIdInfo)
+export const DocumentInfo = () => {
 
     const {
         editDocument,
-        setEditDocument
+        documentObject,
+        setDocumentObject
     } = WOQLClientObj()
     
     const {
-        setDeleteDocument,
         loading,
         reportAlert,
-        jsonView, 
-        setJsonView,
-        frame,
-        updateJson, 
-        setUpdateJson,
-        currentDocumentInfo
     } = DocumentControl()
 
-    console.log("editDocument in INFO", editDocument)
-
     useEffect(() => {
-        setDocumentInfo(currentDocumentInfo)
-    }, [currentDocumentInfo])
+        console.log("documentObject in doc info", documentObject)
+    }, [documentObject])
 
-    const DocumentContents = ({documentInfo}) => {
-        let contents = [], docInfo = documentInfo
+
+
+    const DocumentContents = ({documentObject}) => {
+        let contents = [], docInfo = documentObject.frames
         for (var key in docInfo) {
             contents.push(
                 <Form.Group controlId={key}>
@@ -59,14 +51,16 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
         return contents
     }
 
-    const DocumentForm = ({documentInfo, frame, edit}) => {
-        if(!edit) return <DocumentContents documentInfo={documentInfo}/>
+    const DocumentForm = ({documentObject}) => {
+        if(documentObject.action == VIEW_DOCUMENT) return <DocumentContents documentObject={documentObject}/>
+        else if (documentObject.action == EDIT_DOCUMENT) return <FrameViewer/>
+        /*if(!edit) return <DocumentContents documentInfo={documentInfo}/>
         else return <FrameViewer
             frame={frame}
-            mode="edit"/>
+            mode="edit"/> */
     }
 
-    const DocumentJsonView = ({documentInfo, edit, setUpdateJson}) => {
+    /*const DocumentJsonView = ({documentInfo, edit, setUpdateJson}) => {
         let docInfo = documentInfo
         var options = EDITOR_READ_OPTIONS
         if(edit) options =EDITOR_WRITE_OPTIONS // on edit 
@@ -101,45 +95,51 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
                 </React.Fragment>
                 }
         </React.Fragment>
-    }
+    }*/
 
-    if(!documentInfo) return <div/>
+    //if(!documentInfo) return <div/>
 
     function handleClick () { // on toggle of json and form controls
-        setJsonView(!jsonView)
+        //setJsonView(!jsonView)
     }
 
-    function handleEdit () {
-        setEditDocument(documentInfo)
+    function handleEdit () { 
+        setDocumentObject({
+            action: EDIT_DOCUMENT,
+            type: documentObject.type,
+            view: FORM_VIEW,
+            submit: false,
+            currentDocument: documentObject.currentDocument,
+            frames: documentObject.frames
+        })
+        //setEditDocument(documentInfo)
     }
+
+    console.log("documentObject in doc info", documentObject)
 
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100">
             <Col md={9}> 
-                {loading && <Loading message={`Deleting ${chosenDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
+                {loading && <Loading message={`Loading ${documentObject.currentDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
                 {reportAlert && reportAlert}
                 <Card className="d-flex w-100">
                     <Card.Header className="d-flex w-100">
-                        {!editDocument && <h5 className="col-md-9"><strong className="text-success">{chosenDocument}</strong></h5>}
-                        {editDocument && <h5 className="col-md-9">Edit <strong className="text-success">{` ${chosenDocument}`}</strong></h5>}
-                        
-                        <Button className="btn btn-sm btn-light mr-2" onClick={handleEdit} title={`Edit ${chosenDocument}`}>
+                        <h5 className="col-md-9"><strong className="text-success">{documentObject.currentDocument}</strong></h5>
+                               
+                        <Button className="btn btn-sm btn-light mr-2" onClick={handleEdit} title={`Edit ${documentObject.currentDocumen}`}>
                             <BiEdit className="mr-1"/> Edit
                         </Button>
 
-                        <ToggleJsonAndFormControl jsonView={jsonView} onClick={handleClick}/>
+                        <ToggleJsonAndFormControl onClick={handleClick}/>
                         
-                        <Button className="btn btn-sm btn-danger" onClick={(e) => setDeleteDocument(chosenDocument)} title={`Delete ${chosenDocument}`}>
+                        <Button className="btn btn-sm btn-danger" title={`Delete ${documentObject.currentDocumen}`}>
                             <AiOutlineDelete className="mr-1"/> Delete
                         </Button>
                     </Card.Header>
                     <Card.Body>
-                        {!jsonView && 
-                            <Form>
-                                <DocumentForm documentInfo={documentInfo} edit={editDocument} frame={frame}/>
-                            </Form>
-                        }
-                        {jsonView && <DocumentJsonView documentInfo={documentInfo} edit={editDocument} setUpdateJson={setUpdateJson}/>}
+                        <Form>
+                            <DocumentContents documentObject={documentObject}/>
+                        </Form>
                     </Card.Body>
                 </Card>
             </Col>
@@ -148,3 +148,17 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
         </Row>
     </main>
 }
+
+
+/*
+{editDocument && <h5 className="col-md-9">Edit <strong className="text-success">{` ${chosenDocument}`}</strong></h5>}
+                 
+
+ {!jsonView && 
+                            <Form>
+                                <DocumentForm documentInfo={documentInfo} edit={editDocument} frame={frame}/>
+                            </Form>
+                        }
+                        {jsonView && <DocumentJsonView documentInfo={documentInfo} edit={editDocument} setUpdateJson={setUpdateJson}/>}
+               
+*/                        

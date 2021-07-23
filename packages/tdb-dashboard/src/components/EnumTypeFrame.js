@@ -2,49 +2,33 @@
 
 import React, {useState, useEffect} from "react"
 import {DocumentControl} from "../hooks/DocumentControl"
-import {Row, Form} from "react-bootstrap"
+import {Row, Form, Col} from "react-bootstrap"
 import Select from 'react-select'
 import {singleSelectStyle} from "./constants"
-import {FaStarOfLife} from "react-icons/fa"
 
 export const EnumTypeFrame = ({property, type, onChange}) => {
 
     const [options, setOptions] = useState(false)
 
-    const {
-        enums
-    } = DocumentControl()
-
     useEffect(() => {
-        if(!enums) return
+        if(!type) return
+        if(!type["@values"]) return
         let opts =[]
-        enums.map(item => {
-            if(type == item["@id"]){
-                let valArray = item["@value"]
-                valArray.map (val =>{
-                    opts.push({value: val, label: val})
-                })
-                return
-            }
+        type["@values"].map(item => {
+            opts.push({value: item, label: item})
         })
-        console.log("opts", opts)
         setOptions(opts)
-    }, [enums])
+    }, [type]) 
 
-    function handleChange () {
-
+    function handleChange (val) {
+        if(onChange) onChange(property, val.value)
     }
 
-    return <Row className="mt-2">
-        <Form.Group controlId={property}>
-            <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
-            <Select options={options}
-                onChange={handleChange}
-                styles={singleSelectStyle}
-            />
-            
-            
-        </Form.Group>
-      
-    </Row>
+    return  <Form.Group as={Col} md="12" controlId={property}>
+        <Form.Label>{property}</Form.Label>
+        <Select options={options}
+            onChange={handleChange}
+            styles={singleSelectStyle}
+        />
+    </Form.Group>
 }

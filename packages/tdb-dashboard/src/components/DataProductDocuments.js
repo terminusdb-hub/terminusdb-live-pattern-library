@@ -11,6 +11,7 @@ import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
 import {getCountOfDocumentClass} from "../queries/GeneralQueries"
 import { executeQueryHook } from "../hooks/executeQueryHook"
+import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
 
 export const DataProductDocuments = () => {
     const {woqlClient, dataProduct} = WOQLClientObj()
@@ -104,33 +105,39 @@ export const DataProductDocuments = () => {
 export const DocumentExplorerDocuments = () => { 
 
     const {
-        woqlClient, 
         dataProduct, 
         sidebarDocumentListState, 
         setSidebarDocumentListState, 
-        setCurrentDocumentClass,
-        setCreateNewDocument,
-        setCurrentDocument,
-        setDocumentMode
+        documentObject, 
+        setDocumentObject
     } = WOQLClientObj()
 
-    //const {classes} = DatabaseInfoControl(woqlClient, dataProduct) 
     const {
         documentClasses
     } = DocumentControl(dataProduct)
 
     // on select of a class
     function handleClassClick (id) {
-        setCreateNewDocument(false)
-        setCurrentDocument(false)
-        setCurrentDocumentClass(id)
+        setDocumentObject({
+            type: id,
+            action: false,
+            view: false,
+            submit: false,
+            currentDocument: false,
+            frames: {}
+        })
     }
 
     // on create on new document
     function handleCreate (id) {
-        setCurrentDocumentClass(false)
-        setCurrentDocument(false)
-        setCreateNewDocument(id)
+        setDocumentObject({
+            action: CREATE_DOCUMENT,
+            type: id,
+            view: FORM_VIEW,
+            submit: false,
+            currentDocument: false,
+            frames: {}
+        })
     }
 
     // search docs constant
