@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@terminusdb/terminusdb-client": "^4.2.1",
+    "@terminusdb-live/tdb-react-layout": "^0.1.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.5",
