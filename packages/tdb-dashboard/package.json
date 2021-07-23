@@ -45,7 +45,7 @@
     "@terminusdb-live/react-worker": "^0.1.1",
     "@terminusdb-live/tdb-react-components": "^4.3.1",
     "@terminusdb-live/tdb-react-layout": "^0.1",
-    "@terminusdb/terminusdb-client": "^4.3.1",
+    "@terminusdb/terminusdb-client": "terminusdb/terminusdb-client-js#dev",
     "axios": "^0.21.1",
     "classnames": "^2.2.5",
     "codemirror": "^5.62.0",
