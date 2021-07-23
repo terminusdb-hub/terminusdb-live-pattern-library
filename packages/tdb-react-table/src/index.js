@@ -1,1 +1,0 @@
-export { TDBReactTable } from './TDBReactTable'
