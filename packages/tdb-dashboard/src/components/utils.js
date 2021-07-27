@@ -204,7 +204,7 @@ export const isOptionalType = (property) => {
 export const getColumnsFromResults = (results) => {
     let columns = []
     for(var k in results[0]) columns.push(k) 
-    columns[columns.length] = "Delete"
+    //columns[columns.length] = "Delete"
     columns[columns.length] = "Copy"
     // add delete and copy button for document explorer
     return columns

@@ -123,6 +123,7 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
 
     useEffect( () => {
         if(loaded){
+            setDocumentResults(false)
             executeQuery()
         }
         else {

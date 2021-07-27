@@ -45,7 +45,8 @@ export const WOQLClientProvider = ({children, params}) => {
         view: false,
         submit: false,
         currentDocument: false,
-        frames: {}
+        frames: {},
+        update: Date.now()
     }) 
     
     // clear document consts on change of data products
@@ -56,7 +57,8 @@ export const WOQLClientProvider = ({children, params}) => {
             view: false,
             submit: false,
             currentDocument: false,
-            frames: {}
+            frames: {},
+            update: Date.now()
           })
     }, [dataProduct])
         
@@ -121,8 +123,8 @@ export const WOQLClientProvider = ({children, params}) => {
     useEffect(() => {
         if(woqlClient && dataProduct){
             //there is a bug with using in query so we have to set commits as branch
-            const tmpClient = woqlClient.copy()
-            tmpClient.checkout("_commits")
+            //const tmpClient = woqlClient.copy()
+            //tmpClient.checkout("_commits")
             /*** I commented this lib call as it dosent work, i use woqlClient.getbranches() instead ***/
             /*const branchQuery = TerminusClient.WOQL.lib().branches();
             tmpClient.query(branchQuery).then(result=>{
@@ -146,7 +148,7 @@ export const WOQLClientProvider = ({children, params}) => {
                   console.log("GET BRANCH ERROR",err.message)
               }) */
 
-            tmpClient.getBranches(dataProduct).then((res) => {
+              woqlClient.getBranches(dataProduct).then((res) => {
                 if(res.length>0){
                     res.forEach(item=>{
                         const head_id = item.Head !== 'system:unknown' ?  item.Head : ''

@@ -49,9 +49,8 @@ export const DocumentView = () => {
     // on change of class clicked on left side bar => reset
     useEffect(() => {
         //setTableConfig(false)
-        setControlledRefresh(
-            controlledRefresh+1)
-    }, [documentObject.action])
+        setControlledRefresh(controlledRefresh+1)
+    }, [documentObject.update])
 
     useEffect(() => { // set table view config
         if(!documentResults) return 
