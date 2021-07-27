@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {CREATE_DOCUMENT, CREATE_NEW_DOCUMENT_BUTTON, SEARCH_DOCUMENTS_PLACEHOLDER, EDIT_DOCUMENT, VIEW_DOCUMENT} from "./constants"
+import {FORM_VIEW, VIEW_DOCUMENT} from "./constants"
 import {Card, Row} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
 import {WOQLTable} from '@terminusdb-live/tdb-react-components'
@@ -23,6 +23,10 @@ export const DocumentView = () => {
         setDocumentObject
     } = WOQLClientObj()
 
+    const {
+        reportAlert
+    } = DocumentControl()
+
     const [tableConfig, setTableConfig] = useState(false)
 
     const {
@@ -44,9 +48,10 @@ export const DocumentView = () => {
 
     // on change of class clicked on left side bar => reset
     useEffect(() => {
-        setTableConfig(false)
-        setControlledRefresh(controlledRefresh+1)
-    }, [documentObject.type])
+        //setTableConfig(false)
+        setControlledRefresh(
+            controlledRefresh+1)
+    }, [documentObject.action])
 
     useEffect(() => { // set table view config
         if(!documentResults) return 
@@ -59,7 +64,7 @@ export const DocumentView = () => {
         setDocumentObject({
             type: row.original["@type"],
             action: VIEW_DOCUMENT,
-            view: false,
+            view: FORM_VIEW,
             submit: false,
             currentDocument: row.original["@id"],
             frames: {}
@@ -70,7 +75,7 @@ export const DocumentView = () => {
     return  <React.Fragment>
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
         <Row className="mt-5 w-100 justify-content-md-center">
-
+            {documentObject.message && documentObject.message }
             {
             !documentObject.action && documentResults && tableConfig && 
                 <Card className="content mr-3 ml-5 w-100" varaint="light"> 

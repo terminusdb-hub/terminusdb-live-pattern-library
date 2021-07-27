@@ -1,17 +1,13 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {isDataType, isClassType, isSetType, isOptionalType, isEnumType, isSubDocumentType} from "./utils"
 import {Form, Button, Row, Col, InputGroup} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
 import {BiPlus,BiEditAlt} from "react-icons/bi"
-import {DataTypeFrame} from "./DataTypeFrame"
-import {ClassTypeFrame} from "./ClassTypeFrame"
-import {ClassSetTypeFrame} from "./ClassSetTypeFrame"
-import {OptionalFrames} from "./OptionalFrames"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, NEW_OBJECT, CREATE_DOCUMENT, EDIT_DOCUMENT} from "./constants"
 import {EnumTypeFrame} from "./EnumTypeFrame"
-import {SubDocumentTypeFrame} from "./SubDocumentTypeFrame"
+import {RenderFrameProperties} from "./RenderFrameProperties"
+import { v4 as uuidv4 } from 'uuid';
 
 export const FrameViewer = () => {
 
@@ -24,17 +20,20 @@ export const FrameViewer = () => {
         loading,
         reportAlert,
         documentClasses,
-        frame
+        frame,
+        filledFrame
     } = DocumentControl()
 
     const [currentFrame, setCurrentFrame]=useState(false)
     const [formFields, setFormFields] = useState({"@type": documentObject.type})
 
-    console.log("formFields", formFields)
-
     useEffect(() => {
+        //console.log("documentObject", documentObject)
         if(documentObject.action == CREATE_DOCUMENT) setCurrentFrame (documentObject.frames)
-        if(documentObject.action == EDIT_DOCUMENT) setCurrentFrame (frame)
+        if(documentObject.action == EDIT_DOCUMENT) {
+            setCurrentFrame (frame)
+            setFormFields(documentObject.frames)
+        }
     }, [documentObject, frame])
 
     function handleChange(e) { // gather all form fields inputs on change
@@ -62,45 +61,23 @@ export const FrameViewer = () => {
         setDocumentObject({
             action: CREATE_DOCUMENT,
             type: documentObject.type,
-            view: false,
+            view: documentObject.view,
             submit: true,
-            frames: formFields
+            frames: formFields,
+            message: false
         })
     }
 
     function handleUpdateDocument () {
-        //console.log("formFields on update", formFields)
-        //etUpdateJson(formFields)
+        setDocumentObject({
+            action: EDIT_DOCUMENT,
+            type: documentObject.type,
+            view: documentObject.view,
+            submit: true,
+            frames: formFields,
+            message: false
+        })
     }
-
-  
-    function renderProperties (frame) {
-        let props = [] 
-
-        for(var item in frame){
-            if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
-                props.push(<DataTypeFrame property={item} type={frame[item]} onChange={handleChange}/>)
-            }
-            else if (frame[item] && isClassType(frame[item], documentClasses)){ // Other documents
-                props.push(<ClassTypeFrame property={item} type={frame[item]} onChange={handleSelect}/>) 
-            } 
-            else if (frame[item] && isEnumType(frame[item])) { // enums
-                props.push(<EnumTypeFrame property={item} type={frame[item]} onChange={handleSelect}/>)
-            }
-            else if (frame[item] && isSubDocumentType(frame[item])) { // subdocuments
-                props.push(<SubDocumentTypeFrame property={item} type={frame[item]} onChange={handleSelect}/>)
-            }
-            else if(frame[item] && isSetType(frame[item], documentClasses)) { // set documents
-                props.push(<ClassSetTypeFrame property={item} object={frame[item]} onChange={handleSetSelect}/>)
-            }
-            else if (frame[item] && isOptionalType(frame[item])) { // if Optional xsd:/ xdd:
-                props.push(<OptionalFrames property={item} object={frame[item]} onChange={handleChange}/>)
-            }
-          
-        }
-        return props
-    }
-
 
     const [validated, setValidated] = useState(false)
     // check all fields are validated
@@ -122,7 +99,15 @@ export const FrameViewer = () => {
         {reportAlert && reportAlert}
 
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            {currentFrame && renderProperties(currentFrame)}
+            {/*currentFrame && renderProperties(currentFrame)*/} 
+            {currentFrame && <RenderFrameProperties frame={currentFrame} 
+                documentClasses={documentClasses}
+                handleChange={handleChange}
+                handleSelect={handleSelect}
+                handleSetSelect={handleSetSelect} 
+                setFormFields={setFormFields}
+                formFields={formFields}
+                propertyID={uuidv4()}/>}
             {
                 documentObject.action==CREATE_DOCUMENT && 
                     <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={handleCreateDocument}>

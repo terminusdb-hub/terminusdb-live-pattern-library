@@ -154,7 +154,7 @@ export const getDocumentOfTypeTabConfig = (result, getDeleteTool, getCopyIDTool,
     tabConfig.column("@type").header("Type").width(120) 
     tabConfig.column("organization_name").header("Organization Name").width(120)*/
     tabConfig.column("Copy").header("Copy ID").width(80).render(getCopyIDTool)
-    tabConfig.column("Delete").header("Delete").width(80).render(getDeleteTool)
+    //tabConfig.column("Delete").header("Delete").width(80).render(getDeleteTool)
     tabConfig.row().click(onRowClick)
 
     return tabConfig

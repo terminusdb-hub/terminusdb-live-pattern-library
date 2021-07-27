@@ -62,13 +62,17 @@ export const DocumentControl = () => {
     useEffect(() => {
         if(!documentObject.submit) return
         let newDocumentInfo=documentObject.frames
-        addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, setLoading, setReportAlert)
-        //updateDocument(woqlClient, documentObject, setReportAlert, setLoading)
-    }, [documentObject.submit])
+        if(documentObject.action == CREATE_DOCUMENT) {
+            addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, documentObject, setLoading, setReportAlert)
+        }
+        if(documentObject.action == EDIT_DOCUMENT) {
+            updateDocument(woqlClient, documentObject, setDocumentObject, setReportAlert, setLoading)
+        }
+            //updateDocument(woqlClient, documentObject, setReportAlert, setLoading)
+    }, [documentObject.submit, documentObject.frames])
 
 
     /***** REVIEW THIS BIT  *****/
-
     // get info of a chosen Document Id from a frame select
     const [subClassType, setSubClassType]= useState(false)
     const [subClassTypeResults, setSubClassTypeResults]= useState(false)
@@ -125,7 +129,7 @@ export async function getDocumentFrame (woqlClient, documentType, setFrame, setL
 
 
 //create a new document
-async function addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, setLoading, setReportAlert) {
+async function addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, documentObject, setLoading, setReportAlert) {
     let db=woqlClient.db()
     
     await woqlClient.addDocument(newDocumentInfo, null, db).then((res) => {
@@ -133,17 +137,22 @@ async function addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, se
         setLoading(false)
         let message=`Success in creating ${newDocumentInfo["@id"]}`
         setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
-        setDocumentObject({
+        let docObj={
             action: false, // reload everything and display all documents list
-            type: false,
+            type: documentObject.type,
             view: false,
             submit: false,
             currentDocument: false,
-            frames: {}
-        })
+            frames: {},
+            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>
+        }
+        setDocumentObject(docObj)
     })
     .catch((err) => {
         let message=`Error in creating new Document of type ${newDocumentInfo["@type"]}: ${err}`
+        let docObj=documentObject
+        docObj.message = <Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
+        
         setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
     })
@@ -168,7 +177,7 @@ export async function getDocumentsOfClassOfInterest (woqlClient, classOfInterest
     })
 }
 
-// gets info of a chosen document ID
+// gets info of a chosen document ID 
 export async function getCurrentDocumentInfo (woqlClient, documentObject, setDocumentObject, asList, setLoading, setReportAlert){
     let db=woqlClient.db()
     let params={}
@@ -188,7 +197,7 @@ export async function getCurrentDocumentInfo (woqlClient, documentObject, setDoc
 }
 
 // update document 
-export async function updateDocument (woqlClient, documentObject, setReportAlert, setLoading) {
+export async function updateDocument (woqlClient, documentObject, setDocumentObject, setReportAlert, setLoading) {
 
     let db=woqlClient.db()
     //const params={'graph_type':'schema'} 
@@ -197,19 +206,21 @@ export async function updateDocument (woqlClient, documentObject, setReportAlert
     await woqlClient.updateDocument(json, params, db).then((res) => {
         setLoading(false)
         let message=`Successfully updated document ${json["@id"]}`
-        setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
         setDocumentObject({
             action: VIEW_DOCUMENT, // reload everything and display all documents list
             type: json["@type"],
-            view: json.view,
+            view: documentObject.view,
             submit: false,
             currentDocument: json["@id"],
-            frames: {}
+            frames: {},
+            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>
         })
     })
     .catch((err) => {
+        let docObj=documentObject
+        docObj.message=<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
+        setDocumentObject(docObj)
         let message=`Error in updating document ${json["@id"]}: ${err}`
-        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
     })
 }
@@ -254,8 +265,37 @@ export async function getEnums(woqlClient, setEnums, setLoading, setReportAlert)
         setEnums(res)
     })
     .catch((err) => {
-        let message=`Error in fetching Enuma of ${db}: ${err}`
+        let message=`Error in fetching Enum of ${db}: ${err}`
         setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
     })
 }
+
+export async function deleteDocument  (woqlClient, setDocumentObject, documentObject, setLoading, setReportAlert) {
+    let db=woqlClient.db()
+
+    const params={}
+    params['id'] = documentObject.currentDocument
+    
+    await woqlClient.deleteDocument(params, db).then((res) => {
+        let message=`Successfully deleted ${documentObject.currentDocument}`
+        let docObj={
+            action: false, // reload everything and display all documents list
+            type: documentObject.type,
+            view: false,
+            submit: false,
+            currentDocument: false,
+            frames: {},
+            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>
+        }
+
+        setDocumentObject(docObj)
+        setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+    .catch((err) => {
+        let message=`Error in deleting document ${documentObject.currentDocument}: ${err}`
+        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+ }

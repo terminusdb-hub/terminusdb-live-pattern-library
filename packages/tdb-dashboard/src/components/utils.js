@@ -209,3 +209,8 @@ export const getColumnsFromResults = (results) => {
     // add delete and copy button for document explorer
     return columns
 }
+
+export function checkIfObject (obj) {
+    if(typeof obj !== "object") return false
+    return true
+}

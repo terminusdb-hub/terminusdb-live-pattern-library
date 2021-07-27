@@ -123,7 +123,8 @@ export const WOQLClientProvider = ({children, params}) => {
             //there is a bug with using in query so we have to set commits as branch
             const tmpClient = woqlClient.copy()
             tmpClient.checkout("_commits")
-            const branchQuery = TerminusClient.WOQL.lib().branches();
+            /*** I commented this lib call as it dosent work, i use woqlClient.getbranches() instead ***/
+            /*const branchQuery = TerminusClient.WOQL.lib().branches();
             tmpClient.query(branchQuery).then(result=>{
                  //console.log("___BRANCHES___",result)
                  const branchesObj={}
@@ -143,7 +144,27 @@ export const WOQLClientProvider = ({children, params}) => {
                  setBranches(branchesObj)
              }).catch(err=>{
                   console.log("GET BRANCH ERROR",err.message)
-              })
+              }) */
+
+            tmpClient.getBranches(dataProduct).then((res) => {
+                if(res.length>0){
+                    res.forEach(item=>{
+                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
+                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
+                        const branchItem={id:item.Branch,
+                                            head_id:head_id,
+                                            head:head,
+                                            name:item.Name['@value'],
+                                            timestamp:item.Timestamp['@value']
+                                        }
+                        branchesObj[branchItem.name] = branchItem
+                    })
+                 }
+                 setBranches(branchesObj)
+            })
+            .catch((err) => {
+                console.log("GET BRANCH ERROR",err.message)
+            })
         }
     }, [branchesReload, dataProduct])
     //maybe we can combine this information

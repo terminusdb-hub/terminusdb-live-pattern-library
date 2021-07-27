@@ -357,5 +357,5 @@ export const singleSelectStyle = {
 }
 
 // Code mirror variables
-export const EDITOR_READ_OPTIONS = {lineNumbers: true, mode: "javascript", theme: 'ayu-dark'}
-export const EDITOR_WRITE_OPTIONS = {lineNumbers: true, mode: "javascript", theme: 'ayu-dark', readOnly:true}
+export const EDITOR_READ_OPTIONS = {lineNumbers: true, mode: "javascript", theme: 'ayu-dark', readOnly:true}
+export const EDITOR_WRITE_OPTIONS = {lineNumbers: true, mode: "javascript", theme: 'ayu-dark'}

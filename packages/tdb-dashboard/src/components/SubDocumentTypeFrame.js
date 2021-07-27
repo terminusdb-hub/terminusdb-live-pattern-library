@@ -4,12 +4,13 @@ import {Row, Form, Col} from "react-bootstrap"
 import {getDocumentFrame} from "../hooks/DocumentControl"
 import {SubDocumentFrameViewer} from "./SubDocumentFrameViewer"
 
-export const SubDocumentTypeFrame = ({property, type, onChange}) => {
+export const SubDocumentTypeFrame = ({property, type, setFormFields, formFields}) => {
     const [documentFrame, setDocumentFrame]=useState(false)
 
     const {
         woqlClient
     } = WOQLClientObj()
+
     
     useEffect(() => { // get all instances of type to display in select
         if (!type) return
@@ -18,6 +19,10 @@ export const SubDocumentTypeFrame = ({property, type, onChange}) => {
 
     return <Form.Group as={Col} md="12" controlId={property}>
         <Form.Label>{property}</Form.Label>
-        {documentFrame && <SubDocumentFrameViewer property={property} documentFrame={documentFrame}/>}
+        {documentFrame && <SubDocumentFrameViewer 
+            property={property} 
+            documentFrame={documentFrame}
+            setFormFields={setFormFields}
+            formFields={formFields}/>}
     </Form.Group>
 }

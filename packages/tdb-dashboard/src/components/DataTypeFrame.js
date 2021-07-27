@@ -5,7 +5,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 
 // data type frame is usualy xsd or xdd datatype and is required to be filled
-export const DataTypeFrame = ({property, type, onChange}) => {
+export const DataTypeFrame = ({property, propertyID, type, onChange}) => {
  
     const {
         documentObject,
@@ -19,7 +19,7 @@ export const DataTypeFrame = ({property, type, onChange}) => {
             required
             type="text"
             placeholder={type}
-            onChange={onChange}
+            onBlur={(e) => onChange(e, propertyID)}
         />}
 
         {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.frames[property]) && <Form.Control
@@ -27,17 +27,9 @@ export const DataTypeFrame = ({property, type, onChange}) => {
             type="text"
             placeholder={type}
             defaultValue={documentObject.frames[property]}
-            onChange={onChange}
+            onBlur={(e) => onChange(e, propertyID)}
         />}
 
-        {/*(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (!documentObject.frames[property]) && <Form.Control
-            required   // not sure if this check is required
-            type="text"
-            placeholder={type}
-            defaultValue={documentObject.frames[property]}
-            onChange={onChange}
-        />*/}
-        
         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         <Form.Control.Feedback type="invalid">
             {`Please provide a valid ${property}.`}

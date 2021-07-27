@@ -22,19 +22,21 @@ export const OptionalFrames = ({property, object, onChange, mode}) => {
     }
 
 
-    return  <Form.Group as={Col} md="12" controlId={property}>
-        <Form.Label>{property}</Form.Label>
+    return  <Row className="mt-2">
+        <Form.Group as={Col} md="12" controlId={property}>
+            <Form.Label>{property}</Form.Label>
 
-        {(mode!=="edit") && <Form.Control 
-            placeholder={object["@class"]} 
-            type="text"
-            onChange={onChange}/>}
+            {(mode!=="edit") && <Form.Control 
+                placeholder={object["@class"]} 
+                type="text"
+                onChange={onChange}/>}
 
-        {(mode=="edit") && currentDocumentInfo && <FilledFormFields 
-            onChange={onChange} 
-            property={property} 
-            type={object["@class"]} 
-            currentDocumentInfo={currentDocumentInfo}/>}
+            {(mode=="edit") && currentDocumentInfo && <FilledFormFields 
+                onChange={onChange} 
+                property={property} 
+                type={object["@class"]} 
+                currentDocumentInfo={currentDocumentInfo}/>}
 
-    </Form.Group>
+        </Form.Group>
+    </Row>
 }
