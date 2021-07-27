@@ -25,6 +25,7 @@ export function useCreateNewDataProductStates () {
     useEffect(() => {
         if(woqlClient && newDataProductInfo.id && newDataProductInfo.label) {
             setLoading(true)
+            newDataProductInfo.organization = woqlClient.organization()
             createNewDataProduct(woqlClient, newDataProductInfo, setResult, setLoading, setShowNewDataProductModal, setDataProduct, reconnectToServer)
         }
     }, [newDataProductInfo])

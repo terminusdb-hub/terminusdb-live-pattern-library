@@ -18,6 +18,6 @@ jobs:
         node-version: 14
     - run: npm i
     - name: Bootstrap lerna
-      run: npx lerna bootstrap --hoist
+      run: npx lerna bootstrap
     - name: Build
       run: npx lerna run build
