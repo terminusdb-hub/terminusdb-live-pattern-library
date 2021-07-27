@@ -37,13 +37,6 @@ module.exports = (env, argv) => ({
   ],
   resolve: {
     alias: {
-      "@terminusdb-live/tdb-react-components": path.resolve('../tdb-react-components/src/index.js'),
-      "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js'),
-      "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js'),
-      "@terminusdb-live/tdb-react-group": path.join(__dirname, '..', 'src/index.js'),
-      "@terminusdb-live/react-chart": path.resolve('../react-chart/src/index.js'),
-      "@terminusdb-live/react-pretty-print": path.resolve('../react-pretty-print/src/index.js'),
-      "@terminusdb-live/tdb-react-layout": path.resolve('../tdb-react-layout/src/index.js'),
       react: path.resolve('./node_modules/react')
     },
     fallback: { "https": false },
