@@ -63,6 +63,7 @@ export const WOQLClientProvider = ({children, params}) => {
             const orgName = user['http://terminusdb.com/schema/system#team']
             const orgRemoteUrl=`${opts.server}${orgName}`
             const hubClient = new TerminusClient.WOQLClient(orgRemoteUrl)
+        
 
             const jwtoken = await getTokenSilently()
             let hubcreds = {type: "jwt", key: jwtoken}         

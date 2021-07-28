@@ -54,10 +54,11 @@ export function useCreateNewDataProductStates () {
 
 
 export async function createNewDataProduct (woqlClient, meta, onDone, setLoading, setShowNewDataProductModal, setDataProduct) {
-    let org = meta.organization || "admin" // get this organization from log in details once intergrated
+    //let org = meta.organization || "admin" // get this organization from log in details once intergrated
+    //TO BE REVIEW 
     setLoading(true)
 
-    await woqlClient.createDatabase(meta.id, meta, org)
+    await woqlClient.createDatabase(meta.id, meta)
         .then((res) => {
             setLoading(false)
             //onDone(res)
