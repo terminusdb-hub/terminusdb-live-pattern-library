@@ -13,15 +13,13 @@ export const FrameViewer = () => {
 
     const {
         documentObject,
-        setDocumentObject
+        setDocumentObject,
+        documentClasses
     } = WOQLClientObj()
 
     const {
         loading,
-        reportAlert,
-        documentClasses,
-        frame,
-        filledFrame
+        reportAlert
     } = DocumentControl()
 
     const [currentFrame, setCurrentFrame]=useState(false)
@@ -31,10 +29,10 @@ export const FrameViewer = () => {
         //console.log("documentObject", documentObject)
         if(documentObject.action == CREATE_DOCUMENT) setCurrentFrame (documentObject.frames)
         if(documentObject.action == EDIT_DOCUMENT) {
-            setCurrentFrame (frame)
-            setFormFields(documentObject.frames)
+            setCurrentFrame (documentObject.frames)
+            setFormFields(documentObject.filledFrame)
         }
-    }, [documentObject, frame])
+    }, [documentObject.frames, documentObject.filledFrame])
 
     function handleChange(e) { // gather all form fields inputs on change
         setFormFields({
@@ -75,6 +73,7 @@ export const FrameViewer = () => {
             view: documentObject.view,
             submit: true,
             frames: formFields,
+            filledFrame: documentObject.filledFrame,
             message: false
         })
     }
@@ -92,8 +91,6 @@ export const FrameViewer = () => {
         setValidated(true)
     }
 
-    
-
     return <React.Fragment>
         {loading && <Loading message={`Loading frames for ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         {reportAlert && reportAlert}
@@ -101,7 +98,7 @@ export const FrameViewer = () => {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {/*currentFrame && renderProperties(currentFrame)*/} 
             {currentFrame && <RenderFrameProperties frame={currentFrame} 
-                documentClasses={documentClasses}
+                documentClasses={documentClasses} 
                 handleChange={handleChange}
                 handleSelect={handleSelect}
                 handleSetSelect={handleSetSelect} 

@@ -8,8 +8,7 @@ import {WOQLClientObj} from '../init-woql-client'
 
 export const DocumentSummary = () => {
 
-    const {documentClasses} = DocumentControl()
-    const {woqlClient} = WOQLClientObj()
+    const {woqlClient, documentClasses} = WOQLClientObj()
 
 
     // set constants for query to get count of document class instances 

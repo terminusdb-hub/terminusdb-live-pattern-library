@@ -155,6 +155,7 @@ function ControlledGetDocumentQuery (woqlClient, document, results, queryLimit, 
         rowCount,
         onRefresh,
         documentResults,
+        setDocumentResults,
         setControlledRefresh,
         controlledRefresh
     }

@@ -22,13 +22,14 @@ export const DataTypeFrame = ({property, propertyID, type, onChange}) => {
             onBlur={(e) => onChange(e, propertyID)}
         />}
 
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.frames[property]) && <Form.Control
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame[property]) && <Form.Control
             required
             type="text"
             placeholder={type}
-            defaultValue={documentObject.frames[property]}
+            defaultValue={documentObject.filledFrame[property]}
             onBlur={(e) => onChange(e, propertyID)}
         />}
+        
 
         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         <Form.Control.Feedback type="invalid">

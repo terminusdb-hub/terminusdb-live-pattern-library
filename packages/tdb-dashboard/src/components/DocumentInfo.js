@@ -33,6 +33,7 @@ export const DocumentInfo = () => {
 
 
     const FormField = ({id, val}) => {
+        console.log("val",val)
         return <Form.Group as={Col} md="12" controlId={id} className="ml-5" style={{marginLeft: "100px !important"}}>
             <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
                 {id}
@@ -45,11 +46,13 @@ export const DocumentInfo = () => {
 
     const DocumentContents = ({documentObject}) => {
         if (documentObject.view == JSON_VIEW) return <JsonDocument documentObject={documentObject}/>
-        return <DocumentForm documentObject={documentObject}/>
+        return <DocumentForm docInfo={documentObject.filledFrame}/>
     } 
 
-    const DocumentForm = ({documentObject}) => {
-        let contents = [], docInfo = documentObject.frames
+    
+
+    const DocumentForm = ({docInfo}) => {
+        let contents = []
         for (var key in docInfo) {
             let isJson = checkIfObject(docInfo[key]) // review method of checking if sub document 
             if(!isJson) {
@@ -57,7 +60,7 @@ export const DocumentInfo = () => {
                     <FormField id={key} val={docInfo[key]}/>
                 )
             }
-            else { // is Json true would mean this is a sub document
+            else { // is Json true would mean this can be
                 let subDoc = docInfo[key] 
                 contents.push(<Form.Group as={Col} md="12" controlId={key} className="ml-5">
                     <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
@@ -65,20 +68,34 @@ export const DocumentInfo = () => {
                     </Form.Label>
                 </Form.Group>
                 )
-                subDoc.map(( thing => {
-                    for(var item in thing) {
+                subDoc.map( thing => {
+                    if(!thing["@id"]){
                         contents.push(
-                            <FormField id={item} val={thing[item]}/>
+                            <Row className="ml-5">
+                                <Form.Group as={Col} md="12" controlId={thing} className="ml-5">
+                                    <Form.Label className="mr-5" style={{minWidth: "150px"}}>
+                                        {thing}
+                                    </Form.Label>
+                                </Form.Group>
+                            </Row>
                         )
                     }
-                }))
+                    else {
+                        contents.push(
+                            <Row className="ml-5">
+                                <DocumentForm docInfo={thing}/>
+                            </Row>
+                        )
+                    }
+                })
             }
         }
         return contents
     }
+    //<FormField id={item} val={thing}/>
 
     const JsonDocument = ({documentObject}) => {
-        let docInfo = documentObject.frames
+        let docInfo = documentObject.filledFrame
         var options = EDITOR_READ_OPTIONS
         
         const [value, setValue]=useState(false) // sets value from editor 
@@ -101,6 +118,7 @@ export const DocumentInfo = () => {
             submit: false,
             currentDocument: documentObject.currentDocument,
             frames: documentObject.frames,
+            filledFrame: false,
             update: Date.now()
         })
 
@@ -118,6 +136,7 @@ export const DocumentInfo = () => {
             submit: false,
             currentDocument: documentObject.currentDocument,
             frames: documentObject.frames,
+            filledFrame: documentObject.filledFrame,
             update: Date.now()
         })
     }
@@ -144,7 +163,7 @@ export const DocumentInfo = () => {
                     </Card.Header>
                     <Card.Body>
                         <Form>
-                            {documentObject.view && <DocumentContents documentObject={documentObject}/>}
+                            {documentObject.view && documentObject.update && <DocumentContents documentObject={documentObject}/>}
                         </Form>
                     </Card.Body>
                 </Card>

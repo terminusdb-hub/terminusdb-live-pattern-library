@@ -22,27 +22,95 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
         }
     */
 
+        /*
+        "invitations": [
+        {
+            "email_to": "kitzkan@gmail.com",
+            "invited_by": "User_apple",
+            "note": "somenore"
+        },
+        {
+            "email_to": "reyhan@gmail.com",
+            "invited_by": "User_apple",
+            "note": "some other blah"
+        }
+    ]
+    */
+
     useEffect(() => {
         console.log("///propertyFill",propertyFill)
+
+        function extractProperties(propertyFill) {
+            let extractedJson = []
+            for (var item in propertyFill) { 
+                let arr = propertyFill[item]
+                let newJson ={} 
+                for (var x=0; x<arr.length; x++) {
+                    let stuff = arr[x] 
+                    for (var key in stuff) {
+                        newJson[key] = stuff[key] 
+                    } 
+                }
+                extractedJson.push(newJson)
+            }
+            return extractedJson
+        }
+
         if(propertyFill.length > 0) {
             setFormFields({
                 ...formFields,
-                [property]: propertyFill
+                [property]: extractProperties(propertyFill)
             })
         }
     }, [propertyFill])
 
-    console.log("///formFields",formFields)
+    useEffect(() => {
+        setSubDocArray(arr => [...arr, <SubDoc 
+            property={property} 
+            documentFrame={documentFrame} 
+            propertyID={uuidv4()}    
+            documentClasses={documentClasses}
+            setPropertyFill={setPropertyFill}/>])
+    }, [property])
 
+ 
 
     const SubDoc = ({propertyID, property, documentFrame, documentClasses, setPropertyFill}) => {
+
+        function gatherProperties(propertyFormFields, propertyID, id, value) {
+            // gather properties for subdocuments
+            var populatedArray = []
+            if(propertyFormFields[propertyID]){
+                populatedArray = [propertyFormFields[propertyID]]
+                populatedArray.push({[id] : value})
+                propertyFormFields[propertyID] = populatedArray
+            }
+            else propertyFormFields[propertyID] = {[id] : value}
+            return propertyFormFields
+        }
         
-        function handleChange (e, id) {
-           propertyFormFields[id] =  {[e.target.id] : e.target.value}
-           setPropertyFormFields(propertyFormFields)
-           let arr = []
-           for (var key in propertyFormFields) {
-                
+        function handleChange (e, propertyID) {
+            setPropertyFormFields(gatherProperties(propertyFormFields, propertyID, e.target.id, e.target.value))
+            let arr = []
+             for (var key in propertyFormFields) {
+                arr.push(propertyFormFields[key])
+                setPropertyFill(arr)
+            }
+        }
+
+        function handleSelect(id, value, propertyID) {
+            setPropertyFormFields(gatherProperties(propertyFormFields, propertyID, id, value))
+            let arr = []
+            for (var key in propertyFormFields) {
+                arr.push(propertyFormFields[key])
+                setPropertyFill(arr)
+            }
+        }
+
+        function handleSetSelect(id, valArr, propertyID) {
+            setPropertyFormFields(gatherProperties(propertyFormFields, propertyID, id, valArr))
+            let arr = []
+            for (var key in propertyFormFields) {
                 arr.push(propertyFormFields[key])
                 setPropertyFill(arr)
             }
@@ -56,6 +124,8 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                         frame={documentFrame} 
                         documentClasses={documentClasses}
                         handleChange={handleChange}
+                        handleSelect={handleSelect}
+                        handleSetSelect={handleSetSelect}
                         propertyID={propertyID}
                     />
                 </Form>
@@ -76,11 +146,6 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
     }
 
     return <React.Fragment>
-        <SubDoc property={property} 
-            documentFrame={documentFrame}
-            propertyID={uuidv4()}
-            documentClasses={documentClasses}
-            setPropertyFill={setPropertyFill}/>
 
         {subDocArray.length>0 && subDocArray}
 

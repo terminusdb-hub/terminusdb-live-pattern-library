@@ -51,13 +51,13 @@ export const ModelBuilder = (props) =>{
                     title={SCHEMA_EDITOR_VIEW}
                     onClick={(e) => setSchemaView(SCHEMA_EDITOR_VIEW)}>Text Editor</Button>}
             </div>*/}
-            {(schemaView == SCHEMA_MODEL_VIEW) && <Row>
+            {dataProduct && (schemaView == SCHEMA_MODEL_VIEW) && <Row>
                 <GraphObjectProvider mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
                     <ViewBuilder saveGraph={saveData} 
                         dbName={dataProduct} 
                         custom={true}
                         saveGraph={saveData}
-                        />
+                        /> 
                 </GraphObjectProvider> 
             </Row>}
             {(schemaView == SCHEMA_CLASSES_VIEW) &&  <Row>

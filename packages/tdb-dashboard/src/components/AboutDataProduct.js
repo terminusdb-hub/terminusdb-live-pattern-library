@@ -15,14 +15,12 @@ import {
 
 export const AboutDataProduct = ({dataProductDetails}) =>{
 
-    const {dataProduct} = WOQLClientObj()
-
     const {
+        dataProduct,
         documentClasses
-    } = DocumentControl(dataProduct)
+    } = WOQLClientObj()
 
-    
-
+   
     return <React.Fragment>
         <h4 className="text-muted mb-3 fw-bold">About</h4>
         <span className="d-flex mb-2">

@@ -14,7 +14,11 @@ import { executeQueryHook } from "../hooks/executeQueryHook"
 import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
 
 export const DataProductDocuments = () => {
-    const {woqlClient, dataProduct} = WOQLClientObj()
+    const {
+        woqlClient, 
+        dataProduct,
+        documentClasses
+    } = WOQLClientObj()
     const {addQueryPane} = QueryPaneObj() 
 
     const [query, setQuery]=useState(false)
@@ -27,11 +31,7 @@ export const DataProductDocuments = () => {
         properties,
         classes} = DatabaseInfoControl(woqlClient, dataProduct) */
 
-    const {
-        documentClasses
-    } = DocumentControl(dataProduct)
-
-
+ 
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
 
@@ -102,19 +102,16 @@ export const DataProductDocuments = () => {
     </SubMenu>
 }
 
-export const DocumentExplorerDocuments = () => { 
-
+export const DocumentExplorerDocuments = () => {  
+ 
     const {
         dataProduct, 
         sidebarDocumentListState, 
         setSidebarDocumentListState, 
         documentObject, 
-        setDocumentObject
-    } = WOQLClientObj()
-
-    const {
+        setDocumentObject,
         documentClasses
-    } = DocumentControl(dataProduct)
+    } = WOQLClientObj()
 
     // on select of a class
     function handleClassClick (id) {
@@ -124,7 +121,8 @@ export const DocumentExplorerDocuments = () => {
             view: false,
             submit: false,
             currentDocument: false,
-            frames: {}
+            frames: {},
+            update:Date.now()
         })
     }
 
@@ -136,7 +134,9 @@ export const DocumentExplorerDocuments = () => {
             view: FORM_VIEW,
             submit: false,
             currentDocument: false,
-            frames: {}
+            frames: {},
+            filledFrame: {},
+            update:Date.now()
         })
     }
 

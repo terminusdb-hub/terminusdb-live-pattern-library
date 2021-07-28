@@ -12,7 +12,7 @@ export const LeftSideBar = (props) => {
     const {dataProduct, route} = WOQLClientObj()
     return <ProSidebar>
         <SidebarContent>
-            <Menu>
+            <Menu> 
                 <DataProductItems/>
                 {dataProduct && <ConnectedDataProduct/>}
                 {dataProduct && route==DOCUMENT_EXPLORER && <DocumentExplorerDocuments/>}
