@@ -20,7 +20,7 @@ jobs:
     - name: Bootstrap lerna
       run: npx lerna bootstrap
     - name: Build
-      run: export CONNECTION_TYPE="REMOTE" && export TERMINUSDB_SERVER="https://cloud-dev.dcm.ist" && npx lerna run build
+      run: export CONNECTION_TYPE="REMOTE" && export TERMINUSDB_SERVER="https://cloud-dev.dcm.ist" && export REACT_APP_BASE_ROUTER="" && npx lerna run build
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@master
       with:
