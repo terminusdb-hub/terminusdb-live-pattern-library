@@ -21,3 +21,12 @@ jobs:
       run: npx lerna bootstrap
     - name: Build
       run: npx lerna run build
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCLOUD_PROJECT }}
+        service_account_key: ${{ secrets.GCLOUD_SERVICE_ACCOUNT_KEY }}
+        export_default_credentials: true
+    - name: Upload tdb-dashboard dev
+      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/dev' }}
+      run: gsutil cp -r packages/tdb-dashboard/dist/* "gs://dashboard-dev.terminusdb.com/"
