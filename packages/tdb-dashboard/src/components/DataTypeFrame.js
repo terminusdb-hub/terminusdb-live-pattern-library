@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react"
 import {Row, Form, Col} from "react-bootstrap"
 import {FaStarOfLife} from "react-icons/fa"
-import {WOQLClientObj} from '../init-woql-client'
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 
 // data type frame is usualy xsd or xdd datatype and is required to be filled
-export const DataTypeFrame = ({property, propertyID, type, onChange}) => {
+export const DataTypeFrame = ({documentObject, property, propertyID, type, onChange}) => {
  
-    const {
-        documentObject,
-        setDocumentObject,
-    } = WOQLClientObj()
-
     return <Form.Group as={Col} md="12" controlId={property}>
         <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
 

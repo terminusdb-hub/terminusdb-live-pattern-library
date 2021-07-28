@@ -23,7 +23,7 @@ const SelectedDocumentAccordian = ({selected}) => {
     </Accordion>
 } 
  
-export const ClassTypeFrame = ({ propertyID, property, type, onChange}) => {
+export const ClassTypeFrame = ({documentObject, propertyID, property, type, onChange}) => {
     const [selected, setSelected]=useState(false)
     const [options, setOptions] = useState(false)
     const [defaultValue, setDefaultValue] = useState(false)
@@ -31,8 +31,7 @@ export const ClassTypeFrame = ({ propertyID, property, type, onChange}) => {
     const [documentObjectTemp, setDocumentObjectTemp] = useState(false)
 
     const {
-        woqlClient,
-        documentObject
+        woqlClient
     } = WOQLClientObj()
 
 

@@ -3,13 +3,19 @@ import {Card, Button, Form} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
 import {RenderFrameProperties} from "./RenderFrameProperties"
 import {BsPlus} from "react-icons/bs"
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
+import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
+import {WOQLClientObj} from '../init-woql-client'
 
 export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, formFields}) => {
     const [subDocArray, setSubDocArray] = useState([])
     const [propertyFill, setPropertyFill]=useState([])
 
     const [propertyFormFields, setPropertyFormFields]=useState([])
+
+    const {
+        documentObject
+    } = WOQLClientObj()
 
     const {
         documentClasses,
@@ -65,12 +71,50 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
     }, [propertyFill])
 
     useEffect(() => {
-        setSubDocArray(arr => [...arr, <SubDoc 
-            property={property} 
-            documentFrame={documentFrame} 
-            propertyID={uuidv4()}    
-            documentClasses={documentClasses}
-            setPropertyFill={setPropertyFill}/>])
+        if(documentObject.action == CREATE_DOCUMENT) { // on create document
+            let newDocumentObject={
+                action: CREATE_DOCUMENT,
+                type: property,
+                view: "form",
+                submit: false,
+                frames: documentFrame,
+                filledFrame: {},
+                message: false
+            }
+            setSubDocArray(arr => [...arr, <SubDoc 
+                property={property} 
+                documentFrame={newDocumentObject} 
+                propertyID={uuidv4()}    
+                documentClasses={documentClasses}
+                setPropertyFill={setPropertyFill}/>])
+        }
+        if(documentObject.action == EDIT_DOCUMENT) {// on edit document display filled frames of sub documents 
+            let subDocProperty = documentObject.filledFrame[property]
+            
+            console.log("subDocProperty", subDocProperty)
+            
+            subDocProperty.map(item => {
+
+                let newDocumentObject={
+                    action: EDIT_DOCUMENT,
+                    type: property,
+                    view: "form",
+                    submit: false,
+                    frames: documentFrame,
+                    filledFrame: item,
+                    message: false
+                }
+
+                let subDocumentFrame=item
+                setSubDocArray(arr => [...arr, <SubDoc 
+                    property={property} 
+                    documentFrame={newDocumentObject} 
+                    propertyID={uuidv4()}    
+                    documentClasses={documentClasses}
+                    setPropertyFill={setPropertyFill}/>])
+            })
+        }
+        
     }, [property])
 
  
@@ -121,7 +165,7 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
             <Card.Body>
                 <Form  >
                     <RenderFrameProperties 
-                        frame={documentFrame} 
+                        documentObject={documentFrame} 
                         documentClasses={documentClasses}
                         handleChange={handleChange}
                         handleSelect={handleSelect}
@@ -137,9 +181,19 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
     // add new subdocument
     function addNewSubDocument (property, documentFrame, documentClasses) {
 
+        let newDocumentObject={
+            action: CREATE_DOCUMENT,
+            type: property,
+            view: "form",
+            submit: false,
+            frames: documentFrame,
+            filledFrame: {},
+            message: false
+        }
+
         setSubDocArray(arr => [...arr, <SubDoc 
             property={property} 
-            documentFrame={documentFrame} 
+            documentFrame={newDocumentObject} 
             propertyID={uuidv4()}    
             documentClasses={documentClasses}
             setPropertyFill={setPropertyFill}/>])

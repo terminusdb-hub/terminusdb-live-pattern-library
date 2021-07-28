@@ -31,7 +31,7 @@ const SelectedDocumentAccordian = ({selected}) => {
     </Accordion>
 }
 
-export const ClassSetTypeFrame = ({property, object, onChange}) => {
+export const ClassSetTypeFrame = ({documentObject, property, object, onChange}) => {
     const [selected, setSelected]=useState(false)
     const [options, setOptions] = useState(false)
 

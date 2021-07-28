@@ -97,7 +97,7 @@ export const FrameViewer = () => {
 
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {/*currentFrame && renderProperties(currentFrame)*/} 
-            {currentFrame && <RenderFrameProperties frame={currentFrame} 
+            {currentFrame && <RenderFrameProperties documentObject={documentObject} 
                 documentClasses={documentClasses} 
                 handleChange={handleChange}
                 handleSelect={handleSelect}
