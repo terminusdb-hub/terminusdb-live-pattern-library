@@ -124,13 +124,34 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
 
         function gatherProperties(propertyFormFields, propertyID, id, value) {
             // gather properties for subdocuments
-            var populatedArray = []
+            /*var populatedArray = []
             if(propertyFormFields[propertyID]){
                 populatedArray = [propertyFormFields[propertyID]]
+                console.log("populatedArray", populatedArray)
                 populatedArray.push({[id] : value})
                 propertyFormFields[propertyID] = populatedArray
             }
             else propertyFormFields[propertyID] = {[id] : value}
+            return propertyFormFields*/
+
+            var populatedArray = []
+            if(propertyFormFields[propertyID]){
+                populatedArray = propertyFormFields[propertyID]
+                var match = false
+                for(var x=0; x<populatedArray.length; x++){
+                    let thing = populatedArray[x]
+                    for (var key in thing) {
+                        if(key == id) {
+                            match=true
+                            thing[key] = value // replace existing 
+                        }
+                    }
+                }
+                if(!match) populatedArray.push({[id] : value})
+                propertyFormFields[propertyID] = populatedArray
+                console.log("populatedArray", populatedArray)
+            }
+            else propertyFormFields[propertyID] = [{[id] : value}]
             return propertyFormFields
         }
         

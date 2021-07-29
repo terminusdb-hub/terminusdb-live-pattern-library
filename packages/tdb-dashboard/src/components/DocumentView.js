@@ -65,7 +65,7 @@ export const DocumentView = () => {
         setDocumentObject({
             action: VIEW_DOCUMENT,
             type: row.original["@type"], 
-            view: documentObject,
+            view: FORM_VIEW,
             submit: false,
             currentDocument: row.original["@id"],
             frames: {},

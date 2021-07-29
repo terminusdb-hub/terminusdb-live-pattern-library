@@ -132,7 +132,7 @@ export const DocumentInfo = () => {
         setDocumentObject({
             action: EDIT_DOCUMENT,
             type: documentObject.type,
-            view: FORM_VIEW,
+            view: documentObject.view,
             submit: false,
             currentDocument: documentObject.currentDocument,
             frames: documentObject.frames,
