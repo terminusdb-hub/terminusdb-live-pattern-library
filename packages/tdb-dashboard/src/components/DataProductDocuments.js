@@ -12,6 +12,7 @@ import {SearchBox} from "./SearchBox"
 import {getCountOfDocumentClass} from "../queries/GeneralQueries"
 import { executeQueryHook } from "../hooks/executeQueryHook"
 import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
+import {handleCreate} from "./documents.utils"
 
 export const DataProductDocuments = () => {
     const {
@@ -126,25 +127,10 @@ export const DocumentExplorerDocuments = () => {
         })
     }
 
-    // on create on new document
-    function handleCreate (id) {
-        setDocumentObject({
-            action: CREATE_DOCUMENT,
-            type: id,
-            view: FORM_VIEW,
-            submit: false,
-            currentDocument: false,
-            frames: {},
-            filledFrame: {},
-            update:Date.now()
-        })
-    }
-
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
 
-
-    const DocumentMenu = ({item, handleCreate}) => {
+    const DocumentMenu = ({item}) => {
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
             <ButtonGroup>
                 <Button className="pro-item-content btn-sm" 
@@ -159,9 +145,9 @@ export const DocumentExplorerDocuments = () => {
                     className="pro-item-content btn-sm" 
                     variant="dark"
                     title={`Add a new ${item["@id"]}`}
-                    onClick={(e) => handleCreate(item["@id"])}>
+                    onClick={(e) => handleCreate(item["@id"], setDocumentObject)}>
                         <Badge variant="dark">
-                            <BiPlus style={{fontSize: "14px"}} color="#fff" onClick={handleCreate}/>
+                            <BiPlus style={{fontSize: "14px"}} color="#fff" />
                         </Badge>
                 </Button>
             </ButtonGroup>
@@ -179,10 +165,10 @@ export const DocumentExplorerDocuments = () => {
         {documentClasses && documentClasses.map(item => {
             if (item["@type"] == "Class") {
                 if(!searchDocument) {
-                    return <DocumentMenu handleCreate={handleCreate} item={item}/>
+                    return <DocumentMenu item={item}/>
                 }
                 if(searchDocument && (item["@id"].includes(searchDocument))) {
-                    return <DocumentMenu handleCreate={handleCreate} item={item}/>
+                    return <DocumentMenu  item={item}/>
                 }
             }
         })}

@@ -6,6 +6,8 @@ import { DATA_PRODUCTS } from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
 import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, GET_FRAMES_DOCUMENT} from "./components/constants"
 import {executeDocumentAction, resetDocumentObject, updateDocument, addNewDocument} from "./hooks/DocumentControl"
+import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
+import {executeQueryHook} from "./hooks/executeQueryHook"
 
 export const WOQLClientProvider = ({children, params}) => {
     
@@ -52,13 +54,15 @@ export const WOQLClientProvider = ({children, params}) => {
     //document classes 
     const [documentClasses, setDocumentClasses] = useState(false)
 
-    // clear document consts on change of data products
-    /*useEffect(() => {
-        
-    }, [dataProduct])*/
+    // get document count 
+    // set constants for query to get count of document class instances 
+    const [query, setQuery] = useState(false)
+    var [perDocumentCount]=executeQueryHook(woqlClient, query)
 
-    
-        
+    // get total count of all documents 
+    const [totalDocumentsQuery, setTotalDocumentsQuery]=useState(false)
+    var [totalDocumentCount]=executeQueryHook(woqlClient, totalDocumentsQuery)
+
 
     useEffect(() => {
         setOpts(params)
@@ -170,6 +174,11 @@ export const WOQLClientProvider = ({children, params}) => {
             // on change on data product get classes 
             woqlClient.getClassDocuments(dataProduct).then((classRes) => {
                 setDocumentClasses(classRes)
+                // get number document classes 
+                let q=getCountOfDocumentClass(classRes)
+                setQuery(q)
+                let totalQ=getTotalNumberOfDocuments(classRes)
+                setTotalDocumentsQuery(totalQ)
             })
             .catch((err) =>  {
                 console.log("Error in init woql while getting classes of data product", err.message)
@@ -177,6 +186,7 @@ export const WOQLClientProvider = ({children, params}) => {
         }
     }, [branchesReload, dataProduct])
 
+    
     // on change of document action 
     const [frame, setFrame]=useState(false)
     const [filledFrame, setFilledFrame]=useState(false)
@@ -186,18 +196,11 @@ export const WOQLClientProvider = ({children, params}) => {
 
     useEffect(() => {
         if(!frame) return
-        if(documentObject.action == CREATE_DOCUMENT) {
-            let docObj=documentObject
-            docObj.frames = frame
-            docObj.update = Date.now()
-            setDocumentObject(docObj)
-        }
-        if(documentObject.action == EDIT_DOCUMENT) {
-            let docObj=documentObject
-            docObj.update = Date.now()
-            docObj.frames = frame
-            setDocumentObject(docObj)
-        }
+        if(documentObject.action == VIEW_DOCUMENT) return 
+        let docObj=documentObject
+        docObj.frames = frame
+        docObj.update = Date.now()
+        setDocumentObject(docObj)
     }, [frame])
 
     useEffect(() => {
@@ -291,7 +294,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 documentClasses, 
                 setDocumentClasses,
                 filledFrame, 
-                setFilledFrame
+                setFilledFrame,
+                perDocumentCount,
+                totalDocumentCount
             }}
         >
             {children}

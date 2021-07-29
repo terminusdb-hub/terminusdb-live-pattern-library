@@ -1,42 +1,88 @@
 import React from "react"
 import {Row, Form, Col} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
-import {printts} from "./utils"
+import {printts, checkIfObject} from "./utils"
+import {RenderFrameProperties} from "./RenderFrameProperties"
+import {WOQLClientObj} from '../init-woql-client'
+import { v4 as uuidv4 } from 'uuid'
+import {FORM_VIEW, JSON_VIEW, EDIT_DOCUMENT, CREATE_DOCUMENT} from "./constants"
 
 // this is optional field
-export const OptionalFrames = ({property, object, onChange, mode}) => {
+export const OptionalFrames = ({documentObject, propertyID, property, object, onChange}) => {
 
     const {
-        currentDocumentInfo
-    } = DocumentControl()
+        documentClasses
+    } = WOQLClientObj()
 
-    const FilledFormFields = ({onChange, property, type, currentDocumentInfo}) => {
-        // get match of filed fields in frames
-        for (var item in currentDocumentInfo){
-            if(item == property) {
-                return <Form.Control value={currentDocumentInfo[property]} onChange={onChange}/>
-            }
+
+    const ObjectFrameViewer = () => {
+        let documentFrame=object["@class"]
+        let newDocumentObject={
+            action: CREATE_DOCUMENT,
+            type: property,
+            view: FORM_VIEW,
+            submit: false,
+            frames: documentFrame,
+            filledFrame: {},
+            message: false
         }
+        
+        return <RenderFrameProperties 
+            documentObject={newDocumentObject} 
+            documentClasses={documentClasses}
+            propertyID={propertyID}
+        />
+    } 
 
-        return  <Form.Control placeholder={type} onChange={onChange}/>
-    }
-
-
-    return  <Row className="mt-2">
-        <Form.Group as={Col} md="12" controlId={property}>
-            <Form.Label>{property}</Form.Label>
-
-            {(mode!=="edit") && <Form.Control 
+    const DataFrameViewer = ({onChange}) => { // for type {@class: "xsd:dateTime", @type: "Optional"}
+        return <React.Fragment>
+            {(documentObject.action == CREATE_DOCUMENT) &&  <Form.Control 
                 placeholder={object["@class"]} 
                 type="text"
-                onChange={onChange}/>}
+                onBlur={(e) => onChange(e, propertyID)}/>}
 
-            {(mode=="edit") && currentDocumentInfo && <FilledFormFields 
-                onChange={onChange} 
-                property={property} 
-                type={object["@class"]} 
-                currentDocumentInfo={currentDocumentInfo}/>}
+            {(documentObject.action == EDIT_DOCUMENT) &&  documentObject.frames 
+                && (documentObject.filledFrame[property]) && <Form.Control 
+                placeholder={object["@class"]} 
+                type="text"
+                defaultValue={documentObject.filledFrame[property]}
+                onBlur={(e) => onChange(e, propertyID)}/>}
 
-        </Form.Group>
-    </Row>
+        </React.Fragment> 
+    }
+
+    
+
+    return <Form.Group as={Col} md="12" controlId={property}>
+        <Form.Label>{property}</Form.Label>
+
+        {!checkIfObject(object["@class"]) && <DataFrameViewer onChange={onChange}/>}
+        {checkIfObject(object["@class"]) && <ObjectFrameViewer/>}
+
+    </Form.Group>
 }
+
+
+/*
+{(documentObject.action == CREATE_DOCUMENT) && !checkIfObject(object["@class"]) && <Form.Control 
+            placeholder={object["@class"]} 
+            type="text"
+            onChange={onChange}
+            onBlur={(e) => onChange(e, propertyID)}/>
+        }
+
+        {(documentObject.action == CREATE_DOCUMENT) && checkIfObject(object["@class"]) && <RenderFrameProperties 
+            documentObject={object["@class"]} 
+            documentClasses={documentClasses}
+            propertyID={uuidv4()}
+        />}
+
+        {(documentObject.action == EDIT_DOCUMENT) && !checkIfObject(object["@class"]) && 
+            documentObject.frames && (documentObject.filledFrame[property]) && <Form.Control 
+            placeholder={object["@class"]} 
+            type="text"
+            defaultValue={documentObject.filledFrame[property]}
+            onChange={onChange}
+            onBlur={(e) => onChange(e, propertyID)}/>
+        }
+*/

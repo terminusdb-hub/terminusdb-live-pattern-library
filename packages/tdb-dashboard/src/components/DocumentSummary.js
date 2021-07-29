@@ -8,27 +8,7 @@ import {WOQLClientObj} from '../init-woql-client'
 
 export const DocumentSummary = () => {
 
-    const {woqlClient, documentClasses} = WOQLClientObj()
-
-
-    // set constants for query to get count of document class instances 
-    const [query, setQuery] = useState(false)
-    var [dataProvider]=executeQueryHook(woqlClient, query)
-
-    // get total count of all documents 
-    const [totalDocumentsQuery, setTotalDocumentsQuery]=useState(false)
-    var [dataProviderCount]=executeQueryHook(woqlClient, totalDocumentsQuery)
-
-
-    useEffect(() => {
-        if(!documentClasses) return 
-        let q=getCountOfDocumentClass(documentClasses)
-        setQuery(q)
-        let totalQ=getTotalNumberOfDocuments(documentClasses)
-        setTotalDocumentsQuery(totalQ)
-    }, [documentClasses])
-
-    
+    const {perDocumentCount, totalDocumentCount} = WOQLClientObj()
 
     const DocumentStats = ({dataProvider}) => {
         let arr=[]
@@ -60,8 +40,8 @@ export const DocumentSummary = () => {
 
     return <React.Fragment>
             <ListGroup className="col-md-12">
-                {dataProviderCount && <TotalDocuments dataProviderCount={dataProviderCount}/>}
-                {dataProvider && <DocumentStats dataProvider={dataProvider}/>}
+                {totalDocumentCount && <TotalDocuments dataProviderCount={totalDocumentCount}/>}
+                {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
             </ListGroup>
         </React.Fragment>
 }

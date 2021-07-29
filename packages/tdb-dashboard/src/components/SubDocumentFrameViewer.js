@@ -92,6 +92,7 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
             let subDocProperty = documentObject.filledFrame[property]
             
             console.log("subDocProperty", subDocProperty)
+            if(!subDocProperty) return
             
             subDocProperty.map(item => {
 
@@ -158,7 +159,7 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                 arr.push(propertyFormFields[key])
                 setPropertyFill(arr)
             }
-        }
+        } 
 
         return <Card bg="secondary" className="ml-5 mt-2 mb-2">
             <Card.Header> {property}</Card.Header>

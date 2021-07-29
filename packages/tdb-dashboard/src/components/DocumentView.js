@@ -14,6 +14,7 @@ import {DocumentInfo} from "./DocumentInfo"
 import {getColumnsFromResults} from "./utils"
 import {DocumentSummary} from "./DocumentSummary"
 import {FrameViewer} from './FrameViewer'
+import {NoDocumentsAvailable} from "./NoDocumentsAvailable"
 
 export const DocumentView = () => {
     const {
@@ -76,6 +77,7 @@ export const DocumentView = () => {
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
         <Row className="mt-5 w-100 justify-content-md-center">
             {documentObject.message && documentObject.message }
+            {!documentObject.action && (documentResults.length==0) && <NoDocumentsAvailable type={documentObject.type} setDocumentObject={setDocumentObject}/>}
             {
             !documentObject.action && (documentResults.length>0) && tableConfig && 
                 <Card className="content mr-3 ml-5 w-100" varaint="light"> 

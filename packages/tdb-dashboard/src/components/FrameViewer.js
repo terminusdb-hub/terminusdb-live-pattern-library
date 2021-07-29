@@ -9,7 +9,7 @@ import {EnumTypeFrame} from "./EnumTypeFrame"
 import {RenderFrameProperties} from "./RenderFrameProperties"
 import { v4 as uuidv4 } from 'uuid';
 
-export const FrameViewer = () => {
+export const FrameViewer = () => { 
 
     const {
         documentObject,
@@ -22,14 +22,14 @@ export const FrameViewer = () => {
         reportAlert
     } = DocumentControl()
 
-    const [currentFrame, setCurrentFrame]=useState(false)
+    //const [currentFrame, setCurrentFrame]=useState(false)
     const [formFields, setFormFields] = useState({"@type": documentObject.type})
 
     useEffect(() => {
         //console.log("documentObject", documentObject)
-        if(documentObject.action == CREATE_DOCUMENT) setCurrentFrame (documentObject.frames)
+        //if(documentObject.action == CREATE_DOCUMENT) setCurrentFrame (documentObject.frames)
         if(documentObject.action == EDIT_DOCUMENT) {
-            setCurrentFrame (documentObject.frames)
+            //setCurrentFrame (documentObject.frames)
             setFormFields(documentObject.filledFrame)
         }
     }, [documentObject.frames, documentObject.filledFrame])
@@ -97,7 +97,7 @@ export const FrameViewer = () => {
 
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {/*currentFrame && renderProperties(currentFrame)*/} 
-            {currentFrame && <RenderFrameProperties documentObject={documentObject} 
+            {documentObject.frames && <RenderFrameProperties documentObject={documentObject} 
                 documentClasses={documentClasses} 
                 handleChange={handleChange}
                 handleSelect={handleSelect}
