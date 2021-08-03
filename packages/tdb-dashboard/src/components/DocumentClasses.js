@@ -65,7 +65,7 @@ export const DocumentClasses = () => {
                     title={`View documents of type ${item["Class Name"]["@value"]}`}
                     onClick={(e) => handleSelectedDocument(item)}>
                     {item["Class Name"]["@value"]}
-                    <Badge variant="dark" 
+                    <Badge variant="primary" 
                         className="ml-3 cursor-auto" 
                         title={`${item["Count"]["@value"]} ${item["Class Name"]["@value"]} available`}>
                             {item["Count"]["@value"]}

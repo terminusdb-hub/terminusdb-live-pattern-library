@@ -13,7 +13,7 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
     let prefixes = {} // (result && result.prefixes ? result.prefixes : (query ? query.getContext() : {}))
 
     const [data, columns]  = useMemo(() => makeData(), [bindings, result])
-
+ 
     /*function makeData(){
         let qres = result || {bindings: bindings}
         if(woqt.bindings()){
@@ -46,7 +46,6 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
         else qres.bindings = result
         let wr = new TerminusClient.WOQLResult(qres, query)
         woqt.setResult(wr, query)
-        console.log("woqt", woqt)
         const columns = formatTableColumns(woqt)
         //const columns = resultColumns
         return [wr.rows(), columns];

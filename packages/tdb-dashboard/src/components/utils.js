@@ -153,7 +153,6 @@ export const refreshDBList = (meta, woqlClient) => {
 // returns true for data type with prefixes xsd: or xdd
 export const isDataType = (property) => {
     if(typeof property == "object") return false 
-  
     if(property.substring(0, 4) ==  XSD_DATA_TYPE_PREFIX) return true
     else if(property.substring(0, 4) ==  XDD_DATA_TYPE_PREFIX) return true
     else return false
@@ -162,6 +161,7 @@ export const isDataType = (property) => {
 // returns true for properties ponting to another document
 //have to compare with enums as well 
 export const isClassType = (property, documentType) => {
+    if(!documentType) return false
     for (var item=0; item < documentType.length; item++) {
         if((documentType[item]["@type"] == "Class") && documentType[item]["@id"] == property){
             return property
@@ -214,3 +214,4 @@ export function checkIfObject (obj) {
     if(typeof obj !== "object") return false
     return true
 }
+

@@ -9,6 +9,8 @@ import {Accordion} from 'react-accessible-accordion'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import {getDocumentsOfClassOfInterest} from "../hooks/DocumentControl"
 import {DocumentFrameAccordian} from "./DocumentFrameAccordian"
+import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
+
 
 const SelectedDocumentAccordian = ({selected}) => {
 
@@ -19,11 +21,12 @@ const SelectedDocumentAccordian = ({selected}) => {
     return <Accordion  className="mt-3 ml-5" onChange={handleSubSetFrames}>
         <DocumentFrameAccordian item={selected}/>
     </Accordion>
-}
-
-export const ClassTypeFrame = ({property, type, onChange}) => {
+} 
+ 
+export const ClassTypeFrame = ({documentObject, propertyID, property, type, onChange}) => {
     const [selected, setSelected]=useState(false)
     const [options, setOptions] = useState(false)
+    const [defaultValue, setDefaultValue] = useState(false)
 
     const [documentObjectTemp, setDocumentObjectTemp] = useState(false)
 
@@ -33,7 +36,7 @@ export const ClassTypeFrame = ({property, type, onChange}) => {
 
 
     function handleSelect(val) {
-        onChange(property, val.value)
+        onChange(property, val.value, propertyID)
         setSelected(val)
     }
 
@@ -42,6 +45,15 @@ export const ClassTypeFrame = ({property, type, onChange}) => {
         getDocumentsOfClassOfInterest (woqlClient, type, setDocumentObjectTemp)
     }, [type])
 
+    function getDefaultOption (opts, defaultVal) {
+        for (var x=0; x<opts.length; x++) {
+            let val = opts[x]
+            if(val.value == defaultVal) {
+                setDefaultValue(val)
+            }
+        }
+    }
+
     useEffect(() => { //propulate instances of class type
         if(!documentObjectTemp) return
         let opts =[]
@@ -49,14 +61,20 @@ export const ClassTypeFrame = ({property, type, onChange}) => {
             opts.push({value: item["@id"], label: item["@id"], color: "#498205", frame: item})
         })
         setOptions(opts)
+        if(documentObject.action == EDIT_DOCUMENT) getDefaultOption(opts, documentObject.filledFrame[property])
     }, [documentObjectTemp])
 
     return <Form.Group as={Col} md="12" controlId={property}>
         <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
-        <Select options={options}
+        {(documentObject.action == CREATE_DOCUMENT) && <Select options={options}
             onChange={handleSelect}
             styles={singleSelectStyle}
-        />
+        />}
+        {(documentObject.action == EDIT_DOCUMENT) && defaultValue && <Select options={options}
+            onChange={handleSelect}
+            styles={singleSelectStyle}
+            defaultValue={defaultValue}
+        />}
         {selected && <SelectedDocumentAccordian selected={selected}/>}
     </Form.Group>
 }

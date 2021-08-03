@@ -9,32 +9,30 @@ import {EnumTypeFrame} from "./EnumTypeFrame"
 import {RenderFrameProperties} from "./RenderFrameProperties"
 import { v4 as uuidv4 } from 'uuid';
 
-export const FrameViewer = () => {
+export const FrameViewer = () => { 
 
     const {
         documentObject,
-        setDocumentObject
+        setDocumentObject,
+        documentClasses
     } = WOQLClientObj()
 
     const {
         loading,
-        reportAlert,
-        documentClasses,
-        frame,
-        filledFrame
+        reportAlert
     } = DocumentControl()
 
-    const [currentFrame, setCurrentFrame]=useState(false)
+    //const [currentFrame, setCurrentFrame]=useState(false)
     const [formFields, setFormFields] = useState({"@type": documentObject.type})
 
     useEffect(() => {
         //console.log("documentObject", documentObject)
-        if(documentObject.action == CREATE_DOCUMENT) setCurrentFrame (documentObject.frames)
+        //if(documentObject.action == CREATE_DOCUMENT) setCurrentFrame (documentObject.frames)
         if(documentObject.action == EDIT_DOCUMENT) {
-            setCurrentFrame (frame)
-            setFormFields(documentObject.frames)
+            //setCurrentFrame (documentObject.frames)
+            setFormFields(documentObject.filledFrame)
         }
-    }, [documentObject, frame])
+    }, [documentObject.frames, documentObject.filledFrame])
 
     function handleChange(e) { // gather all form fields inputs on change
         setFormFields({
@@ -68,6 +66,8 @@ export const FrameViewer = () => {
         })
     }
 
+    console.log("formFields", formFields)
+
     function handleUpdateDocument () {
         setDocumentObject({
             action: EDIT_DOCUMENT,
@@ -75,6 +75,7 @@ export const FrameViewer = () => {
             view: documentObject.view,
             submit: true,
             frames: formFields,
+            filledFrame: documentObject.filledFrame,
             message: false
         })
     }
@@ -92,16 +93,14 @@ export const FrameViewer = () => {
         setValidated(true)
     }
 
-    
-
     return <React.Fragment>
         {loading && <Loading message={`Loading frames for ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         {reportAlert && reportAlert}
 
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {/*currentFrame && renderProperties(currentFrame)*/} 
-            {currentFrame && <RenderFrameProperties frame={currentFrame} 
-                documentClasses={documentClasses}
+            {documentObject.frames && <RenderFrameProperties documentObject={documentObject} 
+                documentClasses={documentClasses} 
                 handleChange={handleChange}
                 handleSelect={handleSelect}
                 handleSetSelect={handleSetSelect} 

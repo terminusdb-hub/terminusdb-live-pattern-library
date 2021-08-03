@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react"
 import {Row, Form, Col} from "react-bootstrap"
 import {FaStarOfLife} from "react-icons/fa"
-import {WOQLClientObj} from '../init-woql-client'
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 
 // data type frame is usualy xsd or xdd datatype and is required to be filled
-export const DataTypeFrame = ({property, propertyID, type, onChange}) => {
+export const DataTypeFrame = ({documentObject, property, propertyID, type, onChange}) => {
  
-    const {
-        documentObject,
-        setDocumentObject,
-    } = WOQLClientObj()
-
     return <Form.Group as={Col} md="12" controlId={property}>
         <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
 
@@ -22,13 +16,25 @@ export const DataTypeFrame = ({property, propertyID, type, onChange}) => {
             onBlur={(e) => onChange(e, propertyID)}
         />}
 
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.frames[property]) && <Form.Control
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame[property]) && <Form.Control
             required
             type="text"
             placeholder={type}
-            defaultValue={documentObject.frames[property]}
+            defaultValue={documentObject.filledFrame[property]}
             onBlur={(e) => onChange(e, propertyID)}
         />}
+
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame["@id"]) && <React.Fragment>
+            <Form.Label as={Col}>{"id"}</Form.Label>
+            <Form.Control
+                required
+                type="text"
+                placeholder={type}
+                defaultValue={documentObject.filledFrame["@id"]}
+                readOnly 
+            />
+            </React.Fragment>}
+        
 
         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         <Form.Control.Feedback type="invalid">

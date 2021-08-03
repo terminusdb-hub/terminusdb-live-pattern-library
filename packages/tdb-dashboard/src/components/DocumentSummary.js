@@ -5,31 +5,24 @@ import {DocumentControl} from "../hooks/DocumentControl"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "../queries/GeneralQueries"
 import {executeQueryHook} from "../hooks/executeQueryHook"
 import {WOQLClientObj} from '../init-woql-client'
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemHeading,
+    AccordionItemButton,
+    AccordionItemPanel,
+} from 'react-accessible-accordion'
+import 'react-accessible-accordion/dist/fancy-example.css'
+import {JsonViewer} from "./JsonViewer"
 
 export const DocumentSummary = () => {
+  
 
-    const {documentClasses} = DocumentControl()
-    const {woqlClient} = WOQLClientObj()
-
-
-    // set constants for query to get count of document class instances 
-    const [query, setQuery] = useState(false)
-    var [dataProvider]=executeQueryHook(woqlClient, query)
-
-    // get total count of all documents 
-    const [totalDocumentsQuery, setTotalDocumentsQuery]=useState(false)
-    var [dataProviderCount]=executeQueryHook(woqlClient, totalDocumentsQuery)
-
-
-    useEffect(() => {
-        if(!documentClasses) return 
-        let q=getCountOfDocumentClass(documentClasses)
-        setQuery(q)
-        let totalQ=getTotalNumberOfDocuments(documentClasses)
-        setTotalDocumentsQuery(totalQ)
-    }, [documentClasses])
-
-    
+    const {
+        perDocumentCount, 
+        totalDocumentCount, 
+        documentObject
+    } = WOQLClientObj()
 
     const DocumentStats = ({dataProvider}) => {
         let arr=[]
@@ -59,10 +52,26 @@ export const DocumentSummary = () => {
         </span>
     }
 
+    function onChange() {
+
+    }
+
     return <React.Fragment>
             <ListGroup className="col-md-12">
-                {dataProviderCount && <TotalDocuments dataProviderCount={dataProviderCount}/>}
-                {dataProvider && <DocumentStats dataProvider={dataProvider}/>}
+                {totalDocumentCount && <TotalDocuments dataProviderCount={totalDocumentCount}/>}
+                {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
             </ListGroup>
+            {/*documentObject.type && <Accordion className="mt-3 ml-5" onChange={onChange}>
+                <AccordionItem key={documentObject.type} uuid={documentObject.type}>
+                    <AccordionItemHeading>
+                        <AccordionItemButton>
+                            {`Look up for ${documentObject.type}`}
+                        </AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                        {documentObject.update && documentObject.frames && <JsonViewer json={JSON.stringify(documentObject.frames, null, 2)}/>}
+                    </AccordionItemPanel>
+                </AccordionItem>
+            </Accordion>*/}
         </React.Fragment>
 }

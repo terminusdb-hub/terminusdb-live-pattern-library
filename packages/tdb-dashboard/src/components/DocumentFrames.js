@@ -29,7 +29,9 @@ export const DocumentFrames = () => {
         docObj.view=view
         setDocumentObject(docObj)
         setUpdate(Date.now())
-    }
+    } 
+
+    console.log("documentObject in viewer", documentObject)
 
     return <main className="content mr-3 ml-3 w-100">
         <Row className="w-100">
@@ -46,8 +48,8 @@ export const DocumentFrames = () => {
                         <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
                     </Card.Header>
                     <Card.Body>
-                        {(documentObject.view==FORM_VIEW) && update && <FrameViewer/>}
-                        {(documentObject.view==JSON_VIEW) && update && <JsonFrameViewer
+                        {(documentObject.view==FORM_VIEW) && documentObject.update && <FrameViewer/>}
+                        {(documentObject.view==JSON_VIEW) && documentObject.update && <JsonFrameViewer
                                 jsonFrame={JSON.stringify(documentObject.frames, null, 2)}/>
                         }
                     </Card.Body>

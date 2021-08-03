@@ -14,6 +14,7 @@ import {DocumentInfo} from "./DocumentInfo"
 import {getColumnsFromResults} from "./utils"
 import {DocumentSummary} from "./DocumentSummary"
 import {FrameViewer} from './FrameViewer'
+import {NoDocumentsAvailable} from "./NoDocumentsAvailable"
 
 export const DocumentView = () => {
     const {
@@ -22,10 +23,6 @@ export const DocumentView = () => {
         documentObject,
         setDocumentObject
     } = WOQLClientObj()
-
-    const {
-        reportAlert
-    } = DocumentControl()
 
     const [tableConfig, setTableConfig] = useState(false)
 
@@ -41,10 +38,15 @@ export const DocumentView = () => {
         loading,
         rowCount,
         documentResults,
+        setDocumentResults,
         setControlledRefresh,
         controlledRefresh
     } = ControlledGetDocumentQuery(woqlClient, documentObject.type, false, 20)
 
+    useEffect(() => {
+        setTableConfig(false)
+        setDocumentResults(false)
+    }, [documentObject.type])
 
     // on change of class clicked on left side bar => reset
     useEffect(() => {
@@ -61,22 +63,23 @@ export const DocumentView = () => {
     // on click document tablw row
     function onRowClick (row) { 
         setDocumentObject({
-            type: row.original["@type"],
             action: VIEW_DOCUMENT,
+            type: row.original["@type"], 
             view: FORM_VIEW,
             submit: false,
             currentDocument: row.original["@id"],
-            frames: {}
+            frames: {},
+            update: Date.now()
         })
     }
-
 
     return  <React.Fragment>
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
         <Row className="mt-5 w-100 justify-content-md-center">
             {documentObject.message && documentObject.message }
+            {!documentObject.action && (documentResults.length==0) && <NoDocumentsAvailable type={documentObject.type} setDocumentObject={setDocumentObject}/>}
             {
-            !documentObject.action && documentResults && tableConfig && 
+            !documentObject.action && (documentResults.length>0) && tableConfig && 
                 <Card className="content mr-3 ml-5 w-100" varaint="light"> 
                     <Card.Header>
                         <h6>Documents of type - <strong className="text-success">{documentObject.type}</strong></h6>
@@ -99,9 +102,9 @@ export const DocumentView = () => {
                     </Card.Body>
                 </Card>
             }
-            {documentObject.action && documentObject.action!== VIEW_DOCUMENT && <DocumentFrames/>}
+            {documentObject.update && documentObject.action && documentObject.action!== VIEW_DOCUMENT && <DocumentFrames/>}
 
-            {documentObject.action ==  VIEW_DOCUMENT &&  documentObject.currentDocument && documentObject.frames &&  <DocumentInfo/>}
+            {documentObject.update && documentObject.action ==  VIEW_DOCUMENT &&  documentObject.currentDocument &&  <DocumentInfo/>}
 
         </Row>
         </React.Fragment>

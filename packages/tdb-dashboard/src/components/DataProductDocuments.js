@@ -12,9 +12,14 @@ import {SearchBox} from "./SearchBox"
 import {getCountOfDocumentClass} from "../queries/GeneralQueries"
 import { executeQueryHook } from "../hooks/executeQueryHook"
 import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
+import {handleCreate} from "./documents.utils"
 
 export const DataProductDocuments = () => {
-    const {woqlClient, dataProduct} = WOQLClientObj()
+    const {
+        woqlClient, 
+        dataProduct,
+        documentClasses
+    } = WOQLClientObj()
     const {addQueryPane} = QueryPaneObj() 
 
     const [query, setQuery]=useState(false)
@@ -27,11 +32,7 @@ export const DataProductDocuments = () => {
         properties,
         classes} = DatabaseInfoControl(woqlClient, dataProduct) */
 
-    const {
-        documentClasses
-    } = DocumentControl(dataProduct)
-
-
+ 
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
 
@@ -102,19 +103,16 @@ export const DataProductDocuments = () => {
     </SubMenu>
 }
 
-export const DocumentExplorerDocuments = () => { 
-
+export const DocumentExplorerDocuments = () => {  
+ 
     const {
         dataProduct, 
         sidebarDocumentListState, 
         setSidebarDocumentListState, 
         documentObject, 
-        setDocumentObject
-    } = WOQLClientObj()
-
-    const {
+        setDocumentObject,
         documentClasses
-    } = DocumentControl(dataProduct)
+    } = WOQLClientObj()
 
     // on select of a class
     function handleClassClick (id) {
@@ -124,27 +122,15 @@ export const DocumentExplorerDocuments = () => {
             view: false,
             submit: false,
             currentDocument: false,
-            frames: {}
-        })
-    }
-
-    // on create on new document
-    function handleCreate (id) {
-        setDocumentObject({
-            action: CREATE_DOCUMENT,
-            type: id,
-            view: FORM_VIEW,
-            submit: false,
-            currentDocument: false,
-            frames: {}
+            frames: {},
+            update:Date.now()
         })
     }
 
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
 
-
-    const DocumentMenu = ({item, handleCreate}) => {
+    const DocumentMenu = ({item}) => {
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
             <ButtonGroup>
                 <Button className="pro-item-content btn-sm" 
@@ -159,9 +145,9 @@ export const DocumentExplorerDocuments = () => {
                     className="pro-item-content btn-sm" 
                     variant="dark"
                     title={`Add a new ${item["@id"]}`}
-                    onClick={(e) => handleCreate(item["@id"])}>
+                    onClick={(e) => handleCreate(item["@id"], setDocumentObject)}>
                         <Badge variant="dark">
-                            <BiPlus style={{fontSize: "14px"}} color="#fff" onClick={handleCreate}/>
+                            <BiPlus style={{fontSize: "14px"}} color="#fff" />
                         </Badge>
                 </Button>
             </ButtonGroup>
@@ -179,10 +165,10 @@ export const DocumentExplorerDocuments = () => {
         {documentClasses && documentClasses.map(item => {
             if (item["@type"] == "Class") {
                 if(!searchDocument) {
-                    return <DocumentMenu handleCreate={handleCreate} item={item}/>
+                    return <DocumentMenu item={item}/>
                 }
                 if(searchDocument && (item["@id"].includes(searchDocument))) {
-                    return <DocumentMenu handleCreate={handleCreate} item={item}/>
+                    return <DocumentMenu  item={item}/>
                 }
             }
         })}
