@@ -4,7 +4,7 @@ packages/*/dist
 packages/*/es6
 packages/*/env
 packages/*/auth_config
-packages/*/.env
+packages/tdb-dashboard/.env
 
 node_modules/
 lerna-debug.log
