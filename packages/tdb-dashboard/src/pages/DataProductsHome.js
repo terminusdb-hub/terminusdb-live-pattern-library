@@ -22,6 +22,7 @@ import {printtsDate, printtsTime} from "../components/utils"
 import {BiTimer } from "react-icons/bi"
 import {FaNodeJs,FaPython} from "react-icons/fa"
 import {AboutDataProduct} from "../components/AboutDataProduct"
+import {NoDataProductsCreated} from "../components/NoDataProductsCreated"
   
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct,setHead, branch, ref, branches, DBInfo} = WOQLClientObj()
@@ -57,24 +58,6 @@ export const DataProductsHome = (props) => {
         setDeleteDataProductInfo,
         setShowDeleteDataProductModal} = useCreateNewDataProductStates(woqlClient)
 
-    
-    /*let { 
-        dataProviderValues,
-        loadPreviousPage,
-        gotoPosition,
-        startTime,
-        setStartTime,
-        setSelectedValue,
-        loadNextPage,
-        setReloadQuery
-    } = useCommitsControl(woqlClient, null, branch, currentDay.unix(), ref, null)
-
-
-    useEffect(() => {
-        if(!dataProviderValues) return
-        setDataProvider(dataProviderValues.dataProvider)
-    }, [dataProviderValues]) */
-    
 
     const TimelineElements = () => {
         if(!dataProvider) return <div/>
@@ -133,6 +116,7 @@ export const DataProductsHome = (props) => {
                 setDeleteDataProductInfo={setDeleteDataProductInfo} 
                 loading={loading}  
                 dataProductDetails={dataProductDetails}/>
+
 
             {dataProduct && dataProductDetails && <React.Fragment>
                 <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProductDetails.label} </h2></Row>
@@ -225,29 +209,31 @@ export const DataProductsHome = (props) => {
         
             }
             
-            {!dataProduct && <NoDataProductSelected>
+            {list.length==0 && !dataProduct && <NoDataProductsCreated/>}
+
+            {list.length>0  && !dataProduct && <NoDataProductSelected>
                 <Row>
                 <Col></Col>
-                <Col>
-                <Card >
-                    <Card.Body className="d-flex align-items-center flex-column">
-                    <Link to="/files/start_js.zip" target="_blank" download>
-                        CONNECT WITH YOUR CLOUD BY NODEJS 
-                    </Link>
-                    <FaNodeJs size="5em" className="mt-2"/>
-                    </Card.Body>
-                </Card>
-                </Col> 
-                <Col >
-                <Card >
-                    <Card.Body className="d-flex align-items-center flex-column">         
-                    <Link to="/files/start_py.zip" target="_blank" download>
-                        CONNECT WITH YOUR CLOUD BY PYTHON 
-                    </Link> 
-                    <FaPython  size="5em" className="mt-2"/>
-                    </Card.Body>
-                </Card>
-                </Col>
+                {/*<Col>
+                    <Card >
+                        <Card.Body className="d-flex align-items-center flex-column">
+                        <Link to="/files/start_js.zip" target="_blank" download>
+                            CONNECT WITH YOUR CLOUD BY NODEJS 
+                        </Link>
+                        <FaNodeJs size="5em" className="mt-2"/>
+                        </Card.Body>
+                    </Card>
+                    </Col> 
+                    <Col >
+                    <Card >
+                        <Card.Body className="d-flex align-items-center flex-column">         
+                        <Link to="/files/start_py.zip" target="_blank" download>
+                            CONNECT WITH YOUR CLOUD BY PYTHON 
+                        </Link> 
+                        <FaPython  size="5em" className="mt-2"/>
+                        </Card.Body>
+                    </Card>
+                </Col>*/}
                 <Col></Col>
                 </Row> 
             </NoDataProductSelected>    

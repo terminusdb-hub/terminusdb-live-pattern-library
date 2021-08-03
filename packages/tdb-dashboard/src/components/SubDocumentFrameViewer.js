@@ -119,7 +119,6 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
         
     }, [property])
 
-    console.log("propertyFormFields///", propertyFormFields)
 
     function gatherProperties(propertyFormFields, propertyID, id, value) {
         // gather properties for subdocuments
