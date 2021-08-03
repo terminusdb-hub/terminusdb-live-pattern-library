@@ -66,6 +66,7 @@ export const DocumentPage = (props) => {
             //createDoc.current;
             console.log("JSON______",json)
             const params={'graph_type':'schema'}
+            //const params ={}
             
             const result = await woqlClient.updateDocument(json,params,dbNameValue)
             getResult.current.value = JSON.stringify(result,null,4)
@@ -85,7 +86,7 @@ export const DocumentPage = (props) => {
                 type = docType.current.value;
             }
             
-            const result = await woqlClient.schema(type,dbNameValue)
+            const result = await woqlClient.getSchemaFrame(type,dbNameValue)
             getResult.current.value = JSON.stringify(result,null,4)
             setSelectResult(result)
         }catch(err){

@@ -1,14 +1,39 @@
-import React from "react"
-import {Row, Form} from "react-bootstrap"
+import React, { useState, useEffect } from "react"
+import {Row, Form, Col} from "react-bootstrap"
 import {FaStarOfLife} from "react-icons/fa"
+import {WOQLClientObj} from '../init-woql-client'
+import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 
-export const DataTypeFrame = ({property, type, onChange}) => {
+// data type frame is usualy xsd or xdd datatype and is required to be filled
+export const DataTypeFrame = ({property, propertyID, type, onChange}) => {
+ 
+    const {
+        documentObject,
+        setDocumentObject,
+    } = WOQLClientObj()
 
-    return  <Row className="mt-2">
-        <Form.Group controlId={property}>
-            <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
-            <Form.Control placeholder={type} onChange={onChange}/>
-        </Form.Group>
-    </Row>
+    return <Form.Group as={Col} md="12" controlId={property}>
+        <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
 
+        {(documentObject.action == CREATE_DOCUMENT) && <Form.Control
+            required
+            type="text"
+            placeholder={type}
+            onBlur={(e) => onChange(e, propertyID)}
+        />}
+
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.frames[property]) && <Form.Control
+            required
+            type="text"
+            placeholder={type}
+            defaultValue={documentObject.frames[property]}
+            onBlur={(e) => onChange(e, propertyID)}
+        />}
+
+        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">
+            {`Please provide a valid ${property}.`}
+        </Form.Control.Feedback>
+    </Form.Group>
+    
 }

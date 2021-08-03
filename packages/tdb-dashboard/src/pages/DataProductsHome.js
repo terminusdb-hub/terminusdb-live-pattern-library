@@ -1,22 +1,17 @@
 import React, {useEffect, useState} from "react"
 import {Link} from "react-router-dom" 
 import {Row, Col, Card, Button} from "react-bootstrap"
-import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
 import {DATA_PRODUCTS} from "../routing/constants"
 import {AiOutlineDelete} from "react-icons/ai"
-import {NewDatabaseModal} from "../components/NewDatabaseModal"
 import {DeleteDatabaseModal} from "../components/DeleteDatabaseModal"
 import {DataProductSummary} from "../components/DataProductSummary"
 import {ManageProducts} from "../components/ManageProducts"
-import {PRODUCT_SUMMARY_NAV, PRODUCT_COLLECTIONS_NAV} from "../components/constants"
 import {NoDataProductSelected} from "../components/NoDataProductSelected"
-import {TimeTravel} from "../components/TimeTravel"
 import {BsBriefcase, BsDashSquare} from "react-icons/bs"
 import {MANAGE_COLLECTIONS} from "../components/constants"
 import {LeftSideBar} from "../components/LeftSideBar"
-import {useCommitsControl} from '@terminusdb-live/tdb-react-components'
 import moment from 'moment'
 import {printtsDate, printtsTime} from "../components/utils"
 import {BiTimer } from "react-icons/bi"
@@ -26,15 +21,16 @@ import {AboutDataProduct} from "../components/AboutDataProduct"
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct,setHead, branch, ref, branches, DBInfo} = WOQLClientObj()
     const [dataProductDetails, setDataProductDetails] = useState(false)
- 
-    const list = woqlClient ?  woqlClient.databases() : [] //dataProductList(woqlClient)
-
     const [dataProductSettings, setDataProductSettings] = useState(false)
 
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+
     const [currentDay, setCurrentDay] = useState(moment())
+    
     const [dataProvider, setDataProvider] = useState(false)
 
     useEffect (() => {
+        if(!woqlClient) return
         const newList = woqlClient.databases()
         newList.map(dp => {
             if(dp.name == dataProduct) {
@@ -42,39 +38,10 @@ export const DataProductsHome = (props) => {
             }
         })
         setCurrentDay(moment())
-        if(setReloadQuery) setReloadQuery(Date.now())
+        //if(setReloadQuery) setReloadQuery(Date.now())
     }, [dataProduct]) 
-      
-
-    const {
-        setNewDataProductInfo,
-        loading,
-        handleNew,
-        setShowNewDataProductModal,
-        showNewDataProductModal,
-        showDeleteDataProductModal,
-        setDeleteDataProductInfo,
-        setShowDeleteDataProductModal} = useCreateNewDataProductStates(woqlClient)
-
     
-    let { 
-        dataProviderValues,
-        loadPreviousPage,
-        gotoPosition,
-        startTime,
-        setStartTime,
-        setSelectedValue,
-        loadNextPage,
-        setReloadQuery
-    } = useCommitsControl(woqlClient, null, branch, currentDay.unix(), ref, null)
-
-
-    useEffect(() => {
-        if(!dataProviderValues) return
-        setDataProvider(dataProviderValues.dataProvider)
-    }, [dataProviderValues])
-    
-
+    //to be review if we need this in dataProductHome 
     const TimelineElements = () => {
         if(!dataProvider) return <div/>
 
@@ -116,21 +83,12 @@ export const DataProductsHome = (props) => {
 
         return timeElements
     }
-
       
     
     return  <Layout sideBarContent={<LeftSideBar route={DATA_PRODUCTS}/>}>
         <main className="content mr-3 ml-5 w-95">
-
-            <NewDatabaseModal setShowNewDataProductModal={setShowNewDataProductModal} 
-                showNewDataProductModal={showNewDataProductModal} 
-                setNewDataProductInfo={setNewDataProductInfo} 
-                loading={loading}/>
-            
-            <DeleteDatabaseModal setShowDeleteDataProductModal={setShowDeleteDataProductModal} 
-                showDeleteDataProductModal={showDeleteDataProductModal} 
-                setDeleteDataProductInfo={setDeleteDataProductInfo} 
-                loading={loading}  
+            <DeleteDatabaseModal showModal={showDeleteModal} 
+                setShowModal={setShowDeleteModal}  
                 dataProductDetails={dataProductDetails}/>
 
             {dataProduct && dataProductDetails && <React.Fragment>
@@ -151,7 +109,7 @@ export const DataProductsHome = (props) => {
                             <div class="card-body">
 
                                 <div class="list-group list-group-flush list-group-activity my-n3">
-                                    <TimelineElements/>
+                                    {/*<TimelineElements/>*/}
                                 </div>
                             </div>
 
@@ -204,7 +162,7 @@ export const DataProductsHome = (props) => {
                                     <Button variant="danger" 
                                             title={`Delete Data Product ${dataProduct}`} 
                                             className="m-3 float-right text-right btn btn-sm"
-                                            onClick={(e) =>setShowDeleteDataProductModal(true)}>
+                                            onClick={(e) =>setShowDeleteModal(true)}>
                                         <AiOutlineDelete className="me-2" /> Delete 
                                     </Button>
                                 </Col>

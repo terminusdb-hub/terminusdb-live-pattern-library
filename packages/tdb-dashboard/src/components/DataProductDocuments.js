@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
@@ -9,10 +9,16 @@ import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
+import {getCountOfDocumentClass} from "../queries/GeneralQueries"
+import { executeQueryHook } from "../hooks/executeQueryHook"
+import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
 
 export const DataProductDocuments = () => {
     const {woqlClient, dataProduct} = WOQLClientObj()
     const {addQueryPane} = QueryPaneObj() 
+
+    const [query, setQuery]=useState(false)
+    var [dataProvider]=executeQueryHook(woqlClient, query)
 
     /*//const { 
         setCurrentClass,
@@ -22,9 +28,9 @@ export const DataProductDocuments = () => {
         classes} = DatabaseInfoControl(woqlClient, dataProduct) */
 
     const {
-        documentClasses,
-        documentCount
+        documentClasses
     } = DocumentControl(dataProduct)
+
 
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
@@ -41,23 +47,21 @@ export const DataProductDocuments = () => {
         addQueryPane(q)*/
     }
 
-    const GetCountBadge = ({id, documentCount}) => {
-        if (!documentCount) return <div/>
-        for (var c=0; c<documentCount.length; c++) {
-            let item = documentCount[c] 
-            for (var key in item) { 
-                if (key == id) {
-                    let count = item[key]
-                    return <Badge title={`${count} ${id} available`}
-                        className="ml-3 cursor-auto text-gray" 
-                        variant="dark">{count}</Badge>
-                }
-            }
+    useEffect(() => { // get count of document classes
+        if(!documentClasses) return 
+        let q=getCountOfDocumentClass(documentClasses)
+        setQuery(q)
+    }, [documentClasses])
+
+    // get count of document class to display in badge 
+    const GetCountBadge = ({id, dataProvider}) => {
+        var val
+        for (var doc in dataProvider[0]) { 
+            if(doc == id) val = dataProvider[0][doc]["@value"]
         }
-        return <Badge title={`${0} ${id} available`}
+        return <Badge title={`${val} ${id} available`}
             className="ml-3 cursor-auto text-gray" 
-            variant="dark">{0}</Badge>
-        
+            variant="dark">{val}</Badge>
     }
 
     const DocumentMenu = ({item, handleClassClick}) => {
@@ -68,7 +72,7 @@ export const DataProductDocuments = () => {
                 onClick={(e) => handleClassClick(item["@id"])}>
                 
                 <span className="text-gray">{item["@id"]}</span>
-                <GetCountBadge id={item["@id"]} documentCount={documentCount}/>
+                {dataProvider && <GetCountBadge id={item["@id"]} dataProvider={dataProvider}/>}
 
             </Button>
 
@@ -101,33 +105,39 @@ export const DataProductDocuments = () => {
 export const DocumentExplorerDocuments = () => { 
 
     const {
-        woqlClient, 
         dataProduct, 
         sidebarDocumentListState, 
         setSidebarDocumentListState, 
-        setCurrentDocumentClass,
-        setCreateNewDocument,
-        setCurrentDocument,
-        setDocumentMode
+        documentObject, 
+        setDocumentObject
     } = WOQLClientObj()
 
-    //const {classes} = DatabaseInfoControl(woqlClient, dataProduct) 
     const {
         documentClasses
     } = DocumentControl(dataProduct)
 
     // on select of a class
     function handleClassClick (id) {
-        setCreateNewDocument(false)
-        setCurrentDocument(false)
-        setCurrentDocumentClass(id)
+        setDocumentObject({
+            type: id,
+            action: false,
+            view: false,
+            submit: false,
+            currentDocument: false,
+            frames: {}
+        })
     }
 
     // on create on new document
     function handleCreate (id) {
-        setCurrentDocumentClass(false)
-        setCurrentDocument(false)
-        setCreateNewDocument(id)
+        setDocumentObject({
+            action: CREATE_DOCUMENT,
+            type: id,
+            view: FORM_VIEW,
+            submit: false,
+            currentDocument: false,
+            frames: {}
+        })
     }
 
     // search docs constant

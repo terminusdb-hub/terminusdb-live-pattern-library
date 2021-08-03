@@ -1,81 +1,125 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {isDataType, isClassType, isSetType, isOptionalType} from "./utils"
-import {Form, Button, Row} from "react-bootstrap"
+import {Form, Button, Row, Col, InputGroup} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
-import {BiPlus} from "react-icons/bi"
-import {DataTypeFrame} from "./DataTypeFrame"
-import {ClassTypeFrame} from "./ClassTypeFrame"
-import {ClassSetTypeFrame} from "./ClassSetTypeFrame"
-import {OptionalDataTypeFrame} from "./OptionalDataTypeFrame"
+import {BiPlus,BiEditAlt} from "react-icons/bi"
 import {Loading} from "./Loading"
-import {PROGRESS_BAR_COMPONENT, NEW_OBJECT} from "./constants"
+import {PROGRESS_BAR_COMPONENT, NEW_OBJECT, CREATE_DOCUMENT, EDIT_DOCUMENT} from "./constants"
+import {EnumTypeFrame} from "./EnumTypeFrame"
+import {RenderFrameProperties} from "./RenderFrameProperties"
+import { v4 as uuidv4 } from 'uuid';
 
-export const FrameViewer = ({frame, mode, type}) => {
+export const FrameViewer = () => {
 
     const {
-        woqlClient, 
-        createNewDocument
+        documentObject,
+        setDocumentObject
     } = WOQLClientObj()
 
     const {
-        documentClasses, 
-        setNewDocumentInfo,
+        loading,
         reportAlert,
-        loading
+        documentClasses,
+        frame,
+        filledFrame
     } = DocumentControl()
 
+    const [currentFrame, setCurrentFrame]=useState(false)
+    const [formFields, setFormFields] = useState({"@type": documentObject.type})
 
-    const [formFields, setFormFields] = useState({"@type": createNewDocument})
+    useEffect(() => {
+        //console.log("documentObject", documentObject)
+        if(documentObject.action == CREATE_DOCUMENT) setCurrentFrame (documentObject.frames)
+        if(documentObject.action == EDIT_DOCUMENT) {
+            setCurrentFrame (frame)
+            setFormFields(documentObject.frames)
+        }
+    }, [documentObject, frame])
 
-    function handleChange(e) { // gather all form fields on change
+    function handleChange(e) { // gather all form fields inputs on change
         setFormFields({
             ...formFields,
             [e.target.id]: e.target.value
           })
     }
 
-    function handleSelect(id, value) { // gather all form fields on change
+    function handleSelect(id, value) { // gather all form fields select on change
         setFormFields({
             ...formFields,
             [id]: value
           })
     }
 
-    function submitDocument () {
-        setNewDocumentInfo(formFields)
+    function handleSetSelect(id, arr) {
+        setFormFields({
+            ...formFields,
+            [id]: arr
+          })
     }
 
-    function renderProperties () {
-        let props = []
+    function handleCreateDocument () {
+        setDocumentObject({
+            action: CREATE_DOCUMENT,
+            type: documentObject.type,
+            view: documentObject.view,
+            submit: true,
+            frames: formFields,
+            message: false
+        })
+    }
 
-        for(var item in frame){
-            if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
-                props.push(<DataTypeFrame property={item} type={frame[item]} onChange={handleChange}/>)
-            }
-            else if (frame[item] && isClassType(frame[item], documentClasses)){ // Other documents
-                props.push(<ClassTypeFrame property={item} type={frame[item]} onChange={handleSelect}/>) 
-            } 
-            else if(frame[item] && isSetType(frame[item], documentClasses)) { // set documents
-                props.push(<ClassSetTypeFrame property={item} object={frame[item]} onChange={handleChange}/>)
-               
-            }
-            else if (frame[item] && isOptionalType(frame[item])) { // if Optional xsd:/ xdd:
-                props.push(<OptionalDataTypeFrame property={item} object={frame[item]} onChange={handleChange}/>)
-            }
-          
+    function handleUpdateDocument () {
+        setDocumentObject({
+            action: EDIT_DOCUMENT,
+            type: documentObject.type,
+            view: documentObject.view,
+            submit: true,
+            frames: formFields,
+            message: false
+        })
+    }
+
+    const [validated, setValidated] = useState(false)
+    // check all fields are validated
+    const handleSubmit = (event) => {
+
+        const form = event.currentTarget
+        if (form.checkValidity() === false) {
+            handleCreateDocument()
+            event.preventDefault()
+            event.stopPropagation()
         }
-        return props
+        setValidated(true)
     }
+
+    
 
     return <React.Fragment>
-        {loading && <Loading message={`Creating new ${createNewDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
+        {loading && <Loading message={`Loading frames for ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         {reportAlert && reportAlert}
-        <Form >
-            {renderProperties()}
-            <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={submitDocument}>
-                <BiPlus className="mr-1"/>Create
-            </Button>
+
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            {/*currentFrame && renderProperties(currentFrame)*/} 
+            {currentFrame && <RenderFrameProperties frame={currentFrame} 
+                documentClasses={documentClasses}
+                handleChange={handleChange}
+                handleSelect={handleSelect}
+                handleSetSelect={handleSetSelect} 
+                setFormFields={setFormFields}
+                formFields={formFields}
+                propertyID={uuidv4()}/>}
+            {
+                documentObject.action==CREATE_DOCUMENT && 
+                    <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={handleCreateDocument}>
+                        <BiPlus className="mr-1"/>Create
+                    </Button>
+            }
+            {
+                documentObject.action==EDIT_DOCUMENT && 
+                    <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={handleUpdateDocument}>
+                        <BiEditAlt className="mr-1"/>Update
+                    </Button>
+            }
         </Form>
     </React.Fragment>
 

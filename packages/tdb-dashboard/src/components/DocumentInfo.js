@@ -1,108 +1,151 @@
 
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Form, Row, Card, Col, Button} from "react-bootstrap"
 import {AiOutlineDelete} from "react-icons/ai"
 import {Loading} from "./Loading"
-import {PROGRESS_BAR_COMPONENT} from "./constants"
-import {DocumentControl} from "../hooks/DocumentControl"
+import {PROGRESS_BAR_COMPONENT, EDITOR_READ_OPTIONS, JSON_VIEW, EDIT_DOCUMENT, GET_FRAMES_DOCUMENT, VIEW_DOCUMENT, FORM_VIEW} from "./constants"
+import {DocumentControl, deleteDocument} from "../hooks/DocumentControl"
 import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl" 
-import {Controlled as CodeMirror} from 'react-codemirror2'
+import {UnControlled as CodeMirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/ayu-dark.css'
 require('codemirror/mode/css/css')
 require('codemirror/mode/javascript/javascript')
-import {BiEdit} from "react-icons/bi"
-import {FrameViewer} from './FrameViewer'
+import {BiEdit, BiEditAlt} from "react-icons/bi"
+import {checkIfObject} from "./utils"
 import {WOQLClientObj} from '../init-woql-client'
 
-export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
+export const DocumentInfo = () => {
 
     const {
         editDocument,
-        setEditDocument
+        documentObject,
+        setDocumentObject,
+        woqlClient
     } = WOQLClientObj()
     
     const {
-        setDeleteDocument,
         loading,
         reportAlert,
-        jsonView, 
-        setJsonView,
-        frame
+        setLoading, 
+        setReportAlert
     } = DocumentControl()
 
-    const DocumentContents = ({documentIdInfo}) => {
-        let contents = [], docInfo = documentIdInfo[0]
+
+    const FormField = ({id, val}) => {
+        return <Form.Group as={Col} md="12" controlId={id} className="ml-5" style={{marginLeft: "100px !important"}}>
+            <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
+                {id}
+            </Form.Label>
+            <Form.Label>
+                {val}
+            </Form.Label>
+        </Form.Group>
+    }
+
+    const DocumentContents = ({documentObject}) => {
+        if (documentObject.view == JSON_VIEW) return <JsonDocument documentObject={documentObject}/>
+        return <DocumentForm documentObject={documentObject}/>
+    } 
+
+    const DocumentForm = ({documentObject}) => {
+        let contents = [], docInfo = documentObject.frames
         for (var key in docInfo) {
-            contents.push(
-                <Form.Group controlId={key}>
+            let isJson = checkIfObject(docInfo[key]) // review method of checking if sub document 
+            if(!isJson) {
+                contents.push(
+                    <FormField id={key} val={docInfo[key]}/>
+                )
+            }
+            else { // is Json true would mean this is a sub document
+                let subDoc = docInfo[key] 
+                contents.push(<Form.Group as={Col} md="12" controlId={key} className="ml-5">
                     <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
                         {key}
                     </Form.Label>
-                    <Form.Label>
-                        {docInfo[key]}
-                    </Form.Label>
                 </Form.Group>
-            )
+                )
+                subDoc.map(( thing => {
+                    for(var item in thing) {
+                        contents.push(
+                            <FormField id={item} val={thing[item]}/>
+                        )
+                    }
+                }))
+            }
         }
         return contents
     }
 
-    const DocumentForm = ({documentIdInfo, frame, mode}) => {
-        if(!mode) return <DocumentContents documentIdInfo={documentIdInfo}/>
-        else return <FrameViewer
-            frame={frame}
-            mode="edit"/>
+    const JsonDocument = ({documentObject}) => {
+        let docInfo = documentObject.frames
+        var options = EDITOR_READ_OPTIONS
+        
+        const [value, setValue]=useState(false) // sets value from editor 
+        
+    
+        return <React.Fragment>
+            <CodeMirror
+                value={JSON.stringify(docInfo, null, 2)}
+                options={options}
+            />
+        </React.Fragment>
     }
 
-    const DocumentJsonView = ({documentIdInfo}) => {
-        let docInfo = documentIdInfo[0]
 
-        let options = {lineNumbers: true, mode: "javascript", theme: 'ayu-dark'}
-        return <CodeMirror
-            value={JSON.stringify(docInfo, null, 2)}
-            options={options}
-        />
+    function handleClick (view) { // on toggle of json and form controls
+        setDocumentObject({
+            action: documentObject.action,
+            type: documentObject.type,
+            view: view,
+            submit: false,
+            currentDocument: documentObject.currentDocument,
+            frames: documentObject.frames,
+            update: Date.now()
+        })
+
     }
 
-    if(!documentIdInfo) return <div/>
-
-    function handleClick () { // on toggle of json and form controls
-        setJsonView(!jsonView)
+    function onDelete () {
+        deleteDocument(woqlClient, setDocumentObject, documentObject, setLoading, setReportAlert)
     }
 
-    function handleEdit () {
-        // get type of chosen document
-        let docInfo = documentIdInfo[0]
-        setEditDocument(docInfo["@type"])
+    function handleEdit () { 
+        setDocumentObject({
+            action: EDIT_DOCUMENT,
+            type: documentObject.type,
+            view: FORM_VIEW,
+            submit: false,
+            currentDocument: documentObject.currentDocument,
+            frames: documentObject.frames,
+            update: Date.now()
+        })
     }
+
 
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100">
             <Col md={9}> 
-                {loading && <Loading message={`Deleting ${chosenDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
+                {loading && <Loading message={`Loading ${documentObject.currentDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
                 {reportAlert && reportAlert}
                 <Card className="d-flex w-100">
                     <Card.Header className="d-flex w-100">
-                        <h5 className="col-md-9"><strong className="text-success">{chosenDocument}</strong></h5>
-                        
-                        <Button className="btn btn-sm btn-light mr-2" onClick={handleEdit} title={`Edit ${chosenDocument}`}>
+                        <h5 className="col-md-9"><strong className="text-success">{documentObject.currentDocument}</strong></h5>
+                               
+                        <Button className="btn btn-sm btn-light mr-2" onClick={handleEdit} title={`Edit ${documentObject.currentDocumen}`}>
                             <BiEdit className="mr-1"/> Edit
                         </Button>
 
-                        <ToggleJsonAndFormControl jsonView={jsonView} onClick={handleClick}/>
+                        <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
                         
-                        <Button className="btn btn-sm btn-danger" onClick={(e) => setDeleteDocument(chosenDocument)} title={`Delete ${chosenDocument}`}>
+                        <Button className="btn btn-sm btn-danger" title={`Delete ${documentObject.currentDocument}`} onClick={onDelete}>
                             <AiOutlineDelete className="mr-1"/> Delete
                         </Button>
                     </Card.Header>
                     <Card.Body>
-                        {!jsonView && 
-                            <Form>
-                                <DocumentForm documentIdInfo={documentIdInfo} mode={editDocument} frame={frame}/>
-                            </Form>
-                        }
-                        {jsonView && <DocumentJsonView documentIdInfo={documentIdInfo}  mode={editDocument}/>}
+                        <Form>
+                            {documentObject.view && <DocumentContents documentObject={documentObject}/>}
+                        </Form>
                     </Card.Body>
                 </Card>
             </Col>
@@ -111,3 +154,5 @@ export const DocumentInfo = ({documentIdInfo, chosenDocument}) => {
         </Row>
     </main>
 }
+
+

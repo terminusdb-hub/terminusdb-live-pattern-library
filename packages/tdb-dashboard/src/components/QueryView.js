@@ -3,10 +3,12 @@ import {QueryPane} from "./QueryPane"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {NEW_PANE_CONFIG} from "./constants"
 import {QueryPaneObj} from "../hooks/queryPaneContext"
-
+import {WOQLClientObj} from '../init-woql-client'
+import {Row} from "react-bootstrap"
 
 export const QueryView = (props) => {
-    const {queryPaneList,addQueryPane} = QueryPaneObj()
+    const {queryPaneList, addQueryPane} = QueryPaneObj()
+    const {dataProduct} = WOQLClientObj()
 
     const QueryPaneBox = (props) => {
         return (
@@ -33,7 +35,10 @@ export const QueryView = (props) => {
      }
 
     return (<React.Fragment>
-                <NewQueryPane />
+                <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
+                <Row className="mt-5 w-100 justify-content-md-center">
+                    <NewQueryPane />
+                </Row>
             </React.Fragment>
             )
 }

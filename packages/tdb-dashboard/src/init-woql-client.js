@@ -39,17 +39,27 @@ export const WOQLClientProvider = ({children, params}) => {
     const [connectionError, setError] = useState(false)
    
     // document explorer consts 
-    const [currentdocumentClass, setCurrentDocumentClass] = useState(false) 
-    const [createNewDocument, setCreateNewDocument] = useState(false)
-    const [currentDocument, setCurrentDocument] = useState(false)
-    // edit documents 
-    const [editDocument, setEditDocument] = useState(false)
+    const [documentObject, setDocumentObject] = useState({
+        type: false,
+        action: false,
+        view: false,
+        submit: false,
+        currentDocument: false,
+        frames: {},
+        update: Date.now()
+    }) 
+    
     // clear document consts on change of data products
     useEffect(() => {
-        setCurrentDocumentClass(false)
-        setCreateNewDocument(false)
-        setCurrentDocument(false)
-        setEditDocument(false)
+        setDocumentObject({
+            type: false,
+            action: false,
+            view: false,
+            submit: false,
+            currentDocument: false,
+            frames: {},
+            update: Date.now()
+          })
     }, [dataProduct])
         
 
@@ -114,9 +124,10 @@ export const WOQLClientProvider = ({children, params}) => {
     useEffect(() => {
         if(woqlClient && dataProduct){
             //there is a bug with using in query so we have to set commits as branch
-            const tmpClient = woqlClient.copy()
-            tmpClient.checkout("_commits")
-            const branchQuery = TerminusClient.WOQL.lib().branches();
+            //const tmpClient = woqlClient.copy()
+            //tmpClient.checkout("_commits")
+            /*** I commented this lib call as it dosent work, i use woqlClient.getbranches() instead ***/
+            /*const branchQuery = TerminusClient.WOQL.lib().branches();
             tmpClient.query(branchQuery).then(result=>{
                  //console.log("___BRANCHES___",result)
                  const branchesObj={}
@@ -136,7 +147,27 @@ export const WOQLClientProvider = ({children, params}) => {
                  setBranches(branchesObj)
              }).catch(err=>{
                   console.log("GET BRANCH ERROR",err.message)
-              })
+              }) */
+
+              woqlClient.getBranches(dataProduct).then((res) => {
+                if(res.length>0){
+                    res.forEach(item=>{
+                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
+                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
+                        const branchItem={id:item.Branch,
+                                            head_id:head_id,
+                                            head:head,
+                                            name:item.Name['@value'],
+                                            timestamp:item.Timestamp['@value']
+                                        }
+                        branchesObj[branchItem.name] = branchItem
+                    })
+                 }
+                 setBranches(branchesObj)
+            })
+            .catch((err) => {
+                console.log("GET BRANCH ERROR",err.message)
+            })
         }
     }, [branchesReload, dataProduct])
     //maybe we can combine this information
@@ -170,6 +201,16 @@ export const WOQLClientProvider = ({children, params}) => {
         setChosenCommit(refObject)
     }
 
+    //get the list of databases
+    function reconnectToServer (currentDB = false) { // temporary fix for loading new woqlClient when create/ delete of a data product, have to review
+        woqlClient.connect().then(res=>{
+            woqlClient.db(currentDB)
+            setDataProduct(currentDB)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+
     return (
         <WOQLContext.Provider
             value={{
@@ -196,14 +237,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 setSidebarDocumentListState,
                 sidebarSampleQueriesState, 
                 setSidebarSampleQueriesState,
-                currentdocumentClass, 
-                setCurrentDocumentClass,
-                createNewDocument, 
-                setCreateNewDocument,
-                currentDocument, 
-                setCurrentDocument,
-                editDocument, 
-                setEditDocument
+                documentObject, 
+                setDocumentObject,
+                reconnectToServer
             }}
         >
             {children}

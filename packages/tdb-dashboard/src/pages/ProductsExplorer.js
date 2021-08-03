@@ -8,7 +8,7 @@ export const ProductsExplorer = () => {
 
     return <QueryPaneProvider>
         <Layout sideBarContent={<LeftSideBar/>}>
-            <main role="main" className="m-4">
+            <main role="main" className="content mr-3 ml-5 w-100">
                 <QueryView/>
             </main>
         </Layout>

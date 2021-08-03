@@ -167,8 +167,23 @@ export const isClassType = (property, documentType) => {
             return property
         }
     }
-    /*if(typeof property == "object") return false 
-    return true*/
+    return false
+}
+
+// returns true for properties ponting to an enum class
+export const isEnumType = (property) => {
+    if(typeof property !== "object") return false 
+    if(property["@type"] === "Enum") return true
+}
+
+// returns true for properties which are subdocuments
+export const isSubDocumentType = (property) => {
+    if(typeof property !== "object") return false 
+    if(property["@class"]){
+        let classObject=property["@class"]
+        if(classObject["@subdocument"]) return true
+    }
+    return false 
 }
 
 // returns true for properties ponting to another document which can be a set/ list
@@ -189,8 +204,13 @@ export const isOptionalType = (property) => {
 export const getColumnsFromResults = (results) => {
     let columns = []
     for(var k in results[0]) columns.push(k) 
-    columns[columns.length] = "Delete"
+    //columns[columns.length] = "Delete"
     columns[columns.length] = "Copy"
     // add delete and copy button for document explorer
     return columns
+}
+
+export function checkIfObject (obj) {
+    if(typeof obj !== "object") return false
+    return true
 }

@@ -26,11 +26,25 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
         return [wr.rows(), columns];
     }*/
 
-    function makeData () {
+    /*function makeData () {// kind of working
         let qres = {}
         qres.bindings = result
         let wr = new TerminusClient.WOQLResult(qres, query)
-        console.log("wr", wr)
+        woqt.setResult(wr, query)
+        console.log("woqt", woqt)
+        const columns = formatTableColumns(woqt)
+        //const columns = resultColumns
+        return [wr.rows(), columns];
+    }*/
+
+    function makeData () { 
+        let qres = {}
+        if(result.bindings){
+            //let trans = woqt.bindings()
+            qres.bindings = result.bindings
+        }
+        else qres.bindings = result
+        let wr = new TerminusClient.WOQLResult(qres, query)
         woqt.setResult(wr, query)
         console.log("woqt", woqt)
         const columns = formatTableColumns(woqt)

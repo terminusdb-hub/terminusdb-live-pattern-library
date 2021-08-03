@@ -5,17 +5,15 @@ import {VIEW_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP, UNCOLLAPSE_BUTTON_GRO
 import {Row, Col, Toast} from "react-bootstrap"
 
 
-export const ResultController=({queryRunTime}) =>{
+export const ResultController=({queryRunTime, onClick}) =>{
 
-   const [currentView, setCurrentView] = useState(TABLE_VIEW)
-
+    let clickView = onClick
     function handleClick(view){
-        if(props.onClick){
-            props.onClick(view)
-            setCurrentView(view)
+        if(onClick){
+            clickView(view)
         }
     }
- 
+  
     
     return  <React.Fragment>
         <Row>

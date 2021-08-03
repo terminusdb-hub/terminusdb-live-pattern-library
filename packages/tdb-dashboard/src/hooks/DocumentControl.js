@@ -2,23 +2,23 @@ import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {executeQueryHook} from "./executeQueryHook"
 //import {getDocumentClasses, getDocumentsOfType} from "../queries/GeneralQueries"
-import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/constants"
+import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, GET_FRAMES_DOCUMENT} from "../components/constants"
 import {Alerts} from "../components/Alerts"
+import { getTotalNumberOfDocuments } from "../queries/GeneralQueries"
 
 export const DocumentControl = () => {
     const [loading, setLoading]=useState(false)
     const [reportAlert, setReportAlert] = useState(false)
 
+    const [update, setUpdate]=useState(Date.now())
+ 
     const {
-        woqlClient, 
+        woqlClient,  
         dataProduct, 
-        setCurrentDocumentClass,
-        createNewDocument,
-        setCreateNewDocument,
-        currentDocument,
-        editDocument,
-        setEditDocument
+        setDocumentObject,
+        documentObject
     } = WOQLClientObj()
+
 
     // get classes of data product
     const [documentClasses, setDocumentClasses] = useState(false)
@@ -29,72 +29,70 @@ export const DocumentControl = () => {
         }
     }, [dataProduct])
 
-    // get count of documents 
-    const [documentCount, setDocumentCount] = useState([])
-    useEffect(() => { 
-        console.log("documentClasses", documentClasses)
-        if(documentClasses) getDocumentCount(woqlClient, documentCount, documentClasses, setDocumentCount, setLoading, setReportAlert)
-    }, [documentClasses])
-
-
-    // get document class frames on click of new class document
+    // get frames of docuent based on action 
     const [frame, setFrame]=useState(false)
-    useEffect(() => { 
-        if(!createNewDocument) return
-        setLoading(true)
-        getDocumentFrame(woqlClient, createNewDocument, setFrame,setLoading, setReportAlert)
-    }, [createNewDocument])
-
-    useEffect(() => { 
-        if(!editDocument) return
-        setLoading(true)
-        getDocumentFrame(woqlClient, editDocument, setFrame,setLoading, setReportAlert)
-    }, [editDocument])
-
-    // add a new document 
-    const [newDocumentInfo, setNewDocumentInfo] = useState(false)
+    const [filledFrame, setFilledFrame]=useState(false)
     useEffect(() => {
-        if(!newDocumentInfo) return
-        setLoading(true)
-        addNewDocument(woqlClient, setCurrentDocumentClass, setCreateNewDocument, newDocumentInfo, setNewDocumentInfo, setLoading, setReportAlert)
-    }, [newDocumentInfo])
+        // on create new document
+        if(documentObject.action == false) return
+        if(documentObject.action == CREATE_DOCUMENT) {
+            getDocumentFrame(woqlClient, documentObject.type, setFrame, setLoading, setReportAlert)
+        }
+        if(documentObject.action == EDIT_DOCUMENT) {
+            //getFilledFrames(woqlClient, documentObject, setFilledFrame, setLoading, setReportAlert)
+            getDocumentFrame(woqlClient, documentObject.type, setFrame, setLoading, setReportAlert)
+        }
+        if(documentObject.action == VIEW_DOCUMENT) {
+            getCurrentDocumentInfo (woqlClient, documentObject, setDocumentObject, false, setLoading, setReportAlert)
+        }
+    }, [documentObject.action, documentObject.type])
 
-    // get documents of class for frames to display in select
-    const [classOfInterest, setClassOfInterest] = useState(false)
-    const [documentsOfClassOfInterest, setDocumentsOfClassOfInterest] = useState(false)
+    // fill up frames of documentObject
     useEffect(() => {
-        if(!classOfInterest) return
-        setLoading(true)
-        getDocumentsOfClassOfInterest (woqlClient, classOfInterest, setDocumentsOfClassOfInterest, setLoading, setReportAlert)
-    }, [classOfInterest]) 
+        if(!frame) return
+        if(documentObject.action == CREATE_DOCUMENT) {
+            let docObj=documentObject
+            docObj.frames = frame
+            setDocumentObject(docObj)
+        }
+        
+    }, [frame])
 
-    // get info of a chosen Document Id
-    const [currentDocumentInfo, setCurrentDocumentInfo]= useState(false)
+    // on submit of form for create/ edit document
     useEffect(() => {
-        if(!currentDocument) return
+        if(!documentObject.submit) return
+        let newDocumentInfo=documentObject.frames
+        if(documentObject.action == CREATE_DOCUMENT) {
+            addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, documentObject, setLoading, setReportAlert)
+        }
+        if(documentObject.action == EDIT_DOCUMENT) {
+            updateDocument(woqlClient, documentObject, setDocumentObject, setReportAlert, setLoading)
+        }
+            //updateDocument(woqlClient, documentObject, setReportAlert, setLoading)
+    }, [documentObject.submit, documentObject.frames])
+
+
+    /***** REVIEW THIS BIT  *****/
+    // get info of a chosen Document Id from a frame select
+    const [subClassType, setSubClassType]= useState(false)
+    const [subClassTypeResults, setSubClassTypeResults]= useState(false)
+    useEffect(() => {
+        if(!subClassType) return
         setLoading(true)
-        getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDocumentInfo, setLoading, setReportAlert)
-    }, [currentDocument])
-
-    // json view of documents 
-    const [jsonView, setJsonView] = useState(false)
-
+        getCurrentDocumentInfo (woqlClient, subClassType, setSubClassTypeResults, false, setLoading, setReportAlert)
+    }, [subClassType])
     
+
 
     return {
         documentClasses,
-        frame,
-        setNewDocumentInfo,
-        setClassOfInterest,
-        documentsOfClassOfInterest,
-        currentDocumentInfo,
-        loading, 
+        loading,
         setLoading,
-        setReportAlert,
         reportAlert,
-        documentCount,
-        jsonView, 
-        setJsonView
+        setReportAlert,
+        setSubClassType,
+        subClassTypeResults,
+        frame
     }
     
 }
@@ -114,58 +112,47 @@ async function getDocumentClasses (woqlClient, setDocumentClasses, setLoading, s
     })
 }
 
-async function getDocumentCount (woqlClient, documentCount, documentClasses, setDocumentCount, setLoading, setReportAlert) {
-    let db=woqlClient.db()
-    let params={}
-    params['as_list'] = true
-    documentClasses.map (doc => {
-        params['type'] = doc["@id"]
-        woqlClient.getDocument(params, db).then((res) => {
-            if(res.length==0) return // when empty results 
-            if(res[0]["@type"]) {
-                setDocumentCount(arr => [...arr, {[res[0]["@type"]]: res.length}])
-            }
-        })
-        .catch((err) => {
-            let message=`Error in fetching documents of class ${doc["@id"]}: ${err}`
-            setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
-            setLoading(false)
-        })
-        
-    })
-}
-
 // gets document frames of a document class
-export async function getDocumentFrame (woqlClient, createNewDocument, setFrame, setLoading, setReportAlert) {
+export async function getDocumentFrame (woqlClient, documentType, setFrame, setLoading, setReportAlert) {
     let db=woqlClient.db()
-    await woqlClient.getSchemaFrame(createNewDocument, db).then((res) => {
-        setLoading(false)
-        console.log("resr", res)
+    await woqlClient.getSchemaFrame(documentType, db).then((res) => {
+        if(setLoading) setLoading(false)
+        //console.log("resr", res)
         setFrame(res)
     })
     .catch((err) => {
-        let message=`Error in fetching frames of class ${createNewDocument} : ${err}`
-        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
-        setLoading(false)
+        let message=`Error in fetching frames of class ${documentType} : ${err}`
+        if(setReportAlert) setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        if(setLoading) setLoading(false)
     })
 }
 
 
 //create a new document
-async function addNewDocument(woqlClient, setCurrentDocumentClass, setCreateNewDocument, newDocumentInfo, setNewDocumentInfo, setLoading, setReportAlert) {
+async function addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, documentObject, setLoading, setReportAlert) {
     let db=woqlClient.db()
     
     await woqlClient.addDocument(newDocumentInfo, null, db).then((res) => {
         //onDone(res)
-        setNewDocumentInfo(false)
-        setCurrentDocumentClass(newDocumentInfo["@type"])
-        setCreateNewDocument(false)
         setLoading(false)
         let message=`Success in creating ${newDocumentInfo["@id"]}`
         setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
+        let docObj={
+            action: false, // reload everything and display all documents list
+            type: documentObject.type,
+            view: false,
+            submit: false,
+            currentDocument: false,
+            frames: {},
+            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>
+        }
+        setDocumentObject(docObj)
     })
     .catch((err) => {
         let message=`Error in creating new Document of type ${newDocumentInfo["@type"]}: ${err}`
+        let docObj=documentObject
+        docObj.message = <Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
+        
         setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
     })
@@ -173,56 +160,142 @@ async function addNewDocument(woqlClient, setCurrentDocumentClass, setCreateNewD
 
 
 // gets all documents of a class of interest (to show in select of frames)
-async function getDocumentsOfClassOfInterest (woqlClient, classOfInterest, setDocumentsOfClassOfInterest, setLoading, setReportAlert) {
+export async function getDocumentsOfClassOfInterest (woqlClient, classOfInterest, setDocumentsOfClassOfInterest, setLoading, setReportAlert) {
     let db=woqlClient.db()
     let params={}
     params['type'] = classOfInterest
     params['as_list'] = true
     await woqlClient.getDocument(params, db).then((res) => {
-        setLoading(false)
+        if (setLoading) setLoading(false)
         setDocumentsOfClassOfInterest(res)
         return res
     })
     .catch((err) => {
         let message=`Error in fetching documents of class ${classOfInterest}: ${err}`
-        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
-        setLoading(false)
+        if(setReportAlert) setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        if (setLoading) setLoading(false)
     })
 }
 
-// gets info of a chosen document ID
-async function getCurrentDocumentInfo (woqlClient, currentDocument, setCurrentDocumentInfo, setLoading, setReportAlert){
+// gets info of a chosen document ID 
+export async function getCurrentDocumentInfo (woqlClient, documentObject, setDocumentObject, asList, setLoading, setReportAlert){
     let db=woqlClient.db()
     let params={}
-    params['id'] = currentDocument
-    params['as_list'] = true
+    params['id'] = documentObject.currentDocument
+    params['as_list'] = asList
     await woqlClient.getDocument(params, db).then((res) => {
-        setLoading(false)
-        setCurrentDocumentInfo(res)
-       
+        if(setLoading) setLoading(false)
+        let docObj=documentObject
+        docObj.frames=res
+        setDocumentObject(docObj)
     })
     .catch((err) => {
-        let message=`Error in fetching info of document ${currentDocument}: ${err}`
-        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
-        setLoading(false)
+        let message=`Error in fetching info of document ${documentObject.currentDocument}: ${err}`
+        if(setReportAlert) setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        if(setLoading) setLoading(false)
     })
 }
 
-
-async function updateDocument (woqlClient, json, setReportAlert, setLoading) {
+// update document 
+export async function updateDocument (woqlClient, documentObject, setDocumentObject, setReportAlert, setLoading) {
 
     let db=woqlClient.db()
-    const params={'graph_type':'schema'} 
-    await woqlClient.getDocument(json, params, db).then((res) => {
+    //const params={'graph_type':'schema'} 
+    let params={}
+    let json = documentObject.frames
+    await woqlClient.updateDocument(json, params, db).then((res) => {
         setLoading(false)
         let message=`Successfully updated document ${json["@id"]}`
-        setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
+        setDocumentObject({
+            action: VIEW_DOCUMENT, // reload everything and display all documents list
+            type: json["@type"],
+            view: documentObject.view,
+            submit: false,
+            currentDocument: json["@id"],
+            frames: {},
+            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>
+        })
     })
     .catch((err) => {
+        let docObj=documentObject
+        docObj.message=<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
+        setDocumentObject(docObj)
         let message=`Error in updating document ${json["@id"]}: ${err}`
-        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
     })
 }
 
 
+// get filled frame of document 
+export async function getFilledFrames(woqlClient, documentObject, setFilledFrame, setLoading, setReportAlert) {
+    let db=woqlClient.db()
+    let params={}
+    params['id'] = document["@id"]
+    params['as_list'] = true
+
+    let filledValueFrames = documentObject.frames
+
+    await woqlClient.getSchemaFrame(documentObject.type, db).then((res) => {
+        var schemaFrames = res
+        let extractedFrames = {}
+        // fill values of frame 
+        for(var sFrame in schemaFrames) {
+            for (var filledValues in filledValueFrames) {
+                if(sFrame == filledValues) {
+                    schemaFrames[sFrame] = filledValueFrames[filledValues]
+                }
+            }
+        }
+        setFilledFrame(schemaFrames)
+        setLoading(false)
+    })
+    .catch((err) => {
+        let message=`Error in fetching frames of class ${documentObject["@type"]} : ${err}`
+        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+}
+
+// get enum types 
+export async function getEnums(woqlClient, setEnums, setLoading, setReportAlert) {
+    let db=woqlClient.db()
+    
+    await woqlClient.getEnums(db).then((res) => {
+        setLoading(false)
+        setEnums(res)
+    })
+    .catch((err) => {
+        let message=`Error in fetching Enum of ${db}: ${err}`
+        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+}
+
+export async function deleteDocument  (woqlClient, setDocumentObject, documentObject, setLoading, setReportAlert) {
+    let db=woqlClient.db()
+
+    const params={}
+    params['id'] = documentObject.currentDocument
+    
+    await woqlClient.deleteDocument(params, db).then((res) => {
+        let message=`Successfully deleted ${documentObject.currentDocument}`
+        let docObj={
+            action: false, // reload everything and display all documents list
+            type: documentObject.type,
+            view: false,
+            submit: false,
+            currentDocument: false,
+            frames: {},
+            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>
+        }
+
+        setDocumentObject(docObj)
+        setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+    .catch((err) => {
+        let message=`Error in deleting document ${documentObject.currentDocument}: ${err}`
+        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
+        setLoading(false)
+    })
+ }
