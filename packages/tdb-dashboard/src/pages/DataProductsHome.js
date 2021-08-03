@@ -139,6 +139,8 @@ export const DataProductsHome = (props) => {
                 <Row className="mt-5 w-100 justify-content-md-center">
                     
                     <Col xs={9} className="d-block">
+                        
+                        
                         <DataProductSummary/>
 
                         {dataProvider.length>0 && <div class="card card-fil m-3">

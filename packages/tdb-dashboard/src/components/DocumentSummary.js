@@ -5,10 +5,24 @@ import {DocumentControl} from "../hooks/DocumentControl"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "../queries/GeneralQueries"
 import {executeQueryHook} from "../hooks/executeQueryHook"
 import {WOQLClientObj} from '../init-woql-client'
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemHeading,
+    AccordionItemButton,
+    AccordionItemPanel,
+} from 'react-accessible-accordion'
+import 'react-accessible-accordion/dist/fancy-example.css'
+import {JsonViewer} from "./JsonViewer"
 
 export const DocumentSummary = () => {
+  
 
-    const {perDocumentCount, totalDocumentCount} = WOQLClientObj()
+    const {
+        perDocumentCount, 
+        totalDocumentCount, 
+        documentObject
+    } = WOQLClientObj()
 
     const DocumentStats = ({dataProvider}) => {
         let arr=[]
@@ -38,10 +52,26 @@ export const DocumentSummary = () => {
         </span>
     }
 
+    function onChange() {
+
+    }
+
     return <React.Fragment>
             <ListGroup className="col-md-12">
                 {totalDocumentCount && <TotalDocuments dataProviderCount={totalDocumentCount}/>}
                 {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
             </ListGroup>
+            {/*documentObject.type && <Accordion className="mt-3 ml-5" onChange={onChange}>
+                <AccordionItem key={documentObject.type} uuid={documentObject.type}>
+                    <AccordionItemHeading>
+                        <AccordionItemButton>
+                            {`Look up for ${documentObject.type}`}
+                        </AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                        {documentObject.update && documentObject.frames && <JsonViewer json={JSON.stringify(documentObject.frames, null, 2)}/>}
+                    </AccordionItemPanel>
+                </AccordionItem>
+            </Accordion>*/}
         </React.Fragment>
 }

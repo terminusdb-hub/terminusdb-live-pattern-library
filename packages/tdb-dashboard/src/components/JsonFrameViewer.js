@@ -8,7 +8,7 @@ import {EDITOR_WRITE_OPTIONS, EDIT_DOCUMENT, CREATE_DOCUMENT} from "./constants"
 import {Button} from "react-bootstrap"
 import {BiPlus,BiEditAlt} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
-import {PROGRESS_BAR_COMPONENT} from "./constants"
+import {PROGRESS_BAR_COMPONENT} from "./constants" 
 
 export const JsonFrameViewer = ({jsonFrame}) => {
     const [value, setValue]=useState(false) // sets value from editor 

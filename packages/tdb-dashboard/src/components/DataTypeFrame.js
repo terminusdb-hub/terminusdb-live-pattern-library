@@ -23,6 +23,17 @@ export const DataTypeFrame = ({documentObject, property, propertyID, type, onCha
             defaultValue={documentObject.filledFrame[property]}
             onBlur={(e) => onChange(e, propertyID)}
         />}
+
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame["@id"]) && <React.Fragment>
+            <Form.Label as={Col}>{"id"}</Form.Label>
+            <Form.Control
+                required
+                type="text"
+                placeholder={type}
+                defaultValue={documentObject.filledFrame["@id"]}
+                readOnly 
+            />
+            </React.Fragment>}
         
 
         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>

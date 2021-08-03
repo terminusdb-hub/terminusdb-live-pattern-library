@@ -33,7 +33,6 @@ export const DocumentInfo = () => {
 
 
     const FormField = ({id, val}) => {
-        console.log("val",val)
         return <Form.Group as={Col} md="12" controlId={id} className="ml-5" style={{marginLeft: "100px !important"}}>
             <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
                 {id}

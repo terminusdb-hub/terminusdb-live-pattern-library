@@ -66,6 +66,8 @@ export const FrameViewer = () => {
         })
     }
 
+    console.log("formFields", formFields)
+
     function handleUpdateDocument () {
         setDocumentObject({
             action: EDIT_DOCUMENT,

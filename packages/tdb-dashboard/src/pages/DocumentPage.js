@@ -65,8 +65,8 @@ export const DocumentPage = (props) => {
             const dbNameValue = dbName.current.value || undefined//"test_profile"
             //createDoc.current;
             console.log("JSON______",json)
-            //const params={'graph_type':'schema'}
-            const params ={}
+            const params={'graph_type':'schema'}
+            //const params ={}
             
             const result = await woqlClient.updateDocument(json,params,dbNameValue)
             getResult.current.value = JSON.stringify(result,null,4)

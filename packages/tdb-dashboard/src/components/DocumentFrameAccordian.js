@@ -7,19 +7,33 @@ import {
 } from 'react-accessible-accordion'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import {Row, Form} from "react-bootstrap"
+import {checkIfObject} from "./utils"
 
-// on clicf of a sub frame => show information of the document 
+const DataInfo = ({val}) => {
+    return <span className="mr-3"> {val}</span>
+}
+
+const ObjectInfo = ({obj}) => {
+    let arr = []
+    for(var key in obj){
+        if(typeof obj[key] == "string") arr.push(<DataInfo val={obj[key]}/>)
+        else arr.push(<Info frame={obj[key]}/>)
+    }
+    return <span> {arr}</span>
+}
+
+// on click of a sub frame => show information of the document 
 const Info = ({frame}) => {
     let fields = []
    for(var key in frame){
-        fields.push(
-            <Row>
+        fields.push(<Row className="mb-3">
                 <Form.Group className="d-flex">
-                    <span className="ml-3 mr-3 text-muted fw-bold col-md-1"> 
+                    <span className="ml-3 mr-3 text-muted fw-bold col-md-2"> 
                         {key}
                     </span>
                     <span md={4} className="mr-5">
-                        {frame[key]} 
+                        {!checkIfObject(frame[key]) && <DataInfo val={frame[key]}/>}
+                        {checkIfObject(frame[key]) && <ObjectInfo obj={frame[key]}/>}
                     </span>
                     
                 </Form.Group>

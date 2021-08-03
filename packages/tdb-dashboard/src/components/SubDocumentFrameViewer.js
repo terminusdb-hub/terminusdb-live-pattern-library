@@ -43,29 +43,28 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
     ]
     */
 
-    useEffect(() => {
-        console.log("///propertyFill",propertyFill)
-
-        function extractProperties(propertyFill) {
-            let extractedJson = []
-            for (var item in propertyFill) { 
-                let arr = propertyFill[item]
-                let newJson ={} 
-                for (var x=0; x<arr.length; x++) {
-                    let stuff = arr[x] 
-                    for (var key in stuff) {
-                        newJson[key] = stuff[key] 
-                    } 
-                }
-                extractedJson.push(newJson)
+    function gatherPropertiesToCreate(propertyFill) {
+        let extractedJson = []
+        for (var item in propertyFill) { 
+            let arr = propertyFill[item]
+            let newJson ={} 
+            for (var x=0; x<arr.length; x++) {
+                let stuff = arr[x] 
+                for (var key in stuff) {
+                    newJson[key] = stuff[key] 
+                } 
             }
-            return extractedJson
+            extractedJson.push(newJson)
         }
+        return extractedJson
+    }
+
+    useEffect(() => {
 
         if(propertyFill.length > 0) {
             setFormFields({
                 ...formFields,
-                [property]: extractProperties(propertyFill)
+                [property]: gatherPropertiesToCreate(propertyFill)
             })
         }
     }, [propertyFill])
@@ -91,11 +90,9 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
         if(documentObject.action == EDIT_DOCUMENT) {// on edit document display filled frames of sub documents 
             let subDocProperty = documentObject.filledFrame[property]
             
-            console.log("subDocProperty", subDocProperty)
             if(!subDocProperty) return
             
             subDocProperty.map(item => {
-
                 let newDocumentObject={
                     action: EDIT_DOCUMENT,
                     type: property,
@@ -106,11 +103,15 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                     message: false
                 }
 
-                let subDocumentFrame=item
+                //setPropertyFormFields(gatherProperties(propertyFormFields, propertyID, e.target.id, e.target.value))
+                for(var filled in item){
+                    setPropertyFormFields(gatherProperties(propertyFormFields, newDocumentObject.filledFrame["@id"], filled, item[filled]))
+                }
+                   /* here we pass real sub document id instead of uuidv4 */
                 setSubDocArray(arr => [...arr, <SubDoc 
                     property={property} 
                     documentFrame={newDocumentObject} 
-                    propertyID={uuidv4()}    
+                    propertyID={newDocumentObject.filledFrame["@id"]}    
                     documentClasses={documentClasses}
                     setPropertyFill={setPropertyFill}/>])
             })
@@ -118,42 +119,34 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
         
     }, [property])
 
- 
+    console.log("propertyFormFields///", propertyFormFields)
 
-    const SubDoc = ({propertyID, property, documentFrame, documentClasses, setPropertyFill}) => {
-
-        function gatherProperties(propertyFormFields, propertyID, id, value) {
-            // gather properties for subdocuments
-            /*var populatedArray = []
-            if(propertyFormFields[propertyID]){
-                populatedArray = [propertyFormFields[propertyID]]
-                console.log("populatedArray", populatedArray)
-                populatedArray.push({[id] : value})
-                propertyFormFields[propertyID] = populatedArray
-            }
-            else propertyFormFields[propertyID] = {[id] : value}
-            return propertyFormFields*/
-
-            var populatedArray = []
-            if(propertyFormFields[propertyID]){
-                populatedArray = propertyFormFields[propertyID]
-                var match = false
-                for(var x=0; x<populatedArray.length; x++){
-                    let thing = populatedArray[x]
-                    for (var key in thing) {
-                        if(key == id) {
-                            match=true
-                            thing[key] = value // replace existing 
-                        }
+    function gatherProperties(propertyFormFields, propertyID, id, value) {
+        // gather properties for subdocuments
+        var populatedArray = []
+        if(propertyFormFields[propertyID]){
+            populatedArray = propertyFormFields[propertyID]
+            var match = false
+            for(var x=0; x<populatedArray.length; x++){
+                let thing = populatedArray[x]
+                for (var key in thing) {
+                    if(key == id) {
+                        match=true
+                        thing[key] = value // replace existing 
                     }
                 }
-                if(!match) populatedArray.push({[id] : value})
-                propertyFormFields[propertyID] = populatedArray
-                console.log("populatedArray", populatedArray)
             }
-            else propertyFormFields[propertyID] = [{[id] : value}]
-            return propertyFormFields
+            if(!match) populatedArray.push({[id] : value})
+            propertyFormFields[propertyID] = populatedArray
         }
+        else propertyFormFields[propertyID] = [{[id] : value}]
+
+        return propertyFormFields
+    }
+
+  
+
+    const SubDoc = ({propertyID, property, documentFrame, documentClasses, setPropertyFill}) => {
         
         function handleChange (e, propertyID) {
             setPropertyFormFields(gatherProperties(propertyFormFields, propertyID, e.target.id, e.target.value))

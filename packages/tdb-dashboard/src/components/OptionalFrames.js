@@ -47,6 +47,12 @@ export const OptionalFrames = ({documentObject, propertyID, property, object, on
                 type="text"
                 defaultValue={documentObject.filledFrame[property]}
                 onBlur={(e) => onChange(e, propertyID)}/>}
+            
+            {(documentObject.action == EDIT_DOCUMENT) &&  documentObject.frames 
+                && !(documentObject.filledFrame[property]) && <Form.Control 
+                placeholder={object["@class"]} 
+                type="text"
+                onBlur={(e) => onChange(e, propertyID)}/>}
 
         </React.Fragment> 
     }
