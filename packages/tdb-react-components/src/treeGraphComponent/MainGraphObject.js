@@ -43,7 +43,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	/*
 	* Link Properties/Enum Property organized by range
-	* {classRangeName:[{nodeName:classId,propertyName:key}]
+	* {linkedClass:[{nodeName:classId,propertyName:key}]
 	* LINK PROPERTIES
 	*/
 	let _objectPropertyToRange={};
@@ -428,6 +428,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	* (this node can not be a range in a property link)
 	*/
 	const removeElementInMainGraph=(elementName)=>{
+		//delete all the element related property object
 		const listOfProperty=_domainToProperties[elementName] ? _domainToProperties[elementName].slice() : [];
 		if(listOfProperty.length>0){
 			listOfProperty.forEach((property,key)=>{
@@ -440,22 +441,21 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 
 	const removePropertyToClass=(domainClassName,propertyName)=>{
-		const propertyObject={}//_propertiesList.get(propertyName);
-
 		const propertyByDomain=_domainToProperties[domainClassName] || [];	
 		
 		//remove by domain
-		removeElementToArr(propertyByDomain,propertyName)
+		const propertyObject=removeElementToArr(propertyByDomain,propertyName)
 		
 		// remove by range
 		const propertyByRange=_objectPropertyToRange[propertyObject.range];
-		removeElementToArr(propertyByRange,propertyName);
+		if(propertyByRange)
+			removeElementToArr(propertyByRange,propertyName);
 		
-		//remove from property list
-		//_propertiesList.delete(propertyName);
-
-		//_graphUpdateObject.removePropertyToClass(propertyObject);
-
+		//remove from the json Object
+		if(currentNode[propertyName]){
+			delete currentNode[propertyName]
+		}
+		
 		return propertyByDomain.slice();
 	}
 
@@ -516,18 +516,20 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		_objectPropertyToRange=linkPropertyClass
 	}
 
-	const descendantsNodeAsArray=()=>{
-		return [..._descendantsNode.values()]
-	}
 
 	const savedObjectToWOQL=()=>{
 		const updateList=[]
+		const newElementList=[]
 		Object.values(_rootIndexObj).forEach(item=>{
-			if(item.needToSave===true){
-				updateList.push(item.schema)
+			if(item.needToSave===true ){
+				if(item.newElement===false){
+					updateList.push(item.schema)
+				}else{
+					newElementList.push(item.schema)
+				}
 			}
 		})
-		return {deleteList : deleteDocList,updateList:updateList}
+		return {deleteList : deleteDocList,updateList:updateList,newElementList:newElementList}
 	}
 
 	const updateObjectPropertyListLabel=(objectPropList,elementDataObject)=>{
@@ -745,22 +747,22 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	}
 
 	const setPropertyComment = (propId,comment) =>{
-		if(!_currentNode.schema['@documetations'])_currentNode.schema['@documetations']={}
-		if(!_currentNode.schema['@documetations']['@properties'])
-			_currentNode.schema['@documetations']['@properties']={}
+		if(!_currentNode.schema['@documentation'])_currentNode.schema['@documentation']={}
+		if(!_currentNode.schema['@documentation']['@properties'])
+			_currentNode.schema['@documentation']['@properties']={}
 		if(comment && comment.trim()!==''){
-			_currentNode.schema['@documetations']['@properties'][propId]=comment
-		}else if(_currentNode.schema['@documetations']['@properties'][propId]){
-			delete _currentNode.schema['@documetations']['@properties'][propId]
+			_currentNode.schema['@documentation']['@properties'][propId]=comment
+		}else if(_currentNode.schema['@documentation']['@properties'][propId]){
+			delete _currentNode.schema['@documentation']['@properties'][propId]
 		}
 		//properties
 	}
 
 	const getPropertyComment = (propId) =>{
-		if(_currentNode.schema['@documetations'] && 
-		   _currentNode.schema['@documetations']['@properties'] &&
-		   _currentNode.schema['@documetations']['@properties'][propId]){
-			return _currentNode.schema['@documetations']['@properties'][propId]
+		if(_currentNode.schema['@documentation'] && 
+		   _currentNode.schema['@documentation']['@properties'] &&
+		   _currentNode.schema['@documentation']['@properties'][propId]){
+			return _currentNode.schema['@documentation']['@properties'][propId]
 		}
 		return ''
 		//properties
@@ -773,7 +775,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	return {setId,getPropertyInfo,setPropertyInfo,getNodeData,
 			objectPropertyToRange,setClassKey,getPropertyAsList,getClassKey,
-			setComment,setAbstract,setSubdocument,
+			setComment,setAbstract,setSubdocument,setPropertyId,
 			getEnumValues,updateEnumValues,getObjectProperty,
 			getObjectChoices,
 			getObjectTypeList,

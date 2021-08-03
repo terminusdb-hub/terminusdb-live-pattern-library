@@ -51,7 +51,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 setNewBranchInfo={setNewBranchInfo} 
                 loading={loading} 
                 branches={branches}
-                createBranch={createBranch}/>
+                createBranch={createBranch}/> 
 
             <DisplayBranchList branchList={branches} 
                 branch={branch} 
@@ -64,6 +64,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
 
             <BranchInfoModal woqlClient={woqlClient} 
                 branch={branch} 
+                branches={branches}
                 showDefault={showDefault} 
                 handleClose = {handleClose} 
                 handleSwitch={handleSwitch} 

@@ -8,6 +8,7 @@ import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, E
 import {executeDocumentAction, resetDocumentObject, updateDocument, addNewDocument} from "./hooks/DocumentControl"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
+import { AiOutlineConsoleSql } from 'react-icons/ai'
 
 export const WOQLClientProvider = ({children, params}) => {
     
@@ -74,6 +75,7 @@ export const WOQLClientProvider = ({children, params}) => {
             const orgName = user['http://terminusdb.com/schema/system#team']
             const orgRemoteUrl=`${opts.server}${orgName}`
             const hubClient = new TerminusClient.WOQLClient(orgRemoteUrl)
+        
 
             const jwtoken = await getTokenSilently()
             let hubcreds = {type: "jwt", key: jwtoken}         
@@ -149,25 +151,12 @@ export const WOQLClientProvider = ({children, params}) => {
                   console.log("GET BRANCH ERROR",err.message)
               }) */
 
-              /*woqlClient.getBranches(dataProduct).then((res) => {
-                if(res.length>0){
-                    res.forEach(item=>{
-                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
-                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
-                        const branchItem={id:item.Branch,
-                                            head_id:head_id,
-                                            head:head,
-                                            name:item.Name['@value'],
-                                            timestamp:item.Timestamp['@value']
-                                        }
-                        branchesObj[branchItem.name] = branchItem
-                    })
-                 }
-                 setBranches(branchesObj)
+              woqlClient.getBranches(dataProduct).then((res) => {
+                setBranches(res)
             })
             .catch((err) => {
                 console.log("GET BRANCH ERROR",err.message)
-            })*/
+            })
 
             // on change on data product re set document object
             resetDocumentObject(setDocumentClasses)
@@ -258,8 +247,14 @@ export const WOQLClientProvider = ({children, params}) => {
         setChosenCommit(refObject)
     }
 
-    function reconnectToServer () { // temporary fix for loading new woqlClient when create/ delete of a data product, have to review
-        location.reload()
+    //get the list of databases
+    function reconnectToServer (currentDB = false) { // temporary fix for loading new woqlClient when create/ delete of a data product, have to review
+        woqlClient.connect().then(res=>{
+            woqlClient.db(currentDB)
+            setDataProduct(currentDB)
+        }).catch(err=>{
+            console.log(err)
+        })
     }
 
     return (

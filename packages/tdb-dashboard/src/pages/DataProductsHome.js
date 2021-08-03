@@ -1,22 +1,17 @@
 import React, {useEffect, useState} from "react"
 import {Link} from "react-router-dom" 
 import {Row, Col, Card, Button} from "react-bootstrap"
-import {useCreateNewDataProductStates} from "../hooks/CreateNewDataProduct"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
 import {DATA_PRODUCTS} from "../routing/constants"
 import {AiOutlineDelete} from "react-icons/ai"
-import {NewDatabaseModal} from "../components/NewDatabaseModal"
 import {DeleteDatabaseModal} from "../components/DeleteDatabaseModal"
 import {DataProductSummary} from "../components/DataProductSummary"
 import {ManageProducts} from "../components/ManageProducts"
-import {PRODUCT_SUMMARY_NAV, PRODUCT_COLLECTIONS_NAV} from "../components/constants"
 import {NoDataProductSelected} from "../components/NoDataProductSelected"
-import {TimeTravel} from "../components/TimeTravel"
 import {BsBriefcase, BsDashSquare} from "react-icons/bs"
 import {MANAGE_COLLECTIONS} from "../components/constants"
 import {LeftSideBar} from "../components/LeftSideBar"
-import {useCommitsControl} from '@terminusdb-live/tdb-react-components'
 import moment from 'moment'
 import {printtsDate, printtsTime} from "../components/utils"
 import {BiTimer } from "react-icons/bi"
@@ -27,13 +22,15 @@ import {NoDataProductsCreated} from "../components/NoDataProductsCreated"
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct,setHead, branch, ref, branches, DBInfo} = WOQLClientObj()
     const [dataProductDetails, setDataProductDetails] = useState(false)
- 
-    const list = woqlClient ?  woqlClient.databases() : [] //dataProductList(woqlClient)
-
     const [dataProductSettings, setDataProductSettings] = useState(false)
 
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+
     const [currentDay, setCurrentDay] = useState(moment())
+    
     const [dataProvider, setDataProvider] = useState(false)
+
+    let list = woqlClient.databases()
 
     useEffect (() => {
         if(!woqlClient) return
@@ -48,7 +45,7 @@ export const DataProductsHome = (props) => {
     }, [dataProduct]) 
       
 
-    const {
+    /*const {
         setNewDataProductInfo,
         loading,
         handleNew,
@@ -56,7 +53,7 @@ export const DataProductsHome = (props) => {
         showNewDataProductModal,
         showDeleteDataProductModal,
         setDeleteDataProductInfo,
-        setShowDeleteDataProductModal} = useCreateNewDataProductStates(woqlClient)
+        setShowDeleteDataProductModal} = useCreateNewDataProductStates(woqlClient) */
 
 
     const TimelineElements = () => {
@@ -100,21 +97,12 @@ export const DataProductsHome = (props) => {
 
         return timeElements
     }
-
       
     
     return  <Layout sideBarContent={<LeftSideBar route={DATA_PRODUCTS}/>}>
         <main className="content mr-3 ml-5 w-95">
-
-            <NewDatabaseModal setShowNewDataProductModal={setShowNewDataProductModal} 
-                showNewDataProductModal={showNewDataProductModal} 
-                setNewDataProductInfo={setNewDataProductInfo} 
-                loading={loading}/>
-            
-            <DeleteDatabaseModal setShowDeleteDataProductModal={setShowDeleteDataProductModal} 
-                showDeleteDataProductModal={showDeleteDataProductModal} 
-                setDeleteDataProductInfo={setDeleteDataProductInfo} 
-                loading={loading}  
+            <DeleteDatabaseModal showModal={showDeleteModal} 
+                setShowModal={setShowDeleteModal}  
                 dataProductDetails={dataProductDetails}/>
 
 
@@ -191,7 +179,7 @@ export const DataProductsHome = (props) => {
                                     <Button variant="danger" 
                                             title={`Delete Data Product ${dataProduct}`} 
                                             className="m-3 float-right text-right btn btn-sm"
-                                            onClick={(e) =>setShowDeleteDataProductModal(true)}>
+                                            onClick={(e) =>setShowDeleteModal(true)}>
                                         <AiOutlineDelete className="me-2" /> Delete 
                                     </Button>
                                 </Col>

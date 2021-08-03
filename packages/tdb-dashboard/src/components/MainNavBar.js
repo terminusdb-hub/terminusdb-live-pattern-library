@@ -4,9 +4,7 @@ import {AiOutlineUser, AiOutlinePoweroff} from "react-icons/ai"
 import {Button, ButtonGroup, Dropdown, Form} from 'react-bootstrap';
 import { useAuth0 } from "../react-auth0-spa";
 import {Nav,Navbar} from "react-bootstrap"
-import { NavLink as RouterNavLink } from "react-router-dom"
-import {CurrentDataProductState} from "./CurrentDataProductState"
-
+import {NewDataProduct} from "./NewDataProduct"
 export const MainNavBar = (props) => {
     const { user, isAuthenticated, logout } = useAuth0();
     const base_url =process.env.REACT_APP_BASE_ROUTER || ''
@@ -21,14 +19,9 @@ export const MainNavBar = (props) => {
             returnTo:redirect_uri
     })
 
-
-    return <Navbar className="navbar-dark bg-dark p-0">
-            
-            <div className="d-flex flex-grow-1 justify-content-end">         
-            <form className="d-flex align-items-end">              
-                <input className="form-control mr-sm-2" type="text" placeholder="Search"/>
-                <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>              
-            </form>
+    return <Navbar className="navbar-dark bg-dark p-0">           
+            <div className="d-flex flex-grow-1 justify-content-end align-items-center">         
+            <NewDataProduct css={"btn-sm"}/>
             {user && <Dropdown  as={ButtonGroup} className="me-2 mb-2">
                 <Button size="sm" className="bg-transparent border-0">
                     <img src={user.picture}

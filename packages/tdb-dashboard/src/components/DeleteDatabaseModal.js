@@ -4,14 +4,29 @@ import {deleteDataProductForm} from "./constants"
 import {AiOutlineDelete} from "react-icons/ai"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
+import {WOQLClientObj} from "../init-woql-client"
 
-export const DeleteDatabaseModal = ({showDeleteDataProductModal, setShowDeleteDataProductModal, setDeleteDataProductInfo, loading, dataProductDetails}) => {
+export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}) => {
     const [id, setID]=useState(false)
-
+    const [loading, setLoading] = useState(false)
+    const {
+        woqlClient, 
+        reconnectToServer
+    } = WOQLClientObj()
+    
     function handleClick () {
         event.preventDefault()
+        setLoading(true)
         let dbInfo = dataProductDetails
-        if(setDeleteDataProductInfo) setDeleteDataProductInfo(dbInfo)
+        woqlClient.deleteDatabase(dataProductDetails.name, woqlClient.organization(), true)
+        .then((res) => {        
+            setShowModal(false)
+            reconnectToServer()
+        })
+        .catch((err) => console.log(err))
+        .finally(()=>{
+            setLoading(false)
+        })
     }
     
     function handleOnBlur (e) {
@@ -20,10 +35,10 @@ export const DeleteDatabaseModal = ({showDeleteDataProductModal, setShowDeleteDa
     }
  
     function handleClose (e) {
-        if(setShowDeleteDataProductModal) setShowDeleteDataProductModal(false)
+        if(setShowModal) setShowModal(false)
     }
     
-    return <Modal size="lg" className="modal-dialog-right" show={showDeleteDataProductModal} onHide={handleClose}>
+    return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={handleClose}>
         {loading && <Loading message={`Deleting Data Product ${dataProductDetails.id} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         <Modal.Header>
             <Modal.Title className="h6">{`Are you sure to delete Data Product - ${dataProductDetails.label} ?`} </Modal.Title>

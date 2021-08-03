@@ -8,10 +8,11 @@ import {
     Tooltip,
     Legend
   } from "recharts"
-  import {data} from "../../DataProductGraphInfo"
-  import {DocumentControl} from "../hooks/DocumentControl"
-  import {WOQLClientObj} from '../init-woql-client'
-
+import {data} from "../../DataProductGraphInfo"
+import {DocumentControl} from "../hooks/DocumentControl"
+import {WOQLClientObj} from '../init-woql-client'
+import {timeConverter} from "../pages/utils"
+import {printts} from "../components/utils"
 
 export const AboutDataProduct = ({dataProductDetails}) =>{
 
@@ -29,7 +30,7 @@ export const AboutDataProduct = ({dataProductDetails}) =>{
         </span>
         <span className="d-flex mb-2">
             <h6 className="fw-normal text-muted mb-2 fw-bold">Created</h6>
-            <h6 className="ml-3">{"05 July 2017"}</h6>
+            <h6 className="ml-3">{timeConverter(dataProductDetails.creation_date)}</h6>
         </span>
         {dataProductDetails.comment && <p className="text-muted mb-4">
             {dataProductDetails.comment}

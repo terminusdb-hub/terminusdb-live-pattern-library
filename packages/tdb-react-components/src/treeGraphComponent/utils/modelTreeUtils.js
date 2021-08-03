@@ -7,8 +7,9 @@ export const removeElementToArr=(arrayList,elementName)=>{
     const index=arrayList.findIndex(function(item){return item===elementName || item.name===elementName})
     if(index>-1){
        //method changes the contents of an array by removing or replacing existing elements
-        arrayList.splice(index,1);
-        return elementName;
+        //return the removedObject
+        const elementObj= arrayList.splice(index,1);
+        return elementObj;
     }
     return undefined;
 }
