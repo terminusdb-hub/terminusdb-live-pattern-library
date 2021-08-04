@@ -20,7 +20,11 @@ jobs:
     - name: Bootstrap lerna
       run: npx lerna bootstrap
     - name: Build
+      if: ${{ github.ref == 'refs/heads/dev' || github.event_name == 'pull_request' }}
       run: export CONNECTION_TYPE="REMOTE" && export TERMINUSDB_SERVER="https://cloud-dev.dcm.ist" && export REACT_APP_BASE_ROUTER="" && npx lerna run build
+    - name: Build prod
+      if: ${{ github.ref == 'refs/heads/master' }}
+      run: export CONNECTION_TYPE="REMOTE" && export TERMINUSDB_SERVER="https://cloud.terminusdb.com" && export REACT_APP_BASE_ROUTER="" && npx lerna run build
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@master
       with:
@@ -30,3 +34,6 @@ jobs:
     - name: Upload tdb-dashboard dev
       if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/dev' }}
       run: gsutil cp -r packages/tdb-dashboard/dist/* "gs://dashboard-dev.terminusdb.com/"
+    - name: Upload tdb-dashboard prod
+      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
+      run: gsutil cp -r packages/tdb-dashboard/dist/* "gs://dashboard.terminusdb.com/"
