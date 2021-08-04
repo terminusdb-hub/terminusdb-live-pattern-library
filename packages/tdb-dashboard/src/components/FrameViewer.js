@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {Form, Button, Row, Col, InputGroup} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
 import {BiPlus,BiEditAlt} from "react-icons/bi"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, NEW_OBJECT, CREATE_DOCUMENT, EDIT_DOCUMENT} from "./constants"
@@ -16,11 +15,6 @@ export const FrameViewer = () => {
         setDocumentObject,
         documentClasses
     } = WOQLClientObj()
-
-    const {
-        loading,
-        reportAlert
-    } = DocumentControl()
 
     //const [currentFrame, setCurrentFrame]=useState(false)
     const [formFields, setFormFields] = useState({"@type": documentObject.type})
@@ -94,10 +88,10 @@ export const FrameViewer = () => {
     }
 
     return <React.Fragment>
-        {loading && <Loading message={`Loading frames for ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-        {reportAlert && reportAlert}
-
+        
+        {documentObject.message && documentObject.message}
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            {documentObject.loading && documentObject.loading}
             {/*currentFrame && renderProperties(currentFrame)*/} 
             {documentObject.frames && <RenderFrameProperties documentObject={documentObject} 
                 documentClasses={documentClasses} 

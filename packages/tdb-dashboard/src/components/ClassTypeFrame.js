@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
 import {Row, Form, Col} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
 import Select from 'react-select'
 import {FaStarOfLife} from "react-icons/fa"
 import {singleSelectStyle} from "./constants"

@@ -4,7 +4,6 @@ import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {QueryPaneObj} from "../hooks/queryPaneContext"
 //import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
-import {DocumentControl} from "../hooks/DocumentControl"
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
@@ -123,7 +122,9 @@ export const DocumentExplorerDocuments = () => {
             submit: false,
             currentDocument: false,
             frames: {},
-            update:Date.now()
+            update:Date.now(),
+            message: false,
+            loading: false
         })
     }
 

@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from "react"
-import {ListGroup} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
+import {ListGroup, Container, Card, Row, Col, Button} from "react-bootstrap"
+import {BiPlus} from "react-icons/bi"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "../queries/GeneralQueries"
 import {executeQueryHook} from "../hooks/executeQueryHook"
 import {WOQLClientObj} from '../init-woql-client'
@@ -14,8 +14,9 @@ import {
 } from 'react-accessible-accordion'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import {JsonViewer} from "./JsonViewer"
+import {handleCreate} from "./documents.utils"
 
-export const DocumentSummary = () => {
+export const DocumentSummary = ({setDocumentObject}) => {
   
 
     const {
@@ -28,50 +29,54 @@ export const DocumentSummary = () => {
         let arr=[]
         for (var key in dataProvider[0]) { 
             let val = dataProvider[0][key]["@value"]
+            let type=key
             arr.push(
-                <ListGroup.Item className="d-flex">
-                    <h6 className="text-muted fw-bold col-md-11">{key}</h6>
-                    <h6 className="float-right">{val}</h6>
-                </ListGroup.Item>
+                <Col md={4} className="py-2">
+                    <Card bg="dark" className="m-3">
+                        <Card.Header className="bg-transparent border-0 d-flex">
+                            <h4 className="col-md-10 text-muted">{key}</h4>
+                            <h4 className="text-muted">{val}/{getTotalNumberOfDocuments(totalDocumentCount)}</h4>
+                        </Card.Header>
+                        <Card.Body>
+                            <Button className="btn btn-sm btn-lg" 
+                                title={`Create new ${type}`} 
+                                style={{margin: "80px"}} 
+                                variant="info"
+                                key={type} 
+                                onClick={(e) => handleCreate(type, setDocumentObject)}>
+                                <BiPlus className="mr-1"/>{`New ${type}`}
+                            </Button>
+                        </Card.Body>
+                        <Card.Footer className="d-flex">
+                            <small className="text-muted col-md-10">{`Number of ${type} ${val}`}</small>
+                            <small className="text-muted">{`Total ${getTotalNumberOfDocuments(totalDocumentCount)}`}</small>
+                        </Card.Footer>
+                    </Card>
+                </Col>
             )
         }
         return arr
     }
 
-    const TotalDocuments = ({dataProviderCount}) => {
+    function getTotalNumberOfDocuments (dataProviderCount) {
         var count =0
+        if(!dataProviderCount) return 
         for (var key in dataProviderCount[0]) { 
             if(key == "Count") {
                 count = dataProviderCount[0][key]["@value"]
             }
         }
 
-        return <span className="d-flex "> 
-            <h6 className="text-muted fw-bold mr-2 mb-2">Total Documents</h6>
-            <h6 className="float-right">{count}</h6>
-        </span>
+        return count
     }
 
-    function onChange() {
-
-    }
-
-    return <React.Fragment>
-            <ListGroup className="col-md-12">
-                {totalDocumentCount && <TotalDocuments dataProviderCount={totalDocumentCount}/>}
+  
+    return  <main className="content mr-3 ml-5 w-100">
+        <Container>
+            <Row>  
                 {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
-            </ListGroup>
-            {/*documentObject.type && <Accordion className="mt-3 ml-5" onChange={onChange}>
-                <AccordionItem key={documentObject.type} uuid={documentObject.type}>
-                    <AccordionItemHeading>
-                        <AccordionItemButton>
-                            {`Look up for ${documentObject.type}`}
-                        </AccordionItemButton>
-                    </AccordionItemHeading>
-                    <AccordionItemPanel>
-                        {documentObject.update && documentObject.frames && <JsonViewer json={JSON.stringify(documentObject.frames, null, 2)}/>}
-                    </AccordionItemPanel>
-                </AccordionItem>
-            </Accordion>*/}
-        </React.Fragment>
-}
+            </Row>
+        </Container>
+    </main>
+                
+} 

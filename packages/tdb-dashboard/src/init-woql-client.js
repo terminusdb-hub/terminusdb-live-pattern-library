@@ -4,7 +4,7 @@ export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext)
 import { DATA_PRODUCTS } from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
-import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT, GET_FRAMES_DOCUMENT} from "./components/constants"
+import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, FORM_VIEW, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT, GET_FRAMES_DOCUMENT} from "./components/constants"
 import {executeDocumentAction, resetDocumentObject, updateDocument, addNewDocument} from "./hooks/DocumentControl"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
@@ -49,7 +49,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [documentObject, setDocumentObject] = useState({
         type: false,
         action: false,
-        view: false,
+        view: FORM_VIEW,
         submit: false,
         currentDocument: false,
         frames: {},
@@ -129,8 +129,10 @@ export const WOQLClientProvider = ({children, params}) => {
     //I know I have to review this file!!!!!!!!
     useEffect(() => {
         if(woqlClient && dataProduct){
+            setBranches(false)
+            setDocumentClasses(false)
             // on change on data product re set document object
-            resetDocumentObject(setDocumentClasses)
+            resetDocumentObject(setDocumentObject)
             woqlClient.getBranches(dataProduct).then((res) => {
                 setBranches(res)
                 // on change on data product get classes 

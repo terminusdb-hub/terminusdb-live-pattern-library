@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
 import {Card, Button, Form} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
 import {RenderFrameProperties} from "./RenderFrameProperties"
 import {BsPlus} from "react-icons/bs"
 import { v4 as uuidv4 } from 'uuid'
@@ -14,12 +13,10 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
     const [propertyFormFields, setPropertyFormFields]=useState([])
 
     const {
-        documentObject
+        documentObject,
+        documentClasses
     } = WOQLClientObj()
 
-    const {
-        documentClasses,
-    } = DocumentControl() 
 
     /*{ example of forlm field to uuid of sub doc
     75b71314-8f9e-4b57-b58a-6183c183e4e3: [{email_to: "asd"}, {"note": "sakjd"}]

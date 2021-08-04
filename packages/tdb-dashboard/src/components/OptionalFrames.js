@@ -1,6 +1,5 @@
 import React from "react"
 import {Row, Form, Col} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
 import {printts, checkIfObject} from "./utils"
 import {RenderFrameProperties} from "./RenderFrameProperties"
 import {WOQLClientObj} from '../init-woql-client'

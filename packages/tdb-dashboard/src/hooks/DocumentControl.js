@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {executeQueryHook} from "./executeQueryHook"
 //import {getDocumentClasses, getDocumentsOfType} from "../queries/GeneralQueries"
-import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, GET_FRAMES_DOCUMENT} from "../components/constants"
+import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, GET_FRAMES_DOCUMENT, FORM_VIEW} from "../components/constants"
 import {Alerts} from "../components/Alerts"
 import { getTotalNumberOfDocuments } from "../queries/GeneralQueries"
 import {Loading} from "../components/Loading"
@@ -21,51 +21,6 @@ export const DocumentControl = () => {
         documentObject
     } = WOQLClientObj()
 
-
-    
-
-    // get frames of docuent based on action 
-    //const [frame, setFrame]=useState(false)
-    //const [filledFrame, setFilledFrame]=useState(false)
-    /*useEffect(() => {
-        // on create new document
-        if(documentObject.action == false) return
-        console.log("documentObject", documentObject)
-        if(documentObject.action == CREATE_DOCUMENT) {
-            getDocumentFrame(woqlClient, documentObject.type, setFrame, setLoading, setReportAlert)
-        }
-        if(documentObject.action == EDIT_DOCUMENT) {
-            //getFilledFrames(woqlClient, documentObject, setFilledFrame, setLoading, setReportAlert)
-            getDocumentFrame(woqlClient, documentObject.type, setFrame, setLoading, setReportAlert)
-        }
-        if(documentObject.action == VIEW_DOCUMENT) {
-            getCurrentDocumentInfo (woqlClient, documentObject, setDocumentObject, false, setLoading, setReportAlert)
-        }
-    }, [documentObject.action, documentObject.type])*/
-
-    // fill up frames of documentObject
-    /*useEffect(() => {
-        if(!frame) return
-        if(documentObject.action == CREATE_DOCUMENT) {
-            let docObj=documentObject
-            docObj.frames = frame
-            setDocumentObject(docObj)
-        }
-        
-    }, [frame])*/
-
-    // on submit of form for create/ edit document
-    /*useEffect(() => {
-        if(!documentObject.submit) return
-        let newDocumentInfo=documentObject.frames
-        if(documentObject.action == CREATE_DOCUMENT) {
-            addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, documentObject, setLoading, setReportAlert)
-        }
-        if(documentObject.action == EDIT_DOCUMENT) {
-            updateDocument(woqlClient, documentObject, setDocumentObject, setReportAlert, setLoading)
-        }
-            //updateDocument(woqlClient, documentObject, setReportAlert, setLoading)
-    }, [documentObject.submit, documentObject.frames]) */
 
 
     /***** REVIEW THIS BIT  *****/
@@ -268,7 +223,7 @@ export async function getEnums(woqlClient, setEnums, setLoading, setReportAlert)
     })
 }
 
-export async function deleteDocument  (woqlClient, setDocumentObject, documentObject, setLoading, setReportAlert) {
+export async function deleteDocument  (woqlClient, setDocumentObject, documentObject) {
     let db=woqlClient.db()
 
     const params={}
@@ -283,17 +238,17 @@ export async function deleteDocument  (woqlClient, setDocumentObject, documentOb
             submit: false,
             currentDocument: false,
             frames: {},
-            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>
+            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>,
+            loading: false
         }
 
         setDocumentObject(docObj)
-        setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
-        setLoading(false)
     })
     .catch((err) => {
         let message=`Error in deleting document ${documentObject.currentDocument}: ${err}`
-        setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
-        setLoading(false)
+        let docObj=documentObject
+        docObj.message=<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
+        docObj.loading=false
     })
  }
 
@@ -301,7 +256,7 @@ export async function deleteDocument  (woqlClient, setDocumentObject, documentOb
     setDocumentObject({
         type: false,
         action: false,
-        view: false,
+        view: FORM_VIEW,
         submit: false,
         currentDocument: false,
         frames: {},

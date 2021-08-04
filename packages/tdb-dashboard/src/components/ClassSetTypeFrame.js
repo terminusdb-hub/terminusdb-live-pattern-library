@@ -1,7 +1,6 @@
 
 import React, {useState, useEffect} from "react"
 import {Row, Form, Col, Button, Card} from "react-bootstrap"
-import {DocumentControl, getDocumentFrame} from "../hooks/DocumentControl"
 import {BsPlus} from "react-icons/bs"
 import {AiOutlineClose} from "react-icons/ai"
 import Select from 'react-select'
