@@ -25,11 +25,11 @@ jobs:
     - name: Build prod
       if: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        export CONNECTION_TYPE="REMOTE"
-        export TERMINUSDB_SERVER="https://cloud.terminusdb.com"
-        export REACT_APP_BASE_ROUTER=""
-        export AUTH0_CLIENT_ID="365PsB0AmUmB2odSFwezWkX31BZv6PoH"
-        export AUTH0_DOMAIN="terminus-cloud.eu.auth0.com"
+        CONNECTION_TYPE="REMOTE" \
+        TERMINUSDB_SERVER="https://cloud.terminusdb.com" \
+        REACT_APP_BASE_ROUTER="" \
+        AUTH0_CLIENT_ID="365PsB0AmUmB2odSFwezWkX31BZv6PoH" \
+        AUTH0_DOMAIN="terminus-cloud.eu.auth0.com" \
         npx lerna run build
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@master
