@@ -7,7 +7,7 @@ import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, NEW_OBJECT, CREATE_DOCUMENT, EDIT_DOCUMENT} from "./constants"
 import {EnumTypeFrame} from "./EnumTypeFrame"
 import {RenderFrameProperties} from "./RenderFrameProperties"
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
 export const FrameViewer = () => { 
 
@@ -62,11 +62,10 @@ export const FrameViewer = () => {
             view: documentObject.view,
             submit: true,
             frames: formFields,
-            message: false
+            message: false,
+            loading: <Loading message={`Fetching frames to create document type${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>
         })
     }
-
-    console.log("formFields", formFields)
 
     function handleUpdateDocument () {
         setDocumentObject({
@@ -76,7 +75,8 @@ export const FrameViewer = () => {
             submit: true,
             frames: formFields,
             filledFrame: documentObject.filledFrame,
-            message: false
+            message: false,
+            loading: <Loading message={`Updating ${documentObject.filledFrame["@id"]} ...`} type={PROGRESS_BAR_COMPONENT}/>
         })
     }
 

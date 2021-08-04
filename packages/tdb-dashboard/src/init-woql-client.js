@@ -4,11 +4,13 @@ export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext)
 import { DATA_PRODUCTS } from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
-import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, GET_FRAMES_DOCUMENT} from "./components/constants"
+import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT, GET_FRAMES_DOCUMENT} from "./components/constants"
 import {executeDocumentAction, resetDocumentObject, updateDocument, addNewDocument} from "./hooks/DocumentControl"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
 import { AiOutlineConsoleSql } from 'react-icons/ai'
+import {Loading} from "./components/Loading"
+
 
 export const WOQLClientProvider = ({children, params}) => {
     
@@ -50,7 +52,9 @@ export const WOQLClientProvider = ({children, params}) => {
         view: false,
         submit: false,
         currentDocument: false,
-        frames: {}
+        frames: {},
+        message: false,
+        loading: false
     }) 
     //document classes 
     const [documentClasses, setDocumentClasses] = useState(false)
@@ -171,6 +175,8 @@ export const WOQLClientProvider = ({children, params}) => {
             let docObj=documentObject
             docObj.filledFrame = filledFrame
             docObj.update=Date.now()
+            docObj.message= documentObject.message
+            docObj.loading= false
             setDocumentObject(docObj)
         }
     }, [filledFrame])

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-import {FORM_VIEW, VIEW_DOCUMENT} from "./constants"
+import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
 import {Card, Row} from "react-bootstrap"
 import {DocumentControl} from "../hooks/DocumentControl"
 import {WOQLTable} from '@terminusdb-live/tdb-react-components'
@@ -15,6 +15,7 @@ import {getColumnsFromResults} from "./utils"
 import {DocumentSummary} from "./DocumentSummary"
 import {FrameViewer} from './FrameViewer'
 import {NoDocumentsAvailable} from "./NoDocumentsAvailable"
+import {Loading} from "./Loading"
 
 export const DocumentView = () => {
     const {
@@ -46,7 +47,7 @@ export const DocumentView = () => {
     useEffect(() => {
         setTableConfig(false)
         setDocumentResults(false)
-    }, [documentObject.type])
+    }, [documentObject.type, documentObject.update])
 
     // on change of class clicked on left side bar => reset
     useEffect(() => {
@@ -69,14 +70,18 @@ export const DocumentView = () => {
             submit: false,
             currentDocument: row.original["@id"],
             frames: {},
-            update: Date.now()
+            update: Date.now(),
+            loading: <Loading message={`Fetching document ${row.original["@id"]} ...`} type={PROGRESS_BAR_COMPONENT}/>,
+            message: false
         })
     }
-
+ 
     return  <React.Fragment>
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
-        <Row className="mt-5 w-100 justify-content-md-center">
-            {documentObject.message && documentObject.message }
+        <Row className="mt-5 w-100">
+            <Row>
+                {documentObject.message && documentObject.message}
+            </Row>
             {!documentObject.action && (documentResults.length==0) && <NoDocumentsAvailable type={documentObject.type} setDocumentObject={setDocumentObject}/>}
             {
             !documentObject.action && (documentResults.length>0) && tableConfig && 
@@ -97,14 +102,26 @@ export const DocumentView = () => {
                             resultColumns={getColumnsFromResults(documentResults)}
                             query={false}
                             loading={loading}
-                            totalRows={rowCount}
+                            totalRows={rowCount} 
                         />
                     </Card.Body>
                 </Card>
             }
-            {documentObject.update && documentObject.action && documentObject.action!== VIEW_DOCUMENT && <DocumentFrames/>}
+            {
+                documentObject.update && 
+                documentObject.action && 
+                documentObject.action!== VIEW_DOCUMENT && 
+                documentObject.frames &&  
+                <DocumentFrames/>
+            }
 
-            {documentObject.update && documentObject.action ==  VIEW_DOCUMENT &&  documentObject.currentDocument &&  <DocumentInfo/>}
+            {
+                documentObject.update && 
+                documentObject.action ==  VIEW_DOCUMENT &&  
+                documentObject.currentDocument && 
+                documentObject.filledFrame &&  
+                <DocumentInfo/>
+            }
 
         </Row>
         </React.Fragment>

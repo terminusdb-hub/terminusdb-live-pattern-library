@@ -19,9 +19,7 @@ export const DocumentFrames = () => {
 
     const {
         documentObject,
-        setDocumentObject,
-        loading,
-        reportAlert
+        setDocumentObject
     } = WOQLClientObj()
 
     function handleClick (view) { // on toggle of json and form controls
@@ -31,14 +29,12 @@ export const DocumentFrames = () => {
         setUpdate(Date.now())
     } 
 
-    console.log("documentObject in viewer", documentObject)
 
     return <main className="content mr-3 ml-3 w-100">
         <Row className="w-100">
             <Col md={9}> 
-                {loading && <Loading message={`Add new ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-                {reportAlert && reportAlert}
                 <Card>
+                    {documentObject.loading && documentObject.loading}
                     <Card.Header className="d-flex">
                         <span className="col-md-10 d-flex">
                             {documentObject.action == CREATE_DOCUMENT && <h5>Create a new </h5>}

@@ -142,11 +142,11 @@ export const DocumentInfo = () => {
 
 
     return <main className="content mr-3 ml-5 w-100">
-        <Row className="w-100">
+        <Row className="w-100">  
             <Col md={9}> 
-                {loading && <Loading message={`Loading ${documentObject.currentDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-                {reportAlert && reportAlert}
+                  {reportAlert && reportAlert}
                 <Card className="d-flex w-100">
+                     {loading && <Loading message={`Loading ${documentObject.currentDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
                     <Card.Header className="d-flex w-100">
                         <h5 className="col-md-9"><strong className="text-success">{documentObject.currentDocument}</strong></h5>
                                
