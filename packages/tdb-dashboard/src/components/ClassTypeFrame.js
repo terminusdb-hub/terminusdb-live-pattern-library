@@ -9,7 +9,7 @@ import 'react-accessible-accordion/dist/fancy-example.css'
 import {getDocumentsOfClassOfInterest} from "../hooks/DocumentControl"
 import {DocumentFrameAccordian} from "./DocumentFrameAccordian"
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
-
+import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
 const SelectedDocumentAccordian = ({selected}) => {
 
@@ -64,7 +64,11 @@ export const ClassTypeFrame = ({documentObject, propertyID, property, type, onCh
     }, [documentObjectTemp])
 
     return <Form.Group as={Col} md="12" controlId={property}>
-        <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
+        <Form.Label className="w-100">
+            <FaStarOfLife className="mr-2 text-warning mandatory-icon"/>
+            {property}
+            <DocumentationTypeFrame documentObject={documentObject} property={property}/>
+        </Form.Label>
         {(documentObject.action == CREATE_DOCUMENT) && <Select options={options}
             onChange={handleSelect}
             styles={singleSelectStyle}

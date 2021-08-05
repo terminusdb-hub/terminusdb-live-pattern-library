@@ -5,6 +5,7 @@ import {RenderFrameProperties} from "./RenderFrameProperties"
 import {WOQLClientObj} from '../init-woql-client'
 import { v4 as uuidv4 } from 'uuid'
 import {FORM_VIEW, JSON_VIEW, EDIT_DOCUMENT, CREATE_DOCUMENT} from "./constants"
+import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
 // this is optional field
 export const OptionalFrames = ({documentObject, propertyID, property, object, onChange}) => {
@@ -59,7 +60,10 @@ export const OptionalFrames = ({documentObject, propertyID, property, object, on
     
 
     return <Form.Group as={Col} md="12" controlId={property}>
-        <Form.Label>{property}</Form.Label>
+        <Form.Label className="W-100">
+            {property}
+            <DocumentationTypeFrame documentObject={documentObject} property={property}/>
+        </Form.Label>
 
         {!checkIfObject(object["@class"]) && <DataFrameViewer onChange={onChange}/>}
         {checkIfObject(object["@class"]) && <ObjectFrameViewer/>}

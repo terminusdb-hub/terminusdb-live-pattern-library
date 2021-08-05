@@ -30,9 +30,9 @@ const BranchItem = (props) => {
           <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
             <h6><span className="text-muted"> {`Head Commit `} </span>{head}</h6>
           </Col>
-          {/*<Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
+          {<Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
             <h6><span className="text-muted"> {`Updated on `} </span>{timeConverter(timestamp)}</h6>
-          </Col>*/}
+          </Col>}
           <Col className="col-auto">
             {(id ==  "main") && <RiDeleteBin7Line className="mr-2 mb-1 react-icons danger disabled"/>}
             {(id !==  "main") && <span  title={`delete branch ${id}`} >

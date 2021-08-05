@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import {Col} from "react-bootstrap"
 import {BsBriefcase, BsBucket} from "react-icons/bs"
 import {BiGitCommit} from "react-icons/bi"
@@ -8,6 +8,15 @@ import {BranchControl} from "../hooks/BranchControl"
 export const DataProductSummary = ({dataProductDetails}) => {
 
     const {woqlClient, dataProduct,branches, branch, ref} = WOQLClientObj()
+    const [branchCount, setBranchCount]= useState(0)
+
+    useEffect(() => {
+        let count=0
+        for (var key in branches){
+            count+=1
+        }
+        setBranchCount(count)
+    }, [branches])
    
     return <div className="d-flex mb-5">
         <div class="col-4 col-xl">
@@ -19,7 +28,7 @@ export const DataProductSummary = ({dataProductDetails}) => {
                             Collections
                             </h6>
                             <span class="h2 mb-0">
-                            5
+                            {branchCount}
                             </span>
                         </div>
                         <div class="col-auto">

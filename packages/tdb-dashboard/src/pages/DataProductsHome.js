@@ -147,7 +147,7 @@ export const DataProductsHome = (props) => {
                                     </Col>
                                     <Col md={2}>
                                         <Button variant="light" 
-                                            className="m-3 btn btn-sm float-right text-right" 
+                                            className="m-3 btn btn-sm float-right text-right text-dark" 
                                             onClick={(e) => setDataProductSettings(MANAGE_COLLECTIONS)}>
                                             <BsBriefcase className="me-2"/> {MANAGE_COLLECTIONS}
                                         </Button>

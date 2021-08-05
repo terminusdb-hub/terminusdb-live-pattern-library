@@ -11,6 +11,7 @@ import 'react-accessible-accordion/dist/fancy-example.css'
 import {FrameViewer} from "./FrameViewer"
 import {getDocumentsOfClassOfInterest} from "../hooks/DocumentControl"
 import {DocumentFrameAccordian} from "./DocumentFrameAccordian"
+import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
 const SelectedDocumentAccordian = ({selected}) => {
     let acc=[]
@@ -65,7 +66,10 @@ export const ClassSetTypeFrame = ({documentObject, property, object, onChange}) 
     
     return <Form.Group as={Col} md="12" controlId={property}>
         <span className="w-100">
-            <Form.Label> {property}</Form.Label>
+            <Form.Label className="w-100"> 
+                {property}
+                <DocumentationTypeFrame documentObject={documentObject} property={property}/>
+            </Form.Label>
 
             <Select options={options}
                 onChange={handleSelect}

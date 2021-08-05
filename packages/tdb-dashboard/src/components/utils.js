@@ -201,6 +201,7 @@ export const isOptionalType = (property) => {
     return false
 }
 
+
 export const getColumnsFromResults = (results) => {
     let columns = []
     for(var k in results[0]) columns.push(k) 

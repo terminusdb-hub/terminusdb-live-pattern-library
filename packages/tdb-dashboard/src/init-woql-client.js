@@ -133,23 +133,45 @@ export const WOQLClientProvider = ({children, params}) => {
             setDocumentClasses(false)
             // on change on data product re set document object
             resetDocumentObject(setDocumentObject)
-            woqlClient.getBranches(dataProduct).then((res) => {
-                setBranches(res)
-                // on change on data product get classes 
-                woqlClient.getClassDocuments(dataProduct).then((classRes) => {
-                    setDocumentClasses(classRes)
-                    // get number document classes 
-                    let q=getCountOfDocumentClass(classRes)
-                    setQuery(q)
-                    let totalQ=getTotalNumberOfDocuments(classRes)
-                    setTotalDocumentsQuery(totalQ)
-                })
-                .catch((err) =>  {
-                    console.log("Error in init woql while getting classes of data product", err.message)
-                })
+
+
+            //there is a bug with using in woql so we have to set commits as branch
+            const tmpClient = woqlClient.copy()
+            tmpClient.checkout("_commits")
+            /*** I commented this lib call as it dosent work, i use woqlClient.getbranches() instead ***/
+            const branchQuery = TerminusClient.WOQL.lib().branches()
+            tmpClient.query(branchQuery).then(result=>{
+                 const branchesObj={}
+                 if(result.bindings.length>0){
+                    result.bindings.forEach(item=>{
+                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
+                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
+                        const branchItem={
+                            id:item.Branch,
+                            head_id:head_id,
+                            head:head,
+                            name:item.Name['@value'],
+                            timestamp:item.Timestamp['@value']
+                        }
+                        branchesObj[branchItem.name] = branchItem
+                    })
+                 }
+                 setBranches(branchesObj)
+            }).catch(err=>{
+                  console.log("GET BRANCH ERROR",err.message)
+            }) 
+
+            // on change on data product get classes 
+            woqlClient.getClassDocuments(dataProduct).then((classRes) => {
+                setDocumentClasses(classRes)
+                // get number document classes 
+                let q=getCountOfDocumentClass(classRes)
+                setQuery(q)
+                let totalQ=getTotalNumberOfDocuments(classRes)
+                setTotalDocumentsQuery(totalQ)
             })
-            .catch((err) => {
-                console.log("GET BRANCH ERROR",err.message)
+            .catch((err) =>  {
+                console.log("Error in init woql while getting classes of data product", err.message)
             })
         }
     }, [branchesReload, dataProduct])

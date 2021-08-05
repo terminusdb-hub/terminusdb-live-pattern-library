@@ -6,6 +6,7 @@ import Select from 'react-select'
 import {singleSelectStyle} from "./constants"
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
+import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
 export const EnumTypeFrame = ({propertyID, property, type, onChange}) => {
 
@@ -41,7 +42,10 @@ export const EnumTypeFrame = ({propertyID, property, type, onChange}) => {
     }
 
     return  <Form.Group as={Col} md="12" controlId={property}>
-        <Form.Label>{property}</Form.Label>
+        <Form.Label className="W-100">
+            {property}
+            <DocumentationTypeFrame documentObject={documentObject} property={property}/>
+        </Form.Label>
         {(documentObject.action == CREATE_DOCUMENT) && <Select options={options}
             onChange={handleChange}
             styles={singleSelectStyle}
