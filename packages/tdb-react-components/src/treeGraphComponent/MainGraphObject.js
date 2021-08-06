@@ -754,6 +754,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	}
 
 	const setPropertyComment = (propId,comment) =>{
+		if(!_currentNode.schema['@documentation'] 
+			&& comment && comment.trim()!=='')return
 		if(!_currentNode.schema['@documentation'])_currentNode.schema['@documentation']={}
 		if(!_currentNode.schema['@documentation']['@properties'])
 			_currentNode.schema['@documentation']['@properties']={}
