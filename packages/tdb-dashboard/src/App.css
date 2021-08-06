@@ -178,7 +178,9 @@ div.progress-bar-position {
   color: #E3EBF6 !important;
 }
 
-
+.btn-light {
+  color: #000 !important;
+}
 
 /* ---------- sub nav css ----------- */
 

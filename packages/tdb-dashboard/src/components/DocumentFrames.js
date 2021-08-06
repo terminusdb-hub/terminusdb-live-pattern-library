@@ -28,14 +28,14 @@ export const DocumentFrames = () => {
         setUpdate(Date.now())
     } 
 
-
+ 
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100 mb-5">
             <Col md={11}>  
                 <Card>
                     {documentObject.loading && documentObject.loading}
                     <Card.Header className="d-flex w-100">
-                        <span className="col-md-9 d-flex">
+                        <span className="w-100 float-left d-flex">
                             {documentObject.action == CREATE_DOCUMENT && <h5>
                                 Create a new 
                                 <strong className="text-success ml-1">{documentObject.type}</strong>

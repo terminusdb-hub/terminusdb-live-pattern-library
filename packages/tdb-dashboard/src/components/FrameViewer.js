@@ -87,8 +87,7 @@ export const FrameViewer = () => {
         setValidated(true)
     }
 
-    return <React.Fragment>
-        
+    return <React.Fragment> 
         {documentObject.message && documentObject.message}
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {documentObject.loading && documentObject.loading}

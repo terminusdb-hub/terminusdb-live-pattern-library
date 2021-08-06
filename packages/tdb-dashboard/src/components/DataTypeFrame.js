@@ -28,7 +28,7 @@ export const DataTypeFrame = ({documentObject, property, propertyID, type, onCha
             onBlur={(e) => onChange(e, propertyID)}
         />}
 
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame["@id"]) && <React.Fragment>
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame["@id"]) && (property=="@id") && <React.Fragment>
             <Form.Label as={Col}>{"id"}</Form.Label>
             <Form.Control
                 required

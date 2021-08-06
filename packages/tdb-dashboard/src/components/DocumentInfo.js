@@ -26,9 +26,11 @@ export const DocumentInfo = () => {
     
     const FormField = ({id, val}) => {
         return <Form.Group as={Col} md="12" controlId={id} className="ml-5" style={{marginLeft: "100px !important"}}>
-            <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
+            {(id != "@id") && <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
                 {id}
-            </Form.Label>
+            </Form.Label>}
+            {(id == "@id") && <span className="mr-5 badge rounded-pill bg-secondary">{id}</span>}
+                        
             <Form.Label>
                 {val}
             </Form.Label>
@@ -51,7 +53,7 @@ export const DocumentInfo = () => {
                     <FormField id={key} val={docInfo[key]}/>
                 )
             }
-            else { // is Json true would mean this can be
+            else { // is Json true would mean this can be subdoc
                 let subDoc = docInfo[key] 
                 contents.push(<Form.Group as={Col} md="12" controlId={key} className="ml-5">
                     <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
@@ -140,18 +142,21 @@ export const DocumentInfo = () => {
                 <Card className="d-flex w-100">
                     {documentObject.loading && documentObject.loading}
                     <Card.Header className="d-flex w-100">
-                        <h5 className="col-md-9"><strong className="text-success">{documentObject.currentDocument}</strong></h5>
-                               
-                        <Button className="btn btn-sm btn-light mr-2" onClick={handleEdit} title={`Edit ${documentObject.currentDocumen}`}>
-                            <BiEdit className="mr-1"/> Edit
-                        </Button>
+                        <span className="float-left">
+                            <h5><strong className="text-success">{documentObject.currentDocument}</strong></h5>
+                        </span>    
+                        <span className="w-100 float-right">  
+                            <Button className="float-right btn btn-sm btn-light mr-2 text-dark" onClick={handleEdit} title={`Edit ${documentObject.currentDocumen}`}>
+                                <BiEdit className="mr-1"/> Edit
+                            </Button>
 
-                        <Button className="btn btn-sm btn-danger" title={`Delete ${documentObject.currentDocument}`} onClick={onDelete}>
-                            <AiOutlineDelete className="mr-1"/> Delete
-                        </Button>
+                            <Button className="float-right btn btn-sm btn-danger mr-2" title={`Delete ${documentObject.currentDocument}`} onClick={onDelete}>
+                                <AiOutlineDelete className="mr-1"/> Delete
+                            </Button>
 
-                        <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
-                        
+                            <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
+                            
+                        </span>
                     
                     </Card.Header>
                     <Card.Body>
