@@ -4,7 +4,7 @@ import {Form, Row, Card, Col, Button} from "react-bootstrap"
 import {AiOutlineDelete} from "react-icons/ai"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, EDITOR_READ_OPTIONS, JSON_VIEW, EDIT_DOCUMENT, GET_FRAMES_DOCUMENT, VIEW_DOCUMENT, FORM_VIEW} from "./constants"
-import {DocumentControl, deleteDocument} from "../hooks/DocumentControl"
+import {deleteDocument} from "../hooks/DocumentControl"
 import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl" 
 import {UnControlled as CodeMirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
@@ -24,14 +24,6 @@ export const DocumentInfo = () => {
         woqlClient
     } = WOQLClientObj()
     
-    const {
-        loading,
-        reportAlert,
-        setLoading, 
-        setReportAlert
-    } = DocumentControl()
-
-
     const FormField = ({id, val}) => {
         return <Form.Group as={Col} md="12" controlId={id} className="ml-5" style={{marginLeft: "100px !important"}}>
             <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
@@ -124,7 +116,7 @@ export const DocumentInfo = () => {
     }
 
     function onDelete () {
-        deleteDocument(woqlClient, setDocumentObject, documentObject, setLoading, setReportAlert)
+        deleteDocument(woqlClient, setDocumentObject, documentObject)
     }
 
     function handleEdit () { 
@@ -142,11 +134,11 @@ export const DocumentInfo = () => {
 
 
     return <main className="content mr-3 ml-5 w-100">
-        <Row className="w-100">
-            <Col md={9}> 
-                {loading && <Loading message={`Loading ${documentObject.currentDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-                {reportAlert && reportAlert}
+        <Row className="w-100">  
+            <Col md={11}> 
+                {documentObject.message && documentObject.message}
                 <Card className="d-flex w-100">
+                    {documentObject.loading && documentObject.loading}
                     <Card.Header className="d-flex w-100">
                         <h5 className="col-md-9"><strong className="text-success">{documentObject.currentDocument}</strong></h5>
                                
@@ -154,11 +146,13 @@ export const DocumentInfo = () => {
                             <BiEdit className="mr-1"/> Edit
                         </Button>
 
-                        <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
-                        
                         <Button className="btn btn-sm btn-danger" title={`Delete ${documentObject.currentDocument}`} onClick={onDelete}>
                             <AiOutlineDelete className="mr-1"/> Delete
                         </Button>
+
+                        <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
+                        
+                    
                     </Card.Header>
                     <Card.Body>
                         <Form>
@@ -166,8 +160,6 @@ export const DocumentInfo = () => {
                         </Form>
                     </Card.Body>
                 </Card>
-            </Col>
-            <Col md={3}>
             </Col>
         </Row>
     </main>

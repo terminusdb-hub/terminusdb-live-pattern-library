@@ -48,13 +48,14 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 			const commitM=commitMessage || "Update from model builder"
 			try{
 				if(updateObject.deleteList.length>0){
-					await woqlClient.deleteDocument({id:updateObject.deleteList},params)
+					params['id']=updateObject.deleteList
+					await woqlClient.deleteDocument(params)
 				}
 				if(updateObject.updateList.length>0){
 					await woqlClient.updateDocument(updateObject.updateList,params)
 				}
 				if(updateObject.newElementList.length>0){
-					await woqlClient.addDocument(updateObject.updateList,params)
+					await woqlClient.addDocument(updateObject.newElementList,params)
 				}							
 				let msg = `Successfully updated schema graph`
 				setReport({

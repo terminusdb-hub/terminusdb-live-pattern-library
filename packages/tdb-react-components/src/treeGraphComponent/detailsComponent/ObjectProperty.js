@@ -8,22 +8,23 @@ export const ObjectProperty =(props)=>{
 
 	let currentNodeJson=props.currentNodeJson || {}
 
-	let extraInfoValue = props.extraInfoValue || {}
+	let nodeSchemaData = props.nodeSchemaData || {}
 	const id=props.id;
 	const dataProvider=props.comboDataProvider || [];
 	const errorMessage="Please select an element"
 
 	const getSelectedValue=()=>{
-		if(extraInfoValue.range){
-			const rangeValue = dataProvider.find(element => element.name === extraInfoValue.range);
-			if(rangeValue)return {label:rangeValue.label,name:rangeValue.name,value:rangeValue.value}
+		if(nodeSchemaData.range){
+			//the label is the schema class id (if the class is not saved the id can change)
+			const rangeValue = dataProvider.find(element => element.label === nodeSchemaData.range);
+			if(rangeValue)return {label:rangeValue.label,name:rangeValue.name,value:rangeValue.value,type:rangeValue.type}
 		}
 		return null;
 	}
 	const defaultValue=getSelectedValue();
 
 	const onChangeValue=(propName,propValue)=>{
-		mainGraphObj.setPropertyInfo(currentNodeJson.id,propName,propValue)
+		mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)
 	}
 
 	/*

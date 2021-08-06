@@ -1,15 +1,16 @@
 import React from "react"
 import {Card, Button, Col} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
-import { handleCreate } from "./documents.utils"
+import {handleCreate} from "./documents.utils"
 
 export const NoDocumentsAvailable = ({type, setDocumentObject}) => {
-    return <Col xs={9} className="d-block">
-         <div className="card card-fil m-3">
-            <div className="card-body w-100 text-center">
+
+    return <Col xs={11} className="d-block ml-5 mr-3">
+         <div class="card card-fil m-3">
+            <div class="card-body w-100 text-center">
                 <h4 className="text-muted mt-3 mb-3">{`No documents created for type  ${type}`}</h4>
-                <Button className="btn btn-lg m-5" variant="info" onClick={(e) => handleCreate(type, setDocumentObject)}>
-                    <BiPlus className="mr-1"/>{`Create new ${type}`}
+                <Button className="btn btn-lg m-5" title={`Create new ${type}`} variant="info" onClick={(e) => handleCreate(type, setDocumentObject)}>
+                    <BiPlus className="mr-1"/>{`New ${type}`}
                 </Button>
             </div>
         </div>

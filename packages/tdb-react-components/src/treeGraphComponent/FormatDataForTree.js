@@ -5,16 +5,17 @@ import {removeElementToArr,getNewNodeTemplate,getNewPropertyTemplate} from './ut
 export const formatData =(dataProvider,dbName)=>{
 	let _rootIndexObj=getRootIndexObj(dbName);	
 	_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.CHOICE_CLASSES]);
-	_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.OBJECT_CLASSES]);	
+	//_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.OBJECT_CLASSES]);	
 	_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.DOCUMENT_CLASSES]);
+    if(Array.isArray(dataProvider)){
+		dataProvider.forEach((element)=>{
+			const classId=element['@id'];
+			_rootIndexObj[classId]=getNewNodeTemplate(classId,getType(element))
+			_rootIndexObj[classId]['schema']= element
+		})
 
-	dataProvider.forEach((element)=>{
-		const classId=element['@id'];
-		_rootIndexObj[classId]=getNewNodeTemplate(classId,getType(element))
-		_rootIndexObj[classId]['schema']= element
-	})
-
-	readSchema(_rootIndexObj,dataProvider)
+		readSchema(_rootIndexObj,dataProvider)
+	}
 	//addElements(_rootIndexObj,dataProvider)
 
 	return {rootIndexObj:_rootIndexObj};
@@ -109,10 +110,10 @@ export const getPropertyType = (itemName, itemValue,linkPropList,enumPropList) =
     if(typeof itemValue === 'string')property = itemValue
     else property = itemValue['@class']
     
-    const getProp = (element) => element === property;
+    const getProp = (element) => element.name === property;
     //type rpoperty like string,num etc...
     if(property.indexOf(":")===3){
-      return {value:property,type:PROPERTY_TYPE_BY_CLASS[itemValue]}
+      return {value:property,type:PROPERTY_TYPE_BY_CLASS[property]}
     }else if(linkPropList.findIndex(getProp)){
       return {value:property,type:PROPERTY_TYPE_NAME.OBJECT_PROPERTY}
     }else if(enumPropList.findIndex(getProp)){ 
@@ -126,24 +127,26 @@ export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
 	const propertiesOfClass={}
 	//{classLink:[classId]}
 	const linkPropertyClass={}
+	if(Array.isArray(dataProvider)){
+		dataProvider.forEach((element)=>{
+			const classId = element['@id']
+			propertiesOfClass[classId]=[]
+			Object.keys(element).forEach(key=>{
+				if(key.indexOf("@") === -1){
+					//it is a property
+					const property = element[key]
+					const {value, type} = getPropertyType(key,property,linkPropList,enumPropList)
+					if(type === PROPERTY_TYPE_NAME.OBJECT_PROPERTY || type ===PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
+						//value or range is the class linked
+						if(!linkPropertyClass[value])linkPropertyClass[value]=[]
+						linkPropertyClass[value].push({nodeName:classId,propName:key})
+					}
+					propertiesOfClass[classId].push(getNewPropertyTemplate(type,key))//value,property))
 
-	dataProvider.forEach((element)=>{
-		const classId = element['@id']
-		propertiesOfClass[classId]=[]
-		Object.keys(element).forEach(key=>{
-			if(key.indexOf("@") === -1){
-				//it is a property
-				const property = element[key]
-				const {value, type} = getPropertyType(key,property,linkPropList,enumPropList)
-				if(type === PROPERTY_TYPE_NAME.OBJECT_PROPERTY && type ===PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
-					//value or range is the class linked 
-					linkPropertyClass[value].push({nodeName:classId,propName:key})
 				}
-				propertiesOfClass[classId].push(getNewPropertyTemplate(type,key))//value,property))
-
-			}
+			})
 		})
-	})
+	}
 
 	return [propertiesOfClass,linkPropertyClass]
 }
@@ -291,29 +294,41 @@ const removeRelatedChildren=(childrenList,classList)=>{
 
 //{classRangeName:[{nodeName:classId,propName:key}]
 /**
- * 
- * @param {obejct} propertyLinkDict 
- * @param {string} nodeName - the selected node element (the current class)
- * @param {string} propName - the selected property
+ * Add, Remove or update the property link relationship object
+ * @param {object} propertyObject
+ * @param {object} propertyLinkDict 
+ * @param {string} nodeName - the selected node element's name (the current class)
  * @param {string} newLink  - the link property range 
  * @param {string} previewLink - the old link property range 
  */
-export const addObjectPropertyRangeItem=(propertyLinkDict,nodeName,propName,newLink,previewLink=undefined)=>{
+export const checkLinkProperty=(propertyObject,propertyLinkDict,nodeName,newLink=undefined,previewLink=undefined)=>{
+	//no a link property
+	if(propertyObject.type !== PROPERTY_TYPE_NAME.OBJECT_PROPERTY &&
+		propertyObject.type !==PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
+			return false
+	}
+	const propName=propertyObject.name
+	 
 	/*
 	* remove the relation
 	*/
 	if(previewLink){
 		const arrList=propertyLinkDict[previewLink];
 		if(arrList){ 
-			if(arrList.length===1)propertyLinkDict[previewLink]=[];
-			const index=arrList.findIndex((item)=>{return item.propName===propName && item.nodeName === nodeName })
-			arrList.splice(index,1)
+			if(arrList.length===1){
+				delete propertyLinkDict[previewLink]
+			}else{
+				const index=arrList.findIndex((item)=>{return item.propName===propName && item.nodeName === nodeName })
+				arrList.splice(index,1)
+			}
 		}
-		//const index= arrList.find(propertyElement.name);
 	}
-	if(!propertyLinkDict[newLink]){
-		propertyLinkDict[newLink]=[]
+
+	if(newLink){
+		if(!propertyLinkDict[newLink]){
+			propertyLinkDict[newLink]=[]
+		}
+		propertyLinkDict[newLink].push({proName:propName,nodeName:nodeName})
 	}
-	propertyLinkDict[newLink].push({proName:propName,nodeName:nodeName})
 											
 }

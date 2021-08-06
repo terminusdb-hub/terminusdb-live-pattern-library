@@ -7,7 +7,7 @@ import {timeConverter} from "../pages/utils"
 
 
 const BranchItem = (props) => {
-    const { name, head, timestamp, branch, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
+    const { name, head, timestamp, branch, branches, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
     const id=name
     function handleOnClick (id) {
         if(handleBranchClick) handleBranchClick(id)
@@ -30,9 +30,9 @@ const BranchItem = (props) => {
           <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
             <h6><span className="text-muted"> {`Head Commit `} </span>{head}</h6>
           </Col>
-          <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
+          {<Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
             <h6><span className="text-muted"> {`Updated on `} </span>{timeConverter(timestamp)}</h6>
-          </Col>
+          </Col>}
           <Col className="col-auto">
             {(id ==  "main") && <RiDeleteBin7Line className="mr-2 mb-1 react-icons danger disabled"/>}
             {(id !==  "main") && <span  title={`delete branch ${id}`} >
@@ -69,8 +69,8 @@ export const DisplayBranchList = ({branchCount, branchList, branch, setShowDefau
        </Row>
 
        <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-       <Card border="light" className="shadow-sm">
-           <Card.Header className="border-bottom border-light d-flex justify-content-between">
+       <Card className="shadow-sm">
+           <Card.Header className=" d-flex justify-content-between">
                <h6 className="mb-0 mt-1">Collections 
                    {branchCount && <Badge variant="info" className="text-dark ml-3">{branchCount}</Badge>}
                </h6>

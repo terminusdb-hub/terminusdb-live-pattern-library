@@ -1,7 +1,6 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {arrayEquals, getColumnsFromResults} from "./utils"
 import {deleteDocument} from "./DocumentActions"
-import { DocumentControl } from '../hooks/DocumentControl'
 
 export const getCommitViewTabConfig = (result) => {
     const tabConfig= TerminusClient.View.table();

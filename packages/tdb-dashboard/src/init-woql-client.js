@@ -4,10 +4,13 @@ export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext)
 import { DATA_PRODUCTS } from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
-import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, GET_FRAMES_DOCUMENT} from "./components/constants"
+import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, FORM_VIEW, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT, GET_FRAMES_DOCUMENT} from "./components/constants"
 import {executeDocumentAction, resetDocumentObject, updateDocument, addNewDocument} from "./hooks/DocumentControl"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
+import { AiOutlineConsoleSql } from 'react-icons/ai'
+import {Loading} from "./components/Loading"
+
 
 export const WOQLClientProvider = ({children, params}) => {
     
@@ -35,7 +38,7 @@ export const WOQLClientProvider = ({children, params}) => {
     // set left side bar open close state 
     const [sidebarDataProductListState, setSidebarDataProductListState] = useState(true)
     const [sidebarDataProductConnectedState, setSidebarDataProductConnectedState] = useState(false)
-    const [sidebarDocumentListState, setSidebarDocumentListState] = useState(false)
+    const [sidebarDocumentListState, setSidebarDocumentListState] = useState(true)
     const [sidebarSampleQueriesState, setSidebarSampleQueriesState] = useState(false)
 
     //maybe we can change this for the local connection
@@ -46,10 +49,12 @@ export const WOQLClientProvider = ({children, params}) => {
     const [documentObject, setDocumentObject] = useState({
         type: false,
         action: false,
-        view: false,
+        view: FORM_VIEW,
         submit: false,
         currentDocument: false,
-        frames: {}
+        frames: {},
+        message: false,
+        loading: false
     }) 
     //document classes 
     const [documentClasses, setDocumentClasses] = useState(false)
@@ -126,54 +131,38 @@ export const WOQLClientProvider = ({children, params}) => {
     //I know I have to review this file!!!!!!!!
     useEffect(() => {
         if(woqlClient && dataProduct){
+            setBranches(false)
+            setDocumentClasses(false)
+            // on change on data product re set document object
+            resetDocumentObject(setDocumentObject)
+
+
             //there is a bug with using in woql so we have to set commits as branch
-            //const tmpClient = woqlClient.copy()
-            //tmpClient.checkout("_commits")
+            const tmpClient = woqlClient.copy()
+            tmpClient.checkout("_commits")
             /*** I commented this lib call as it dosent work, i use woqlClient.getbranches() instead ***/
-            /*const branchQuery = TerminusClient.WOQL.lib().branches();
+            const branchQuery = TerminusClient.WOQL.lib().branches()
             tmpClient.query(branchQuery).then(result=>{
-                 //console.log("___BRANCHES___",result)
                  const branchesObj={}
                  if(result.bindings.length>0){
                     result.bindings.forEach(item=>{
                         const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
                         const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
-                        const branchItem={id:item.Branch,
-                                            head_id:head_id,
-                                            head:head,
-                                            name:item.Name['@value'],
-                                            timestamp:item.Timestamp['@value']
-                                        }
+                        const branchItem={
+                            id:item.Branch,
+                            head_id:head_id,
+                            head:head,
+                            name:item.Name['@value'],
+                            timestamp:item.Timestamp['@value']
+                        }
                         branchesObj[branchItem.name] = branchItem
                     })
                  }
                  setBranches(branchesObj)
-             }).catch(err=>{
+            }).catch(err=>{
                   console.log("GET BRANCH ERROR",err.message)
-              }) */
+            }) 
 
-              /*woqlClient.getBranches(dataProduct).then((res) => {
-                if(res.length>0){
-                    res.forEach(item=>{
-                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
-                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
-                        const branchItem={id:item.Branch,
-                                            head_id:head_id,
-                                            head:head,
-                                            name:item.Name['@value'],
-                                            timestamp:item.Timestamp['@value']
-                                        }
-                        branchesObj[branchItem.name] = branchItem
-                    })
-                 }
-                 setBranches(branchesObj)
-            })
-            .catch((err) => {
-                console.log("GET BRANCH ERROR",err.message)
-            })*/
-
-            // on change on data product re set document object
-            resetDocumentObject(setDocumentClasses)
             // on change on data product get classes 
             woqlClient.getClassDocuments(dataProduct).then((classRes) => {
                 setDocumentClasses(classRes)
@@ -212,6 +201,8 @@ export const WOQLClientProvider = ({children, params}) => {
             let docObj=documentObject
             docObj.filledFrame = filledFrame
             docObj.update=Date.now()
+            docObj.message= documentObject.message
+            docObj.loading= false
             setDocumentObject(docObj)
         }
     }, [filledFrame])

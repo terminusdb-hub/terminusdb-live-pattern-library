@@ -38,6 +38,7 @@ export const PropertiesComponent = (props)=> {
 				            removeElement:removeElement}
 
 			if(propertyItem.type!==PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
+				//the property description from the json schema
 				baseObj['nodeSchemaData'] = mainGraphObj.getPropertyInfo(propertyItem.id)
 			}
 			switch(propertyItem.type){

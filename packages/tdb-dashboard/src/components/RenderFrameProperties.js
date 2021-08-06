@@ -31,7 +31,6 @@ export const RenderFrameProperties = ({documentObject, documentClasses, handleCh
             else if (frame[item] && isOptionalType(frame[item])) { // if Optional xsd:/ xdd:
                 props.push(<OptionalFrames documentObject={documentObject}  property={item} object={frame[item]} onChange={handleChange} propertyID={propertyID}/>)
             }
-            
         }
         return props 
     }

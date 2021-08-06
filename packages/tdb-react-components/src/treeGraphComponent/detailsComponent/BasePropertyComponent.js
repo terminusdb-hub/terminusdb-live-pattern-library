@@ -22,7 +22,7 @@ export const BasePropertyComponent = (props)=> {
 		const [propId,setPropId] =  useState(currentPropId)
 
 		const changePropertyValue=(propName,propValue)=>{
-			mainGraphObj.setPropertyInfo(currentNodeJson.id,propName,propValue)
+			mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)
 		}
 		
 		const updateBaseValue = (propName,propValue)=>{
@@ -32,7 +32,7 @@ export const BasePropertyComponent = (props)=> {
 				mainGraphObj.setPropertyId(currentNodeJson,propValue,defaultValue)
 				setPropId(propValue)
 			}else if(propName === 'comment'){
-				mainGraphObj.setPropertyInfo(propId,propName,propValue)				
+				mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)				
 			}
 		}
 		
@@ -65,7 +65,7 @@ export const BasePropertyComponent = (props)=> {
 								   </BaseElement>}
 				<div className="tdb__panel__box">	               
 	               	{props.showCardinality &&
-	               	  <PropertyExtraInfo extraInfoValue={nodeSchemaData} propId={currentNodeJson.id}/>
+	               	  <PropertyExtraInfo extraInfoValue={nodeSchemaData} propObj={currentNodeJson}/>
 	               	}         					
 				</div>
 			</Accordion>

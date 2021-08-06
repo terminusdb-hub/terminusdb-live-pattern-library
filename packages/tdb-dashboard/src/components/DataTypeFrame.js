@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react"
 import {Row, Form, Col} from "react-bootstrap"
 import {FaStarOfLife} from "react-icons/fa"
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
+import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
 // data type frame is usualy xsd or xdd datatype and is required to be filled
 export const DataTypeFrame = ({documentObject, property, propertyID, type, onChange}) => {
  
     return <Form.Group as={Col} md="12" controlId={property}>
-        <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
+        <Form.Label className="w-100">
+            <FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}
+            <DocumentationTypeFrame documentObject={documentObject} property={property}/>
+        </Form.Label>
 
         {(documentObject.action == CREATE_DOCUMENT) && <Form.Control
             required

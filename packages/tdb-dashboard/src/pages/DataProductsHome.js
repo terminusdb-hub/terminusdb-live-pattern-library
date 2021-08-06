@@ -17,6 +17,7 @@ import {printtsDate, printtsTime} from "../components/utils"
 import {BiTimer } from "react-icons/bi"
 import {FaNodeJs,FaPython} from "react-icons/fa"
 import {AboutDataProduct} from "../components/AboutDataProduct"
+import {NoDataProductsCreated} from "../components/NoDataProductsCreated"
   
 export const DataProductsHome = (props) => {
     const {woqlClient, dataProduct,setHead, branch, ref, branches, DBInfo} = WOQLClientObj()
@@ -29,6 +30,8 @@ export const DataProductsHome = (props) => {
     
     const [dataProvider, setDataProvider] = useState(false)
 
+    let list = woqlClient.databases()
+
     useEffect (() => {
         if(!woqlClient) return
         const newList = woqlClient.databases()
@@ -40,8 +43,19 @@ export const DataProductsHome = (props) => {
         setCurrentDay(moment())
         //if(setReloadQuery) setReloadQuery(Date.now())
     }, [dataProduct]) 
-    
-    //to be review if we need this in dataProductHome 
+      
+
+    /*const {
+        setNewDataProductInfo,
+        loading,
+        handleNew,
+        setShowNewDataProductModal,
+        showNewDataProductModal,
+        showDeleteDataProductModal,
+        setDeleteDataProductInfo,
+        setShowDeleteDataProductModal} = useCreateNewDataProductStates(woqlClient) */
+
+
     const TimelineElements = () => {
         if(!dataProvider) return <div/>
 
@@ -91,6 +105,7 @@ export const DataProductsHome = (props) => {
                 setShowModal={setShowDeleteModal}  
                 dataProductDetails={dataProductDetails}/>
 
+
             {dataProduct && dataProductDetails && <React.Fragment>
                 <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProductDetails.label} </h2></Row>
                 <Row className="mt-5 w-100 justify-content-md-center">
@@ -132,7 +147,7 @@ export const DataProductsHome = (props) => {
                                     </Col>
                                     <Col md={2}>
                                         <Button variant="light" 
-                                            className="m-3 btn btn-sm float-right text-right" 
+                                            className="m-3 btn btn-sm float-right text-right text-dark" 
                                             onClick={(e) => setDataProductSettings(MANAGE_COLLECTIONS)}>
                                             <BsBriefcase className="me-2"/> {MANAGE_COLLECTIONS}
                                         </Button>
@@ -182,29 +197,31 @@ export const DataProductsHome = (props) => {
         
             }
             
-            {!dataProduct && <NoDataProductSelected>
+            {list.length==0 && !dataProduct && <NoDataProductsCreated/>}
+
+            {list.length>0  && !dataProduct && <NoDataProductSelected>
                 <Row>
                 <Col></Col>
-                <Col>
-                <Card >
-                    <Card.Body className="d-flex align-items-center flex-column">
-                    <Link to="/files/start_js.zip" target="_blank" download>
-                        CONNECT WITH YOUR CLOUD BY NODEJS 
-                    </Link>
-                    <FaNodeJs size="5em" className="mt-2"/>
-                    </Card.Body>
-                </Card>
-                </Col> 
-                <Col >
-                <Card >
-                    <Card.Body className="d-flex align-items-center flex-column">         
-                    <Link to="/files/start_py.zip" target="_blank" download>
-                        CONNECT WITH YOUR CLOUD BY PYTHON 
-                    </Link> 
-                    <FaPython  size="5em" className="mt-2"/>
-                    </Card.Body>
-                </Card>
-                </Col>
+                {/*<Col>
+                    <Card >
+                        <Card.Body className="d-flex align-items-center flex-column">
+                        <Link to="/files/start_js.zip" target="_blank" download>
+                            CONNECT WITH YOUR CLOUD BY NODEJS 
+                        </Link>
+                        <FaNodeJs size="5em" className="mt-2"/>
+                        </Card.Body>
+                    </Card>
+                    </Col> 
+                    <Col >
+                    <Card >
+                        <Card.Body className="d-flex align-items-center flex-column">         
+                        <Link to="/files/start_py.zip" target="_blank" download>
+                            CONNECT WITH YOUR CLOUD BY PYTHON 
+                        </Link> 
+                        <FaPython  size="5em" className="mt-2"/>
+                        </Card.Body>
+                    </Card>
+                </Col>*/}
                 <Col></Col>
                 </Row> 
             </NoDataProductSelected>    

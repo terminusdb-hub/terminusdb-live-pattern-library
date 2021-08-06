@@ -7,7 +7,7 @@ export const handleWidthChange = (sz, setWidth) => {
 }
 
 export const timeConverter = (UNIX_timestamp) => {
-    var a = new Date(UNIX_timestamp * 1000)
+    var a = new Date(UNIX_timestamp)
     var months = [
         'Jan',
         'Feb',

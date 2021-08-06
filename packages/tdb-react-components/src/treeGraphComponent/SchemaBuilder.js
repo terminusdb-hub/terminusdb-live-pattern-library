@@ -12,6 +12,8 @@ import {InfoBoxComponent} from './detailsComponent/InfoBoxComponent'
 import {ObjectClassModelViewMode} from './detailsComponent/viewMode/ObjectClassModelViewMode'
 import {InfoObjectComponent} from './detailsComponent/InfoObjectComponent'
 
+
+//this is the old schema builder layout
 export const SchemaBuilder = (props)=>{
 
 	const {graphDataProvider,

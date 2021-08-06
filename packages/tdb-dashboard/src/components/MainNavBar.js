@@ -21,7 +21,7 @@ export const MainNavBar = (props) => {
 
     return <Navbar className="navbar-dark bg-dark p-0">           
             <div className="d-flex flex-grow-1 justify-content-end align-items-center">         
-            <NewDataProduct/>
+            <NewDataProduct css={"btn-sm"}/>
             {user && <Dropdown  as={ButtonGroup} className="me-2 mb-2">
                 <Button size="sm" className="bg-transparent border-0">
                     <img src={user.picture}

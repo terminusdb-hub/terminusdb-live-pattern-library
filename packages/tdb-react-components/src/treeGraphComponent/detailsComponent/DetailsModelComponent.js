@@ -14,6 +14,7 @@ import {ELEMENT_ICONS} from '../../constants/details-labels';
 import {ChoiceList} from './ChoiceList';
 import {getLabelByName} from '../utils/elementsName'
 import {GraphContextObj} from '../hook/graphObjectContext'
+import {JsonMode} from './JsonMode'
 
 export const DetailsModelComponent = (props)=>{
 	const {mainGraphObj,updateGraphNode} = GraphContextObj()
@@ -94,9 +95,7 @@ export const DetailsModelComponent = (props)=>{
 				})
 		tabsArr.push({title:'Json',
 		getContent: () =><Fragment>
-							<div ><pre>
-							{JSON.stringify(nodeData.schema,null,2)}	
-							</pre></div>						
+							<JsonMode nodeData={nodeData}/>						
 						</Fragment>
 					,
 
@@ -117,28 +116,16 @@ export const DetailsModelComponent = (props)=>{
 	}
 	const label=nodeData.label || nodeData.id
 
-	if(props.custom) {
-		return <div class="col-12 bg-dark h-100 pt-4">		
-					<div>
-						<div className="d-flex mb-3">
-							<BiNetworkChart className="schema-summary-icons"/>
-							<h5 className="ml-3" title={label}>{label}</h5>
-						</div>
-						<Tabs panelClassName="bg-dark" tabsWrapperClass="bg-dark" tabClassName="bg-dark" items={getTabs()} transform={false} onChange={setTabKey} selectedTabKey={tabKey}/>
+	
+	return <div className="col-12 bg-dark h-100 pt-4">		
+				<div>
+					<div className="d-flex mb-3">
+						<BiNetworkChart className="schema-summary-icons"/>
+						<h5 className="ml-3" title={label}>{label}</h5>
 					</div>
+					<Tabs panelClassName="bg-dark" tabsWrapperClass="bg-dark" tabClassName="bg-dark" items={getTabs()} transform={false} onChange={setTabKey} selectedTabKey={tabKey}/>
 				</div>
-			
-	}
-
-	return(
-		<div className="tdb__sidebar" >
-			<div className="tdb__panel__title">
-	  	 		<i className={`tdb__panel__title__icon ${imageType}`}></i>
-	  	 		<p className="tdb__panel__label" title={label}> {label}</p>
-	  	 	</div>
-			<Tabs items={getTabs()} transform={false} onChange={setTabKey} selectedTabKey={tabKey}/>
-		</div>
-	)
+			</div>
 }
 
 DetailsModelComponent.propTypes = {

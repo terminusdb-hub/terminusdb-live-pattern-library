@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {Row, Form, Col} from "react-bootstrap"
-import {getDocumentFrame} from "../hooks/DocumentControl"
+import {getSubDocumentFrame} from "../hooks/DocumentControl"
 import {SubDocumentFrameViewer} from "./SubDocumentFrameViewer"
 
 export const SubDocumentTypeFrame = ({property, type, setFormFields, formFields}) => {
@@ -14,7 +14,7 @@ export const SubDocumentTypeFrame = ({property, type, setFormFields, formFields}
     
     useEffect(() => { // get all instances of type to display in select
         if (!type) return
-        getDocumentFrame (woqlClient, type["@class"]["@class"], setDocumentFrame)
+        getSubDocumentFrame (woqlClient, type["@class"]["@class"], setDocumentFrame)
     }, [type])
 
     return <Form.Group as={Col} md="12" controlId={property}>
