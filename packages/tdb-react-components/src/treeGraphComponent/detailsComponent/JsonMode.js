@@ -37,6 +37,7 @@ export const JsonMode = (props)=>{
 
     const saveChange = ()=>{
         nodeData.schema=JSON.parse(value)
+        nodeData.needToSave=true;
         setEditMode(false)
         updateGraphNode()
     }

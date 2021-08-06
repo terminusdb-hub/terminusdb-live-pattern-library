@@ -93,7 +93,7 @@ export const DetailsModelComponent = (props)=>{
 				    	tabClassName: 'tab',
 				    	panelClassName: 'tdb__panel'
 				})
-		tabsArr.push({title:'Json',
+		tabsArr.push({title:'JSON',
 		getContent: () =><Fragment>
 							<JsonMode nodeData={nodeData}/>						
 						</Fragment>
