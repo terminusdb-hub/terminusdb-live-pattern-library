@@ -234,17 +234,7 @@ div.progress-bar-position {
   background: transparent !important;
 }
 
-div.tdb__accordion {
-  background-color: transparent !important;
-}
-
-div.tdb__accordion__head{
-  background-color: #adb5bd;
-  border-radius: 4px;
-  margin-top: 5px;
-}
-
-.accordion__button {
+/*.accordion__button {
   background-color: transparent !important; 
   color: #cae4fd !important; 
   padding: 12px !important;
@@ -256,7 +246,7 @@ div.tdb__accordion__head{
   background-color: #414141 !important; 
   color: #cae4fd !important; 
 
-}
+}*/
 
 /* ---------- overriding react components schema builder css ---------- */
 

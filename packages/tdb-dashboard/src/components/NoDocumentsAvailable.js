@@ -5,8 +5,8 @@ import { handleCreate } from "./documents.utils"
 
 export const NoDocumentsAvailable = ({type, setDocumentObject}) => {
     return <Col xs={9} className="d-block">
-         <div class="card card-fil m-3">
-            <div class="card-body w-100 text-center">
+         <div className="card card-fil m-3">
+            <div className="card-body w-100 text-center">
                 <h4 className="text-muted mt-3 mb-3">{`No documents created for type  ${type}`}</h4>
                 <Button className="btn btn-lg m-5" variant="info" onClick={(e) => handleCreate(type, setDocumentObject)}>
                     <BiPlus className="mr-1"/>{`Create new ${type}`}

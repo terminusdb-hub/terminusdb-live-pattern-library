@@ -46,7 +46,7 @@ export const DocumentClasses = () => {
         return <Form className="mr-3">
             <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Control as="select" 
-                    class="form-control" id="formControlSelect"
+                    className="form-control" id="formControlSelect"
                     defaultValue={SEARCH_DOCUMENTS_PLACEHOLDER} 
                     onChange={handleOnChnage}>
                     <DocumentOptions dataProvider={dataProvider}/>

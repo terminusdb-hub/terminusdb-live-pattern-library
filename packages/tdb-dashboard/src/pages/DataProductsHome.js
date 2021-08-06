@@ -52,26 +52,26 @@ export const DataProductsHome = (props) => {
             if(selectedCounter>=5) return
             timeElements.push(<React.Fragment>
 
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-auto">
-                            <div class="avatar avatar-sm avatar-online">
+                <div className="list-group-item">
+                    <div className="row">
+                        <div className="col-auto">
+                            <div className="avatar avatar-sm avatar-online">
                                 <BiTimer className="activity-icon text-muted"/>
                             </div>
 
                         </div>
-                        <div class="col ms-n2">
-                            <h5 class="mb-1 d-flex">
+                        <div className="col ms-n2">
+                            <h5 className="mb-1 d-flex">
                                 {item.author}
                             </h5>
 
                             <h6 className="float-right">{printtsDate(item.time)} </h6>
 
-                            <p class="small text-muted mb-0">
+                            <p className="small text-muted mb-0">
                                 {item.message}
                             </p>
 
-                            <small class="text-muted">
+                            <small className="text-muted">
                                 {printtsTime(item.time)}
                             </small>
                         </div>
@@ -100,17 +100,17 @@ export const DataProductsHome = (props) => {
                         
                         <DataProductSummary/>
 
-                        {dataProvider.length>0 && <div class="card card-fil m-3">
-                            <div class="card-header d-flex">
-                                <h4 class="card-header-title">
+                        {dataProvider.length>0 && <div className="card card-fil m-3">
+                            <div className="card-header d-flex">
+                                <h4 className="card-header-title">
                                 Recent Activities
                                 </h4>
                                 <Button className="btn btn-sm btn-light float-right" style={{marginLeft: "auto"}}> View More </Button>
 
                             </div>
-                            <div class="card-body">
+                            <div className="card-body">
 
-                                <div class="list-group list-group-flush list-group-activity my-n3">
+                                <div className="list-group list-group-flush list-group-activity my-n3">
                                     {/*<TimelineElements/>*/}
                                 </div>
                             </div>
@@ -118,14 +118,14 @@ export const DataProductsHome = (props) => {
                            
                         </div>}
 
-                        <div class="m-3 card card-fil mb-5">
-                            <div class="card-header d-flex">
+                        <div className="m-3 card card-fil mb-5">
+                            <div className="card-header d-flex">
                             <h4 className="card-header-title text-muted">
                                 Manage Collections
                                 </h4>
                             </div>
                            
-                            <div class="card-body w-100">
+                            <div className="card-body w-100">
                                 <Row className="w-100 d-flex">
                                     <Col md={10}>
                                         <p className="mt-2 text-muted"> Each Data Product can have one or more collections, with the default collection called main. Collections saves each version of Data Product as a snapshot of the data exactly as it was at the moment you committed it.</p>
@@ -150,13 +150,13 @@ export const DataProductsHome = (props) => {
 
                         
 
-                        <div class="card card-fil m-3">
-                            <div class="card-header d-flex">
-                                <h4 class="card-header-title text-muted">
+                        <div className="card card-fil m-3">
+                            <div className="card-header d-flex">
+                                <h4 className="card-header-title text-muted">
                                 Danger Zone
                                 </h4>
                             </div>
-                            <div class="card-body w-100 d-flex">
+                            <div className="card-body w-100 d-flex">
                                 <Col md={10}>
                                     <p className="mt-2 text-muted"> Delete this Data Product, there is no going back. Please be certain. </p>
                                 </Col>

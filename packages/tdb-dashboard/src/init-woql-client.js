@@ -72,6 +72,7 @@ export const WOQLClientProvider = ({children, params}) => {
         const initWoqlClientRemote = async()=>{
             //create the connection url by organization name
             const orgName = user['http://terminusdb.com/schema/system#team']
+            const email = user['http://terminusdb.com/schema/system#email']
             const orgRemoteUrl=`${opts.server}${orgName}`
             const hubClient = new TerminusClient.WOQLClient(orgRemoteUrl)
         
@@ -80,6 +81,7 @@ export const WOQLClientProvider = ({children, params}) => {
             let hubcreds = {type: "jwt", key: jwtoken}         
             hubClient.localAuth(hubcreds)
             hubClient.organization(orgName) 
+            hubClient.author(email) 
             try{
                 await hubClient.connect()
                 setWoqlClient(hubClient)
