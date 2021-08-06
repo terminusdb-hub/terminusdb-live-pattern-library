@@ -90,7 +90,7 @@ export const DataProductDocuments = () => {
 
     return <SubMenu title={"Document Types"} className="menu-title">
        <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
-       {documentClasses && documentClasses.map(item => {
+       {Array.isArray(documentClasses) && documentClasses.map(item => {
             if(!searchDocument) {
                 return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
             }

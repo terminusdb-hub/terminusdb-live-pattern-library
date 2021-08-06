@@ -27,7 +27,7 @@ export const BaseSelectComponent = (props) => {
 			// const selected=defaultValue === value ? {'selected':true} : {} ;
 			 const disabled=getDisabledOptions(allowedValue,value);
 			// const 
-       		 return( <option {...disabled} value={value} key={value +'__' + comboId + '__'+index}>{label}</option>)
+       		 return( <option className={props.selectClassName} {...disabled} value={value} key={value +'__' + comboId + '__'+index}>{label}</option>)
       	})
 	}
 
@@ -78,8 +78,8 @@ BaseSelectComponent.propTypes = {
 
 BaseSelectComponent.defaultProps = {
    defaultValue :'',
-   groupClassName:'tdb__form__group',
-   selectClassName:'tdb__form__element',
+   groupClassName:"form-group",//'tdb__form__group',
+   selectClassName:"form-control",//'tdb__form__element',
    labelClassName:'tdb__form__label',
    title:'',
    showLabel:true,

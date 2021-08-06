@@ -18,8 +18,10 @@ export const Layout = (props) => {
                 <div className="h-100 main-content">
                     <MainNavBar/>
                     {props.children} 
-                    {dataProduct && <TimeTravelWidget/>  }                                    
+                                                        
                 </div>
             </SplitPane>
         </Container>
 }
+
+//{dataProduct && <TimeTravelWidget/>  }

@@ -45,7 +45,8 @@ export const BaseElement = (props)=>{
                 removeElement={props.removeElement}/>
        	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
                     <Fragment>
-                        <BaseCheckboxElement title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
+                        <BaseCheckboxElement labelClassName={"mb-0"}
+                                title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
                     </Fragment>
                 }
                 <BaseInputElement

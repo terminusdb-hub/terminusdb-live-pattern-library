@@ -4,6 +4,7 @@ import {BiPlus} from "react-icons/bi"
 import {handleCreate} from "./documents.utils"
 
 export const NoDocumentsAvailable = ({type, setDocumentObject}) => {
+
     return <Col xs={11} className="d-block ml-5 mr-3">
          <div class="card card-fil m-3">
             <div class="card-body w-100 text-center">

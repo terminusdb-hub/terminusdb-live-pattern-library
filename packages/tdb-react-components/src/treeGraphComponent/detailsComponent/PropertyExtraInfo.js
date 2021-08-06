@@ -13,10 +13,10 @@ export const PropertyExtraInfo =(props)=>  {
 
     const optionChange=(propName, propValue)=>{
         setOption(propValue)
-        mainGraphObj.setPropertyInfo(props.propId,propName,propValue)
+        mainGraphObj.setPropertyInfo(props.propObj,propName,propValue)
     }
     const changePropertyValue=(propName, propValue)=>{
-        mainGraphObj.setPropertyInfo(props.propId,propName,propValue)
+        mainGraphObj.setPropertyInfo(props.propObj,propName,propValue)
     }
 
     const cardCheckValue=(propName,propValue)=>{

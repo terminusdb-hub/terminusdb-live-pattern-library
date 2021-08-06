@@ -36,15 +36,15 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName}) => 
 	*/
 	useEffect(() => {
 
-		if(mainGraphDataProvider && mainGraphDataProvider.length>0){
-			const mainGraphObject= new MainGraphObject(mainGraphDataProvider,dbName);
-			setMainGraphObj(mainGraphObject)
-			setGraphDataProvider(mainGraphObject.getDescendantsNode())
-			setObjectPropertyList(mainGraphObject.getObjectProperties())
-			setObjectChoicesList(mainGraphObject.getObjectChoices())
-			setObjectPropertyToRange(mainGraphObject.objectPropertyToRange())
-			resetSelection()
-		}
+		//if(mainGraphDataProvider && mainGraphDataProvider.length>0){
+		const mainGraphObject= new MainGraphObject(mainGraphDataProvider,dbName);
+		setMainGraphObj(mainGraphObject)
+		setGraphDataProvider(mainGraphObject.getDescendantsNode())
+		setObjectPropertyList(mainGraphObject.getObjectProperties())
+		setObjectChoicesList(mainGraphObject.getObjectChoices())
+		setObjectPropertyToRange(mainGraphObject.objectPropertyToRange())
+		resetSelection()
+		//}
 
 	}, [mainGraphDataProvider,resetGraph])
 
