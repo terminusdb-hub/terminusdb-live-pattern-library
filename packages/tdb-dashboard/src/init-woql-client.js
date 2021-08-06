@@ -62,11 +62,23 @@ export const WOQLClientProvider = ({children, params}) => {
     // get document count 
     // set constants for query to get count of document class instances 
     const [query, setQuery] = useState(false)
-    var [perDocumentCount]=executeQueryHook(woqlClient, query)
+    var [perDocumentCountProvider]=executeQueryHook(woqlClient, query)
+
+
+    const [perDocumentCount, setPerDocument]=useState(false)
+    const [totalDocumentCount, setTotalDocumentCount]=useState(false)
 
     // get total count of all documents 
     const [totalDocumentsQuery, setTotalDocumentsQuery]=useState(false)
-    var [totalDocumentCount]=executeQueryHook(woqlClient, totalDocumentsQuery)
+    var [totalDocumentCountProvider]=executeQueryHook(woqlClient, totalDocumentsQuery)
+
+    useEffect(() => {
+        setPerDocument(setPerDocument)
+    },[perDocumentCountProvider])
+
+    useEffect(() => {
+        setTotalDocumentCount(setPerDocument)
+    },[totalDocumentCountProvider])
 
 
     useEffect(() => {
@@ -133,6 +145,8 @@ export const WOQLClientProvider = ({children, params}) => {
         if(woqlClient && dataProduct){
             setBranches(false)
             setDocumentClasses(false)
+            setTotalDocumentsQuery(false)
+            setQuery(false)
             // on change on data product re set document object
             resetDocumentObject(setDocumentObject)
 
@@ -165,6 +179,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
             // on change on data product get classes 
             woqlClient.getClassDocuments(dataProduct).then((classRes) => {
+                console.log("classRes", classRes)
                 setDocumentClasses(classRes)
                 // get number document classes 
                 let q=getCountOfDocumentClass(classRes)

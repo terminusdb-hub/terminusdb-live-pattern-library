@@ -126,7 +126,7 @@ export const DocumentExplorerDocuments = () => {
             message: false,
             loading: false
         })
-    }
+    } 
 
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
@@ -163,7 +163,9 @@ export const DocumentExplorerDocuments = () => {
         
         <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
 
-        {documentClasses && documentClasses.map(item => {
+        {documentClasses.length==0 && <div/>}
+
+        {documentClasses.length>0 && documentClasses.map(item => {
             if (item["@type"] == "Class") {
                 if(!searchDocument) {
                     return <DocumentMenu item={item}/>

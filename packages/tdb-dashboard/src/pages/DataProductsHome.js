@@ -112,7 +112,6 @@ export const DataProductsHome = (props) => {
                     
                     <Col xs={9} className="d-block">
                         
-                        
                         <DataProductSummary/>
 
                         {dataProvider.length>0 && <div className="card card-fil m-3">

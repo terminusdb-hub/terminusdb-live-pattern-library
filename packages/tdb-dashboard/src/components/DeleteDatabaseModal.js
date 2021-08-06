@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Modal, Button, Form} from "react-bootstrap" 
 import {deleteDataProductForm} from "./constants"
 import {AiOutlineDelete} from "react-icons/ai"
@@ -9,6 +9,7 @@ import {WOQLClientObj} from "../init-woql-client"
 export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}) => {
     const [id, setID]=useState(false)
     const [loading, setLoading] = useState(false)
+    const [disabled, setDisabled]=useState(true)
     const {
         woqlClient, 
         reconnectToServer
@@ -29,9 +30,11 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
         })
     }
     
-    function handleOnBlur (e) {
-        if(e.target.id == dataProductDetails.name)
+    function handleOnChange (e) {
+        if(e.target.value == dataProductDetails.name){
             setID(e.target.value)
+            setDisabled(false)
+        }
     }
  
     function handleClose (e) {
@@ -58,12 +61,20 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
             </div>}
             <Form>
                 <Form.Group className="mb-3">
-                    <Form.Control required id={dataProductDetails.name} type={deleteDataProductForm.type} onBlur={handleOnBlur} placeholder={deleteDataProductForm.placeholder} />
+                    <Form.Control required 
+                        id={dataProductDetails.name} 
+                        type={deleteDataProductForm.type} 
+                        onChange={handleOnChange} 
+                        placeholder={deleteDataProductForm.placeholder} />
                 </Form.Group>
             </Form>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="danger" title={`Delete Data Product ${dataProductDetails.name}`} onClick={handleClick}>
+            <Button 
+                variant="danger" 
+                title={`Delete Data Product ${dataProductDetails.name}`} 
+                disabled={disabled}
+                onClick={handleClick}>
                 <AiOutlineDelete className="me-2" /> Delete 
             </Button>
         </Modal.Footer>
