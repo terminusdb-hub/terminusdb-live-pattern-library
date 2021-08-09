@@ -52,16 +52,13 @@ export async function getDocumentFrame (woqlClient, documentObject, setDocumentO
     let db=woqlClient.db()
     let documentType = documentObject.type
     await woqlClient.getSchemaFrame(documentType, db).then((res) => {
-        let docObj = documentObject
-        docObj.loading = false
-        setDocumentObject(docObj)
         setFrame(res)
     })
     .catch((err) => {
         let message=`Error in fetching frames of class ${documentType} : ${err}`
         let docObj = documentObject
         docObj.loading = false
-        docObj.message=<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
+        docObj.message=<Alerts message={message} type={TERMINUS_DANGER}/>
         setDocumentObject(docObj)
     })
 }

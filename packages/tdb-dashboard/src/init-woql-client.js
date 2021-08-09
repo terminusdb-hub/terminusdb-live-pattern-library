@@ -21,6 +21,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
    // const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
     const [branchesReload,setBranchReload] =useState(0)
+    const [documentObjectReload, setDocumentObjectReload]=useState(0)
     const [branch, setBranch] = useState(false)
     const [ref, setRef] = useState(false)
 
@@ -29,8 +30,6 @@ export const WOQLClientProvider = ({children, params}) => {
     const [DBInfo, setDBInfo] = useState()
     const [chosenCommit,setChosenCommit]=useState({})
     // const [consoleTime, setConsoleTime] = useState()
-
-    
     
     // sets current page
     const [route, setRoute]=useState(DATA_PRODUCTS)
@@ -44,6 +43,8 @@ export const WOQLClientProvider = ({children, params}) => {
     //maybe we can change this for the local connection
     const [opts, setOpts] = useState(params)
     const [connectionError, setError] = useState(false)
+
+    //const [needUpdate,setNeedUpdate] = useState(0)
    
     // document explorer consts 
     const [documentObject, setDocumentObject] = useState({
@@ -205,10 +206,18 @@ export const WOQLClientProvider = ({children, params}) => {
         if(!frame) return
         if(documentObject.action == VIEW_DOCUMENT) return 
         let docObj=documentObject
-        docObj.frames = frame
-        docObj.update = Date.now()
+        docObj.frames=frame
+        docObj.update=Date.now()
+        docObj.loading=false
         setDocumentObject(docObj)
+        //reloadDocumentObject()
     }, [frame])
+
+
+    useEffect(() => {
+        console.log("documentObject init", documentObject)
+        reloadDocumentObject()
+    }, [documentObject.frames])
 
     useEffect(() => {
         if(!filledFrame) return
@@ -234,6 +243,10 @@ export const WOQLClientProvider = ({children, params}) => {
             updateDocument(woqlClient, documentObject, setDocumentObject)
         }
     }, [documentObject.submit, documentObject.frames])
+
+    const reloadDocumentObject = () => {
+        setDocumentObjectReload(Date.now())
+    }
 
 
     //maybe we can combine this information
@@ -305,6 +318,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 setSidebarSampleQueriesState,
                 documentObject, 
                 setDocumentObject,
+                reloadDocumentObject,
                 reconnectToServer,
                 documentClasses, 
                 setDocumentClasses,

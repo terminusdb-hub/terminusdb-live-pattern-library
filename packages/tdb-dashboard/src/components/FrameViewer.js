@@ -32,7 +32,7 @@ export const FrameViewer = () => {
         setFormFields({
             ...formFields,
             [e.target.id]: e.target.value
-          })
+          }) 
     }
 
     function handleSelect(id, value) { // gather all form fields select on change
@@ -74,23 +74,30 @@ export const FrameViewer = () => {
         })
     }
 
-    const [validated, setValidated] = useState(false)
-    // check all fields are validated
-    const handleSubmit = (event) => {
+    const [validated, setValidated] = useState(false);
 
+    const handleSubmit = (event) => {
         const form = event.currentTarget
+        console.log("form.checkValidity()", form.checkValidity())
         if (form.checkValidity() === false) {
-            handleCreateDocument()
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        else {
+            if(documentObject.action==CREATE_DOCUMENT) handleCreateDocument()
+            else handleUpdateDocument()
             event.preventDefault()
             event.stopPropagation()
         }
         setValidated(true)
-    }
+       
+      }
+
 
     return <React.Fragment> 
         {documentObject.message && documentObject.message}
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            {documentObject.loading && documentObject.loading}
+        <Form  noValidate validated={validated} onSubmit={handleSubmit}>
+            {/*documentObject.loading && documentObject.loading*/}
             {/*currentFrame && renderProperties(currentFrame)*/} 
             {documentObject.frames && <RenderFrameProperties documentObject={documentObject} 
                 documentClasses={documentClasses} 
@@ -102,15 +109,16 @@ export const FrameViewer = () => {
                 propertyID={uuidv4()}/>}
             {
                 documentObject.action==CREATE_DOCUMENT && 
-                    <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={handleCreateDocument}>
+                    <Button type="submit" className="btn btn-sm mt-2 float-right" variant="info">
                         <BiPlus className="mr-1"/>Create
                     </Button>
             }
             {
-                documentObject.action==EDIT_DOCUMENT && 
-                    <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={handleUpdateDocument}>
-                        <BiEditAlt className="mr-1"/>Update
+                documentObject.action==EDIT_DOCUMENT && <React.Fragment>
+                    <Button type="submit" className="btn btn-sm mt-2 float-right" variant="info">
+                            <BiEditAlt className="mr-1"/>Update
                     </Button>
+                </React.Fragment>
             }
         </Form>
     </React.Fragment>

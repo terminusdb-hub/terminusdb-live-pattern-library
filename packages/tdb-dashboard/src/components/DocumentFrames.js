@@ -25,14 +25,20 @@ export const DocumentFrames = () => {
         let docObj = documentObject
         docObj.view=view
         setDocumentObject(docObj)
-        setUpdate(Date.now())
+        //setUpdate(Date.now())
     } 
 
- 
+    useEffect(() => {
+        //console.log("documentObject in use effect", documentObject.frames)
+        if(Object.keys(documentObject.frames).length !== 0) {
+            //setUpdate(Date.now())
+        }
+    }, [documentObject.update])
+
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100 mb-5">
             <Col md={11}>  
-                <Card>
+                <Card> 
                     {documentObject.loading && documentObject.loading}
                     <Card.Header className="d-flex w-100">
                         <span className="w-100 float-left d-flex">
@@ -55,8 +61,9 @@ export const DocumentFrames = () => {
                             {documentObject.frames["@documentation"]["@comment"]}
                         </p>
                         }
-                        {(documentObject.view==FORM_VIEW) && documentObject.update && <FrameViewer/>}
-                        {(documentObject.view==JSON_VIEW) && documentObject.update && <JsonFrameViewer
+                        {/*documentObject.frames && <p>{JSON.stringify(documentObject.frames)}</p>*/}
+                        {(documentObject.view==FORM_VIEW) && documentObject.update && documentObject.frames && <FrameViewer/>}
+                        {(documentObject.view==JSON_VIEW) && documentObject.update &&  documentObject.frames && <JsonFrameViewer
                                 jsonFrame={JSON.stringify(documentObject.frames, null, 2)}/>
                         }
                     </Card.Body>

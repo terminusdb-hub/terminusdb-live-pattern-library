@@ -74,7 +74,11 @@ export const DocumentView = () => {
             message: false
         })
     }
- 
+
+    useEffect(() => {
+        console.log("documentObject in use effect", documentObject.frames)
+    }, [documentObject.update])
+  
     return  <React.Fragment>
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
         <Row className="mt-5 w-100">

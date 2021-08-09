@@ -13,14 +13,16 @@ export const DataTypeFrame = ({documentObject, property, propertyID, type, onCha
             <DocumentationTypeFrame documentObject={documentObject} property={property}/>
         </Form.Label>
 
+        {/* Create document */}
         {(documentObject.action == CREATE_DOCUMENT) && <Form.Control
             required
             type="text"
             placeholder={type}
             onBlur={(e) => onChange(e, propertyID)}
         />}
-
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame[property]) && <Form.Control
+        
+        {/* Edit document where property exists in filled frames, show default value */}
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame[property]) && (documentObject.frames["@key"]["@fields"][0]!==property) && <Form.Control
             required
             type="text"
             placeholder={type}
@@ -28,13 +30,21 @@ export const DataTypeFrame = ({documentObject, property, propertyID, type, onCha
             onBlur={(e) => onChange(e, propertyID)}
         />}
 
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame["@id"]) && (property=="@id") && <React.Fragment>
-            <Form.Label as={Col}>{"id"}</Form.Label>
+        {/* Edit document where property dosent exist in filled frames, show placeholder */}
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (!documentObject.filledFrame[property]) && (documentObject.frames["@key"]["@fields"][0]!==property) && <Form.Control
+            required
+            type="text"
+            placeholder={type}
+            onBlur={(e) => onChange(e, propertyID)}
+        />}
+        
+         {/* Edit document make id field appear read only */}
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.frames["@key"]["@fields"][0]===property) && <React.Fragment>
             <Form.Control
                 required
                 type="text"
                 placeholder={type}
-                defaultValue={documentObject.filledFrame["@id"]}
+                defaultValue={documentObject.filledFrame[property]}
                 readOnly 
             />
             </React.Fragment>}

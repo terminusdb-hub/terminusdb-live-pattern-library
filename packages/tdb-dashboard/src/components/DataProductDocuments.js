@@ -144,7 +144,7 @@ export const DocumentExplorerDocuments = () => {
                 </Button>
                 <Button 
                     className="pro-item-content btn-sm" 
-                    variant="dark"
+                    variant="dark" 
                     title={`Add a new ${item["@id"]}`}
                     onClick={(e) => handleCreate(item["@id"], setDocumentObject)}>
                         <Badge variant="dark">

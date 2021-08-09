@@ -29,7 +29,9 @@ export const DocumentInfo = () => {
             {(id != "@id") && <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
                 {id}
             </Form.Label>}
-            {(id == "@id") && <span className="mr-5 badge rounded-pill bg-secondary">{id}</span>}
+            {(id == "@id") && <span className="mr-5 badge rounded-pill bg-secondary">
+                {id}
+            </span>}
                         
             <Form.Label>
                 {val}

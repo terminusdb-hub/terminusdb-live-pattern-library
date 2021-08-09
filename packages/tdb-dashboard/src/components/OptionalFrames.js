@@ -33,9 +33,14 @@ export const OptionalFrames = ({documentObject, propertyID, property, object, on
             propertyID={propertyID}
         />
     } 
+ 
+    return <Form.Group as={Col} md="12" controlId={property}>
+        <Form.Label className="W-100">
+            {property}
+            <DocumentationTypeFrame documentObject={documentObject} property={property}/>
+        </Form.Label>
 
-    const DataFrameViewer = ({onChange}) => { // for type {@class: "xsd:dateTime", @type: "Optional"}
-        return <React.Fragment>
+        {!checkIfObject(object["@class"]) && <React.Fragment>
             {(documentObject.action == CREATE_DOCUMENT) &&  <Form.Control 
                 placeholder={object["@class"]} 
                 type="text"
@@ -50,22 +55,12 @@ export const OptionalFrames = ({documentObject, propertyID, property, object, on
             
             {(documentObject.action == EDIT_DOCUMENT) &&  documentObject.frames 
                 && !(documentObject.filledFrame[property]) && <Form.Control 
-                placeholder={object["@class"]} 
                 type="text"
-                onBlur={(e) => onChange(e, propertyID)}/>}
+                onBlur={(e) => onChange(e, propertyID)}
+                placeholder={object["@class"]} />}
 
-        </React.Fragment> 
-    }
+        </React.Fragment> }
 
-    
-
-    return <Form.Group as={Col} md="12" controlId={property}>
-        <Form.Label className="W-100">
-            {property}
-            <DocumentationTypeFrame documentObject={documentObject} property={property}/>
-        </Form.Label>
-
-        {!checkIfObject(object["@class"]) && <DataFrameViewer onChange={onChange}/>}
         {checkIfObject(object["@class"]) && <ObjectFrameViewer/>}
 
     </Form.Group>
