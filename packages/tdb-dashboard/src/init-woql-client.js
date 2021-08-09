@@ -217,10 +217,12 @@ export const WOQLClientProvider = ({children, params}) => {
     useEffect(() => {
         console.log("documentObject init", documentObject)
         reloadDocumentObject()
+        console.log("documentObject finish reloading", documentObjectReload)
     }, [documentObject.frames])
 
     useEffect(() => {
         if(!filledFrame) return
+        console.log("ENTERING HERE")
         if(documentObject.action == VIEW_DOCUMENT) {
             let docObj=documentObject
             docObj.filledFrame = filledFrame
@@ -235,6 +237,7 @@ export const WOQLClientProvider = ({children, params}) => {
     // on submit of form for create/ edit document
     useEffect(() => {
         if(!documentObject.submit) return
+        console.log("ENTERING HERE 123")
         let newDocumentInfo=documentObject.frames
         if(documentObject.action == CREATE_DOCUMENT) {
             addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, documentObject)
@@ -243,6 +246,9 @@ export const WOQLClientProvider = ({children, params}) => {
             updateDocument(woqlClient, documentObject, setDocumentObject)
         }
     }, [documentObject.submit, documentObject.frames])
+
+
+    
 
     const reloadDocumentObject = () => {
         setDocumentObjectReload(Date.now())
@@ -325,7 +331,8 @@ export const WOQLClientProvider = ({children, params}) => {
                 filledFrame, 
                 setFilledFrame,
                 perDocumentCount,
-                totalDocumentCount
+                totalDocumentCount,
+                documentObjectReload
             }}
         >
             {children}

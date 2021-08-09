@@ -21,7 +21,8 @@ export const DocumentView = () => {
         woqlClient,
         dataProduct,
         documentObject,
-        setDocumentObject
+        setDocumentObject,
+        documentObjectReload
     } = WOQLClientObj()
 
     const [tableConfig, setTableConfig] = useState(false)
@@ -75,9 +76,10 @@ export const DocumentView = () => {
         })
     }
 
+
     useEffect(() => {
         console.log("documentObject in use effect", documentObject.frames)
-    }, [documentObject.update])
+    }, [documentObjectReload])
   
     return  <React.Fragment>
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
@@ -87,7 +89,7 @@ export const DocumentView = () => {
             </Row>
             {!documentObject.action && (documentResults.length==0) && <NoDocumentsAvailable type={documentObject.type} setDocumentObject={setDocumentObject}/>}
             {!documentObject.action && (!documentResults) && <DocumentSummary setDocumentObject={setDocumentObject}/>}
-            {
+            { 
             !documentObject.action && (documentResults.length>0) && tableConfig && 
                 <main className="content mr-3 ml-5 w-100">
                     <Row className="w-100">
