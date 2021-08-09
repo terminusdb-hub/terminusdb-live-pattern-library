@@ -6,6 +6,19 @@ import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
 // data type frame is usualy xsd or xdd datatype and is required to be filled
 export const DataTypeFrame = ({documentObject, property, propertyID, type, onChange}) => {
+
+    const [isID, setID] = useState(false)
+
+    useEffect(() => {
+        if((documentObject.action == EDIT_DOCUMENT) && documentObject.frames && documentObject.frames["@key"] && !documentObject.frames["@key"]["@fields"]) {
+            // mostly for sub documents u ignore coz type value hash
+            return 
+        }
+        if((documentObject.action == EDIT_DOCUMENT) && documentObject.frames && documentObject.frames["@key"] && documentObject.frames["@key"]["@fields"][0]== property) {
+            // to set id of document read only on edit
+            setID(property)
+        }
+    }, [property])
  
     return <Form.Group as={Col} md="12" controlId={property}>
         <Form.Label className="w-100">
@@ -22,7 +35,7 @@ export const DataTypeFrame = ({documentObject, property, propertyID, type, onCha
         />}
         
         {/* Edit document where property exists in filled frames, show default value */}
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame[property]) && (documentObject.frames["@key"]["@fields"][0]!==property) && <Form.Control
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame[property]) && !isID && <Form.Control
             required
             type="text"
             placeholder={type}
@@ -31,7 +44,7 @@ export const DataTypeFrame = ({documentObject, property, propertyID, type, onCha
         />}
 
         {/* Edit document where property dosent exist in filled frames, show placeholder */}
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (!documentObject.filledFrame[property]) && (documentObject.frames["@key"]["@fields"][0]!==property) && <Form.Control
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (!documentObject.filledFrame[property]) && !isID && <Form.Control
             required
             type="text"
             placeholder={type}
@@ -39,7 +52,7 @@ export const DataTypeFrame = ({documentObject, property, propertyID, type, onCha
         />}
         
          {/* Edit document make id field appear read only */}
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.frames["@key"]["@fields"][0]===property) && <React.Fragment>
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && isID && <React.Fragment>
             <Form.Control
                 required
                 type="text"

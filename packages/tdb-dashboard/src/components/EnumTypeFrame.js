@@ -8,15 +8,12 @@ import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
 import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
-export const EnumTypeFrame = ({propertyID, property, type, onChange}) => {
+export const EnumTypeFrame = ({documentObject, propertyID, property, type, onChange}) => {
 
     const [options, setOptions] = useState(false)
     const [defaultValue, setDefaultValue] = useState(false)
 
-    const {
-        documentObject
-    } = WOQLClientObj()
-
+   
     useEffect(() => {
         if(!type) return
         if(!type["@values"]) return
@@ -51,6 +48,11 @@ export const EnumTypeFrame = ({propertyID, property, type, onChange}) => {
             styles={singleSelectStyle}
         />}
         {(documentObject.action == EDIT_DOCUMENT) && defaultValue && <Select options={options}
+            onChange={handleChange}
+            styles={singleSelectStyle}
+            defaultValue={defaultValue}
+        />}
+        {(documentObject.action == EDIT_DOCUMENT) && !defaultValue && <Select options={options}
             onChange={handleChange}
             styles={singleSelectStyle}
             defaultValue={defaultValue}
