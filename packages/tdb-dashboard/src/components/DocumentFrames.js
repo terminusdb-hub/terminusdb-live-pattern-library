@@ -29,6 +29,12 @@ export const DocumentFrames = () => {
         setUpdate(Date.now())
     } 
 
+    /*useEffect(() => {
+        //console.log("documentObject in use effect", documentObject.frames)
+        if(Object.keys(documentObject.frames).length !== 0) {
+            setUpdate(Date.now())
+        }
+    }, [documentObject.update])*/
 
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100 mb-5">
@@ -58,8 +64,7 @@ export const DocumentFrames = () => {
                         }
                         {/*documentObject.frames && <p>{JSON.stringify(documentObject.frames)}</p>*/}
                         {(documentObject.view==FORM_VIEW) && documentObject.update && documentObject.frames && <FrameViewer/>}
-                        {(documentObject.view==JSON_VIEW) && documentObject.update &&  documentObject.frames && <JsonFrameViewer
-                                jsonFrame={JSON.stringify(documentObject.frames, null, 2)}/>
+                        {(documentObject.view==JSON_VIEW) && documentObject.update &&  documentObject.frames && <JsonFrameViewer/>
                         }
                     </Card.Body>
                 </Card> 

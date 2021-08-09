@@ -568,5 +568,6 @@ input {
 
 .CodeMirror {
   height: auto !important;
-  min-height: 400px !important;
+  min-height: 200px !important;
 }
+
