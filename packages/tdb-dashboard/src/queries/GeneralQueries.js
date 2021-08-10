@@ -237,3 +237,6 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
     let q = WOQL.and(...CountArray, WOQL.sum(variableList, "v:Count"))
     return q
 }
+
+
+//triple("v:Doc", "rdf:type", "@schema:Organization").triple("v:Doc", "v:Properties", "v:Value")

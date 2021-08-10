@@ -148,7 +148,8 @@ export const WOQLClientProvider = ({children, params}) => {
             setDocumentClasses(false)
             // on change on data product re set document object
             resetDocumentObject(setDocumentObject)
-
+            setPerDocument(false)
+            setTotalDocumentCount(false)
 
             //there is a bug with using in woql so we have to set commits as branch
             const tmpClient = woqlClient.copy()
@@ -178,7 +179,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
             // on change on data product get classes 
             woqlClient.getClassDocuments(dataProduct).then((classRes) => {
-                console.log("classRes", classRes)
+                //console.log("classRes", classRes)
                 setDocumentClasses(classRes)
                 // get number document classes 
                 let q=getCountOfDocumentClass(classRes)

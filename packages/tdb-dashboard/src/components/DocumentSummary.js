@@ -2,8 +2,6 @@
 import React, {useState, useEffect} from "react"
 import {ListGroup, Container, Card, Row, Col, Button} from "react-bootstrap"
 import {BiPlus, BiNetworkChart} from "react-icons/bi"
-import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "../queries/GeneralQueries"
-import {executeQueryHook} from "../hooks/executeQueryHook"
 import {WOQLClientObj} from '../init-woql-client'
 import {
     Accordion,
@@ -13,8 +11,9 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion'
 import 'react-accessible-accordion/dist/fancy-example.css'
-import {JsonViewer} from "./JsonViewer"
+import { PRODUCT_MODELS } from "../routing/constants"
 import {handleCreate} from "./documents.utils"
+
 
 export const DocumentSummary = ({setDocumentObject}) => {
   
@@ -22,7 +21,8 @@ export const DocumentSummary = ({setDocumentObject}) => {
     const {
         perDocumentCount, 
         totalDocumentCount, 
-        documentObject
+        documentObject,
+        setRoute
     } = WOQLClientObj()
 
     const DocumentStats = ({dataProvider}) => {
@@ -73,11 +73,20 @@ export const DocumentSummary = ({setDocumentObject}) => {
         return count
     }
 
+    
+
   
     return  <main className="content mr-3 ml-5 w-100">
         <Container>
             <Row>  
                 {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
+                {!perDocumentCount && <Col xs={11} className="d-block ml-5 mr-3">
+                    <div class="card card-fil m-3">
+                        <div class="card-body w-100 text-center">
+                            <h4 className="text-muted mt-3 mb-3">{`No document classes created yet...`}</h4>
+                        </div>
+                    </div>
+                </Col>}
             </Row>
         </Container>
     </main>

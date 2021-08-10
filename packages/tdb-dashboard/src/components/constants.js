@@ -182,8 +182,8 @@ export const ACTIONS_QUERY_BUTTON_GROUP={variant: "light", size: "sm",
 export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [{id: "js", title: "JS", label: "JS"}, {id: "json", title: "JSON-LD", label: "JSON-LD"}]}
 //button group for view chooser
 export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [
-    {/*icon: "fas fa-border-none",*/ id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
-    {/*icon: "fas fa-bezier-curve",*/ id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW},
+    {icon: "fas fa-border-none", id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
+    {icon: "fas fa-bezier-curve", id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW},
     {id: JSON_VIEW, title: JSON_VIEW, label: JSON_VIEW}]}
 
 
