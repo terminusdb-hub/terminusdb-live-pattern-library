@@ -59,7 +59,7 @@ export const DocumentView = () => {
         if(!documentResults) return 
         let tConf = getDocumentOfTypeTabConfig(documentResults, getDeleteTool, getCopyIDTool, onRowClick)
         setTableConfig(tConf)
-    }, [documentResults])
+    }, [documentResults]) 
 
     // on click document tablw row
     function onRowClick (row) { 
@@ -78,8 +78,8 @@ export const DocumentView = () => {
 
 
     useEffect(() => {
-        console.log("documentObject in use effect", documentObject.frames)
-    }, [documentObjectReload])
+        //console.log("documentObject in use effect", documentObject.frames)
+    }, [documentObject.frames])
   
     return  <React.Fragment>
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>

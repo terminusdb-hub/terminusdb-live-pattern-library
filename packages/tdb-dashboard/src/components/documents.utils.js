@@ -15,7 +15,7 @@ export function handleCreate (id, setDocumentObject) {  // on create on new docu
         update:Date.now(),
         message:false,
         loading: <Loading message={`Fetching frames to create ${id} ...`} type={PROGRESS_BAR_COMPONENT}/>
-    })
+    }) 
 }
 
 

@@ -86,7 +86,7 @@ export const JsonFrameViewer = () => {
             documentObject.action==EDIT_DOCUMENT && update && <React.Fragment>
                 <div className="w-100 d-flex">
                     <p className="fw-bold text-muted w-100"><FaInfoCircle className="mr-2"/>{`Filled JSON structure for document ${documentObject.currentDocument}`}</p>
-                   {/* <button title={"Reset JSON structure"} type="button" className="btn btn-outline-light text-right float-right border-0" onClick={setResetView}>
+                    {/* <button title={"Reset JSON structure"} type="button" className="btn btn-outline-light text-right float-right border-0" onClick={setResetView}>
 						<BiReset size="1.6em"/>
 					</button>*/}
                 </div>

@@ -199,10 +199,16 @@ export const WOQLClientProvider = ({children, params}) => {
     const [frame, setFrame]=useState(false)
     const [filledFrame, setFilledFrame]=useState(false)
     useEffect(() => {
-        executeDocumentAction(woqlClient, setDocumentClasses, documentObject, setDocumentObject, setFrame, setFilledFrame)
-    }, [documentObject.action, documentObject.type, documentObject.update])
+        executeDocumentAction(woqlClient, documentObject, setDocumentObject, reloadDocumentObject)
+        //console.log("after execute action", documentObject)
+    }, [documentObject.action, documentObject.type, documentObject.update]) 
 
     useEffect(() => {
+        console.log("reloading doc")
+        reloadDocumentObject()
+    }, [documentObject.update]) 
+
+    /*useEffect(() => {
         if(!frame) return
         if(documentObject.action == VIEW_DOCUMENT) return 
         let docObj=documentObject
@@ -211,16 +217,15 @@ export const WOQLClientProvider = ({children, params}) => {
         docObj.loading=false
         setDocumentObject(docObj)
         //reloadDocumentObject()
-    }, [frame])
+    }, [frame])   */
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         console.log("documentObject init", documentObject)
         reloadDocumentObject()
-        console.log("documentObject finish reloading", documentObjectReload)
-    }, [documentObject.frames])
+    }, [documentObject.frames]) */
 
-    useEffect(() => {
+    /*useEffect(() => {
         if(!filledFrame) return
         console.log("ENTERING HERE")
         if(documentObject.action == VIEW_DOCUMENT) {
@@ -231,13 +236,12 @@ export const WOQLClientProvider = ({children, params}) => {
             docObj.loading= false
             setDocumentObject(docObj)
         }
-    }, [filledFrame])
+    }, [filledFrame]) */
 
 
     // on submit of form for create/ edit document
     useEffect(() => {
         if(!documentObject.submit) return
-        console.log("ENTERING HERE 123")
         let newDocumentInfo=documentObject.frames
         if(documentObject.action == CREATE_DOCUMENT) {
             addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, documentObject)
@@ -248,9 +252,8 @@ export const WOQLClientProvider = ({children, params}) => {
     }, [documentObject.submit, documentObject.frames])
 
 
-    
-
     const reloadDocumentObject = () => {
+        //console.log("reloading man")
         setDocumentObjectReload(Date.now())
     }
 

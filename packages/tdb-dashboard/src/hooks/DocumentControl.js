@@ -49,12 +49,19 @@ export const DocumentControl = () => {
 
 // gets document frames of a document class 
 
-export const getDocumentFrame = async (woqlClient, documentObject, setDocumentObject, setFrame) =>{
+export const getDocumentFrame = async (woqlClient, documentObject, setDocumentObject) =>{
     try{
         let db=woqlClient.db()
         let documentType = documentObject.type
         const result = await woqlClient.getSchemaFrame(documentType, db)
-        setFrame(result)
+
+        // update frames of document object 
+        let docObj=documentObject
+        docObj.frames=result
+        docObj.update=Date.now()
+        docObj.loading=false
+        setDocumentObject(docObj)
+
     }catch(err){
         let message=`Error in fetching frames of class ${documentType} : ${err}`
         let docObj = documentObject
@@ -138,15 +145,23 @@ export async function getDocumentsOfClassOfInterest (woqlClient, classOfInterest
 
 // gets info of a chosen document ID  
 
-export const getCurrentDocumentInfo = async (woqlClient, documentObject, setDocumentObject, asList, setFilledFrame) =>{
+export const getCurrentDocumentInfo = async (woqlClient, documentObject, setDocumentObject, asList) =>{
     try{
         let db=woqlClient.db()
         let params={}
         params['id'] = documentObject.currentDocument
         params['as_list'] = asList
         const result = await woqlClient.getDocument(params, db)
-        setFilledFrame(result)
         
+        // update document object with filled frames 
+        let docObj=documentObject
+        docObj.filledFrame = result
+        docObj.update=Date.now()
+        docObj.message= documentObject.message
+        docObj.loading=false
+        setDocumentObject(docObj)
+
+        //console.log("after retrieving frames", docObj)
         
     }catch(err){
         let message=`Error in fetching info of document ${documentObject.currentDocument}: ${err}`
@@ -294,17 +309,17 @@ export async function deleteDocument  (woqlClient, setDocumentObject, documentOb
     })
  }
 
- export function executeDocumentAction (woqlClient, setDocumentClasses, documentObject, setDocumentObject, setFrame, setFilledFrame) {
+ export function executeDocumentAction (woqlClient, documentObject, setDocumentObject) {
      // on create new document
      if(documentObject.action == false) return
      if(documentObject.action == CREATE_DOCUMENT) {
-        getDocumentFrame(woqlClient, documentObject, setDocumentObject, setFrame, setDocumentClasses)
+        return getDocumentFrame(woqlClient, documentObject, setDocumentObject)
      }
      if(documentObject.action == EDIT_DOCUMENT) {
-        getDocumentFrame(woqlClient, documentObject, setDocumentObject, setFrame, setDocumentClasses)
+        return getDocumentFrame(woqlClient, documentObject, setDocumentObject)
      }
      if(documentObject.action == VIEW_DOCUMENT) {
-        getCurrentDocumentInfo (woqlClient, documentObject, setDocumentObject, false, setFilledFrame)
+        return getCurrentDocumentInfo (woqlClient, documentObject, setDocumentObject, false)
      }
  }
 
