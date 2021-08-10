@@ -39,20 +39,21 @@ export const DocumentSummary = ({setDocumentObject}) => {
                         </Card.Header>
                         <Card.Body>
                             <Row className="w-50 ml-3">
-                                <Button className="btn btn-sm btn-lg" 
+                                <h1>{val}</h1>
+                                {/*<Button className="btn btn-sm btn-lg" 
                                     title={`Create new ${type}`} 
                                     style={{margin: "80px"}} 
                                     variant="info"
                                     key={type} 
                                     onClick={(e) => handleCreate(type, setDocumentObject)}>
                                     <BiPlus className="mr-1"/>{`New ${type}`}
-                                </Button>
+                                </Button>*/}
                             </Row>
                         </Card.Body>
-                        <Card.Footer className="d-flex">
-                            <small className="text-muted col-md-10">{`Number of ${type} ${val}`}</small>
+                        {<Card.Footer className="d-flex">
+                            {/*<small className="text-muted col-md-10">{`Number of ${type} ${val}`}</small>*/}
                             <small className="text-muted">{`Total ${getTotalNumberOfDocuments(totalDocumentCount)}`}</small>
-                        </Card.Footer>
+                        </Card.Footer>}
                     </Card>
                 </Col>
             )

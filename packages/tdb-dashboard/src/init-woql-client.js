@@ -74,11 +74,11 @@ export const WOQLClientProvider = ({children, params}) => {
     var [totalDocumentCountProvider]=executeQueryHook(woqlClient, totalDocumentsQuery)
 
     useEffect(() => {
-        setPerDocument(setPerDocument)
+        setPerDocument(perDocumentCountProvider)
     },[perDocumentCountProvider])
 
     useEffect(() => {
-        setTotalDocumentCount(setPerDocument)
+        setTotalDocumentCount(totalDocumentCountProvider)
     },[totalDocumentCountProvider])
 
 
@@ -146,8 +146,6 @@ export const WOQLClientProvider = ({children, params}) => {
         if(woqlClient && dataProduct){
             setBranches(false)
             setDocumentClasses(false)
-            setTotalDocumentsQuery(false)
-            setQuery(false)
             // on change on data product re set document object
             resetDocumentObject(setDocumentObject)
 
