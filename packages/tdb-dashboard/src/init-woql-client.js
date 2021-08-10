@@ -196,7 +196,6 @@ export const WOQLClientProvider = ({children, params}) => {
 
     
     // on change of document action 
-    const [frame, setFrame]=useState(false)
     const [filledFrame, setFilledFrame]=useState(false)
     useEffect(() => {
         executeDocumentAction(woqlClient, documentObject, setDocumentObject, reloadDocumentObject)
@@ -207,36 +206,6 @@ export const WOQLClientProvider = ({children, params}) => {
         console.log("reloading doc")
         reloadDocumentObject()
     }, [documentObject.update]) 
-
-    /*useEffect(() => {
-        if(!frame) return
-        if(documentObject.action == VIEW_DOCUMENT) return 
-        let docObj=documentObject
-        docObj.frames=frame
-        docObj.update=Date.now()
-        docObj.loading=false
-        setDocumentObject(docObj)
-        //reloadDocumentObject()
-    }, [frame])   */
-
-
-    /*useEffect(() => {
-        console.log("documentObject init", documentObject)
-        reloadDocumentObject()
-    }, [documentObject.frames]) */
-
-    /*useEffect(() => {
-        if(!filledFrame) return
-        console.log("ENTERING HERE")
-        if(documentObject.action == VIEW_DOCUMENT) {
-            let docObj=documentObject
-            docObj.filledFrame = filledFrame
-            docObj.update=Date.now()
-            docObj.message= documentObject.message
-            docObj.loading= false
-            setDocumentObject(docObj)
-        }
-    }, [filledFrame]) */
 
 
     // on submit of form for create/ edit document

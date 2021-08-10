@@ -67,7 +67,7 @@ export const ViewBuilder = (props)=>{
 	const mainPanelSize=panelIsOpen ? "calc(100% - 450px)" : "100%";
 
 	const treeMainGraphObj=props.treeMainGraphObj;
-
+ 
 	let showInfoComp=false
 	if(!selectedNodeObject || !selectedNodeObject.name ||
 		selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_ROOT ||

@@ -179,11 +179,13 @@ export const isEnumType = (property) => {
 // returns true for properties which are subdocuments
 export const isSubDocumentType = (property) => {
     if(typeof property !== "object") return false 
-    if(property["@class"]){
+    if(property["@subdocument"]) return true
+    return false
+    /*if(property["@class"]){
         let classObject=property["@class"]
         if(classObject["@subdocument"]) return true
     }
-    return false 
+    return false */
 }
 
 // returns true for properties ponting to another document which can be a set/ list

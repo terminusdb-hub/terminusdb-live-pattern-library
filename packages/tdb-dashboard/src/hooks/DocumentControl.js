@@ -62,6 +62,8 @@ export const getDocumentFrame = async (woqlClient, documentObject, setDocumentOb
         docObj.loading=false
         setDocumentObject(docObj)
 
+        console.log("docObj after getting frames", docObj)
+
     }catch(err){
         let message=`Error in fetching frames of class ${documentType} : ${err}`
         let docObj = documentObject
@@ -281,7 +283,7 @@ export async function deleteDocument  (woqlClient, setDocumentObject, documentOb
             submit: false,
             currentDocument: false,
             frames: {},
-            message: <Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>,
+            message: <Alerts message={message} type={TERMINUS_SUCCESS}/>,
             loading: false
         }
 
@@ -290,7 +292,7 @@ export async function deleteDocument  (woqlClient, setDocumentObject, documentOb
     .catch((err) => {
         let message=`Error in deleting document ${documentObject.currentDocument}: ${err}`
         let docObj=documentObject
-        docObj.message=<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
+        docObj.message=<Alerts message={message} type={TERMINUS_DANGER}/>
         docObj.loading=false
     })
  }

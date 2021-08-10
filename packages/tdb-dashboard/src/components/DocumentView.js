@@ -78,8 +78,8 @@ export const DocumentView = () => {
 
 
     useEffect(() => {
-        //console.log("documentObject in use effect", documentObject.frames)
-    }, [documentObject.frames])
+        console.log("documentVIEW", documentObject.frames)
+    }, [documentObjectReload])
   
     return  <React.Fragment>
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>

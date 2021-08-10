@@ -4,7 +4,9 @@ import {BaseInputElement} from './BaseInputElement'
 import {GraphContextObj} from '../hook/graphObjectContext'; 
 import {CARDINALITY_MIN_TITLE,CARDINALITY_MAX_TITLE} from '../../constants/details-labels';
 
-const dataProvider = ['Null','Optional','List','Set','Cardinality','Cardinality_Between']
+/* Nuking cardinality for now as db dosent support this - later we will implement */
+//const dataProvider = ['Null','Optional','List','Set','Cardinality','Cardinality_Between']
+const dataProvider = ['Null','Optional','List','Set']
 
 export const PropertyExtraInfo =(props)=>  {
     const {mainGraphObj} =GraphContextObj()
@@ -31,19 +33,18 @@ export const PropertyExtraInfo =(props)=>  {
         return true
     }
 
-
     return <Fragment>
             <BaseSelectComponent optionChange={optionChange} name="option" dataProvider={dataProvider} defaultValue={currentOption} title={'Extra info'} />             
-            {currentOption === 'Cardinality_Between' &&
+            {/*currentOption === 'Cardinality_Between' &&
                 <Fragment>
                     <BaseInputElement help="card_min" defaultValue={extraInfoValue.min_cardinality || ''} name='min_cardinality' title={CARDINALITY_MIN_TITLE} onBlur={changePropertyValue} checkValue={cardCheckValue}/>
                     <BaseInputElement help="card_max" defaultValue={extraInfoValue.max_cardinality || ''} name='max_cardinality' title={CARDINALITY_MAX_TITLE} onBlur={changePropertyValue} checkValue={cardCheckValue}/>
                 </Fragment>
-            }
-            {currentOption === 'Cardinality' &&
+            */}
+            {/*currentOption === 'Cardinality' &&
                 <Fragment>
                     <BaseInputElement help="card_min" defaultValue={extraInfoValue.cardinality || ''} name='cardinality' title={'Cardinality'} onBlur={changePropertyValue} checkValue={cardCheckValue}/>
                 </Fragment>
-            }         					
+            */}         					
        </Fragment>
 }
