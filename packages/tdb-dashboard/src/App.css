@@ -236,7 +236,7 @@ div.progress-bar-position {
   background: transparent !important;
 }
 
-/*.accordion__button {
+.accordion__button {
   background-color: transparent !important; 
   color: #cae4fd !important; 
   padding: 12px !important;
@@ -248,7 +248,7 @@ div.progress-bar-position {
   background-color: #414141 !important; 
   color: #cae4fd !important; 
 
-}*/
+}
 
 /* ---------- overriding react components schema builder css ---------- */
 
@@ -569,5 +569,15 @@ input {
 .CodeMirror {
   height: auto !important;
   min-height: 200px !important;
+}
+
+.idfield {
+  margin-right: 160px !important;
+}
+
+.subdoc-block {
+  border-top: 1px solid #444;
+  width: 1000px;
+  padding-top: 20px;
 }
 

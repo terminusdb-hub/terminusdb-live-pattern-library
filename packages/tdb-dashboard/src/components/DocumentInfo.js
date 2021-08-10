@@ -26,16 +26,24 @@ export const DocumentInfo = () => {
     
     const FormField = ({id, val}) => {
         return <Form.Group as={Col} md="12" controlId={id} className="ml-5" style={{marginLeft: "100px !important"}}>
-            {(id != "@id") && <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
-                {id}
-            </Form.Label>}
-            {(id == "@id") && <span className="mr-5 badge rounded-pill bg-secondary">
-                {id}
-            </span>}
+            {(id != "@id") && <React.Fragment>
+                <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
+                    {id}
+                </Form.Label>
+                <Form.Label>
+                    {val}
+                </Form.Label>
+            </React.Fragment>}
+            {(id == "@id") && <div className="subdoc-block d-flex">
+                <span className="p-1 bg-secondary idfield">
+                    {id}
+                </span>
+                <Form.Label>
+                    {val}
+                </Form.Label>
+            </div>}
                         
-            <Form.Label>
-                {val}
-            </Form.Label>
+            
         </Form.Group>
     }
 
@@ -138,7 +146,7 @@ export const DocumentInfo = () => {
 
 
     return <main className="content mr-3 ml-5 w-100">
-        <Row className="w-100">  
+        <Row className="w-100 mb-5">  
             <Col md={11}> 
                 {documentObject.message && documentObject.message}
                 <Card className="d-flex w-100">
@@ -161,7 +169,7 @@ export const DocumentInfo = () => {
                         </span>
                     
                     </Card.Header>
-                    <Card.Body>
+                    <Card.Body> 
                         <Form>
                             {documentObject.view && documentObject.update && <DocumentContents documentObject={documentObject}/>}
                         </Form>
