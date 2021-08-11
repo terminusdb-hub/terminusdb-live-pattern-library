@@ -35,7 +35,8 @@ export const Results = ({freewidth, queryObj, setError, runQuery})=>{
 
     
     const bindings = (result && result.bindings) ? result.bindings : []
-    const [graphConfig, setGraphConf]=useState(queryResult.graph || graphViewConfig(bindings))
+    //const [graphConfig, setGraphConf]=useState(queryResult.graph || graphViewConfig(bindings))
+    const [graphConfig, setGraphConf]=useState(graphViewConfig(bindings))
     
     const [tableConfig, setTableConfig]=useState(tableViewConfig())
     const [currentView, setCurrentView]=useState(queryResult.currentView)
@@ -86,12 +87,15 @@ export const Results = ({freewidth, queryObj, setError, runQuery})=>{
         if(result) {
             let qtime = queryTimeDisplay(result)
             setQueryRunTime(qtime)
+            if(currentView == GRAPH_VIEW) {
+                setGraphConf(graphViewConfig(result.bindings))
+            }
         }
-    },[result, totalRows])
+    },[result, totalRows, currentView])
     
     if(!result) return ""
 
-    console.log("currentView", currentView)
+    
 
     return(
     <div className="pallet mb-3 mt-4">

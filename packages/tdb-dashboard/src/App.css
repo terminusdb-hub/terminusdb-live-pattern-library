@@ -16,7 +16,9 @@ body{
 
 .main-content {
   overflow-y: auto;
+  overflow-x: hidden;
 }
+
 
 
 /* ---------- css for cowduck image with clouds ---------- */
@@ -225,6 +227,21 @@ div.progress-bar-position {
 .table thead th {
   color: #a3b6ca !important;
 }
+
+/*
+@media only screen and (max-width: 600px) {
+  .table-container-overflow {
+    max-width: 400px;
+    width: 100% !important;
+  }
+  
+  .table-overflow {
+    max-width: 400px;
+    width: 100% !important;
+  }
+}*/
+
+
 
 .RRT__tab {
   background: transparent !important;
@@ -570,7 +587,12 @@ input {
 .CodeMirror {
   height: auto !important;
   min-height: 200px !important;
-}f
+}
+
+.qp-CodeMirror {
+  height: auto !important;
+  min-height: 400px !important;
+}
 
 .idfield {
   margin-right: 160px !important;
@@ -581,4 +603,6 @@ input {
   width: 1000px;
   padding-top: 20px;
 }
+
+
 

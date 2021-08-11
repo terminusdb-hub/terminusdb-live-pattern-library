@@ -634,8 +634,8 @@ GraphResultsViewer.prototype.setConfigOptions = function(config) {
 	this.defaults = {
 		edge: {
 			type: "edge",
-			distance: (config && config.edge && config.edge.distance ? config.edge.distance : 100),
-			arrow: (config && config.edge && config.edge.arrow ? config.edge.arrow : {width: 16, height: 24, color: [220, 218, 216]}),//{ width: 36, height: 16}),
+			distance: (config && config.edge && config.edge.distance ? config.edge.distance : 300),
+			arrow: (config && config.edge && config.edge.arrow ? config.edge.arrow : {width: 36, height: 16, color: [210, 213, 218]}),//{ width: 36, height: 16}),
 			symmetric: (config && config.edge && config.edge.symmetric ? config.edge.symmetric : true),
 			color: (config && config.edge && config.edge.color ? config.edge.color : [120, 118, 116]),//[150,150,255]),
 			weight: (config && config.edge && config.edge.weight ? config.edge.weight : 0.3),
@@ -652,7 +652,7 @@ GraphResultsViewer.prototype.setConfigOptions = function(config) {
 			type: "node",
 			radius: (config && config.node && config.node.radius ? config.node.radius : 16),//14),
 			charge: (config && config.node && config.node.charge ? config.node.charge : -60),
-			collisionRadius: (config && config.node && config.node.collisionRadius ? config.node.collisionRadius : 20),
+			collisionRadius: (config && config.node && config.node.collisionRadius ? config.node.collisionRadius : 60),
 			color: (config && config.node && config.node.color ? config.node.color : [255, 127, 14]),//[245, 114, 7]),//[245, 179, 66]),//[0,255,255]),
 			icon: {
 				weight: (config && config.node && config.node.icon && config.node.icon.weight ? config.node.icon.weight : 900),

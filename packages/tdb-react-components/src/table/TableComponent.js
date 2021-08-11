@@ -27,7 +27,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
     }
 
     if(pager){
-        let ps = view.config.pagesize() || 20
+        let ps = view.config.pagesize() || 10
         init_state.pageSize = ps
         if(pager == "remote"){
             ut_config.manualPagination = true

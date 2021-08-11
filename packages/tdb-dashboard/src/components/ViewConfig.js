@@ -29,7 +29,7 @@ export const getPropertyMetaTabConfig = (result) => {
     const tabConfig= TerminusClient.View.table()
 
     tabConfig.pager("remote")
-    tabConfig.pagesize(20)
+    tabConfig.pagesize(10)
     tabConfig.column("Property Name").header("Name").width(100)
     tabConfig.column("Property Domain").header("Domain").width(100)
     tabConfig.column("Property Range").header("Range").width(100)
@@ -81,9 +81,9 @@ export const getClassesGraphConfig = (result) => {
 
 
 export const tableViewConfig= () => {
-    const tabConfig= TerminusClient.View.table();
+    const tabConfig= TerminusClient.View.table()
     tabConfig.pager("remote")
-    tabConfig.pagesize(20)
+    tabConfig.pagesize(10)
     return tabConfig
 }
 
@@ -110,8 +110,6 @@ export const graphViewConfig = (result) => {
 
     graph.show_force(true)
 
-    console.log("result", result)
-
     if(propertyRelationType(result)){
         graph.edges(["Domain", "Range Label"])
 
@@ -125,10 +123,12 @@ export const graphViewConfig = (result) => {
         graph.node("Range Label").collisionRadius(100)
     }
     else {
-        for (var item in result[0]){
-            graph.node(item).color([27,153,139, 0.3]).size(30).text(item).icon({label: true, color: [109,98,100]})
+        for (var item in result[0]){ 
+
+            graph.node(item).color([23, 162, 184]).size(30).text(item).icon({label: true, color: [109,98,100]})
         }
     }
+    //[27,153,139, 0.3]
 
     let graphConfig = graph.create(null);
     graphConfig.setResult(result);
@@ -137,25 +137,30 @@ export const graphViewConfig = (result) => {
 
 
 // table configuration for document of a class
+//
 export const getDocumentOfTypeTabConfig = (result, getDeleteTool, getCopyIDTool, onRowClick) => {
     const tabConfig= TerminusClient.View.table()
 
     
     tabConfig.pager("remote")
-    tabConfig.pagesize(20)
+    tabConfig.pagesize(10)
     
     let columns = getColumnsFromResults(result)
 
     tabConfig.column_order(...columns)
 
+    /*columns.map(item => {
+        tabConfig.column(item).width(50)
+    })*/
+
     /*tabConfig.column_order("@id", "@type", "organization_name", "Tools")
     tabConfig.column("@id").header("Document ID").width(100)
     tabConfig.column("@type").header("Type").width(120) 
     tabConfig.column("organization_name").header("Organization Name").width(120)*/
-    tabConfig.column("Copy").header("Copy ID").width(80).render(getCopyIDTool)
+    //tabConfig.column("Copy").header("Copy ID").width(80).render(getCopyIDTool)
     //tabConfig.column("Delete").header("Delete").width(80).render(getDeleteTool)
     tabConfig.row().click(onRowClick)
 
-    return tabConfig
+    return tabConfig 
 }
 

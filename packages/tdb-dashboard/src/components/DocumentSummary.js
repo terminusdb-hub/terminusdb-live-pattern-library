@@ -78,7 +78,7 @@ export const DocumentSummary = ({setDocumentObject}) => {
     
 
   
-    return  <main className="content mr-3 ml-5 w-100">
+    return  <main className="content  ml-5 w-100">
         <Container>
             <Row>  
                 {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}

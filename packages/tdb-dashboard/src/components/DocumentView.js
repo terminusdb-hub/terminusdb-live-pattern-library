@@ -91,7 +91,7 @@ export const DocumentView = () => {
             {!documentObject.action && (!documentResults) && <DocumentSummary setDocumentObject={setDocumentObject}/>}
             { 
             !documentObject.action && (documentResults.length>0) && tableConfig && 
-                <main className="content mr-3 ml-5 w-100">
+                <main className="content mr-3 ml-5 w-100 ">
                     <Row className="w-100">
                         <Col md={11}> 
                             <Card className="content mr-3 ml-5 w-100" varaint="light"> 
