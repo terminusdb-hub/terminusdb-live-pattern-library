@@ -5,11 +5,14 @@ import {AiOutlineDelete} from "react-icons/ai"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {WOQLClientObj} from "../init-woql-client"
+import {TERMINUS_DANGER} from "./constants"
+import {Alerts} from "./Alerts"
 
 export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}) => {
     const [id, setID]=useState(false)
     const [loading, setLoading] = useState(false)
     const [disabled, setDisabled]=useState(true)
+    const [reportAlert, setReportAlert]=useState(false)
     const {
         woqlClient, 
         reconnectToServer
@@ -22,10 +25,14 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
         woqlClient.deleteDatabase(dataProductDetails.name, woqlClient.organization(), true)
         .then((res) => {        
             setShowModal(false)
+            setDisabled(true)
             reconnectToServer()
+            setReportAlert(false)
+            setLoading(false)
         })
-        .catch((err) => console.log(err))
-        .finally(()=>{
+        .catch((err) => {
+            let messaage=`Error in deleting database ${dataProductDetails.label}. ${err}`
+            setReportAlert(messaage)
             setLoading(false)
         })
     }
@@ -40,14 +47,19 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
     function handleClose (e) {
         if(setShowModal) setShowModal(false)
     }
+
+    useEffect(() => {
+        if(showModal) setReportAlert(false)
+    }, [showModal])
     
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={handleClose}>
-        {loading && <Loading message={`Deleting Data Product ${dataProductDetails.id} ...`} type={PROGRESS_BAR_COMPONENT}/>}
+        {loading && <Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         <Modal.Header>
             <Modal.Title className="h6">{`Are you sure to delete Data Product - ${dataProductDetails.label} ?`} </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body className="p-5">
+            {reportAlert && <Alerts message={reportAlert} type={TERMINUS_DANGER}/>}
             <div className="d-flex align-items-center col-md-12 mb-3">
                 <h6 className="fw-normal text-muted mb-2">Data Product ID </h6>
                 <h6 className="ml-3">{dataProductDetails.name}</h6>

@@ -11,8 +11,10 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion'
 import 'react-accessible-accordion/dist/fancy-example.css'
-import { PRODUCT_MODELS } from "../routing/constants"
+import {IconBarConfig} from "./constants"
 import {handleCreate} from "./documents.utils"
+import {Nav} from "react-bootstrap"
+import {NavLink as RouterNavLink} from "react-router-dom"
 
 
 export const DocumentSummary = ({setDocumentObject}) => {
@@ -83,7 +85,18 @@ export const DocumentSummary = ({setDocumentObject}) => {
                 {!perDocumentCount && <Col xs={11} className="d-block ml-5 mr-3">
                     <div class="card card-fil m-3">
                         <div class="card-body w-100 text-center">
-                            <h4 className="text-muted mt-3 mb-3">{`No document classes created yet...`}</h4>
+                            <h4 className="text-muted mt-3 mb-5">{`No document classes created yet...`}</h4>
+                            <Nav.Item className="mb-4">
+                                <Nav.Link  as={RouterNavLink}
+                                    title={IconBarConfig.dataProductModal.title}  
+                                    className="btn btn-lg bg-info d-inline text-white" 
+                                    to={IconBarConfig.dataProductModal.path} 
+                                    exact
+                                    onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
+                                    id={IconBarConfig.dataProductModal.key}>
+                                        <BiPlus className="mr-1"/>Create a document
+                                </Nav.Link>
+                            </Nav.Item>
                         </div>
                     </div>
                 </Col>}

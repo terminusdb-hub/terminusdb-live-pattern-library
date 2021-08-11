@@ -37,19 +37,19 @@ export const IconBarConfig = {
     },
     dataProductExplorer: {
         title: "Data Product Explorer",
-        key: "Data Product",
+        key: "Data Product Explorer",
         path: PRODUCT_EXPLORER,
         icon: <BiCode/>
     },
     dataProductModal:{
         title: "Data Product Model",
-        key: "Data Product",
+        key: "Data Product Model",
         path: PRODUCT_MODELS,
         icon: <MdBubbleChart/>
     },
     dataProductManage: {
         title: "Manage Data Product",
-        key: "Manage Data",
+        key: "Manage Data Product",
         path: PRODUCT_MANAGE,
         icon: <SiGithubactions/>
     },

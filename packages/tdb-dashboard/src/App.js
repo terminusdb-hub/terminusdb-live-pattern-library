@@ -41,26 +41,26 @@ export function App (props){
 
     return <React.Fragment>
             <div className="container-fluid container-background h-100">
-            <Router history={history}>
-            <Switch>
-                <Route path="/" exact>
-                    <Home />
-                </Route>
-                <Route path="/verify" exact>
-                    <VerifyEmail />
-                </Route>               
-                <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
-                <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
-                <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
-                <Route path={DOCUMENT} component = {DocumentPage} exact/>               
-                <PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/> 
-                <PrivateRoute path={FEEDBACK} component = {Feedback} exact/>               
-                <PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} exact/>                   
-                <Route path = {INVITE_PAGE} >
-                    <PrivateRoute path = {INVITE_PAGE} component = {Home} exact />
-                </Route> 
-            </Switch>
-            </Router>         
+                <Router history={history}>
+                    <Switch>
+                        <Route path="/" exact>
+                            <Home />
+                        </Route>
+                        <Route path="/verify" exact>
+                            <VerifyEmail />
+                        </Route>               
+                        <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
+                        <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
+                        <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
+                        <Route path={DOCUMENT} component = {DocumentPage} exact/>               
+                        <PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/> 
+                        <PrivateRoute path={FEEDBACK} component = {Feedback} exact/>               
+                        <PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} exact/>                   
+                        <Route path = {INVITE_PAGE} >
+                            <PrivateRoute path = {INVITE_PAGE} component = {Home} exact />
+                        </Route> 
+                    </Switch>
+                </Router>         
             </div>
           </React.Fragment>
 }

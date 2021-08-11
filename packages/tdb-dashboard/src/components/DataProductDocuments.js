@@ -19,7 +19,7 @@ export const DataProductDocuments = () => {
         dataProduct,
         documentClasses
     } = WOQLClientObj()
-    const {addQueryPane} = QueryPaneObj() 
+    //const {addQueryPane} = QueryPaneObj() 
 
     const [query, setQuery]=useState(false)
     var [dataProvider]=executeQueryHook(woqlClient, query)

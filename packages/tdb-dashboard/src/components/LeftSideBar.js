@@ -28,7 +28,7 @@ export const LeftSideBar = (props) => {
                 {dataProduct && <ConnectedDataProduct/>}
                 {dataProduct && route==DOCUMENT_EXPLORER && <DocumentExplorerDocuments/>}
                 {dataProduct && route==PRODUCT_EXPLORER && <DataProductDocuments/>}
-                {dataProduct && route==PRODUCT_EXPLORER && <SampleQueries/>}
+                {/*dataProduct && route==PRODUCT_EXPLORER && <SampleQueries/>*/}
             </Menu>
         </SidebarContent>
       </ProSidebar>

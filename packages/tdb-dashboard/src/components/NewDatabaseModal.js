@@ -7,19 +7,28 @@ import {FaPlus} from "react-icons/fa"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {WOQLClientObj} from "../init-woql-client"
+import {DATA_PRODUCTS} from "../routing/constants"
+import {IconBarConfig} from "./constants"
+import {Nav} from "react-bootstrap"
+import {NavLink as RouterNavLink} from "react-router-dom"
+import {BiPlus} from "react-icons/bi"
+import {TERMINUS_DANGER} from "./constants"
+import {Alerts} from "./Alerts"
 
 export const NewDatabaseModal = ({showModal, setShowModal}) => {
     const {
         woqlClient, 
-        reconnectToServer
+        reconnectToServer,
+        setRoute
     } = WOQLClientObj()
 
     const [loading, setLoading] = useState(false)
     const [id, setID]=useState(false)
     const [label, setLabel]=useState(false)
     const [description, setDescription]=useState(false)
+    const [reportAlert, setReportAlert]=useState(false)
    
-    function handleCreate (evt) {
+    function handleCreate (setRoute) {
         //evt.preventDefault()
         //evt.stopPropagation()
         let dbInfo = {id: id, label: label, comment: description, organization:woqlClient.organization()}
@@ -27,11 +36,14 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
             setLoading(true)
             woqlClient.createDatabase(dbInfo.id, dbInfo).then((res) => {
                 setLoading(false)
-                
-            }).catch((err) => console.log(err))
-            .finally(() => {
-                setShowModal(false)
                 reconnectToServer(dbInfo.id)
+                setRoute(IconBarConfig.dataProductView.path)
+                setShowModal(false)
+                setReportAlert(false)
+            }).catch((err) => {
+                let messaage=`Error in creating database ${dataProductDetails.label}. ${err}`
+                setReportAlert(messaage)
+                setLoading(false)
             })
         }
     }
@@ -65,6 +77,7 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body className="p-5">
+            {reportAlert && <Alerts message={reportAlert} type={TERMINUS_DANGER}/>}
             <Form >
                 <Form.Group className="mb-3">
                     <Form.Control  required id={newDataProductForm.id.id} type={"text"} onBlur={handleOnBlur} placeholder={newDataProductForm.id.placeholder} />
@@ -77,8 +90,19 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
                 </Form.Group>
             </Form>
         </Modal.Body>
-        <Modal.Footer>
-            <TDBReactButton onClick={handleCreate} className= "float-right" config={CREATE_NEW_DATA_PRODUCT_BUTTON}/>
+        <Modal.Footer> 
+            {/*<TDBReactButton onClick={handleCreate} className= "float-right" config={CREATE_NEW_DATA_PRODUCT_BUTTON}/>*/}
+            <Nav.Item className="mb-4">
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.dataProductView.title}  
+                    className="btn btn-sm bg-info d-inline text-white" 
+                    to={IconBarConfig.dataProductView.path} 
+                    exact
+                    onClick={(e) => handleCreate(setRoute)}
+                    id={IconBarConfig.dataProductView.key}>
+                        <BiPlus className="mr-1"/>{CREATE_NEW_DATA_PRODUCT_BUTTON.label}
+                </Nav.Link>
+            </Nav.Item>
         </Modal.Footer>
     </Modal>
 }
