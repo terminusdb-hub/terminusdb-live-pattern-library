@@ -34,7 +34,7 @@ export const CodeEditor = ({text, language, onChange, onBlur, theme}) => {
     }
 
     return (
-        <CodeMirror value={ text } options={ cmoptions }
+        <CodeMirror value={ text } options={ cmoptions } className="qp-CodeMirror"
             onChange={(editor, data, value) => {
                 if(onChange) onChange(value);
             }}

@@ -28,30 +28,15 @@ export const ModelBuilder = (props) =>{
 
     if(!dataProduct) return <div>error in loading graph</div>
 
+
+    /*
+    <Row>
+         <h2 className="text-success fw-bold ml-3"> 
+            {dataProduct} 
+         </h2>
+         </Row>*/
     return <React.Fragment>
-         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
-         <Row className="mt-5 w-100 justify-content-md-center">
-            
-         
-            {/*<div>
-                <Button title={SCHEMA_MODEL_VIEW}
-                    variant="link" 
-                    className="text-info mr-3"
-                    onClick={(e) => setSchemaView(SCHEMA_MODEL_VIEW)}>Model</Button>
-                <Button variant="link" 
-                    className="m-3 text-info" 
-                    title={SCHEMA_CLASSES_VIEW}
-                    onClick={(e) => setSchemaView(SCHEMA_CLASSES_VIEW)}>Classes</Button>
-                <Button variant="link" 
-                    className="m-3 text-info" 
-                    title={SCHEMA_PROPERTIES_VIEW}
-                    onClick={(e) => setSchemaView(SCHEMA_PROPERTIES_VIEW)}>Properties</Button>
-                {/*<Button variant="link"  // nuking OWL text editor for now
-                    className="m-3 text-info" 
-                    title={SCHEMA_EDITOR_VIEW}
-                    onClick={(e) => setSchemaView(SCHEMA_EDITOR_VIEW)}>Text Editor</Button>}
-            </div>*/}
-            {dataProduct && (schemaView == SCHEMA_MODEL_VIEW) && <Row>
+            {dataProduct && (schemaView == SCHEMA_MODEL_VIEW) && 
                 <GraphObjectProvider mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
                     <ViewBuilder saveGraph={saveData} 
                         dbName={dataProduct} 
@@ -59,15 +44,17 @@ export const ModelBuilder = (props) =>{
                         saveGraph={saveData}
                         /> 
                 </GraphObjectProvider> 
-            </Row>}
-            {(schemaView == SCHEMA_CLASSES_VIEW) &&  <Row>
+           }
+          </React.Fragment> 
+}
+
+//maybe we don't need this 
+
+/*
+ {(schemaView == SCHEMA_CLASSES_VIEW) &&  <Row>
                     <ClassesTab woqlClient={woqlClient} dataProduct={dataProduct}/>
                 </Row>
             }
             {(schemaView == SCHEMA_PROPERTIES_VIEW) && <Row>
                 <PropertiesTab woqlClient={woqlClient} graph={"schema"}/>
-            </Row>}
-        </Row>
-        
-    </React.Fragment> 
-}
+            </Row>}*/

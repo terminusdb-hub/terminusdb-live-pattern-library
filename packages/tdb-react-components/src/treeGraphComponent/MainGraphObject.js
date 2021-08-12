@@ -6,7 +6,7 @@ import {formatData,
 		checkInheritance,
 		OrdinaryClassObj,
 		EntityClassObj,
-		availableParentsList,addObjectPropertyRangeItem,
+		availableParentsList,checkLinkProperty,
 		addElementToPropertyList} from './FormatDataForTree';
 import {getNewNodeTemplate,getNewPropertyTemplate} from './utils/modelTreeUtils'
 import {graphUpdateObject} from './utils/graphUpdateObject';
@@ -37,13 +37,13 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	let _domainToProperties={};
 
 	/*
-	* the list of all the class for the link properties
+	* the list of all the class for the link properties 
 	*/
 	let _objectPropertyList=[];
 
 	/*
 	* Link Properties/Enum Property organized by range
-	* {linkedClass:[{nodeName:classId,propertyName:key}]
+	* {linkedClass:[{nodeName:classId,nodeId:classId,propName:key,propId:key}]
 	* LINK PROPERTIES
 	*/
 	let _objectPropertyToRange={};
@@ -111,9 +111,13 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return _descendantsNode;
 	}
 
-	const getObjectProperty = (nodeId,proName)=>{
-		const objProperties = (nodeId)
-		return objProperties[proName]
+	const getObjectProperty = (nodeName,proName)=>{
+		//const objProperties = (nodeId)
+		const nodeProperties = _domainToProperties[nodeName]
+		if(nodeProperties)
+			return nodeProperties.find(element => element.name===proName) || {}
+
+		return undefined
 	}
 
 	/*
@@ -133,15 +137,6 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		_mainGraphElementsJson=mainGraphDataProvider;
 		const {rootIndexObj,linkPropertyClasses}=formatData(mainGraphDataProvider,dbName);		
 		_rootIndexObj=rootIndexObj
-		//_objectPropertyToRange=linkPropertyClasses
-		
-		//const[propertyByDomain,objectPropertyRange,propertiesList]=formatProperties(mainGraphDataProvider.propsResult,mainGraphDataProvider.restResult,_rootIndexObj);		
-		//_domainToProperties=propertyByDomain;
-		//_objectPropertyToRange=objectPropertyRange;
-
-		//can not works different class can have the same property 
-		//_propertiesList=propertiesList;
-		
 		formatDataForTree()
 	}
 
@@ -152,6 +147,10 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return  availableParentsList(nodeObject,_objectTypeList,_documentTypeList,_rootIndexObj)
 	}
 
+
+	/*
+	* add a new property in the class property list 
+	*/
 	const addNewPropertyToClass = (nodeName, propertyType)=>{
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
 			const newProperty=getNewPropertyTemplate(propertyType) //_graphUpdateObject.addPropertyToClass(nodeName,propertyType,propertyRange);
@@ -368,26 +367,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	const _removeClassElement=(elementName)=>{
 		const classElement=_rootIndexObj[elementName];
-		if(classElement){
-			/*
-			*register the remove 
-
-			*/		
-			/*
-			* if this is an UNDO action (ex UNDO of add Parent)
-			* I could remove a node with a child
-			* so I have to move the child node under 
-			* a new parent before delete it 
-			*/
-			/*	if(classElement._childrenObj.size>0){
-				for (let childObj of classElement._childrenObj.values()){
-					updateNodeParents(childObj.id,elementName,NODE_ACTION_NAME.REMOVE_PARENT)
-				}
-			}*/
-
-			
+		if(classElement){			
 			// I have to remove the node from the nodeParents list
-			
 			classElement.parents.forEach((parentName)=>{
 				const parentObj=_rootIndexObj[parentName];
 				removeElementToArr(parentObj.children,elementName)
@@ -414,11 +395,11 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			    case CLASS_TYPE_NAME.CHOICE_CLASS:
 			    	removeElementToArr(_objectChoiceList,elementName)
 			}
+			if(!classElement.newElement){
+				deleteDocList.push(classElement.id)
+			}
 
-			_graphUpdateObject.removeNode(classElement)
-
-			// I need the node element for UNDO action
-			//return nodeElement;
+			return nodeElement;
 		}
 	}
 
@@ -427,8 +408,9 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	* children and it is not a target in a relationship 
 	* (this node can not be a range in a property link)
 	*/
-	const removeElementInMainGraph=(elementName)=>{
-		//delete all the element related property object
+	const removeElementInMainGraph=()=>{
+		//delete all the class propertis
+		const elementName = _currentNode.name 
 		const listOfProperty=_domainToProperties[elementName] ? _domainToProperties[elementName].slice() : [];
 		if(listOfProperty.length>0){
 			listOfProperty.forEach((property,key)=>{
@@ -443,19 +425,19 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	const removePropertyToClass=(domainClassName,propertyName)=>{
 		const propertyByDomain=_domainToProperties[domainClassName] || [];	
 		
-		//remove by domain
+		//remove the property from the class properties list
 		const propertyObject=removeElementToArr(propertyByDomain,propertyName)
 		
-		// remove by range
-		const propertyByRange=_objectPropertyToRange[propertyObject.range];
-		if(propertyByRange)
-			removeElementToArr(propertyByRange,propertyName);
 		
+		const range = getPropertyClassFromSchema(propertyObject.id)
+		//if this is a property link this method remove it from the link properties list 
+		checkLinkProperty(propertyObject,_objectPropertyToRange,_currentNode.name,null,range)
+			
 		//remove from the json Object
-		if(currentNode[propertyName]){
-			delete currentNode[propertyName]
+		if(_currentNode && _currentNode.schema[propertyObject.id]){
+			delete _currentNode.schema[propertyObject.id]
 		}
-		
+		_currentNode.needToSave=true
 		return propertyByDomain.slice();
 	}
 
@@ -504,8 +486,6 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			  objectPropertyList,
 			  objectChoiceList] = new formatDataForTreeChart(getRoot());
 		_descendantsNode=descendantsNode;
-		//_classesList=classesList;
-		//_entitiesList=entitiesList;
 		_documentTypeList=documentTypeList
 		_objectTypeList=objectTypeList
 		_objectPropertyList=objectPropertyList;
@@ -520,14 +500,14 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	const savedObjectToWOQL=()=>{
 		const updateList=[]
 		const newElementList=[]
-		Object.values(_rootIndexObj).forEach(item=>{
-			if(item.needToSave===true ){
-				if(item.newElement===false){
+		Object.values(_rootIndexObj).forEach(item=>{			
+			if(item.type!=='ROOT' && item.type!=='Group'){
+				if(item.newElement===false && item.needToSave===true){
 					updateList.push(item.schema)
-				}else{
+				}else if(item.newElement===true){
 					newElementList.push(item.schema)
 				}
-			}
+			}		
 		})
 		return {deleteList : deleteDocList,updateList:updateList,newElementList:newElementList}
 	}
@@ -600,12 +580,23 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	} 	
 
 
-	const setComment=(value,propertyname)=>{
-		if(_currentNode.schema){
-			if(!_currentNode.schema['@documentation']){
-				_currentNode.schema['@documentation'] = {}
+	const setComment=(value)=>{	
+		if(_currentNode.schema ){
+			if(value!==''){
+				if(!_currentNode.schema['@documentation']){
+					_currentNode.schema['@documentation'] = {}
+				}
+				_currentNode.schema['@documentation']['@comment']=value
+				
+			}else if(_currentNode.schema['@documentation']){
+				if(_currentNode.schema['@documentation']['@comment']){
+					delete _currentNode.schema['@documentation']['@comment']
+				}				
+				if(!_currentNode.schema['@documentation']['@properties']){
+					delete _currentNode.schema['@documentation']
+				}
 			}
-			_currentNode.schema['@documentation']['@comment']=value
+
 			_currentNode.needToSave=true
 		}
 	}
@@ -661,7 +652,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		if(currentPropertyValue!== undefined){
 			delete _currentNode.schema[oldPropId]
 		}
-		_currentNode.schema[newId] = currentPropertyValue || defaultRange
+		propertyObj.id = newPropId
+		_currentNode.schema[newPropId] = currentPropertyValue || rangePropValue
 	}
 
 	const getEnumValues =()=>{
@@ -671,7 +663,20 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return []
 	}
 
+	/*
+	* return the p
+	*/
+	const getPropertyClassFromSchema = (propId)=>{
+		switch(typeof _currentNode.schema[propId]){
+			case 'string':
+				return _currentNode.schema[propId]
+			case 'object':_currentNode.schema[propId]['@class']
+				return 
+		}
+	}
+
 	const getPropertyInfo = (propId)=>{
+		if(!_currentNode.schema[propId]) return {}
 		let obj = {}
 		switch(typeof _currentNode.schema[propId]){
 			case 'string':
@@ -697,14 +702,16 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	//range 
 	//option
 	//what happen if I change something before setting the id???
-	const setPropertyInfo = (propId,fieldName,fieldValue)=>{
+	const setPropertyInfo = (propertyObj,fieldName,fieldValue)=>{
+		const propId=propertyObj.id
 		if(!_currentNode.schema[propId])return
 		switch(fieldName){
 			//this is the property's type like string, num ....
 			case 'range':{
 				if( _rootIndexObj[fieldValue]!==undefined){
 					const oldRange = typeof _currentNode.schema[propId] === 'object' ? _currentNode.schema[propId]['@class'] : _currentNode.schema[propId] 
-					addObjectPropertyRangeItem(_objectPropertyToRange,_currentNode.name,propId,fieldValue,oldRange)
+					
+					checkLinkProperty(propertyObj,_objectPropertyToRange,_currentNode.name,fieldValue,oldRange)
 				}
 				if(typeof _currentNode.schema[propId] === 'string'){
 					_currentNode.schema[propId]=fieldValue
@@ -747,6 +754,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	}
 
 	const setPropertyComment = (propId,comment) =>{
+		if(!_currentNode.schema['@documentation'] 
+			&& comment && comment.trim()!=='')return
 		if(!_currentNode.schema['@documentation'])_currentNode.schema['@documentation']={}
 		if(!_currentNode.schema['@documentation']['@properties'])
 			_currentNode.schema['@documentation']['@properties']={}
@@ -771,6 +780,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	const updateEnumValues = (enumArr) =>{
 		_currentNode.schema['@value'] = enumArr
 	}
+
 
 
 	return {setId,getPropertyInfo,setPropertyInfo,getNodeData,

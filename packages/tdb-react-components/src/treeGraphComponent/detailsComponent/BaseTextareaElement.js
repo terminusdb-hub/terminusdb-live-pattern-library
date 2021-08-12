@@ -28,7 +28,7 @@ export const BaseTextareaElement = (props) => {
 	                 <label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
 	                 <HelpComponent text={props.help}/>
                 </div>
-                <textarea onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
+                <textarea rows="5" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
             </div>
 
 	)
@@ -48,8 +48,8 @@ BaseTextareaElement.propTypes = {
 BaseTextareaElement.defaultProps = {
 	  title:'',
 	  defaultValue: '',
-	  groupClassName:'tdb__form__group',
-	  inputClassName:'tdb__form__element',
+	  groupClassName:'form-group mb-3',
+	  inputClassName:"form-control",
 	  labelClassName:'tdb__form__label',
 	  disabled:false
 }

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
 import {Row, Form, Col} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
 import Select from 'react-select'
 import {FaStarOfLife} from "react-icons/fa"
 import {singleSelectStyle} from "./constants"
@@ -10,7 +9,7 @@ import 'react-accessible-accordion/dist/fancy-example.css'
 import {getDocumentsOfClassOfInterest} from "../hooks/DocumentControl"
 import {DocumentFrameAccordian} from "./DocumentFrameAccordian"
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
-
+import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
 const SelectedDocumentAccordian = ({selected}) => {
 
@@ -65,16 +64,33 @@ export const ClassTypeFrame = ({documentObject, propertyID, property, type, onCh
     }, [documentObjectTemp])
 
     return <Form.Group as={Col} md="12" controlId={property}>
-        <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
+        <Form.Label className="w-100">
+            <FaStarOfLife className="mr-2 text-warning mandatory-icon"/>
+            {property}
+            <DocumentationTypeFrame documentObject={documentObject} property={property}/>
+        </Form.Label> 
         {(documentObject.action == CREATE_DOCUMENT) && <Select options={options}
+            required
             onChange={handleSelect}
             styles={singleSelectStyle}
         />}
         {(documentObject.action == EDIT_DOCUMENT) && defaultValue && <Select options={options}
+            required
             onChange={handleSelect}
             styles={singleSelectStyle}
             defaultValue={defaultValue}
         />}
+        {(documentObject.action == EDIT_DOCUMENT) && !defaultValue && <Select options={options}
+            required
+            onChange={handleSelect}
+            styles={singleSelectStyle}
+        />}
         {selected && <SelectedDocumentAccordian selected={selected}/>}
+
+        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">
+            {`Please provide a valid ${property}.`}
+        </Form.Control.Feedback>
+        
     </Form.Group>
 }

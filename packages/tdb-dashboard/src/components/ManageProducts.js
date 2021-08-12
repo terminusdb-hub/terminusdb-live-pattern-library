@@ -76,10 +76,10 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 {/*<Button variant="light" className="mr-3" title={VIEW_HISTORY.title} onClick={(e) => setHistory(true)}>
                     <MdTimer className="me-2"/>{VIEW_HISTORY.label}
                 </Button>*/}
-                <Button variant="light" className="mr-3 btn btn-sm" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
+                <Button variant="info" className="mr-3 btn btn-sm" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
                     <AiOutlinePlus className="me-2 "/>{CREATE_NEW_BRANCH_BUTTON.label}
                 </Button>
-                <Button variant="light" className="btn btn-sm" title={"Close Manage Products"} onClick={(e) => setNewBranch(true)}>
+                <Button variant="light" className="btn btn-sm text-dark" title={"Close Manage Products"}>
                     <AiOutlineClose className="me-2 " onClick={(e) => setDataProductSettings(false)}/>
                 </Button>
             </div>

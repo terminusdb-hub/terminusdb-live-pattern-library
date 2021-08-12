@@ -4,7 +4,6 @@ import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {QueryPaneObj} from "../hooks/queryPaneContext"
 //import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
-import {DocumentControl} from "../hooks/DocumentControl"
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
@@ -20,7 +19,7 @@ export const DataProductDocuments = () => {
         dataProduct,
         documentClasses
     } = WOQLClientObj()
-    const {addQueryPane} = QueryPaneObj() 
+    //const {addQueryPane} = QueryPaneObj() 
 
     const [query, setQuery]=useState(false)
     var [dataProvider]=executeQueryHook(woqlClient, query)
@@ -91,7 +90,7 @@ export const DataProductDocuments = () => {
 
     return <SubMenu title={"Document Types"} className="menu-title">
        <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
-       {documentClasses && documentClasses.map(item => {
+       {Array.isArray(documentClasses) && documentClasses.map(item => {
             if(!searchDocument) {
                 return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
             }
@@ -123,9 +122,11 @@ export const DocumentExplorerDocuments = () => {
             submit: false,
             currentDocument: false,
             frames: {},
-            update:Date.now()
+            update:Date.now(),
+            message: false,
+            loading: false
         })
-    }
+    } 
 
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
@@ -143,7 +144,7 @@ export const DocumentExplorerDocuments = () => {
                 </Button>
                 <Button 
                     className="pro-item-content btn-sm" 
-                    variant="dark"
+                    variant="dark" 
                     title={`Add a new ${item["@id"]}`}
                     onClick={(e) => handleCreate(item["@id"], setDocumentObject)}>
                         <Badge variant="dark">
@@ -162,7 +163,9 @@ export const DocumentExplorerDocuments = () => {
         
         <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
 
-        {documentClasses && documentClasses.map(item => {
+        {documentClasses.length==0 && <div/>}
+
+        {documentClasses.length>0 && documentClasses.map(item => {
             if (item["@type"] == "Class") {
                 if(!searchDocument) {
                     return <DocumentMenu item={item}/>

@@ -41,7 +41,7 @@ export const BaseInputElement = (props) => {
 	                 <label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
 	                 <HelpComponent text={props.help}/>
                 </div>
-                <input 	ref={inputElement}
+                <input ref={inputElement}
                 		placeholder={props.placeholder} 
                 		onBlur={onBlur} 
                 		{...disabled} onChange={onChange} 
@@ -68,8 +68,8 @@ BaseInputElement.propTypes = {
 BaseInputElement.defaultProps = {
 	  title:'',
 	  defaultValue: '',
-	  groupClassName:'tdb__form__group',
-	  inputClassName:'tdb__form__element',
+	  groupClassName:'form-group mb-3',//'tdb__form__group',
+	  inputClassName:'form-control',//'tdb__form__element',
 	  labelClassName:'tdb__form__label',
 	  disabled:false,
 	  placeholder:''

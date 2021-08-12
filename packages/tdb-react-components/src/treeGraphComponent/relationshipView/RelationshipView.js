@@ -17,13 +17,15 @@ export const RelationshipView = (props)=>{
             const propertyDomainName=mainGraphObj.getElement(complexPropertyObj.nodeName,false) || {};
             
 			const property = mainGraphObj.getObjectProperty(complexPropertyObj.nodeName,complexPropertyObj.propName)
-			const label = property.id || ''
+			if(property){
+				const label = property.id || ''
 
-            return <RelationshipBox source={propertyDomainName} 
-            					sourceAction={changeCurrentNode}
-	   	                        target={selectedNodeObject}
-	   	                        label={label} 
-	   	                        key={'rel__'+index}/>
+				return <RelationshipBox source={propertyDomainName} 
+									sourceAction={changeCurrentNode}
+									target={selectedNodeObject}
+									propId={label} 
+									key={'rel__'+index}/>
+			}
 	})
 
 	/*
@@ -44,7 +46,7 @@ export const RelationshipView = (props)=>{
 		   		return(<RelationshipBox source={selectedNodeObject} 
             					targetAction={changeCurrentNode}
 	   	                        target={rangeElement}
-	   	                        label={label} 
+	   	                        propId={label} 
 	   	                        key={'dom__'+index}/>)
            }
            

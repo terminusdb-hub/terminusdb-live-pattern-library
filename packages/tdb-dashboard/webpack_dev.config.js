@@ -14,7 +14,7 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [
-    new Dotenv({path: path.resolve(__dirname, './.env')}),
+    new Dotenv({path: path.resolve(__dirname, '.env'), systemvars: true}),
     new webpack.LoaderOptionsPlugin({
       debug: true 
     })

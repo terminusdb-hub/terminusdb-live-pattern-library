@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {Form, Button, Row, Col, InputGroup} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
 import {BiPlus,BiEditAlt} from "react-icons/bi"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, NEW_OBJECT, CREATE_DOCUMENT, EDIT_DOCUMENT} from "./constants"
@@ -16,11 +15,6 @@ export const FrameViewer = () => {
         setDocumentObject,
         documentClasses
     } = WOQLClientObj()
-
-    const {
-        loading,
-        reportAlert
-    } = DocumentControl()
 
     //const [currentFrame, setCurrentFrame]=useState(false)
     const [formFields, setFormFields] = useState({"@type": documentObject.type})
@@ -38,7 +32,7 @@ export const FrameViewer = () => {
         setFormFields({
             ...formFields,
             [e.target.id]: e.target.value
-          })
+          }) 
     }
 
     function handleSelect(id, value) { // gather all form fields select on change
@@ -80,24 +74,30 @@ export const FrameViewer = () => {
         })
     }
 
-    const [validated, setValidated] = useState(false)
-    // check all fields are validated
-    const handleSubmit = (event) => {
+    const [validated, setValidated] = useState(false);
 
+    const handleSubmit = (event) => {
         const form = event.currentTarget
+        console.log("form.checkValidity()", form.checkValidity())
         if (form.checkValidity() === false) {
-            handleCreateDocument()
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        else {
+            if(documentObject.action==CREATE_DOCUMENT) handleCreateDocument()
+            else handleUpdateDocument()
             event.preventDefault()
             event.stopPropagation()
         }
         setValidated(true)
-    }
+       
+      }
 
-    return <React.Fragment>
-        {loading && <Loading message={`Loading frames for ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-        {reportAlert && reportAlert}
 
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    return <React.Fragment> 
+        {documentObject.message && documentObject.message}
+        <Form  noValidate validated={validated} onSubmit={handleSubmit}>
+            {/*documentObject.loading && documentObject.loading*/}
             {/*currentFrame && renderProperties(currentFrame)*/} 
             {documentObject.frames && <RenderFrameProperties documentObject={documentObject} 
                 documentClasses={documentClasses} 
@@ -109,15 +109,16 @@ export const FrameViewer = () => {
                 propertyID={uuidv4()}/>}
             {
                 documentObject.action==CREATE_DOCUMENT && 
-                    <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={handleCreateDocument}>
+                    <Button type="submit" className="btn btn-sm mt-2 float-right" variant="info">
                         <BiPlus className="mr-1"/>Create
                     </Button>
             }
             {
-                documentObject.action==EDIT_DOCUMENT && 
-                    <Button className="btn btn-sm mt-2 float-right" variant="info" onClick={handleUpdateDocument}>
-                        <BiEditAlt className="mr-1"/>Update
+                documentObject.action==EDIT_DOCUMENT && <React.Fragment>
+                    <Button type="submit" className="btn btn-sm mt-2 float-right" variant="info">
+                            <BiEditAlt className="mr-1"/>Update
                     </Button>
+                </React.Fragment>
             }
         </Form>
     </React.Fragment>

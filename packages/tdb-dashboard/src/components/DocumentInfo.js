@@ -4,7 +4,7 @@ import {Form, Row, Card, Col, Button} from "react-bootstrap"
 import {AiOutlineDelete} from "react-icons/ai"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, EDITOR_READ_OPTIONS, JSON_VIEW, EDIT_DOCUMENT, GET_FRAMES_DOCUMENT, VIEW_DOCUMENT, FORM_VIEW} from "./constants"
-import {DocumentControl, deleteDocument} from "../hooks/DocumentControl"
+import {deleteDocument} from "../hooks/DocumentControl"
 import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl" 
 import {UnControlled as CodeMirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
@@ -24,22 +24,26 @@ export const DocumentInfo = () => {
         woqlClient
     } = WOQLClientObj()
     
-    const {
-        loading,
-        reportAlert,
-        setLoading, 
-        setReportAlert
-    } = DocumentControl()
-
-
     const FormField = ({id, val}) => {
         return <Form.Group as={Col} md="12" controlId={id} className="ml-5" style={{marginLeft: "100px !important"}}>
-            <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
-                {id}
-            </Form.Label>
-            <Form.Label>
-                {val}
-            </Form.Label>
+            {(id != "@id") && <React.Fragment>
+                <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
+                    {id}
+                </Form.Label>
+                <Form.Label>
+                    {val}
+                </Form.Label>
+            </React.Fragment>}
+            {(id == "@id") && <div className="subdoc-block d-flex">
+                <span className="p-1 bg-secondary idfield">
+                    {id}
+                </span>
+                <Form.Label>
+                    {val}
+                </Form.Label>
+            </div>}
+                        
+            
         </Form.Group>
     }
 
@@ -59,7 +63,7 @@ export const DocumentInfo = () => {
                     <FormField id={key} val={docInfo[key]}/>
                 )
             }
-            else { // is Json true would mean this can be
+            else { // is Json true would mean this can be subdoc
                 let subDoc = docInfo[key] 
                 contents.push(<Form.Group as={Col} md="12" controlId={key} className="ml-5">
                     <Form.Label className="mr-5 text-muted fw-bold" style={{minWidth: "150px"}}>
@@ -124,7 +128,7 @@ export const DocumentInfo = () => {
     }
 
     function onDelete () {
-        deleteDocument(woqlClient, setDocumentObject, documentObject, setLoading, setReportAlert)
+        deleteDocument(woqlClient, setDocumentObject, documentObject)
     }
 
     function handleEdit () { 
@@ -142,32 +146,35 @@ export const DocumentInfo = () => {
 
 
     return <main className="content mr-3 ml-5 w-100">
-        <Row className="w-100">  
-            <Col md={9}> 
-                  {reportAlert && reportAlert}
+        <Row className="w-100 mb-5">  
+            <Col md={11}> 
+                {documentObject.message && documentObject.message}
                 <Card className="d-flex w-100">
-                     {loading && <Loading message={`Loading ${documentObject.currentDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>}
+                    {documentObject.loading && documentObject.loading}
                     <Card.Header className="d-flex w-100">
-                        <h5 className="col-md-9"><strong className="text-success">{documentObject.currentDocument}</strong></h5>
-                               
-                        <Button className="btn btn-sm btn-light mr-2" onClick={handleEdit} title={`Edit ${documentObject.currentDocumen}`}>
-                            <BiEdit className="mr-1"/> Edit
-                        </Button>
+                        <span className="float-left">
+                            <h5><strong className="text-success">{documentObject.currentDocument}</strong></h5>
+                        </span>    
+                        <span className="w-100 float-right">  
+                            <Button className="float-right btn btn-sm btn-light mr-2 text-dark" onClick={handleEdit} title={`Edit ${documentObject.currentDocumen}`}>
+                                <BiEdit className="mr-1"/> Edit
+                            </Button>
 
-                        <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
-                        
-                        <Button className="btn btn-sm btn-danger" title={`Delete ${documentObject.currentDocument}`} onClick={onDelete}>
-                            <AiOutlineDelete className="mr-1"/> Delete
-                        </Button>
+                            <Button className="float-right btn btn-sm btn-danger mr-2" title={`Delete ${documentObject.currentDocument}`} onClick={onDelete}>
+                                <AiOutlineDelete className="mr-1"/> Delete
+                            </Button>
+
+                            <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
+                            
+                        </span>
+                    
                     </Card.Header>
-                    <Card.Body>
+                    <Card.Body> 
                         <Form>
                             {documentObject.view && documentObject.update && <DocumentContents documentObject={documentObject}/>}
                         </Form>
                     </Card.Body>
                 </Card>
-            </Col>
-            <Col md={3}>
             </Col>
         </Row>
     </main>

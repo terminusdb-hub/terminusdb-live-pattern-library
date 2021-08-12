@@ -2,21 +2,40 @@ import React, { useState, useEffect } from "react"
 import {Row, Form, Col} from "react-bootstrap"
 import {FaStarOfLife} from "react-icons/fa"
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
+import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 
 // data type frame is usualy xsd or xdd datatype and is required to be filled
 export const DataTypeFrame = ({documentObject, property, propertyID, type, onChange}) => {
+
+    const [isID, setID] = useState(false)
+
+    useEffect(() => {
+        if((documentObject.action == EDIT_DOCUMENT) && documentObject.frames && documentObject.frames["@key"] && !documentObject.frames["@key"]["@fields"]) {
+            // mostly for sub documents u ignore coz type value hash
+            return 
+        }
+        if((documentObject.action == EDIT_DOCUMENT) && documentObject.frames && documentObject.frames["@key"] && documentObject.frames["@key"]["@fields"][0]== property) {
+            // to set id of document read only on edit
+            setID(property)
+        }
+    }, [property])
  
     return <Form.Group as={Col} md="12" controlId={property}>
-        <Form.Label><FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}</Form.Label>
+        <Form.Label className="w-100">
+            <FaStarOfLife className="mr-2 text-warning mandatory-icon"/>{property}
+            <DocumentationTypeFrame documentObject={documentObject} property={property}/>
+        </Form.Label>
 
+        {/* Create document */}
         {(documentObject.action == CREATE_DOCUMENT) && <Form.Control
             required
             type="text"
             placeholder={type}
             onBlur={(e) => onChange(e, propertyID)}
         />}
-
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame[property]) && <Form.Control
+        
+        {/* Edit document where property exists in filled frames, show default value */}
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame[property]) && !isID && <Form.Control
             required
             type="text"
             placeholder={type}
@@ -24,13 +43,21 @@ export const DataTypeFrame = ({documentObject, property, propertyID, type, onCha
             onBlur={(e) => onChange(e, propertyID)}
         />}
 
-        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (documentObject.filledFrame["@id"]) && <React.Fragment>
-            <Form.Label as={Col}>{"id"}</Form.Label>
+        {/* Edit document where property dosent exist in filled frames, show placeholder */}
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && (!documentObject.filledFrame[property]) && !isID && <Form.Control
+            required
+            type="text"
+            placeholder={type}
+            onBlur={(e) => onChange(e, propertyID)}
+        />}
+        
+         {/* Edit document make id field appear read only */}
+        {(documentObject.action == EDIT_DOCUMENT) && documentObject.frames && isID && <React.Fragment>
             <Form.Control
                 required
                 type="text"
                 placeholder={type}
-                defaultValue={documentObject.filledFrame["@id"]}
+                defaultValue={documentObject.filledFrame[property]}
                 readOnly 
             />
             </React.Fragment>}

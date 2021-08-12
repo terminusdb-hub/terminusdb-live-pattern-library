@@ -1,5 +1,7 @@
 
-import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
+import React from "react"
+import {CREATE_DOCUMENT, FORM_VIEW, PROGRESS_BAR_COMPONENT} from "./constants"
+import {Loading} from "./Loading"
 
 export function handleCreate (id, setDocumentObject) {  // on create on new document
     setDocumentObject({
@@ -10,8 +12,10 @@ export function handleCreate (id, setDocumentObject) {  // on create on new docu
         currentDocument: false,
         frames: {},
         filledFrame: {},
-        update:Date.now()
-    })
+        update:Date.now(),
+        message:false,
+        loading: <Loading message={`Fetching frames to create ${id} ...`} type={PROGRESS_BAR_COMPONENT}/>
+    }) 
 }
 
 

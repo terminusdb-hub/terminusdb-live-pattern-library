@@ -21,17 +21,16 @@ export const RenderFrameProperties = ({documentObject, documentClasses, handleCh
             } 
             else if (frame[item] && isEnumType(frame[item])) { // enums
                 props.push(<EnumTypeFrame documentObject={documentObject}  property={item} type={frame[item]} onChange={handleSelect} propertyID={propertyID}/>)
-            }
+            } 
             else if (frame[item] && isSubDocumentType(frame[item])) { // subdocuments
-                props.push(<SubDocumentTypeFrame documentObject={documentObject}  property={item} type={frame[item]} setFormFields={setFormFields} formFields={formFields} propertyID={propertyID}/>)
+                props.push(<SubDocumentTypeFrame documentObject={documentObject}  property={item} type={frame[item]} setFormFields={setFormFields} formFields={formFields} propertyID={propertyID} set={false}/>)
             }
             else if(frame[item] && isSetType(frame[item], documentClasses)) { // set documents
-                props.push(<ClassSetTypeFrame documentObject={documentObject}  property={item} object={frame[item]} onChange={handleSetSelect} propertyID={propertyID}/>)
+                props.push(<ClassSetTypeFrame documentObject={documentObject}  property={item} object={frame[item]} onChange={handleSetSelect} setFormFields={setFormFields} formFields={formFields} propertyID={propertyID}/>)
             }
             else if (frame[item] && isOptionalType(frame[item])) { // if Optional xsd:/ xdd:
                 props.push(<OptionalFrames documentObject={documentObject}  property={item} object={frame[item]} onChange={handleChange} propertyID={propertyID}/>)
             }
-            
         }
         return props 
     }

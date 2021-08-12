@@ -4,7 +4,7 @@ import {Row, Form, Col} from "react-bootstrap"
 import {getSubDocumentFrame} from "../hooks/DocumentControl"
 import {SubDocumentFrameViewer} from "./SubDocumentFrameViewer"
 
-export const SubDocumentTypeFrame = ({property, type, setFormFields, formFields}) => {
+export const SubDocumentTypeFrame = ({property, type, setFormFields, formFields, set}) => {
     const [documentFrame, setDocumentFrame]=useState(false)
 
     const {
@@ -14,7 +14,7 @@ export const SubDocumentTypeFrame = ({property, type, setFormFields, formFields}
     
     useEffect(() => { // get all instances of type to display in select
         if (!type) return
-        getSubDocumentFrame (woqlClient, type["@class"]["@class"], setDocumentFrame)
+        getSubDocumentFrame (woqlClient, type["@class"], setDocumentFrame)
     }, [type])
 
     return <Form.Group as={Col} md="12" controlId={property}>
@@ -23,6 +23,7 @@ export const SubDocumentTypeFrame = ({property, type, setFormFields, formFields}
             property={property} 
             documentFrame={documentFrame}
             setFormFields={setFormFields}
-            formFields={formFields}/>}
+            formFields={formFields}
+            set={set}/>}
     </Form.Group>
 }

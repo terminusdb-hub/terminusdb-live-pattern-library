@@ -1,25 +1,22 @@
 import React, {useState, useEffect} from "react"
 import {Card, Button, Form} from "react-bootstrap"
-import {DocumentControl} from "../hooks/DocumentControl"
 import {RenderFrameProperties} from "./RenderFrameProperties"
 import {BsPlus} from "react-icons/bs"
 import { v4 as uuidv4 } from 'uuid'
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
 
-export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, formFields}) => {
+export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, formFields, set}) => {
     const [subDocArray, setSubDocArray] = useState([])
     const [propertyFill, setPropertyFill]=useState([])
 
     const [propertyFormFields, setPropertyFormFields]=useState([])
 
     const {
-        documentObject
+        documentObject,
+        documentClasses
     } = WOQLClientObj()
 
-    const {
-        documentClasses,
-    } = DocumentControl() 
 
     /*{ example of forlm field to uuid of sub doc
     75b71314-8f9e-4b57-b58a-6183c183e4e3: [{email_to: "asd"}, {"note": "sakjd"}]
@@ -85,7 +82,7 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                 documentFrame={newDocumentObject} 
                 propertyID={uuidv4()}    
                 documentClasses={documentClasses}
-                setPropertyFill={setPropertyFill}/>])
+                setPropertyFill={setPropertyFill}/>]) 
         }
         if(documentObject.action == EDIT_DOCUMENT) {// on edit document display filled frames of sub documents 
             let subDocProperty = documentObject.filledFrame[property]
@@ -217,11 +214,11 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
 
         {subDocArray.length>0 && subDocArray}
 
-        <Button className="btn btn-sm mt-2 mb-1 ml-5" 
+        {set && <Button className="btn btn-sm mt-2 mb-1 ml-5" 
             variant="light" 
             onClick={(e) => addNewSubDocument(property, documentFrame, documentClasses)}>
             <BsPlus className="mr-1"/>{`Add new ${property}`}
-        </Button>
+        </Button>}
 
     </React.Fragment>
 

@@ -16,7 +16,9 @@ body{
 
 .main-content {
   overflow-y: auto;
+  overflow-x: hidden;
 }
+
 
 
 /* ---------- css for cowduck image with clouds ---------- */
@@ -178,7 +180,9 @@ div.progress-bar-position {
   color: #E3EBF6 !important;
 }
 
-
+.btn-light {
+  color: #000 !important;
+}
 
 /* ---------- sub nav css ----------- */
 
@@ -224,6 +228,21 @@ div.progress-bar-position {
   color: #a3b6ca !important;
 }
 
+/*
+@media only screen and (max-width: 600px) {
+  .table-container-overflow {
+    max-width: 400px;
+    width: 100% !important;
+  }
+  
+  .table-overflow {
+    max-width: 400px;
+    width: 100% !important;
+  }
+}*/
+
+
+
 .RRT__tab {
   background: transparent !important;
   border-style: solid; 
@@ -232,16 +251,6 @@ div.progress-bar-position {
 
 .tdb__panel__bar, .tdb__panel__title {
   background: transparent !important;
-}
-
-div.tdb__accordion {
-  background-color: transparent !important;
-}
-
-div.tdb__accordion__head{
-  background-color: #adb5bd;
-  border-radius: 4px;
-  margin-top: 5px;
 }
 
 .accordion__button {
@@ -567,6 +576,7 @@ input {
 .sub-menu-title {
   color: #d0d4d8  !important;
   font-weight: 100 !important;
+  cursor: pointer;
 }
 /* ---------- example data product card image  ---------- */
 
@@ -576,5 +586,23 @@ input {
 
 .CodeMirror {
   height: auto !important;
+  min-height: 200px !important;
+}
+
+.qp-CodeMirror {
+  height: auto !important;
   min-height: 400px !important;
 }
+
+.idfield {
+  margin-right: 160px !important;
+}
+
+.subdoc-block {
+  border-top: 1px solid #444;
+  width: 1000px;
+  padding-top: 20px;
+}
+
+
+

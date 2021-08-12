@@ -4,15 +4,12 @@ import SplitPane from "react-split-pane";
 import {CLASS_TYPE_NAME} from "./utils/elementsName";
 import {ModelTreeComponent} from './ModelTreeComponent';
 import {DetailsModelComponent} from './detailsComponent/DetailsModelComponent';
-import {ADD_NEW_ENTITY,ADD_NEW_CLASS,ADD_PARENT,ADD_CHILD} from './node/NodeConstants';
 import {GraphContextObj} from './hook/graphObjectContext';
-import {TERMINUS_FONT_BASE, DEFAULT_SCHEMA_VIEW} from '../constants/details-labels';
+import {DEFAULT_SCHEMA_VIEW} from '../constants/details-labels';
 import {ModelMainHeaderComponent} from './detailsComponent/ModelMainHeaderComponent';
 import {InfoBoxComponent} from './detailsComponent/InfoBoxComponent'
 import {InfoObjectComponent} from './detailsComponent/InfoObjectComponent'
-import {BsChevronRight, BsChevronLeft} from "react-icons/bs"
-import {Card, Row, Col} from "react-bootstrap"
-
+import {RightBarHeaderTools} from './detailsComponent/RightBarHeaderTools';
 export const ViewBuilder = (props)=>{
 
 	const {graphDataProvider,
@@ -29,7 +26,7 @@ export const ViewBuilder = (props)=>{
 		  savedObjectToWOQL,isFocusOnNode
 		  } = GraphContextObj();
 
-	const [isEditMode,setIsEditMode]=useState(false)
+	const [isEditMode,setIsEditMode]=useState(true)
 	const [panelIsOpen,setOpenClosePanel]=useState(true)
 	const [zoomEvent,setZoomEvent]=useState(undefined)
 	const [view, setView]=useState(DEFAULT_SCHEMA_VIEW)
@@ -40,8 +37,8 @@ export const ViewBuilder = (props)=>{
 	}, [props.view])
 
 	const saveData=(commitMessage)=>{
-		const query = savedObjectToWOQL();
-		if(props.saveGraph) props.saveGraph(query, commitMessage)
+		const json = savedObjectToWOQL();
+		if(props.saveGraph) props.saveGraph(json, commitMessage)
 	}
 
 	const [width, setWidth] = useState("")
@@ -70,7 +67,7 @@ export const ViewBuilder = (props)=>{
 	const mainPanelSize=panelIsOpen ? "calc(100% - 450px)" : "100%";
 
 	const treeMainGraphObj=props.treeMainGraphObj;
-
+ 
 	let showInfoComp=false
 	if(!selectedNodeObject || !selectedNodeObject.name ||
 		selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_ROOT ||
@@ -79,71 +76,58 @@ export const ViewBuilder = (props)=>{
 	}
 
 
-	return (
-
-		<div style={{display: "contents"}}>
+	return (<React.Fragment>		
 			<SplitPane split="vertical"
 				defaultSize="70%"
 				onChange={size => handleWidthChange(size, setWidth)}>
-
+				<div>
+				<ModelMainHeaderComponent
+					setNodeAction={setNodeAction}
+					extraTools={props.extraTools}
+					setZoomEvent={setZoomEvent}
+				/>
 				<SizeMe monitorHeight={true}>{({ size }) =>
-					<Col md={12}>
-						<Card className="p-4 ml-5 mr-4">
-							<div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%", background: "#2a2a2e", borderRadius: "4px"}}>
-								{graphDataProvider && <>
-									<ModelTreeComponent
-										objectPropertyToRange={objectPropertyToRange}
-										zoomEvent={zoomEvent}
-										isEditMode={isEditMode}
-										setNodeAction={setNodeAction}
-										selectedNodeObject={selectedNodeObject}
-										changeCurrentNode={changeCurrentNode}
-										width={size.width} height={size.height}
-										addedNewNode={selectedNodeObject.newNode}
-										graphUpdateLabel={graphUpdateLabel}
-										graphDataProvider={graphDataProvider}
-										isFocusOnNode={isFocusOnNode}/>
-								</>}
-							</div>
-						</Card>
-					</Col>}
-		        </SizeMe>
-				<Col md={12}>
-					<div className="mr-4">
-						{showInfoComp && selectedNodeObject.type!==CLASS_TYPE_NAME.SCHEMA_GROUP &&
-							<InfoBoxComponent dbName={props.dbName} custom={props.custom}/>
-						}
-						{showInfoComp && selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_GROUP &&
-							<InfoObjectComponent panelType={selectedNodeObject.name} custom={props.custom}/>
-						}
-						{/* commenting out object views temporarily
-							!showInfoComp && props.isEditMode===false &&
-							<ObjectClassModelViewMode custom={props.custom}/>*/}
-						{!showInfoComp &&
-							<DetailsModelComponent
-								objPropsRelatedToClass={objPropsRelatedToClass}
-								objectPropertyList={objectPropertyList}
-								removeElement={removeElement}
-								addNewProperty={addNewProperty}
-								nodePropertiesList={nodePropertiesList}
-								currentNodeJson={selectedNodeObject}
-								custom={props.custom}/>	}
-						<ModelMainHeaderComponent
-							panelIsOpen={panelIsOpen}
-							openClosePanel={setOpenClosePanel}
-							setNodeAction={setNodeAction}
-							extraTools={props.extraTools}
-							setZoomEvent={setZoomEvent}
-							saveData={saveData}
-							view={view}
-							changeMode={setIsEditMode}
-							isEditMode={isEditMode}
-							custom={props.custom}/>
-
+					<div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%"}}>
+						{graphDataProvider && <>
+							<ModelTreeComponent
+								objectPropertyToRange={objectPropertyToRange}
+								zoomEvent={zoomEvent}
+								isEditMode={isEditMode}
+								setNodeAction={setNodeAction}
+								selectedNodeObject={selectedNodeObject}
+								changeCurrentNode={changeCurrentNode}
+								width={size.width} height={size.height}
+								addedNewNode={selectedNodeObject.newNode}
+								graphUpdateLabel={graphUpdateLabel}
+								graphDataProvider={graphDataProvider}
+								isFocusOnNode={isFocusOnNode}/>
+						</>}
 					</div>
-				</Col>
+					}
+		        </SizeMe>
+				</div>
+				<div>
+					<RightBarHeaderTools saveData={saveData}/>				
+					{showInfoComp && selectedNodeObject.type!==CLASS_TYPE_NAME.SCHEMA_GROUP &&
+						<InfoBoxComponent dbName={props.dbName} custom={props.custom}/>
+					}
+					{showInfoComp && selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_GROUP &&
+						<InfoObjectComponent panelType={selectedNodeObject.name} custom={props.custom}/>
+					}
+					{/* commenting out object views temporarily
+						!showInfoComp && props.isEditMode===false &&
+						<ObjectClassModelViewMode custom={props.custom}/>*/}
+					{!showInfoComp &&
+						<DetailsModelComponent
+							objPropsRelatedToClass={objPropsRelatedToClass}
+							objectPropertyList={objectPropertyList}
+							removeElement={removeElement}
+							addNewProperty={addNewProperty}
+							nodePropertiesList={nodePropertiesList}
+							currentNodeJson={selectedNodeObject}
+							custom={props.custom}/>	}					
+				</div>
 			</SplitPane>
-
-	    </div>
+			</React.Fragment>
 	)
 }

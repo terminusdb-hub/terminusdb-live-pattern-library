@@ -9,7 +9,7 @@ export const removeElementToArr=(arrayList,elementName)=>{
        //method changes the contents of an array by removing or replacing existing elements
         //return the removedObject
         const elementObj= arrayList.splice(index,1);
-        return elementObj;
+        return elementObj[0];
     }
     return undefined;
 }

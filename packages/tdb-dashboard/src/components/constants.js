@@ -37,19 +37,19 @@ export const IconBarConfig = {
     },
     dataProductExplorer: {
         title: "Data Product Explorer",
-        key: "Data Product",
+        key: "Data Product Explorer",
         path: PRODUCT_EXPLORER,
         icon: <BiCode/>
     },
     dataProductModal:{
         title: "Data Product Model",
-        key: "Data Product",
+        key: "Data Product Model",
         path: PRODUCT_MODELS,
         icon: <MdBubbleChart/>
     },
     dataProductManage: {
         title: "Manage Data Product",
-        key: "Manage Data",
+        key: "Manage Data Product",
         path: PRODUCT_MANAGE,
         icon: <SiGithubactions/>
     },
@@ -182,8 +182,8 @@ export const ACTIONS_QUERY_BUTTON_GROUP={variant: "light", size: "sm",
 export const LANGUAGE_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [{id: "js", title: "JS", label: "JS"}, {id: "json", title: "JSON-LD", label: "JSON-LD"}]}
 //button group for view chooser
 export const VIEW_SWITCHER_BUTTON_GROUP= {variant: "light", size: "sm", buttons: [
-    {/*icon: "fas fa-border-none",*/ id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
-    {/*icon: "fas fa-bezier-curve",*/ id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW},
+    {icon: "fas fa-border-none", id: TABLE_VIEW, title: TABLE_VIEW, label: TABLE_VIEW}, 
+    {icon: "fas fa-bezier-curve", id: GRAPH_VIEW, title: GRAPH_VIEW, label: GRAPH_VIEW},
     {id: JSON_VIEW, title: JSON_VIEW, label: JSON_VIEW}]}
 
 

@@ -9,7 +9,6 @@ import {
     Legend
   } from "recharts"
 import {data} from "../../DataProductGraphInfo"
-import {DocumentControl} from "../hooks/DocumentControl"
 import {WOQLClientObj} from '../init-woql-client'
 import {timeConverter} from "../pages/utils"
 import {printts} from "../components/utils"

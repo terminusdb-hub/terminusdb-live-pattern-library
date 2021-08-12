@@ -4,7 +4,7 @@ export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext)
 import { DATA_PRODUCTS } from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
-import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT, GET_FRAMES_DOCUMENT} from "./components/constants"
+import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, FORM_VIEW, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT, GET_FRAMES_DOCUMENT} from "./components/constants"
 import {executeDocumentAction, resetDocumentObject, updateDocument, addNewDocument} from "./hooks/DocumentControl"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
@@ -21,6 +21,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
    // const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
     const [branchesReload,setBranchReload] =useState(0)
+    const [documentObjectReload, setDocumentObjectReload]=useState(0)
     const [branch, setBranch] = useState(false)
     const [ref, setRef] = useState(false)
 
@@ -29,8 +30,6 @@ export const WOQLClientProvider = ({children, params}) => {
     const [DBInfo, setDBInfo] = useState()
     const [chosenCommit,setChosenCommit]=useState({})
     // const [consoleTime, setConsoleTime] = useState()
-
-    
     
     // sets current page
     const [route, setRoute]=useState(DATA_PRODUCTS)
@@ -44,12 +43,14 @@ export const WOQLClientProvider = ({children, params}) => {
     //maybe we can change this for the local connection
     const [opts, setOpts] = useState(params)
     const [connectionError, setError] = useState(false)
+
+    //const [needUpdate,setNeedUpdate] = useState(0)
    
     // document explorer consts 
     const [documentObject, setDocumentObject] = useState({
         type: false,
         action: false,
-        view: false,
+        view: FORM_VIEW,
         submit: false,
         currentDocument: false,
         frames: {},
@@ -62,11 +63,23 @@ export const WOQLClientProvider = ({children, params}) => {
     // get document count 
     // set constants for query to get count of document class instances 
     const [query, setQuery] = useState(false)
-    var [perDocumentCount]=executeQueryHook(woqlClient, query)
+    var [perDocumentCountProvider]=executeQueryHook(woqlClient, query)
+
+
+    const [perDocumentCount, setPerDocument]=useState(false)
+    const [totalDocumentCount, setTotalDocumentCount]=useState(false)
 
     // get total count of all documents 
     const [totalDocumentsQuery, setTotalDocumentsQuery]=useState(false)
-    var [totalDocumentCount]=executeQueryHook(woqlClient, totalDocumentsQuery)
+    var [totalDocumentCountProvider]=executeQueryHook(woqlClient, totalDocumentsQuery)
+
+    useEffect(() => {
+        setPerDocument(perDocumentCountProvider)
+    },[perDocumentCountProvider])
+
+    useEffect(() => {
+        setTotalDocumentCount(totalDocumentCountProvider)
+    },[totalDocumentCountProvider])
 
 
     useEffect(() => {
@@ -77,6 +90,7 @@ export const WOQLClientProvider = ({children, params}) => {
         const initWoqlClientRemote = async()=>{
             //create the connection url by organization name
             const orgName = user['http://terminusdb.com/schema/system#team']
+            const email = user['http://terminusdb.com/schema/system#email']
             const orgRemoteUrl=`${opts.server}${orgName}`
             const hubClient = new TerminusClient.WOQLClient(orgRemoteUrl)
         
@@ -85,6 +99,7 @@ export const WOQLClientProvider = ({children, params}) => {
             let hubcreds = {type: "jwt", key: jwtoken}         
             hubClient.localAuth(hubcreds)
             hubClient.organization(orgName) 
+            hubClient.author(email) 
             try{
                 await hubClient.connect()
                 setWoqlClient(hubClient)
@@ -129,57 +144,67 @@ export const WOQLClientProvider = ({children, params}) => {
     //I know I have to review this file!!!!!!!!
     useEffect(() => {
         if(woqlClient && dataProduct){
+            setBranches(false)
+            setDocumentClasses(false)
             // on change on data product re set document object
-            resetDocumentObject(setDocumentClasses)
-            woqlClient.getBranches(dataProduct).then((res) => {
-                setBranches(res)
-                // on change on data product get classes 
-                woqlClient.getClassDocuments(dataProduct).then((classRes) => {
-                    setDocumentClasses(classRes)
-                    // get number document classes 
-                    let q=getCountOfDocumentClass(classRes)
-                    setQuery(q)
-                    let totalQ=getTotalNumberOfDocuments(classRes)
-                    setTotalDocumentsQuery(totalQ)
-                })
-                .catch((err) =>  {
-                    console.log("Error in init woql while getting classes of data product", err.message)
-                })
+            resetDocumentObject(setDocumentObject)
+            setPerDocument(false)
+            setTotalDocumentCount(false)
+
+            //there is a bug with using in woql so we have to set commits as branch
+            const tmpClient = woqlClient.copy()
+            tmpClient.checkout("_commits")
+            /*** I commented this lib call as it dosent work, i use woqlClient.getbranches() instead ***/
+            const branchQuery = TerminusClient.WOQL.lib().branches()
+            tmpClient.query(branchQuery).then(result=>{
+                 const branchesObj={}
+                 if(result.bindings.length>0){
+                    result.bindings.forEach(item=>{
+                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
+                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
+                        const branchItem={
+                            id:item.Branch,
+                            head_id:head_id,
+                            head:head,
+                            name:item.Name['@value'],
+                            timestamp:item.Timestamp['@value']
+                        }
+                        branchesObj[branchItem.name] = branchItem
+                    })
+                 }
+                 setBranches(branchesObj)
+            }).catch(err=>{
+                  console.log("GET BRANCH ERROR",err.message)
+            }) 
+
+            // on change on data product get classes 
+            woqlClient.getClassDocuments(dataProduct).then((classRes) => {
+                //console.log("classRes", classRes)
+                setDocumentClasses(classRes)
+                // get number document classes 
+                let q=getCountOfDocumentClass(classRes)
+                setQuery(q)
+                let totalQ=getTotalNumberOfDocuments(classRes)
+                setTotalDocumentsQuery(totalQ)
             })
-            .catch((err) => {
-                console.log("GET BRANCH ERROR",err.message)
+            .catch((err) =>  {
+                console.log("Error in init woql while getting classes of data product", err.message)
             })
         }
     }, [branchesReload, dataProduct])
 
     
     // on change of document action 
-    const [frame, setFrame]=useState(false)
     const [filledFrame, setFilledFrame]=useState(false)
     useEffect(() => {
-        executeDocumentAction(woqlClient, setDocumentClasses, documentObject, setDocumentObject, setFrame, setFilledFrame)
-    }, [documentObject.action, documentObject.type, documentObject.update])
+        executeDocumentAction(woqlClient, documentObject, setDocumentObject, reloadDocumentObject)
+        //console.log("after execute action", documentObject)
+    }, [documentObject.action, documentObject.type, documentObject.update]) 
 
     useEffect(() => {
-        if(!frame) return
-        if(documentObject.action == VIEW_DOCUMENT) return 
-        let docObj=documentObject
-        docObj.frames = frame
-        docObj.update = Date.now()
-        setDocumentObject(docObj)
-    }, [frame])
-
-    useEffect(() => {
-        if(!filledFrame) return
-        if(documentObject.action == VIEW_DOCUMENT) {
-            let docObj=documentObject
-            docObj.filledFrame = filledFrame
-            docObj.update=Date.now()
-            docObj.message= documentObject.message
-            docObj.loading= false
-            setDocumentObject(docObj)
-        }
-    }, [filledFrame])
+        console.log("reloading doc")
+        reloadDocumentObject()
+    }, [documentObject.update]) 
 
 
     // on submit of form for create/ edit document
@@ -193,6 +218,12 @@ export const WOQLClientProvider = ({children, params}) => {
             updateDocument(woqlClient, documentObject, setDocumentObject)
         }
     }, [documentObject.submit, documentObject.frames])
+
+
+    const reloadDocumentObject = () => {
+        //console.log("reloading man")
+        setDocumentObjectReload(Date.now())
+    }
 
 
     //maybe we can combine this information
@@ -264,13 +295,15 @@ export const WOQLClientProvider = ({children, params}) => {
                 setSidebarSampleQueriesState,
                 documentObject, 
                 setDocumentObject,
+                reloadDocumentObject,
                 reconnectToServer,
                 documentClasses, 
                 setDocumentClasses,
                 filledFrame, 
                 setFilledFrame,
                 perDocumentCount,
-                totalDocumentCount
+                totalDocumentCount,
+                documentObjectReload
             }}
         >
             {children}
