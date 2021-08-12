@@ -4,7 +4,7 @@ import {arrayEquals} from "../components/utils"
 export const tableViewConfig= () => {
     const tabConfig= TerminusClient.View.table();
     tabConfig.pager("remote")
-    tabConfig.pagesize(20)
+    tabConfig.pagesize(10)
     return tabConfig
 }
 

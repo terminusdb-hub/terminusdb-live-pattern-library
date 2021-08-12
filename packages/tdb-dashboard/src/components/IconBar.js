@@ -89,7 +89,7 @@ export const IconBar =  () => {
                         {IconBarConfig.feedback.icon}
                     </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                {/*<Nav.Item> // commenting this for now
                     <Nav.Link as={RouterNavLink} 
                         title={IconBarConfig.tutorials.title} 
                         className="nav-icon"
@@ -100,7 +100,7 @@ export const IconBar =  () => {
                         >
                         {IconBarConfig.tutorials.icon}
                     </Nav.Link>
-                </Nav.Item>
+                </Nav.Item>*/}
             </div>
         </Nav>            
    </Navbar>

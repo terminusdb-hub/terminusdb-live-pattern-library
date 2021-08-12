@@ -94,7 +94,7 @@ export const DataProductDocuments = () => {
             if(!searchDocument) {
                 return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
             }
-            if(searchDocument && (item["@id"].includes(searchDocument))) {
+            if(searchDocument && (item["@id"].toUpperCase().includes(searchDocument.toUpperCase()))) {
                 return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
             }
         })
@@ -170,7 +170,7 @@ export const DocumentExplorerDocuments = () => {
                 if(!searchDocument) {
                     return <DocumentMenu item={item}/>
                 }
-                if(searchDocument && (item["@id"].includes(searchDocument))) {
+                if(searchDocument && (item["@id"].toUpperCase().includes(searchDocument.toUpperCase()))) {
                     return <DocumentMenu  item={item}/>
                 }
             }

@@ -37,7 +37,6 @@ export const ManageProducts = ({setDataProductSettings}) => {
         setShowDefault(false)
     }
 
-    
     return <React.Fragment>
             
             <Card.Text className="ms--2 mb-3 mt-3 h6 text-gray"> 
@@ -52,7 +51,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 loading={loading} 
                 branches={branches}
                 createBranch={createBranch}/> 
-
+ 
             <DisplayBranchList branchList={branches} 
                 branch={branch} 
                 setShowDefault={setShowDefault} 
@@ -62,7 +61,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 handleBranchClick={handleBranchClick}
                 reportAlert={reportAlert}/>
 
-            <BranchInfoModal woqlClient={woqlClient} 
+            {showDefault && <BranchInfoModal woqlClient={woqlClient} 
                 branch={branch} 
                 branches={branches}
                 showDefault={showDefault} 
@@ -70,7 +69,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 handleSwitch={handleSwitch} 
                 dataProduct={dataProduct} 
                 setSelectedCommit={setSelectedCommit}
-                selectedCommit={selectedCommit}/>
+                selectedCommit={selectedCommit}/>}
 
             <div className="float-right text-right d-flex">
                 {/*<Button variant="light" className="mr-3" title={VIEW_HISTORY.title} onClick={(e) => setHistory(true)}>

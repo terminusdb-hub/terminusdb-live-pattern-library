@@ -52,7 +52,7 @@ export const AboutDataProduct = ({dataProductDetails}) =>{
             </span>
         </span>
         <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-        {<div className="d-block">
+        {/*<div className="d-block">
             <h4 className="text-muted mb-3 fw-bold">Acitivity last year</h4>
             <BarChart
                 width={500}
@@ -71,6 +71,6 @@ export const AboutDataProduct = ({dataProductDetails}) =>{
                     <Legend />
                     <Bar dataKey="commits" fill="#2a7aaf" />
             </BarChart>
-        </div>}
+        </div>*/}
     </React.Fragment>
 }

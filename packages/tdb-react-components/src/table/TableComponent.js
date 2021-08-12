@@ -26,6 +26,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
         pageSize: data.length
     }
 
+
     if(pager){
         let ps = view.config.pagesize() || 10
         init_state.pageSize = ps
@@ -85,6 +86,8 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
             rowCountStr += " of " + rowCount
         }
     }
+
+    console.log("pageSize", pageSize)
 
      return (
         <span>

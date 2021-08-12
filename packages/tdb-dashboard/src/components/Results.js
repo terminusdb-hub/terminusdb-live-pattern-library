@@ -2,7 +2,7 @@ import React, {useState,useMemo} from "react"
 import {WOQLTable, WOQLGraph} from '@terminusdb-live/tdb-react-components'
 import {ResultController} from "./ResultController" 
 import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
-import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constants"
+import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS, PROGRESS_BAR_COMPONENT} from "./constants"
 import {TDBReactCollapse, TDBReactResizable} from '@terminusdb-live/tdb-react-layout'
 import {ViewPane} from "./ViewPane"
 import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
@@ -13,6 +13,7 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/ayu-dark.css'
 require('codemirror/mode/css/css')
 require('codemirror/mode/javascript/javascript')
+import {Loading} from "./Loading"
 
 
 export const Results = ({freewidth, queryObj, setError, runQuery})=>{
@@ -95,11 +96,12 @@ export const Results = ({freewidth, queryObj, setError, runQuery})=>{
     
     if(!result) return ""
 
-    
+     
 
-    return(
+    return( 
     <div className="pallet mb-3 mt-4">
-        {loading && <div>LOADING!!!</div>}
+        {loading && <Loading message={`Executing Query`} type={PROGRESS_BAR_COMPONENT}/>}
+       
         {!loading && bindings.length>0 && 
         <React.Fragment>
         <TDBReactResizable style={{margin: "10px", minWidth: "100%"}}>

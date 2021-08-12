@@ -23,16 +23,16 @@ const BranchItem = (props) => {
     return (
       <ListGroup.Item className="px-0">
         <Row className="align-items-center">
-          <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
+          <Col className="ms--2">
                 {(id == branch) && <h5 className="fw-bold text-success">{id}</h5>}
                 {(id !== branch) && <h6>{id}</h6>}
           </Col>
-          <Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
+          <Col className="ms--2">
             <h6><span className="text-muted"> {`Head Commit `} </span>{head}</h6>
           </Col>
-          {<Col className="ms--2 click-list" onClick={(e) => handleOnClick(id)}>
+          <Col className="ms--2">
             <h6><span className="text-muted"> {`Updated on `} </span>{timeConverter(timestamp)}</h6>
-          </Col>}
+          </Col>
           <Col className="col-auto">
             {(id ==  "main") && <RiDeleteBin7Line className="mr-2 mb-1 react-icons danger disabled"/>}
             {(id !==  "main") && <span  title={`delete branch ${id}`} >
@@ -74,7 +74,6 @@ export const DisplayBranchList = ({branchCount, branchList, branch, setShowDefau
                <h6 className="mb-0 mt-1">Collections 
                    {branchCount && <Badge variant="info" className="text-dark ml-3">{branchCount}</Badge>}
                </h6>
-               <Button variant="secondary" size="sm">See all</Button>
            </Card.Header>
            <Card.Body>
                <ListGroup className="list-group-flush list my--3">
