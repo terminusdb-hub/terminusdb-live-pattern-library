@@ -130,7 +130,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 initWoqlClientRemote()
             }
         }      
-    }, [opts,user])
+    }, [opts, user])
 
 
     const setDataProduct = (id) =>{

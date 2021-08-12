@@ -100,7 +100,7 @@ export const DataProductsHome = (props) => {
       
     
     return  <Layout sideBarContent={<LeftSideBar route={DATA_PRODUCTS}/>}>
-        <main className="content mr-3 ml-5 w-95">
+        <main className="content mr-3 ml-5">
             <DeleteDatabaseModal showModal={showDeleteModal} 
                 setShowModal={setShowDeleteModal}  
                 dataProductDetails={dataProductDetails}/>

@@ -17,11 +17,14 @@ export const Layout = (props) => {
                 </div>
                 <div className="h-100 main-content">
                     <MainNavBar/>
-                    {props.children} 
-                                                        
+                    <div class="container-fluid">
+                       {props.children} 
+                    </div>
                 </div>
             </SplitPane>
         </Container>
 }
 
-//{dataProduct && <TimeTravelWidget/>  }
+//{dataProduct && <TimeTravelWidget/>  }    
+
+

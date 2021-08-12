@@ -218,10 +218,15 @@ div.progress-bar-position {
 
 .table {
   border: 0px solid transparent !important;
+  table-layout: fixed;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .table td, .table th {
   border-top: 0 !important; 
+  /*word-wrap: break-word !important;*/
+  word-break: break-all !important;
 }
 
 .table thead th {
@@ -368,10 +373,10 @@ input {
 
 /* ---------- time travel widget ---------- */
 .time-travel-control {
-  top: 10;
+  /*top: 10;
   right: 0;
-  /*margin-top: 80px;*/
-  position: fixed !important;
+  margin-top: 80px;
+  position: fixed !important;*/
   z-index: 999;
   box-shadow: 0 0.5rem 1rem rgb(46 54 80 / 15%);
 }
@@ -416,18 +421,12 @@ input {
 }
 
 .time-travel-widget {
-  width: 5rem;
-  margin-left: 4px;
+  margin-right: 20px;
   border: 1px solid rgba(0, 0, 0, 0.125) !important;
-  min-height: 4rem;
-  border-radius: 0 !important;
-  border-top-left-radius: 8px !important;
-  border-bottom-left-radius: 8px !important;
+  border-radius: 8px !important;
   background-color: #2b2c2b !important;
   background: rgba(0,0,0,.3) !important;
-  float: right;
   position:sticky;
-  float:right;
 }
 
 .current-time-point {
