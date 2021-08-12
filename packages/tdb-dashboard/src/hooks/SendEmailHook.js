@@ -10,7 +10,8 @@ export function SendEmailHook(props) {
     const [loadingEmail, setEmailLoading] = useState(false)
   
 
-	const bff_url=process.env.TERMINUS_BFF_URL
+	//const bff_url=process.env.TERMINUS_BFF_URL
+	const bff_url=process.env.TERMINUSDB_SERVER
 	const baseUrl=`${bff_url}api`
 
     const options = {

@@ -16,6 +16,8 @@ export const LeftSideBar = (props) => {
         setDocumentObject
     } = WOQLClientObj()
 
+    console.log("route", route)
+
     useEffect(() =>{
         resetDocumentObject(setDocumentObject)
     }, [route])

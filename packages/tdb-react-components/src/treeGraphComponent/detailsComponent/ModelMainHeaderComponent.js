@@ -17,7 +17,7 @@ export const ModelMainHeaderComponent =(props)=>{
 		props.setZoomEvent({type:'RESET_ZOOM','zoom':Date.now()});
 	}
 
-
+ 
 	return <div className="d-flex flex-grow-1 justify-content-end pr-4 pt-2">		
 				<div role="group" className="btn-group">
 					<button title={TOOLBAR_LABELS.ZoomInTooltip}  type="button" className="btn btn-outline-light btn-lg border-0" onClick={setZoomIn}>

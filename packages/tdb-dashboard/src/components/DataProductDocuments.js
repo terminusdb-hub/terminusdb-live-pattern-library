@@ -155,6 +155,8 @@ export const DocumentExplorerDocuments = () => {
         </MenuItem>
     }
 
+    console.log("documentClasses", documentClasses)
+
 
     return <SubMenu title={"Document Types"}
         className="menu-title"
