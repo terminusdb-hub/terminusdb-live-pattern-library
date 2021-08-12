@@ -6,6 +6,7 @@ import {WOQLClientObj} from '../init-woql-client'
 //I have to review this
 export function BranchControl (branchesReload)  {
     const {woqlClient,
+           dataProduct,
            ref,
            setHead,
            setRef,
@@ -36,6 +37,10 @@ export function BranchControl (branchesReload)  {
             setSourceCommit(branches[branch].head)
         }
     }, [branch, ref, branches])
+
+    useEffect(() => {
+        setReportAlert(false)
+    }, [dataProduct])
 
     
     function createBranch (branchInfo) {
@@ -77,7 +82,7 @@ export function BranchControl (branchesReload)  {
         let update_start = Date.now()
         setLoading(true)
         woqlClient.deleteBranch(branch).then((results) => {
-            let message = `Success in deleteing branch - ${branch}`;
+            let message = `Success in deleting Collection - ${branch}`;
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
             handleSwitch("main")
             //this do a set in the init-main-client
@@ -85,7 +90,7 @@ export function BranchControl (branchesReload)  {
             branchNeedReload()
         })
         .catch((err) => {
-            let message = `Error in deleteing branch - ${branch}. ${message}`;
+            let message = `Error in deleting Collection - ${branch}. ${err}`;
             setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         
         })
@@ -97,7 +102,7 @@ export function BranchControl (branchesReload)  {
     //change the branch
     function handleSwitch (branch) {
         if(!branch) return null
-        let message = `Switched to branch - ${branch}`
+        let message = `Switched to Collection - ${branch}`
         woqlClient.ref(false)
         woqlClient.checkout(branch)
         setBranch(branch)
@@ -114,7 +119,7 @@ export function BranchControl (branchesReload)  {
         let update_start = Date.now()
         setLoading(true)
         woqlClient.optimizeBranch(branch).then(()=>{
-            let message = `Optimization Complete on branch - ${branch}`
+            let message = `Optimization Complete on Collection - ${branch}`
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
         })
         .catch((err) => {
@@ -128,13 +133,13 @@ export function BranchControl (branchesReload)  {
         let update_start = Date.now()
         setLoading(true)
         woqlClient.resetBranch(branch, commit).then((results) => {
-            let message = `Successfull in resetting branch ${branch} to ${commit}`
+            let message = `Successfull in resetting Collection ${branch} to ${commit}`
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
             setHead(branch, {commit: commit})
             if(setRefresh) setRefresh([ arr => [...arr, arr.length+1]])
         })
         .catch((err) => {
-            let message = `Error while resetting branch - ${branch}`;
+            let message = `Error while resetting Collection - ${branch}`;
             setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         })
         .finally(() => setLoading(false))
@@ -150,13 +155,13 @@ export function BranchControl (branchesReload)  {
                 new_commit = cmt.pop()
             }
             woqlClient.resetBranch(branch, new_commit).then((results) => {
-                let message = `Successfull in squashing branch ${branch} to new commit  ${new_commit}`
+                let message = `Successfull in squashing Collection ${branch} to new commit  ${new_commit}`
                 setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
                 setHead(branch, {commit: new_commit})
             })
         })
         .catch((err) => {
-            let message = `Error while squashing branch - ${branch}`;
+            let message = `Error while squashing Collection - ${branch}`;
             setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         })
         .finally(() => setLoading(false))
