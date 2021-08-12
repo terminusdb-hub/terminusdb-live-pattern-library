@@ -4,6 +4,8 @@ import {Card, Row, Badge, Button, ListGroup, Col} from 'react-bootstrap'
 import {FiMoreHorizontal} from "react-icons/fi"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import {timeConverter} from "../pages/utils"
+import {MANAGE_COLLECTIONS, CREATE_NEW_BRANCH_BUTTON} from "./constants"
+import {AiOutlineClose, AiOutlinePlus} from "react-icons/ai"
 
 
 const BranchItem = (props) => {
@@ -59,21 +61,29 @@ const BranchItem = (props) => {
 } 
 
 
-export const DisplayBranchList = ({branchCount, branchList, branch, setShowDefault, reportAlert, handleSwitch, handleDelete, handleBranchClick}) => {
+export const DisplayBranchList = ({branchCount, branchList, branch, setShowDefault, reportAlert, handleSwitch, handleDelete, handleBranchClick, setDataProductSettings, setNewBranch}) => {
 
     return <React.Fragment> 
        <Row>
            {reportAlert && <div className="col-md-12 d-grid pb-3">
                {reportAlert}
            </div>}
-       </Row>
+       </Row> 
 
        <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
        <Card className="shadow-sm">
-           <Card.Header className=" d-flex justify-content-between">
-               <h6 className="mb-0 mt-1">Collections 
+           <Card.Header className=" d-flex justify-content-between bg-transparent">
+               <h6 className="mb-0 mt-1 float-left w-100">Collections 
                    {branchCount && <Badge variant="info" className="text-dark ml-3">{branchCount}</Badge>}
                </h6>
+               <span className="w-100 text-right">
+                    <Button variant="info" className="mr-3 btn btn-sm" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
+                        <AiOutlinePlus className="me-2 "/>{CREATE_NEW_BRANCH_BUTTON.label}
+                    </Button>
+                    <Button variant="light" className="btn btn-sm text-dark btn-outline border-1 rounded" title={"Close Collection List"}  onClick={(e) => setDataProductSettings(false)}>
+                        <AiOutlineClose/>
+                    </Button>
+                </span>
            </Card.Header>
            <Card.Body>
                <ListGroup className="list-group-flush list my--3">
