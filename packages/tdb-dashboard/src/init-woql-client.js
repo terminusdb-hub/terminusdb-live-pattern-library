@@ -194,18 +194,6 @@ export const WOQLClientProvider = ({children, params}) => {
 
             // on change on data product get classes 
             getUpdatedDocumentClasses(woqlClient, dataProduct)
-            /*woqlClient.getClassDocuments(dataProduct).then((classRes) => {
-                //console.log("classRes", classRes)
-                setDocumentClasses(classRes)
-                // get number document classes 
-                let q=getCountOfDocumentClass(classRes)
-                setQuery(q)
-                let totalQ=getTotalNumberOfDocuments(classRes)
-                setTotalDocumentsQuery(totalQ)
-            })
-            .catch((err) =>  {
-                console.log("Error in init woql while getting classes of data product", err.message)
-            })*/
         }
     }, [branchesReload, dataProduct])
 

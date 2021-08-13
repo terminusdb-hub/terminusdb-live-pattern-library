@@ -34,6 +34,9 @@ export const Results = ({freewidth, queryObj, setError, runQuery})=>{
                             queryResult.result, queryResult.limit, queryResult.start,
                             queryResult.orderBy,queryResult.totalRows,runQuery) 
 
+    console.log("queryObj", queryObj)
+    console.log("queryResult", queryResult)
+
     
     const bindings = (result && result.bindings) ? result.bindings : []
     //const [graphConfig, setGraphConf]=useState(queryResult.graph || graphViewConfig(bindings))

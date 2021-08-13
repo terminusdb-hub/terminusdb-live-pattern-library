@@ -7,7 +7,7 @@ import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink,Bu
  * config options
  * pager - no, remote, local
  * sort - no, local, remote
- */
+ */ 
 
 export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, rowCount, pageNumber, setLimits, setOrder, pagesizes, onRefresh})=>{
 
@@ -70,7 +70,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
         }
     }, [sortBy])
 
-
+ 
     useEffect(() => {
         if((pager == "remote") && setLimits && (pageSize != ut_config.initialState.pageSize || pageIndex != (pageNumber || 0)))
             setLimits(pageSize, (pageIndex)*pageSize)
@@ -79,6 +79,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
      let rowCountStr = ""
      if(pager){
          let ps = view.config.pagesize() || 10
+         console.log("ps", ps)
          let st = ((ps * pageIndex) + 1)
          let en = page.length + st - 1
          rowCountStr = "Record " + st + " to " + en
@@ -88,6 +89,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
     }
 
     console.log("pageSize", pageSize)
+    console.log("rowCount", rowCount)
 
      return (
         <span>
@@ -148,7 +150,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
                                 {pageIndex  + 1} of {pageCount}
                             </strong>{" ⚹ "}
                         </span>
-                        <select value={pageSize}
+                        <select value={rowCount}
                             onChange={e => {
                                 setPageSize(Number(e.target.value))
                         }}>
