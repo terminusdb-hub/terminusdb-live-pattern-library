@@ -12,8 +12,10 @@ import {data} from "../../DataProductGraphInfo"
 import {WOQLClientObj} from '../init-woql-client'
 import {timeConverter} from "../pages/utils"
 import {printts} from "../components/utils"
+import {AiOutlineDelete} from "react-icons/ai"
+import {Col, Button} from "react-bootstrap"
 
-export const AboutDataProduct = ({dataProductDetails}) =>{
+export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal}) =>{
 
     const {
         dataProduct,
@@ -51,7 +53,26 @@ export const AboutDataProduct = ({dataProductDetails}) =>{
                 <h6 className="ml-3">{453}</h6>
             </span>
         </span>
-        <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
+
+        {<hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>}
+
+        <div className="card card-fil mt-3">
+            <div className="card-header d-flex">
+                <h4 className="card-header-title text-muted">
+                Danger Zone
+                </h4>
+            </div>
+            <div className="card-body w-100 d-block">
+                <p className="mt-2 text-muted"> Delete this Data Product, there is no going back. Please be certain. </p>
+                <Button variant="danger" 
+                        title={`Delete Data Product ${dataProduct}`} 
+                        className="m-3 float-right text-right btn btn-sm"
+                        onClick={(e) =>setShowDeleteModal(true)}>
+                    <AiOutlineDelete className="me-2" /> Delete 
+                </Button>
+            </div>
+        </div>
+
         {/*<div className="d-block">
             <h4 className="text-muted mb-3 fw-bold">Acitivity last year</h4>
             <BarChart

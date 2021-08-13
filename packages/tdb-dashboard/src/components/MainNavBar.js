@@ -5,10 +5,10 @@ import {Button, ButtonGroup, Dropdown, Form} from 'react-bootstrap';
 import { useAuth0 } from "../react-auth0-spa";
 import {Nav,Navbar} from "react-bootstrap"
 import {NewDataProduct} from "./NewDataProduct"
-import {TimeTravelWidget} from "../components/TimeTravelWidget"
+import {TimeTravelWidget} from "./TimeTravelWidget"
 import {WOQLClientObj} from '../init-woql-client'
 
-export const MainNavBar = (props) => {
+export const MainNavBar = ({setShowTimeTravel}) => {
     const { user, isAuthenticated, logout } = useAuth0()
     const {dataProduct} = WOQLClientObj()
     const base_url =process.env.REACT_APP_BASE_ROUTER || ''
@@ -24,10 +24,13 @@ export const MainNavBar = (props) => {
     })
 
     return <Navbar className="navbar-dark bg-dark p-0">           
-            <div className="d-flex flex-grow-1 justify-content-end align-items-center">         
-            
+        <div className="d-flex flex-grow-1 justify-content-end align-items-center">         
+        
+            {dataProduct && <TimeTravelWidget setShowTimeTravel={setShowTimeTravel}/>}  
+
             <NewDataProduct css={"btn-sm"}/>
-            {user && <Dropdown  as={ButtonGroup} className="me-2 mb-2">
+
+            {user && <Dropdown  as={ButtonGroup} className="me-2 mt-1">
                 <Button size="sm" className="bg-transparent border-0">
                     <img src={user.picture}
                             alt={"Profile"}
@@ -50,8 +53,7 @@ export const MainNavBar = (props) => {
                 </Dropdown.Menu>
 
             </Dropdown>}
-            </div>   
+        </div>   
     </Navbar>
 }
 
-//{dataProduct && <TimeTravelWidget/>}  

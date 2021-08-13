@@ -11,7 +11,7 @@ import {AiOutlineUser} from "react-icons/ai"
 import {printtsDate, printtsTime} from "./utils"
 import {WOQLClientObj} from '../init-woql-client'
 
-export const TimeTravel = (props) => {
+export const TimeTravel = ({show}) => {
  
     let cardColor = "#303030", transparantColor = "transparent", activeColor = "#00bc8c"
     const  {branch, chosenCommit,setHead} = WOQLClientObj()
@@ -22,7 +22,8 @@ export const TimeTravel = (props) => {
         setCurrentDay,
         loadNextPage,
         olderCommit,
-        loadPreviousPage
+        loadPreviousPage,
+        setReloadQuery
         } = TimeTravelControl()
     
     const [reportAlert, setReportAlert] = useState(false)
@@ -43,6 +44,12 @@ export const TimeTravel = (props) => {
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
          }
     }, [chosenCommit])
+
+    useEffect(() => {
+        if(show){
+            setReloadQuery(Date.now())
+        }
+    }, [show])
 
 
     const TimelineElements = () => {

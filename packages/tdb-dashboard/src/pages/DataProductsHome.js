@@ -162,32 +162,10 @@ export const DataProductsHome = (props) => {
                             </div>
                         </div>
 
-                        
-
-                        <div className="card card-fil m-3">
-                            <div className="card-header d-flex">
-                                <h4 className="card-header-title text-muted">
-                                Danger Zone
-                                </h4>
-                            </div>
-                            <div className="card-body w-100 d-flex">
-                                <Col md={10}>
-                                    <p className="mt-2 text-muted"> Delete this Data Product, there is no going back. Please be certain. </p>
-                                </Col>
-                                <Col md={2}>
-                                    <Button variant="danger" 
-                                            title={`Delete Data Product ${dataProduct}`} 
-                                            className="m-3 float-right text-right btn btn-sm"
-                                            onClick={(e) =>setShowDeleteModal(true)}>
-                                        <AiOutlineDelete className="me-2" /> Delete 
-                                    </Button>
-                                </Col>
-                            </div>
-                        </div>
-
                     </Col>
                     <Col xs={3}>
-                        <AboutDataProduct dataProductDetails={dataProductDetails}/>
+                        <AboutDataProduct dataProductDetails={dataProductDetails} 
+                            setShowDeleteModal={setShowDeleteModal}/>
                     </Col>
                     
                 </Row>

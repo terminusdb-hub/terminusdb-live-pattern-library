@@ -407,6 +407,7 @@ input {
 
 .time-travel-control:hover {
   cursor: pointer;
+
 }
 
 .time-travel-card-body {
@@ -420,13 +421,25 @@ input {
   margin-top: -2.5rem;
 }
 
-.time-travel-widget {
-  margin-right: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.125) !important;
-  border-radius: 8px !important;
-  background-color: #2b2c2b !important;
-  background: rgba(0,0,0,.3) !important;
-  position:sticky;
+.time-travel-icon:hover {
+  transition: all .2s ease-in-out !important;
+  cursor: pointer;
+}
+
+.side-drawer { 
+  height: 100%;
+  background: #303030;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40%;
+  z-index: 200;
+  box-shadow: 1px 0px 7px rgba(0,0,0,0.5); 
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+}
+.side-drawer.open {
+  transform: translateX(0);
 }
 
 .current-time-point {
