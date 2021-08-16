@@ -99,7 +99,7 @@ export const DataProductActivityGraph = () => {
         </div>
     </div> */
 
-    if(commits.length == 0) return <div/>
+    if(commits.length <= 1) return <div/>
 
     return  <div className="card mb-5">
         <div className="card-body">
