@@ -3,6 +3,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {BsFillExclamationTriangleFill, BsBriefcase} from "react-icons/bs"
+import {printts} from "./utils"
 
 /* returns current data product to which your connected and status */
 export const ConnectedDataProduct = (props) => {

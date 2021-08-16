@@ -80,3 +80,5 @@ export const DataProductSummary = ({dataProductDetails}) => {
         </div>
     </div>
 }
+
+

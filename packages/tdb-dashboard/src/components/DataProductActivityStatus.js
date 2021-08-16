@@ -1,0 +1,211 @@
+import React, {useState, useEffect} from "react"
+import {Row, Col, Card, Button} from "react-bootstrap"
+import { BiTestTube } from "react-icons/bi"
+import {FaHeartbeat} from "react-icons/fa"
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+    AreaChart, Area } from 'recharts'
+import {data} from "../../DataProductGraphInfo"
+import {TimeTravelControl} from "../hooks/TimeTravelControl"
+import {printtsDate, printtsTime} from "./utils"
+import {BiTimer} from "react-icons/bi"
+
+export const DataProductActivityGraph = () => {
+
+    const [commits, setCommits] = useState([])
+    const [json, setJson] = useState({})
+    const [graphData, setGraphData] = useState([])
+
+    const {
+        dataProvider
+    } = TimeTravelControl(50)
+
+    useEffect(() => {
+        if(!dataProvider) return 
+        setCommits([])
+        dataProvider.map(item => {
+            let date = item.label.substring(9, item.label.length).replace(/\s/g, '')
+            setCommits(arr => [...arr, {[date]: item.commit}])
+        })
+
+    }, [dataProvider])
+
+    useEffect(() => {
+        if(!commits) return
+        
+        let jsonInfo = {}
+        commits.map ( item => {	
+            for (var key in item) {
+                if(key in jsonInfo){
+                    let count = jsonInfo[key]
+                    jsonInfo[key] = count + 1
+                }
+                else jsonInfo[key] = 1
+            }
+        })
+        setJson(jsonInfo)
+    }, [commits])
+
+
+    useEffect(() => {
+        let arr = []
+        for(var key in json) {
+            arr.push({
+                name: key,
+                commits: json[key],
+                amt: json[key]
+            })
+        }
+        setGraphData(arr)
+    }, [json])
+
+    /*return <div className="col-4 col">
+        <div className="card">
+            <div className="card-body">
+                <div className="row align-items-center gx-0">
+                    <div className="col">
+                        <h6 className="text-uppercase text-muted mb-2">
+                            Recent Activity
+                        </h6>
+                        <span className="h2 mb-0">
+                        {graphData.length>0 && <BarChart
+                            width={500}
+                            height={300}
+                            data={graphData}
+                            margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5
+                            }}
+                            > 
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Bar dataKey="commits" fill="#2a7aaf" />
+                        </BarChart>}
+                        </span>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div> */
+
+    if(commits.length == 0) return <div/>
+
+    return  <div className="card mb-5">
+        <div className="card-body">
+            <div className="row align-items-center gx-0">
+                <div className="col">
+                    <h6 className="text-uppercase text-muted fw-bold">
+                        Recent Commits
+                    </h6>
+                    <div style={{ width: '100%', height: 300 }}>
+                        <ResponsiveContainer>
+                            <AreaChart
+                            width={500}
+                            height={200}
+                            data={graphData}
+                            margin={{
+                                top: 10,
+                                right: 30,
+                                left: 0,
+                                bottom: 0,
+                            }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Area type="monotone" dataKey="commits" stroke="#82ca9d" fill="#82ca9d" />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+
+export const DataProductActivityBoard = () => {
+
+    const {
+        dataProvider
+    } = TimeTravelControl(50)
+
+    
+    const TimelineElements = () => {
+        if(!dataProvider) return <div/>
+
+        let timeElements = []
+        let selectedCounter = 0
+        
+
+        //<div className="list-group-item">
+        dataProvider.map((item) => {
+            if(selectedCounter>=5) return
+            timeElements.push(<React.Fragment>
+
+                <div>
+                    <div className="row">
+                        {/*<div className="col-auto">
+                            <div className="avatar avatar-sm avatar-online">
+                                <BiTimer className="activity-icon text-muted"/>
+                            </div>
+
+                        </div>*/}
+                        <div className="col ms-n2">
+                            <h6 className="d-flex">
+                                {`By ${item.author}`}
+                            </h6>
+
+                            <h6 className="float-right">
+                                {printtsDate(item.time)} 
+                                <small className="text-muted d-block mt-1">
+                                    {printtsTime(item.time)}
+                                </small>
+                            </h6>
+
+                            <p className="small text-muted mb-0">
+                                {item.message}
+                            </p>
+                        </div>
+                    </div> 
+                </div>
+            </React.Fragment>  )  
+            selectedCounter += 1
+        })
+
+        return timeElements
+    }
+
+    return  <React.Fragment>
+        {dataProvider.length>0  && <div>
+            <div className="card">
+            <div className="card-body">
+                <div className="row align-items-center gx-0">
+                    <div className="col">
+                        <h6 className="text-uppercase text-muted mb-2 fw-bold">
+                        Recent Activities
+                        </h6>
+                        <div className="mt-4 mb-1 list-group list-group-flush list-group-activity my-n3">
+                            <TimelineElements/>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>}
+    
+    </React.Fragment>
+
+}

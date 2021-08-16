@@ -34,3 +34,9 @@ export const SCHEMA_PROPERTIES_VIEW = "View Properties"
 export const SCHEMA_EDITOR_VIEW = "View Editor" 
 
 
+// Data Product health status 
+export const DATA_PRODUCT_HEALTHY="Healthy"
+export const DATA_PRODUCT_STALE="Stale"
+export const DATA_PRODUCT_UNSTABLE="Unstable"
+
+

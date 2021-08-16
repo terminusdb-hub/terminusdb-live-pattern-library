@@ -10,9 +10,8 @@ export const TimeTravelWidget = ({setShowTimeTravel}) => {
 
     return <Button className="btn-lg border-0" 
         title="Time Travel through history of Data Product" 
-        style={{marginRight: "20px"}}
         variant="outline-dark"
         onClick={(e) => setShowTimeTravel(true)} > 
-            <BiTimer style={{color: iconColor, fontSize: "25px"}} className="time-travel-icon"/>
+            <BiTimer style={{color: iconColor, fontSize: "35px"}} className="time-travel-icon"/>
     </Button>
 }

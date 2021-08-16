@@ -85,8 +85,8 @@ export const TimeTravel = ({show}) => {
                 <Card  variant="success" className=" time-travel-card" id={item.commit}>
 
                     <Card.Header className={`d-flex ${currentDateColor}`}>
-                      <h6>{`Commited on ${printtsDate(item.time)}`} </h6>
-                      <h6 style={{marginLeft: "45%"}}><BiTime className="mr-1"/>{printtsTime(item.time)} </h6>
+                      <h6 className="w-100 float-left">{`Commited on ${printtsDate(item.time)}`} </h6>
+                      <h6 className="d-flex"><BiTime className="mr-1 mt-1"/>{printtsTime(item.time)} </h6>
                     </Card.Header>
 
                     <Card.Body>
