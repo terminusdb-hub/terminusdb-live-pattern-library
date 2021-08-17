@@ -22,9 +22,9 @@ export const TimeTravelControl = (limit=10) => {
     const [reloadQuery,setReloadQuery] = useState(0);
 
     const [queryType,setQueryType] = useState(QUERY_TYPE_LOAD);
-
-    const [dataProviderValues,setDataProviderValues] = useState({dataProvider:[],selectedValue:0})
-
+ 
+    const [dataProviderValues, setDataProviderValues] = useState({dataProvider:[],selectedValue:0})
+ 
 
     const setSelectedValue=(value)=>{
         const newValue={dataProvider:dataProviderValues.dataProvider,
@@ -69,7 +69,7 @@ export const TimeTravelControl = (limit=10) => {
                 default:
                     //when i change branch or dataprovider 
                     //I start from the head commit 
-                    queryObj = commitsQueryByBranch(branch,limit)
+                    queryObj = commitsQueryByBranch(branch, limit)
 
             }
             const tmpWoqlClient =  woqlClient.copy()
@@ -130,7 +130,7 @@ export const TimeTravelControl = (limit=10) => {
 
                if(chosenCommit && chosenCommit.commit===commitValue)toBeSelect=index;
                const parent = getValue(entry['Parent ID'])
-               
+                
                //if is the first commit or the last 
                //const isFirstCommit=branchId===branch || parent==='' ? true : false;
 
@@ -179,8 +179,11 @@ export const TimeTravelControl = (limit=10) => {
        setReloadQuery(Date.now());
     }
 
+   
+    let olderCommit = false
     const currentItem = dataProviderValues.dataProvider.length>0  ? dataProviderValues.dataProvider[dataProviderValues.selectedValue] : {label:'No Value',author:'',message:''}
-    const olderCommit= dataProviderValues.dataProvider.length>0 ? dataProviderValues.dataProvider.slice(-1)[0] : null
+    if(dataProviderValues.dataProvider.length>limit) olderCommit = true
+    //const olderCommit= dataProviderValues.dataProvider.length>0 ? dataProviderValues.dataProvider.slice(-1)[0] : null
 
     return {currentItem,
             gotoPosition, 

@@ -440,6 +440,17 @@ input {
   background: #00bc8c !important;
   color: #000;
 }
+
+.time-travel-scroller {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.time-travel-load-more-icon {
+  font-size: 30px;
+  border: 1px solid #3498db !important;
+  background-color: #444;
+}
 /* ---------- time travel widget ---------- */
 
 .vertical-timeline-element-content {

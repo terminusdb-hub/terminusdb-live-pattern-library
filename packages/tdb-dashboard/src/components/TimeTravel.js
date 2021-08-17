@@ -10,21 +10,32 @@ import {Alerts} from "./Alerts"
 import {AiOutlineUser} from "react-icons/ai"
 import {printtsDate, printtsTime} from "./utils"
 import {WOQLClientObj} from '../init-woql-client'
+import {FaPlus} from "react-icons/fa"
+import {Loading} from "./Loading"
+import {PROGRESS_BAR_COMPONENT} from "./constants"
 
 export const TimeTravel = ({show}) => {
  
     let cardColor = "#303030", transparantColor = "transparent", activeColor = "#00bc8c"
     const  {branch, chosenCommit,setHead} = WOQLClientObj()
+
+    const [loading, setLoading] = useState(false)
   
     const {currentItem, 
         dataProvider, 
         //setSelectedValue, 
         setCurrentDay,
         loadNextPage,
-        olderCommit,
+        olderCommit, 
         loadPreviousPage,
         setReloadQuery
         } = TimeTravelControl()
+
+    useEffect(() => { // when new commit logs are loaded on click of previous or next 
+        if(dataProvider.length > 0) {
+            setLoading(false)
+        }
+    }, [dataProvider])
     
     const [reportAlert, setReportAlert] = useState(false)
 
@@ -36,7 +47,7 @@ export const TimeTravel = ({show}) => {
             setHead(branch, commit)
          }
     }
-
+  
     useEffect(() => {
         if(chosenCommit && setHead){
             setHead(branch, chosenCommit)
@@ -62,6 +73,7 @@ export const TimeTravel = ({show}) => {
 
             var iconStyle = { background: transparantColor, color: '#444' }
             var disabled = false
+            var cardHeaderDateColor="text-warning"
             var currentDateColor 
             //to be review I had select in the dataprovider
             
@@ -69,23 +81,26 @@ export const TimeTravel = ({show}) => {
                 iconStyle = { background: activeColor, color: '#444' }
                 disabled = true
                 currentDateColor = "current-time-point"
+                cardHeaderDateColor = "text-dark"
             }else if (item.isHeadCommit){
                 iconStyle = { background: activeColor, color: '#444' }
                 disabled = true 
                 currentDateColor = "current-time-point"
             }
 
-            timeElements.push(<VerticalTimelineElement    key={item.commit} 
+            timeElements.push(<VerticalTimelineElement key={item.commit} 
                 className="vertical-timeline-element--work"
                 contentStyle={{ background: cardColor, color: '#fff' }}
                 contentArrowStyle={{ borderRight: '7px solid #00bc8c' }}
                 iconStyle={iconStyle}
                 icon={<BsFillCircleFill />}
                 >
-                <Card  variant="success" className=" time-travel-card" id={item.commit}>
+                <Card variant="success" className=" time-travel-card" id={item.commit}>
 
                     <Card.Header className={`d-flex ${currentDateColor}`}>
-                      <h6 className="w-100 float-left">{`Commited on ${printtsDate(item.time)}`} </h6>
+                      <h6 className="w-100 float-left">
+                          Commited on 
+                          <strong className={`ml-1 ${cardHeaderDateColor}`}>{printtsDate(item.time)}</strong></h6>
                       <h6 className="d-flex"><BiTime className="mr-1"/>{printtsTime(item.time)} </h6>
                     </Card.Header>
 
@@ -104,7 +119,7 @@ export const TimeTravel = ({show}) => {
                                 <BiTimer className="me-2"/>{"Time Travel to this point"}
                             </Button>}
                             {disabled && <h6 className="text-success mt-3">
-                                You are in this point in time 
+                                You are at this point in time  
                             </h6>}
                         </div>
                     </Card.Body>
@@ -116,15 +131,28 @@ export const TimeTravel = ({show}) => {
         return timeElements
     }
 
+    function handleLoadMore() {
+        setLoading(true)
+        loadPreviousPage()
+    }
+
+
     //only if the older commit has a parent we can load extra commit
     return <React.Fragment>
-        {/*reportAlert && <React.Fragment>{reportAlert}</React.Fragment>*/}        
-        <VerticalTimeline layout="1-column-left">
+        {/*reportAlert && <React.Fragment>{reportAlert}</React.Fragment>*/}   
+        {/*loading && <Loading message="Loading Commit Logs from History" type={PROGRESS_BAR_COMPONENT}/>*/}
+        {dataProvider && <VerticalTimeline layout="1-column-left">
             <TimelineElements/>
-            {olderCommit && olderCommit.parent && 
+            {/*olderCommit && olderCommit.parent && 
                 <Button variant="link" className="float-right text-info" onClick={loadPreviousPage}>Load More</Button>
-            }
-        </VerticalTimeline>
+            */}
+            {olderCommit &&<VerticalTimelineElement
+                iconOnClick={handleLoadMore}
+                iconClassName="time-travel-load-more-icon"
+                icon={<FaPlus className="text-info" style={{cursor:"pointer"}} title="Load more"/>}
+            />}
+         
+        </VerticalTimeline>}
 
                 
     </React.Fragment>

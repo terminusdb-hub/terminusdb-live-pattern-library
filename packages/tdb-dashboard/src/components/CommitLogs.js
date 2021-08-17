@@ -203,6 +203,10 @@ export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => 
         let tConf = getCommitsTabConfig(result, limit, cellClick, getCopyButton)
         setTableConfig(tConf)
     }, [result])
+
+
+    console.log("result", result)
+    console.log("tableConfig", tableConfig)
  
 
     return <React.Fragment>

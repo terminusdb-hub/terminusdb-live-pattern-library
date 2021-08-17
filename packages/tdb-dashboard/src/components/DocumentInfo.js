@@ -14,6 +14,11 @@ require('codemirror/mode/javascript/javascript')
 import {BiEdit, BiEditAlt} from "react-icons/bi"
 import {checkIfObject} from "./utils"
 import {WOQLClientObj} from '../init-woql-client'
+import {
+    CollapsibleComponent,
+    CollapsibleHead,
+    CollapsibleContent
+} from "react-collapsible-component"
 
 export const DocumentInfo = () => {
 
@@ -54,6 +59,7 @@ export const DocumentInfo = () => {
 
 
     const showSubDocument = (subDoc, contents) => {
+
         if(!subDoc["@id"]){
             contents.push(
                 <Row className="ml-5">
@@ -71,8 +77,8 @@ export const DocumentInfo = () => {
                     <DocumentForm docInfo={subDoc}/>
                 </Row>
             )
-        }
-    }
+        } 
+    } 
 
     const DocumentForm = ({docInfo}) => {
         let contents = []

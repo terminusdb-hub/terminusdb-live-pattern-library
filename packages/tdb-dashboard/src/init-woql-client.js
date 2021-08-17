@@ -36,9 +36,9 @@ export const WOQLClientProvider = ({children, params}) => {
 
     // set left side bar open close state 
     const [sidebarDataProductListState, setSidebarDataProductListState] = useState(true)
-    const [sidebarDataProductConnectedState, setSidebarDataProductConnectedState] = useState(false)
+    const [sidebarDataProductConnectedState, setSidebarDataProductConnectedState] = useState(true)
     const [sidebarDocumentListState, setSidebarDocumentListState] = useState(true)
-    const [sidebarSampleQueriesState, setSidebarSampleQueriesState] = useState(false)
+    const [sidebarSampleQueriesState, setSidebarSampleQueriesState] = useState(true)
 
     //maybe we can change this for the local connection
     const [opts, setOpts] = useState(params)

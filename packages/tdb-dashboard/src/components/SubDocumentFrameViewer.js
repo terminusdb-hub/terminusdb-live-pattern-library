@@ -40,6 +40,8 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
     ]
     */ 
 
+  
+
     function gatherPropertiesToCreate(propertyFill) {
         let extractedJson = []
         for (var item in propertyFill) { 
@@ -48,12 +50,16 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
             for (var x=0; x<arr.length; x++) {
                 let stuff = arr[x] 
                 for (var key in stuff) {
+                    if(documentObject.action == EDIT_DOCUMENT) { // we do not pass id while editing
+                        if(key == "@id") continue
+                    }
                     newJson[key] = stuff[key] 
                 } 
             }
             newJson["@type"]=type
             extractedJson.push(newJson)
         }
+        
         return extractedJson
     }
 
