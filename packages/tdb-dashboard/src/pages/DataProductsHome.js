@@ -77,11 +77,11 @@ export const DataProductsHome = (props) => {
                             <DataProductActivityGraph/>
                         </Col>
 
-                        <Col md={12}  className="mt-5">
+                        <Col md={12}  className="mb-5">
                             <DataProductActivityBoard/>
                         </Col>
 
-                        <Col md={12}  className="mt-5 mb-5">
+                        <Col md={12}  className="mb-5">
                             <div className="card mb-5">
                                 <div className="card-body">
                                     <div className="row align-items-center gx-0">
