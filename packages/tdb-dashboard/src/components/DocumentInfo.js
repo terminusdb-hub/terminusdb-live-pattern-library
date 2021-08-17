@@ -52,7 +52,27 @@ export const DocumentInfo = () => {
         return <DocumentForm docInfo={documentObject.filledFrame}/>
     } 
 
-    
+
+    const showSubDocument = (subDoc, contents) => {
+        if(!subDoc["@id"]){
+            contents.push(
+                <Row className="ml-5">
+                    <Form.Group as={Col} md="12" controlId={subDoc} className="ml-5">
+                        <Form.Label className="mr-5" style={{minWidth: "150px"}}>
+                            {subDoc}
+                        </Form.Label>
+                    </Form.Group>
+                </Row>
+            )
+        }
+        else {
+            contents.push(
+                <Row className="ml-5">
+                    <DocumentForm docInfo={subDoc}/>
+                </Row>
+            )
+        }
+    }
 
     const DocumentForm = ({docInfo}) => {
         let contents = []
@@ -71,26 +91,16 @@ export const DocumentInfo = () => {
                     </Form.Label>
                 </Form.Group>
                 )
-                subDoc.map( thing => {
-                    if(!thing["@id"]){
-                        contents.push(
-                            <Row className="ml-5">
-                                <Form.Group as={Col} md="12" controlId={thing} className="ml-5">
-                                    <Form.Label className="mr-5" style={{minWidth: "150px"}}>
-                                        {thing}
-                                    </Form.Label>
-                                </Form.Group>
-                            </Row>
-                        )
-                    }
-                    else {
-                        contents.push(
-                            <Row className="ml-5">
-                                <DocumentForm docInfo={thing}/>
-                            </Row>
-                        )
-                    }
-                })
+               
+                if(Array.isArray(subDoc)){ // can be a list/set of subdocuments
+                    subDoc.map( thing => {
+                        showSubDocument(thing, contents)
+                    })
+                }
+                else { // can be a single subdocument
+                    showSubDocument(subDoc, contents)
+                }
+                
             }
         }
         return contents

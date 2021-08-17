@@ -88,22 +88,40 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
         if(documentObject.action == EDIT_DOCUMENT) {// on edit document display filled frames of sub documents 
             let subDocProperty = documentObject.filledFrame[property]
             
-            if(!subDocProperty) return
-            
-            subDocProperty.map(item => {
+            if(!subDocProperty) { //  no filled frame aavailable for subdocument, just pass the frames
                 let newDocumentObject={
                     action: EDIT_DOCUMENT,
                     type: property,
                     view: "form",
                     submit: false,
                     frames: documentFrame,
-                    filledFrame: item,
+                    filledFrame: [],
                     message: false
                 }
 
-                //setPropertyFormFields(gatherProperties(propertyFormFields, propertyID, e.target.id, e.target.value))
-                for(var filled in item){
-                    setPropertyFormFields(gatherProperties(propertyFormFields, newDocumentObject.filledFrame["@id"], filled, item[filled]))
+                setSubDocArray(arr => [...arr, <SubDoc 
+                    property={property} 
+                    documentFrame={newDocumentObject} 
+                    propertyID={newDocumentObject.filledFrame["@id"]}    
+                    documentClasses={documentClasses}
+                    setPropertyFill={setPropertyFill}/>])
+
+                return
+            }
+
+            function getSubDocumentObject (subDocProperty) {
+                let newDocumentObject={
+                    action: EDIT_DOCUMENT,
+                    type: property,
+                    view: "form",
+                    submit: false,
+                    frames: documentFrame,
+                    filledFrame: subDocProperty,
+                    message: false
+                }
+
+                for(var filled in subDocProperty){
+                    setPropertyFormFields(gatherProperties(propertyFormFields, newDocumentObject.filledFrame["@id"], filled, subDocProperty[filled]))
                 }
                    /* here we pass real sub document id instead of uuidv4 */
                 setSubDocArray(arr => [...arr, <SubDoc 
@@ -112,7 +130,17 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                     propertyID={newDocumentObject.filledFrame["@id"]}    
                     documentClasses={documentClasses}
                     setPropertyFill={setPropertyFill}/>])
-            })
+            }
+            
+            if(Array.isArray(subDocProperty)) { // can be a list/ set of subdocuments
+                subDocProperty.map(item => {
+                    getSubDocumentObject(item)
+                })
+            }
+            else { // can be a single subdocument 
+                getSubDocumentObject(subDocProperty)
+            }
+            
         }
         
     }, [property])

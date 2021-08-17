@@ -18,6 +18,7 @@ import {printtsDate, printtsTime} from "./utils"
 import {BiTimer} from "react-icons/bi"
 
 export const DataProductActivityGraph = () => {
+    
 
     const [commits, setCommits] = useState([])
     const [json, setJson] = useState({})
@@ -30,6 +31,7 @@ export const DataProductActivityGraph = () => {
     useEffect(() => {
         if(!dataProvider) return 
         setCommits([])
+        setGraphData([])
         dataProvider.map(item => {
             let date = item.label.substring(9, item.label.length).replace(/\s/g, '')
             setCommits(arr => [...arr, {[date]: item.commit}])
@@ -99,7 +101,8 @@ export const DataProductActivityGraph = () => {
         </div>
     </div> */
 
-    if(commits.length <= 1) return <div/>
+    if(commits.length < 2) return <div/>
+    if(graphData.length < 2 ) return <div/>
 
     return  <div className="card mb-5">
         <div className="card-body">
