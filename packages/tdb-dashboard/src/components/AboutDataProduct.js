@@ -16,9 +16,11 @@ import {AiOutlineDelete} from "react-icons/ai"
 import {Col, Button} from "react-bootstrap"
 import {BsBarChart} from "react-icons/bs"
 import {DATA_PRODUCT_HEALTHY} from "../pages/constants"
+import {HealthModal} from "./HealthModal"
 
 export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, healthColor}) =>{
 
+    const [showHealth, setShowHealth]=useState(false)
     const {
         dataProduct,
         documentClasses,
@@ -46,6 +48,9 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
     }, [branches])
    
     return <React.Fragment>
+
+        <HealthModal showHealth={showHealth} setShowHealth={setShowHealth}/>
+
         <h4 className="text-muted mb-3 fw-bold">About</h4>
         <span className="d-flex mb-2">
             <h6 className="fw-normal text-muted mb-2 fw-bold">Data Product ID </h6>
@@ -86,7 +91,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
             </span>
             <div className="col-auto">
                 <span className="h2 text-muted mb-0">
-                    <Button variant="light" className="btn-sm">Change</Button>
+                    <Button variant="light" className="btn-sm" onClick={(e)=>setShowHealth(true)}>Change</Button>
                 </span>
             </div>
         </div>

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
 
-export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, formFields, set}) => {
+export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, formFields, set, type}) => {
     const [subDocArray, setSubDocArray] = useState([])
     const [propertyFill, setPropertyFill]=useState([])
 
@@ -38,7 +38,7 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
             "note": "some other blah"
         }
     ]
-    */
+    */ 
 
     function gatherPropertiesToCreate(propertyFill) {
         let extractedJson = []
@@ -51,6 +51,7 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                     newJson[key] = stuff[key] 
                 } 
             }
+            newJson["@type"]=type
             extractedJson.push(newJson)
         }
         return extractedJson

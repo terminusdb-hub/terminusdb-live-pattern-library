@@ -21,6 +21,7 @@ export const SubDocumentTypeFrame = ({property, type, setFormFields, formFields,
         <Form.Label>{property}</Form.Label>
         {documentFrame && <SubDocumentFrameViewer 
             property={property} 
+            type={type["@class"]}
             documentFrame={documentFrame}
             setFormFields={setFormFields}
             formFields={formFields}
