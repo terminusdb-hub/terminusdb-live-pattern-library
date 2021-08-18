@@ -73,21 +73,7 @@ export const getDocumentFrame = async (woqlClient, documentObject, setDocumentOb
     }  
 }
 
-/*
-export async function getDocumentFrame (woqlClient, documentObject, setDocumentObject, setFrame, setDocumentClasses) {
-    let db=woqlClient.db()
-    let documentType = documentObject.type
-    await woqlClient.getSchemaFrame(documentType, db).then((res) => {
-        setFrame(res)
-    })
-    .catch((err) => {
-        let message=`Error in fetching frames of class ${documentType} : ${err}`
-        let docObj = documentObject
-        docObj.loading = false
-        docObj.message=<Alerts message={message} type={TERMINUS_DANGER}/>
-        setDocumentObject(docObj)
-    })
-}*/
+
  
 // making a separate function for sub document frame so i dont have to alter document object 
 export async function getSubDocumentFrame (woqlClient, documentType, setFrame) {
@@ -174,23 +160,6 @@ export const getCurrentDocumentInfo = async (woqlClient, documentObject, setDocu
     }        
  }
 
-/*export async function getCurrentDocumentInfo (woqlClient, documentObject, setDocumentObject, asList, setFilledFrame, setLoading, setReportAlert){
-    let db=woqlClient.db()
-    let params={}
-    params['id'] = documentObject.currentDocument
-    params['as_list'] = asList
-    await woqlClient.getDocument(params, db).then((res) => {
-        setFilledFrame(res)
-    })
-    .catch((err) => {
-        let message=`Error in fetching info of document ${documentObject.currentDocument}: ${err}`
-        let docObj=documentObject
-        docObj.message=<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
-        docObj.loading=false
-        setDocumentObject(docObj)
-    })
-}*/
-
 // update document 
 export async function updateDocument (woqlClient, documentObject, setDocumentObject, setReportAlert, setLoading) {
 
@@ -224,7 +193,7 @@ export async function updateDocument (woqlClient, documentObject, setDocumentObj
 
 
 // get filled frame of document 
-export async function getFilledFrames(woqlClient, documentObject, setFilledFrame, setLoading, setReportAlert) {
+/*export async function getFilledFrames(woqlClient, documentObject, setFilledFrame, setLoading, setReportAlert) {
     let db=woqlClient.db()
     let params={}
     params['id'] = document["@id"]
@@ -251,7 +220,7 @@ export async function getFilledFrames(woqlClient, documentObject, setFilledFrame
         setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
         setLoading(false)
     })
-}
+} */
 
 // get enum types 
 export async function getEnums(woqlClient, setEnums, setLoading, setReportAlert) {

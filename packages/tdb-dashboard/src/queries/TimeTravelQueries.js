@@ -46,7 +46,7 @@ WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author", "v:Bra
         )
     )
 
-    */
+    */ 
 //not include the commit_id
 //get the commits older that commit_id
 export function previousCommits(commit_id,limit){
@@ -61,7 +61,7 @@ export function previousCommits(commit_id,limit){
             WOQL.triple("v:Parent","@schema:parent","v:Parent ID")
             )
     )
-}
+} 
 //to be fix
 /*function getFromTime(branch='main',limit=10,startTime){
     WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author", "v:Branch ID").and(
