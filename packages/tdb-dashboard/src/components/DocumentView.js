@@ -107,16 +107,21 @@ export const DocumentView = () => {
         })
     }
 
-    console.log("documentObjectWithFrames in view", documentObjectWithFrames)
+    //console.log("documentObjectWithFrames in view", documentObjectWithFrames)
 
 
     return <React.Fragment>
         <Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>
         <Row className="mt-5 w-100">
 
+        {/* No document available for a chosen document class card */}
+        {!documentObjectWithFrames.action && (documentResults.length==0) && <NoDocumentsAvailable type={documentObject.type} documentObject={documentObject} setDocumentObject={setDocumentObject}/>}
+          
+        {/* Display summary cards with number of document classes available */}
         {!documentObjectWithFrames.action && (!documentResults) && <DocumentSummary/>}
           
 
+        {/* Display list of available document classes on select of a type in left hand bar */}
         { 
             !documentObjectWithFrames.action && (documentResults.length>0) && tableConfig && 
                 <main className="content mr-3 ml-5 w-100 ">

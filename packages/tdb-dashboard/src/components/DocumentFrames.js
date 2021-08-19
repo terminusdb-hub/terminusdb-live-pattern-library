@@ -31,7 +31,7 @@ export const DocumentFrames = () => {
         setDocumentObject(docObj)
     }  
 
-    console.log("refreshedDocumentObject in doc frame", documentObjectWithFrames)
+    //console.log("refreshedDocumentObject in doc frame", documentObjectWithFrames)
 
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100 mb-5">
