@@ -37,7 +37,7 @@ export const DocumentFrames = () => {
         <Row className="w-100 mb-5">
             <Col md={11}>   
                 <Card> 
-                    {documentObject.loading && !documentObjectWithFrames.frames &&documentObject.loading}
+                    {documentObject.loading && documentObject.loading}
                     <Card.Header className="d-flex w-100">
                         <span className="w-100 float-left d-flex">
                             {documentObjectWithFrames.action == CREATE_DOCUMENT && <h5>

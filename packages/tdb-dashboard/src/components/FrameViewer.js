@@ -21,7 +21,6 @@ export const FrameViewer = () => {
         documentObjectWithFrames
     } = DocumentControlObj()
 
-    //const [currentFrame, setCurrentFrame]=useState(false)
     const [formFields, setFormFields] = useState({})
     const [validated, setValidated] = useState(false)
 
@@ -31,13 +30,11 @@ export const FrameViewer = () => {
  
 
     useEffect(() => {
-        //console.log("documentObject", documentObject)
-        //if(documentObject.action == CREATE_DOCUMENT) setCurrentFrame (documentObject.frames)
-        if(documentObject.action == EDIT_DOCUMENT) {
-            //setCurrentFrame (documentObject.frames)
+         if(documentObject.action == EDIT_DOCUMENT) {
             setFormFields(documentObject.filledFrame)
         }
     }, [documentObject.frames, documentObject.filledFrame])
+
 
     function handleChange(e) { // gather all form fields inputs on change
         setFormFields({

@@ -143,6 +143,8 @@ export const DocumentInfo = () => {
     }
 
     function onDelete () {
+        let docObj = documentObject
+        docObj.loading =  <Loading message={`Deleting document ${documentObject.currentDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>
         deleteDocument(woqlClient, setDocumentObject, documentObject)
     }
 

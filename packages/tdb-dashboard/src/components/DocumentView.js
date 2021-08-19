@@ -58,7 +58,7 @@ export const DocumentView = () => {
         setControlledRefresh(controlledRefresh+1)
     }, [documentObject.type])
 
-    useEffect(() => {
+    useEffect(() => { // reload table on update
         if(documentObjectWithFrames.update) {
             setTableConfig(false)
             setDocumentResults(false)
@@ -96,7 +96,7 @@ export const DocumentView = () => {
         setDocumentObject({
             action: VIEW_DOCUMENT,
             type: row.original["@type"], 
-            view: documentObject.view,
+            view: documentObject.view ? documentObject.view : FORM_VIEW,
             submit: false,
             currentDocument: row.original["@id"],
             frames: {},
@@ -158,7 +158,6 @@ export const DocumentView = () => {
             {
                 documentObjectWithFrames.action &&
                 documentObjectWithFrames.action !==  VIEW_DOCUMENT && 
-                documentObject.update &&
                 documentObjectWithFrames.frames && 
                 <DocumentFrames/>}
         

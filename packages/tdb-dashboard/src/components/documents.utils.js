@@ -12,7 +12,6 @@ export function handleCreate (classType, documentObject, setDocumentObject) {  /
         currentDocument: false,
         frames: {},
         filledFrame: {},
-        update:Date.now(),
         message:false,
         loading: <Loading message={`Fetching frames to create ${classType} ...`} type={PROGRESS_BAR_COMPONENT}/>
     }) 

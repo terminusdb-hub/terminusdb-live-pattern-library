@@ -187,12 +187,13 @@ export async function deleteDocument  (woqlClient, setDocumentObject, documentOb
         let docObj={
             action: false, // reload everything and display all documents list
             type: documentObject.type,
-            view: false,
+            view: documentObject.view,
             submit: false,
             currentDocument: false,
             frames: {},
             message: <Alerts message={message} type={TERMINUS_SUCCESS}/>,
-            loading: false
+            loading: false,
+            update: Date.now()
         }
 
         setDocumentObject(docObj)
