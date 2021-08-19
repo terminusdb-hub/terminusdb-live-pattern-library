@@ -9,4 +9,4 @@ export const DOCUMENT = "/document"
 export const DOCUMENT_EXPLORER = "/document_explorer"
 export const FEEDBACK = "/feedback"
 export const EXAMPLES_PRODUCTS = "/example_products"
-
+export const PROFILE = "/profile"

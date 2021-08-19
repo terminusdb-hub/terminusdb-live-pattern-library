@@ -12,6 +12,7 @@ export function SendEmailHook(props) {
 
 	//const bff_url=process.env.TERMINUS_BFF_URL
 	const bff_url=process.env.TERMINUSDB_SERVER
+	//const bff_url="https://cloud-dev.dcm.ist/"
 	const baseUrl=`${bff_url}api`
 
     const options = {

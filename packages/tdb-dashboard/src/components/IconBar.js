@@ -77,7 +77,7 @@ export const IconBar =  () => {
             <hr className="my-3" role="separator"></hr>
             <div className="nav-icons-bottom">
                 <hr className="my-3" role="separator"></hr>
-                <Nav.Item> 
+                <Nav.Item className="mb-4"> 
                     <Nav.Link as={RouterNavLink} 
                         title={IconBarConfig.feedback.title} 
                         className="nav-icon"
