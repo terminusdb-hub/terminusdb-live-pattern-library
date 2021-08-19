@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {AiOutlineSave} from "react-icons/ai"
-import {BiUndo} from "react-icons/bi"
+import {AiOutlineSave,AiOutlineReload} from "react-icons/ai"
 import {TOOLBAR_LABELS} from '../../constants/details-labels';
 import {GraphContextObj} from '../hook/graphObjectContext';
 
@@ -22,7 +21,8 @@ export const RightBarHeaderTools =(props)=>{
 
     const handleReset=()=>{
         //we have to add an alert
-        resetTreeModel()
+        window.confirm("If you continue, you'll lose the schema's changes") &&
+		resetTreeModel()
     }
 
 	return (<div className="flex-grow-1 d-flex align-item-center pt-2 pb-2 bg-dark pl-3" style={{marginTop:'1px',marginBottom:'2px'}}>
@@ -34,8 +34,9 @@ export const RightBarHeaderTools =(props)=>{
                     onClick={handleSave}>
                     <AiOutlineSave size="1.6em"/>
                 </button>
-                <button title={TOOLBAR_LABELS.ViewModeTooltip} type="button" className="btn btn-outline-light btn-lg border-0" onClick={handleReset}>
-                    <BiUndo size="1.6em"/>
+                <button title={TOOLBAR_LABELS.ResetButtonTooltip} type="button" className="btn btn-outline-light btn-lg border-0" onClick={handleReset}>
+                    <AiOutlineReload size="1.6em"/>
+                    
                 </button>
             </div>
         </div>)
