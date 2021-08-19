@@ -5,17 +5,22 @@ import {BsPlus} from "react-icons/bs"
 import { v4 as uuidv4 } from 'uuid'
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
+import {DocumentControlObj} from '../hooks/DocumentControlContext'
+
 
 export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, formFields, set, type}) => {
     const [subDocArray, setSubDocArray] = useState([])
     const [propertyFill, setPropertyFill]=useState([])
 
     const [propertyFormFields, setPropertyFormFields]=useState([])
-
+ 
     const {
-        documentObject,
         documentClasses
     } = WOQLClientObj()
+
+    const {
+        documentObject
+    } = DocumentControlObj()
 
 
     /*{ example of forlm field to uuid of sub doc
@@ -82,7 +87,8 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                 submit: false,
                 frames: documentFrame,
                 filledFrame: {},
-                message: false
+                message: false,
+                update:false
             }
             setSubDocArray(arr => [...arr, <SubDoc 
                 property={property} 
@@ -102,7 +108,8 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                     submit: false,
                     frames: documentFrame,
                     filledFrame: [],
-                    message: false
+                    message: false,
+                    update:false
                 }
 
                 setSubDocArray(arr => [...arr, <SubDoc 
@@ -123,7 +130,8 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                     submit: false,
                     frames: documentFrame,
                     filledFrame: subDocProperty,
-                    message: false
+                    message: false,
+                    update:false
                 }
 
                 for(var filled in subDocProperty){
@@ -234,7 +242,8 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
             submit: false,
             frames: documentFrame,
             filledFrame: {},
-            message: false
+            message: false,
+            update:false
         }
 
         setSubDocArray(arr => [...arr, <SubDoc 

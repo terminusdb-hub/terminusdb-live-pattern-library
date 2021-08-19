@@ -50,7 +50,7 @@ WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author", "v:Bra
 //not include the commit_id
 //get the commits older that commit_id
 export function previousCommits(commit_id,limit){
-    return WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author").and(
+    return WOQL.limit(limit).select("v:Parent ID","v:Message","v:Commit ID","v:Time","v:Author").and(
         WOQL.and(
             WOQL.triple("v:Active Commit ID","@schema:identifier",WOQL.string(commit_id)),
             WOQL.path("v:Active Commit ID", "@schema:parent+","v:Parent", "v:Path"),

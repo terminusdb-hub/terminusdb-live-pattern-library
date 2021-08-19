@@ -8,7 +8,8 @@ import {getDocumentsOfClassOfInterest} from "../hooks/DocumentControl"
 import {DocumentFrameAccordian} from "./DocumentFrameAccordian"
 import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 import {SubDocumentTypeFrame} from "./SubDocumentTypeFrame"
-
+import {Accordion} from 'react-accessible-accordion'
+import 'react-accessible-accordion/dist/fancy-example.css'
 
 const SelectedDocumentAccordian = ({selected}) => { 
     let acc=[]

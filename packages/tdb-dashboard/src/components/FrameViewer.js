@@ -7,17 +7,28 @@ import {PROGRESS_BAR_COMPONENT, NEW_OBJECT, CREATE_DOCUMENT, EDIT_DOCUMENT} from
 import {EnumTypeFrame} from "./EnumTypeFrame"
 import {RenderFrameProperties} from "./RenderFrameProperties"
 import { v4 as uuidv4 } from 'uuid'
+import {DocumentControlObj} from '../hooks/DocumentControlContext'
 
 export const FrameViewer = () => { 
 
     const {
+        documentClasses
+    } = WOQLClientObj() //documentObjectWithFrames
+
+    const {
         documentObject,
         setDocumentObject,
-        documentClasses
-    } = WOQLClientObj()
+        documentObjectWithFrames
+    } = DocumentControlObj()
 
     //const [currentFrame, setCurrentFrame]=useState(false)
-    const [formFields, setFormFields] = useState({"@type": documentObject.type})
+    const [formFields, setFormFields] = useState({})
+    const [validated, setValidated] = useState(false)
+
+    useEffect(() => {
+        setValidated(false)
+    }, [documentObject.type])
+ 
 
     useEffect(() => {
         //console.log("documentObject", documentObject)
@@ -50,35 +61,38 @@ export const FrameViewer = () => {
     }
 
     function handleCreateDocument () {
+        formFields["@type"]=documentObject.type
         setDocumentObject({
             action: CREATE_DOCUMENT,
             type: documentObject.type,
             view: documentObject.view,
             submit: true,
             frames: formFields,
+            filledFrame: {},
             message: false,
-            loading: <Loading message={`Fetching frames to create document type${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>
+            update: false,
+            loading: <Loading message={`Creating new ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>
         })
     }
 
     function handleUpdateDocument () {
+        formFields["@type"]=documentObject.type
         setDocumentObject({
             action: EDIT_DOCUMENT,
             type: documentObject.type,
             view: documentObject.view,
             submit: true,
             frames: formFields,
-            filledFrame: documentObject.filledFrame,
+            filledFrame: documentObjectWithFrames.filledFrame,
             message: false,
-            loading: <Loading message={`Updating ${documentObject.filledFrame["@id"]} ...`} type={PROGRESS_BAR_COMPONENT}/>
+            update: false,
+            loading: <Loading message={`Updating ${documentObjectWithFrames.filledFrame["@id"]} ...`} type={PROGRESS_BAR_COMPONENT}/>
         })
     }
 
-    const [validated, setValidated] = useState(false);
-
+    
     const handleSubmit = (event) => {
         const form = event.currentTarget
-        console.log("form.checkValidity()", form.checkValidity())
         if (form.checkValidity() === false) {
           event.preventDefault()
           event.stopPropagation()
@@ -99,7 +113,7 @@ export const FrameViewer = () => {
         <Form  noValidate validated={validated} onSubmit={handleSubmit}>
             {/*documentObject.loading && documentObject.loading*/}
             {/*currentFrame && renderProperties(currentFrame)*/} 
-            {documentObject.frames && <RenderFrameProperties documentObject={documentObject} 
+            {documentObjectWithFrames.frames && <RenderFrameProperties documentObject={documentObjectWithFrames} 
                 documentClasses={documentClasses} 
                 handleChange={handleChange}
                 handleSelect={handleSelect}

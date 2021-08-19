@@ -17,7 +17,7 @@ import {Nav} from "react-bootstrap"
 import {NavLink as RouterNavLink} from "react-router-dom"
 
 
-export const DocumentSummary = ({setDocumentObject}) => {
+export const DocumentSummary = () => {
   
 
     const {

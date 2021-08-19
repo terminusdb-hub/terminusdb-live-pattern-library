@@ -124,7 +124,6 @@ export const graphViewConfig = (result) => {
     }
     else {
         for (var item in result[0]){ 
-
             graph.node(item).color([23, 162, 184]).size(30).text(item).icon({label: true, color: [109,98,100]})
         }
     }

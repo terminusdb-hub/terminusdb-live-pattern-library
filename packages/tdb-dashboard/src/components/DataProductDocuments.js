@@ -12,6 +12,7 @@ import {getCountOfDocumentClass} from "../queries/GeneralQueries"
 import { executeQueryHook } from "../hooks/executeQueryHook"
 import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
 import {handleCreate} from "./documents.utils"
+import {DocumentControlObj} from '../hooks/DocumentControlContext'
 
 export const DataProductDocuments = () => {
     const {
@@ -108,24 +109,29 @@ export const DocumentExplorerDocuments = () => {
         dataProduct, 
         sidebarDocumentListState, 
         setSidebarDocumentListState, 
-        documentObject, 
-        setDocumentObject,
         documentClasses
     } = WOQLClientObj()
 
+    const {
+        setDocumentObject,
+        documentObject
+    } = DocumentControlObj()
+
     // on select of a class
     function handleClassClick (id) {
-        setDocumentObject({
+        let docObj = {
             type: id,
             action: false,
-            view: false,
+            view: documentObject.view,
             submit: false,
             currentDocument: false,
             frames: {},
-            update:Date.now(),
+            filledFrame: {},
             message: false,
-            loading: false
-        })
+            loading: false,
+            update:false
+        }
+        setDocumentObject(docObj)
     } 
 
     // search docs constant
@@ -146,7 +152,8 @@ export const DocumentExplorerDocuments = () => {
                     className="pro-item-content btn-sm" 
                     variant="dark" 
                     title={`Add a new ${item["@id"]}`}
-                    onClick={(e) => handleCreate(item["@id"], setDocumentObject)}>
+                    onClick={(e) => handleCreate(item["@id"], documentObject, setDocumentObject)}
+                >
                         <Badge variant="dark">
                             <BiPlus style={{fontSize: "14px"}} color="#fff" />
                         </Badge>
@@ -154,8 +161,6 @@ export const DocumentExplorerDocuments = () => {
             </ButtonGroup>
         </MenuItem>
     }
-
-    console.log("documentClasses", documentClasses)
 
 
     return <SubMenu title={"Document Types"}

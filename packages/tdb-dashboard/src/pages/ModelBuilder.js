@@ -15,7 +15,7 @@ export const ModelBuilder = (props) =>{
     let branch = "main"
     let ref = ""
 
-    const saveData=(query, commitMessage)=>{
+    const saveData=(query, commitMessage)=>{ 
         saveGraphChanges(query, commitMessage)
     }
 

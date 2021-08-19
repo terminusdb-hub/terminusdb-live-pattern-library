@@ -9,7 +9,8 @@ import {Button, Row} from "react-bootstrap"
 import {BiPlus,BiEditAlt, BiReset} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
 import {PROGRESS_BAR_COMPONENT} from "./constants" 
-import {FaInfoCircle} from "react-icons/fa"
+import {FaInfoCircle} from "react-icons/fa" 
+import {DocumentControlObj} from '../hooks/DocumentControlContext'
 
 export const JsonFrameViewer = () => {
     const [value, setValue]=useState(false) // sets value from editor 
@@ -17,12 +18,12 @@ export const JsonFrameViewer = () => {
 
     const [update, setUpdate]=useState(Date.now())
 
+
     const {
         documentObject,
         setDocumentObject,
-        reportAlert,
-        loading
-    } = WOQLClientObj()
+        documentObjectWithFrames
+    } = DocumentControlObj()
 
     let options=EDITOR_WRITE_OPTIONS
 
@@ -32,7 +33,9 @@ export const JsonFrameViewer = () => {
             type: documentObject.type,
             view: documentObject.view,
             submit: true,
-            frames: JSON.parse(value)
+            filledFrame: {},
+            frames: JSON.parse(value),
+            update:false
         })
     }
 
@@ -43,29 +46,27 @@ export const JsonFrameViewer = () => {
             view: documentObject.view,
             submit: true,
             frames: JSON.parse(value),
-            message: false
+            filledFrame: {},
+            message: false,
+            update:false
         })
-    }
-
-    function setResetView () {
-        setUpdate(Date.now())
     }
 
     useEffect(() => {
         if(documentObject.action==CREATE_DOCUMENT)
-            setJson(JSON.stringify(documentObject.frames, null, 2))
+            setJson(JSON.stringify(documentObjectWithFrames.frames, null, 2))
         else if (documentObject.action==EDIT_DOCUMENT)
-            setJson(JSON.stringify(documentObject.filledFrame, null, 2))
+            setJson(JSON.stringify(documentObjectWithFrames.filledFrame, null, 2))
     }, [documentObject.action])
 
     
     return <React.Fragment>
-        {loading && <Loading message={`Add new ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-        {reportAlert && reportAlert}
+        {documentObjectWithFrames.loading && <Loading message={`Add new ${documentObjectWithFrames.type} ...`} type={PROGRESS_BAR_COMPONENT}/>}
+        {documentObjectWithFrames.reportAlert && documentObjectWithFrames.reportAlert}
         {
-            documentObject.action==CREATE_DOCUMENT && update && <React.Fragment>
+            documentObjectWithFrames.action==CREATE_DOCUMENT && update && <React.Fragment>
                 <div className="w-100 d-flex">
-                    <p className="fw-bold text-muted w-100"><FaInfoCircle className="mr-2"/>{`JSON structure for type ${documentObject.type}`}</p>
+                    <p className="fw-bold text-muted w-100"><FaInfoCircle className="mr-2"/>{`JSON structure for type ${documentObjectWithFrames.type}`}</p>
                     {/*<button title={"Reset JSON structure"} type="button" className="btn btn-outline-light text-right float-right border-0" onClick={setResetView}>
 						<BiReset size="1.6em"/>
 					</button>*/}
@@ -83,9 +84,9 @@ export const JsonFrameViewer = () => {
             </React.Fragment>
         }
         {
-            documentObject.action==EDIT_DOCUMENT && update && <React.Fragment>
+            documentObjectWithFrames.action==EDIT_DOCUMENT && update && <React.Fragment>
                 <div className="w-100 d-flex">
-                    <p className="fw-bold text-muted w-100"><FaInfoCircle className="mr-2"/>{`Filled JSON structure for document ${documentObject.currentDocument}`}</p>
+                    <p className="fw-bold text-muted w-100"><FaInfoCircle className="mr-2"/>{`Filled JSON structure for document ${documentObjectWithFrames.currentDocument}`}</p>
                     {/* <button title={"Reset JSON structure"} type="button" className="btn btn-outline-light text-right float-right border-0" onClick={setResetView}>
 						<BiReset size="1.6em"/>
 					</button>*/}
