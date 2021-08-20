@@ -49,6 +49,13 @@ export const DocumentControlProvider = ({children}) => {
         getDocumentFrame(woqlClient, documentObject, setResult, setError)
     }, [documentObject.type, documentObject.action])
 
+    useEffect(() => {
+        // get frames everytime create is clicked
+        if(documentObject.action == CREATE_DOCUMENT) {
+            getDocumentFrame(woqlClient, documentObject, setResult, setError)
+        }
+    }, [documentObject.update])
+
     // on click of submit on create or edit
     useEffect(() => { 
         if(!documentObject.submit) return

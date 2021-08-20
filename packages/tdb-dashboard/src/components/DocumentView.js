@@ -107,7 +107,7 @@ export const DocumentView = () => {
         })
     }
 
-    //console.log("documentObjectWithFrames in view", documentObjectWithFrames)
+    console.log("documentObjectWithFrames in view", documentObjectWithFrames)
 
 
     return <React.Fragment>
@@ -164,6 +164,7 @@ export const DocumentView = () => {
                 documentObjectWithFrames.action &&
                 documentObjectWithFrames.action !==  VIEW_DOCUMENT && 
                 documentObjectWithFrames.frames && 
+                documentObjectWithFrames.update &&
                 <DocumentFrames/>}
         
         </Row>

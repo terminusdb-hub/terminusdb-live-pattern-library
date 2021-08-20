@@ -157,7 +157,7 @@ export const DocumentInfo = () => {
             currentDocument: documentObjectWithFrames.currentDocument,
             frames: documentObjectWithFrames.frames,
             filledFrame: documentObjectWithFrames.filledFrame,
-            update:false
+            update:Date.now()
         })
     }
 

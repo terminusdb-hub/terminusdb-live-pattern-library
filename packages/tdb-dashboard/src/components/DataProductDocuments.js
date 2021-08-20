@@ -3,7 +3,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {QueryPaneObj} from "../hooks/queryPaneContext"
-//import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl"
+//import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl" 
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
@@ -12,7 +12,8 @@ import {getCountOfDocumentClass} from "../queries/GeneralQueries"
 import { executeQueryHook } from "../hooks/executeQueryHook"
 import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
 import {handleCreate} from "./documents.utils"
-import {DocumentControlObj} from '../hooks/DocumentControlContext'
+import {DocumentControlObj, getDocumentFrame} from '../hooks/DocumentControlContext'
+
 
 export const DataProductDocuments = () => {
     const {
@@ -20,33 +21,51 @@ export const DataProductDocuments = () => {
         dataProduct,
         documentClasses
     } = WOQLClientObj()
-    //const {addQueryPane} = QueryPaneObj() 
+
+    const {addQueryPane} = QueryPaneObj()
 
     const [query, setQuery]=useState(false)
     var [dataProvider]=executeQueryHook(woqlClient, query)
-
-    /*//const { 
-        setCurrentClass,
-        currentClass,
-        setQuery,
-        properties,
-        classes} = DatabaseInfoControl(woqlClient, dataProduct) */
 
  
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
 
+    const [property, setProperty]= useState(false)
+    const [propertyButtons, setPropertyButtons] = useState(false)
 
-    function handleClassClick (id) {
-        /*let q = getPropertiesOfClass(id, dataProduct, woqlClient)
-        setCurrentClass(id)
-        setQuery(q)*/
+    const [propertyRelationQuery, setPropertyRelationQuery] = useState(false)
+
+    useEffect(() => {
+        if(property){
+            let props=[]
+            for(var key in property) {
+                if(key=="parent_class") continue
+                if(key=="@key") continue
+                props.push(key)
+            }
+            setPropertyButtons(props)
+        }
+    }, [property])
+
+
+    async function handleClassClick (id) {
+        try{
+            let db=woqlClient.db()
+            const result = await woqlClient.getSchemaFrame(id, db)
+            result.parent_class=id
+            setProperty(result)
+        }catch(err){
+            let message=`Error in fetching frames of class ${id} : ${err}`
+            console.log(message)
+        }  
     }
 
     function handlePropertyClick (property) {
-        /*let q = getPropertyRelation(property, dataProduct, woqlClient)
-        addQueryPane(q)*/
-    }
+        let q = getPropertyRelation(property, dataProduct, woqlClient)
+        //queryObj.editorObj.text = q
+        addQueryPane(q)
+    } 
 
     useEffect(() => { // get count of document classes
         if(!documentClasses) return 
@@ -74,17 +93,9 @@ export const DataProductDocuments = () => {
                 
                 <span className="text-gray">{item["@id"]}</span>
                 {dataProvider && <GetCountBadge id={item["@id"]} dataProvider={dataProvider}/>}
-
+ 
             </Button>
 
-            {/*properties && properties.map(property => {
-                if(property["Property Domain"] == item["Class ID"])
-                    return  <MenuItem>
-                        <Button className="pro-item-content btn-sm" variant="light" onClick={(e) => handlePropertyClick(property["Property ID"])}>
-                            {property["Property Name"]["@value"]}
-                        </Button>
-                    </MenuItem>})
-            */}
         </MenuItem>
     }
 
@@ -93,7 +104,17 @@ export const DataProductDocuments = () => {
        <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
        {Array.isArray(documentClasses) && documentClasses.map(item => {
             if(!searchDocument) {
-                return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
+                return <React.Fragment>
+                    <DocumentMenu item={item} handleClassClick={handleClassClick}/>
+                    {propertyButtons && property.parent_class==item["@id"]  && <div className="ml-3">
+                        {propertyButtons.map(props => {
+                            return <Button className="btn btn-sm m-1 text-light" 
+                            onClick={(e) => handlePropertyClick(props)}
+                            variant="outline-secondary">{props}</Button>
+                        })}
+                    </div>
+                    }
+                </React.Fragment>
             }
             if(searchDocument && (item["@id"].toUpperCase().includes(searchDocument.toUpperCase()))) {
                 return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
@@ -153,7 +174,7 @@ export const DocumentExplorerDocuments = () => {
                     variant="dark" 
                     title={`Add a new ${item["@id"]}`}
                     onClick={(e) => handleCreate(item["@id"], documentObject, setDocumentObject)}
-                >
+                > 
                         <Badge variant="dark">
                             <BiPlus style={{fontSize: "14px"}} color="#fff" />
                         </Badge>

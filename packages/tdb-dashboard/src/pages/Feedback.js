@@ -20,18 +20,24 @@ export const Feedback = (props) => {
     const {emailResult, sendEmailResult, setEmailError, emailError, sendEmailData}=SendEmailHook()
 
     const [message, setMessage]=useState(false)
+    const [subject, setSubject]=useState(false)
 
     function sendFeedback (e) {
         if(!user && !userName) return
         let data = {}
-        data['username']=userName
+        data['username']=user.given_name
         data['email']=user.email
         data['message']=message
+        data['subject']=subject
         sendEmailData(data)
     }
 
     function handleMessage (e) {
         setMessage(e.target.value) 
+    }
+
+    function handleSubject (e) {
+        setSubject(e.target.value) 
     }
 
 
@@ -47,6 +53,13 @@ export const Feedback = (props) => {
                     <Form> 
                         {emailResult && <Alerts message={emailResult} type={TERMINUS_SUCCESS} onCancel={sendEmailResult}/>}
                         {emailError && <Alerts message={emailError} type={TERMINUS_DANGER} onCancel={setEmailError}/>}
+                        <Form.Group>
+                            <Form.Label className="text-muted">Subject</Form.Label>
+                            <Form.Control as="input" 
+                                rows={1} 
+                                placeholder="Subject"
+                                onBlur={handleSubject}/>
+                        </Form.Group>
                         <Form.Group>
                             <Form.Label className="text-muted">Message</Form.Label>
                             <Form.Control as="textarea" 
