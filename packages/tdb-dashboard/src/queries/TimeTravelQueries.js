@@ -13,41 +13,9 @@ export function commitsQueryByBranch(branch='main',limit=10){
             WOQL.triple("v:Parent","author","v:Author"),
             WOQL.triple("v:Parent","message","v:Message"),
     )
-
-    
 }
 
 
-/*
-
-WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author", "v:Branch ID","v:Message")
-        .and(
-        WOQL.triple("v:Branch", "@schema:name", WOQL.string(branch)),
-        WOQL.triple("v:Branch", "@schema:head", "v:Active Commit ID"),
-        WOQL.or(
-        WOQL.and( 
-            WOQL.triple("v:Active Commit ID","@schema:identifier","v:Commit ID"),
-            WOQL.triple("v:Active Commit ID","@schema:timestamp","v:Time"),
-            WOQL.triple("v:Active Commit ID","@schema:author","v:Author"),
-            WOQL.triple("v:Active Commit ID","@schema:message","v:Message"),
-            WOQL.triple("v:Branch","@schema:name","v:Branch ID"),
-            WOQL.limit(1).opt().triple("v:Parent","@schema:parent","v:Parent Node")
-                .triple("v:Parent Node","@schema:identifier","v:Parent ID")               
-            ),
-        WOQL.and(
-            WOQL.path("v:Active Commit ID", "@schema:parent+","v:Parent", "v:Path"),
-            WOQL.triple("v:Parent","@schema:identifier","v:Commit ID"),
-            WOQL.triple("v:Parent","@schema:timestamp","v:Time"),
-            WOQL.triple("v:Parent","@schema:author","v:Author"),
-            WOQL.triple("v:Parent","@schema:message","v:Message"),
-            WOQL.limit(1).opt().triple("v:Parent","@schema:parent","v:Parent Node")
-            .triple("v:Parent Node","@schema:identifier","v:Parent ID")
-            )
-        )
-    )
-
-    */ 
-//not include the commit_id
 //get the commits older that commit_id
 export function previousCommits(commit_id,limit){
     return WOQL.limit(limit).select("v:Parent ID","v:Message","v:Commit ID","v:Time","v:Author").and(
@@ -62,6 +30,9 @@ export function previousCommits(commit_id,limit){
             )
     )
 } 
+
+
+
 //to be fix
 /*function getFromTime(branch='main',limit=10,startTime){
     WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author", "v:Branch ID").and(

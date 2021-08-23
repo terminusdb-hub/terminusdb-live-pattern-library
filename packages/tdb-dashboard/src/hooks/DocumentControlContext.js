@@ -59,7 +59,8 @@ export const DocumentControlProvider = ({children}) => {
     // on click of submit on create or edit
     useEffect(() => { 
         if(!documentObject.submit) return
-        let newDocumentInfo=documentObject.frames
+        if(!Object.keys(documentObject.frames)) return
+        console.log("documentObject", documentObject)
         if(documentObject.action == CREATE_DOCUMENT) {
             addNewDocument(woqlClient, newDocumentInfo, setResult, setError)
         }

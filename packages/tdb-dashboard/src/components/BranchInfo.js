@@ -13,7 +13,7 @@ export const BranchInfoModal = ({woqlClient, branch, showDefault, handleClose, h
     function handleSwitchToBranch () {
         if(handleSwitch) handleSwitch(branch)
         if(handleClose) handleClose()
-    }
+    } 
 
     const CommitInfo = () => {
         if(selectedCommit) return <CommitView woqlClient={woqlClient} selectedCommit={selectedCommit} onClose={setSelectedCommit}/>
@@ -28,10 +28,6 @@ export const BranchInfoModal = ({woqlClient, branch, showDefault, handleClose, h
         <Modal.Body className="p-5">
             <BranchActions branch={branch} handleClose={handleClose} woqlClient={woqlClient} setRefresh={setRefresh}/>
             <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-            
-            <BranchDetails woqlClient={woqlClient} branch={branch} dataProduct={dataProduct}/>
-            <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-            
             <CommitInfo/>
     
         </Modal.Body>

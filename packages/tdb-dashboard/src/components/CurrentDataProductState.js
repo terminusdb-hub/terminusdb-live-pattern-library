@@ -53,7 +53,13 @@ export const ConnectedDataProduct = (props) => {
             </span>
         </MenuItem>
         <MenuItem className="sub-menu-title">
-            <span className="pro-item-content"> <BsBriefcase className="me-2 mr-3"/> {branch} </span>
+            <span className="pro-item-content"> 
+                <span class="badge rounded-pill bg-primary">
+                    <h6 className="ml-1 mr-1 mt-1">
+                        <BsBriefcase className="mr-1"/> {branch} 
+                    </h6>
+                </span>
+            </span>
         </MenuItem>
     </SubMenu>
 }

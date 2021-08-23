@@ -3,7 +3,7 @@ import TerminusClient from '@terminusdb/terminusdb-client'
 
 export const getBranchCommits = (branch, ref) => {
     if(!branch) return null
-    return null    
+    //return null    
     let WOQL = TerminusClient.WOQL
     let q = WOQL.query()
     if(ref){
@@ -19,7 +19,7 @@ export const getBranchCommits = (branch, ref) => {
 }
 
 
-//WOQL.using doesn't work we have to wait that it will be fixed
+//WOQL.using doesn't work we have to wait that it will be fixed 
 export const getAddedTriplesQuery = (commit) => {
     let WOQL=TerminusClient.WOQL
     return WOQL.using(commit).added_triple("v:Added Subject", "v:Added Property", "v:Added Object")

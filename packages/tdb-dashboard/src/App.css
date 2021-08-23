@@ -10,8 +10,9 @@ body{
   background-color: #222 !important;
 }
 
+
 .brand-color{
-  color: #00C08B !important;
+  color: var(--primary-purple) !important;
 }
 
 .main-content {
@@ -125,15 +126,6 @@ div.progress-bar-position {
   color: #a3b6ca !important;
 }
 
-.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
-  color: #00C08B !important;
-}
-
-.navbar-dark .navbar-nav .nav-link.active{
-  background-color:#00C08B;
-  color: #002856 !important;
-}
-
 .navbar-dark .navbar-nav .nav-link.disabled {
   color: rgba(255, 255, 255, 0.25) !important;
 }
@@ -160,6 +152,17 @@ div.progress-bar-position {
   position: absolute;
   bottom: 0;
   width: 70%;
+}
+
+
+
+.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+    color:  #00bc8c !important;
+}
+  
+.navbar-dark .navbar-nav .nav-link.active{
+    background-color: #00bc8c;
+    color: #002856 !important;
 }
 /* ---------- icon bar css ---------- */
 
@@ -621,5 +624,39 @@ input {
   padding-top: 20px;
 }
 
+
+/*** Pink: de7dd8, Purple: 855afc, Blue: 4c58d2, Yellow: f9d891  ***/
+
+
+/*** feedback form ***/
+.feedback-card {
+  right: 15px;
+  bottom: 0;
+  width: 80px;
+  float: right;
+  position: fixed !important;
+  z-index: 99;
+  cursor: pointer;
+}
+
+.feedback-form {
+  right: 15px;
+  bottom: 0;
+  width: 180px;
+  float: right;
+  position: fixed !important;
+  z-index: 99;
+  box-shadow: 0 0.5rem 1rem rgb(46 54 80 / 15%);
+  transition: all 1s;
+}
+
+.feedback-card-icon-color {
+  color: #a3b6ca !important;
+}
+
+.feedback-cancel {
+  height: fit-content !important;
+  margin-top: 90px !important;
+}
 
 

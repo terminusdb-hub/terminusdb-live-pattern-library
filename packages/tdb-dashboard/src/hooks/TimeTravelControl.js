@@ -71,7 +71,7 @@ export const TimeTravelControl = (limit=10) => {
                     //I start from the head commit 
                     queryObj = commitsQueryByBranch(branch, limit)
 
-            }
+            } 
             const tmpWoqlClient =  woqlClient.copy()
             
             tmpWoqlClient.checkout('_commits')

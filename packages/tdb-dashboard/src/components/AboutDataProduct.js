@@ -78,14 +78,15 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
                 <h6 className="ml-3">{branchCount}</h6>
             </span>
         </span>
+        
+        {/* Nuking health for now */}
+        {/*<hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>*/}
 
-        <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
+        {/*<h4 className="text-muted mb-3 fw-bold">Health</h4>*/}
 
-        <h4 className="text-muted mb-3 fw-bold">Health</h4>
-
-        {healthText && <p style={{color: color}}>healthText</p>}
-        {!healthText && <p className="text-muted">You can set the health of your Data Product.</p>}
-        <div className="w-100 d-flex align-items-center gx-0">
+        {/*healthText && <p style={{color: color}}>healthText</p>*/}
+        {/*!healthText && <p className="text-muted">You can set the health of your Data Product.</p>*/}
+        {/*<div className="w-100 d-flex align-items-center gx-0">
             <span class={`h2 mb-0 w-100 ${color}`} >
                 <BsBarChart/>
             </span>
@@ -94,7 +95,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
                     <Button variant="light" className="btn-sm" onClick={(e)=>setShowHealth(true)}>Change</Button>
                 </span>
             </div>
-        </div>
+        </div>*/}
 
         <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
 

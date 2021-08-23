@@ -11,15 +11,18 @@ export const getCommitViewTabConfig = (result) => {
 export const getCommitsTabConfig = (result, limit, cellClick, getCopyButton) => {
     const tabConfig= TerminusClient.View.table();
     tabConfig.column_order("Time", "Author", "Commit ID", "Message", "Copy Commit ID")
-    tabConfig.column("Commit ID").click(cellClick)
-    tabConfig.column("Time").width(180).renderer({type: "time"}).click(cellClick)
-    tabConfig.column("Message").width(300).click(cellClick)
-    tabConfig.column("Author").click(cellClick)
-    tabConfig.column("Copy Commit ID").render(getCopyButton)
+    tabConfig.column("Commit ID")
+    tabConfig.column("Time").width(180).renderer({type: "time"})
+    tabConfig.column("Message").width(300)
+    tabConfig.column("Author")
+    tabConfig.column("Copy Commit ID")
+
+    //tabConfig.column("Time").width(180).renderer({type: "time"}).click(cellClick)
     /*tabConfig.column("Reset").minWidth(80).width(80).unsortable(true).click(resetBranch).render(getResetButton)
     tabConfig.column("Time").width(180).renderer({type: "time"}).click(cellClick)
     tabConfig.column("Message").width(300).click(cellClick)
     tabConfig.column("Commit ID").click(cellClick) */
+    tabConfig.column("Copy Commit ID").render(getCopyButton)
     tabConfig.pager("remote")
     tabConfig.pagesize(limit)
     return tabConfig

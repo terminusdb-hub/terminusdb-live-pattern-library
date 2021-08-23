@@ -107,7 +107,7 @@ export const DocumentView = () => {
         })
     }
 
-    console.log("documentObjectWithFrames in view", documentObjectWithFrames)
+    //console.log("documentObjectWithFrames in view", documentObjectWithFrames)
 
 
     return <React.Fragment>

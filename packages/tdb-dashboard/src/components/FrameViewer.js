@@ -67,7 +67,7 @@ export const FrameViewer = () => {
             frames: formFields,
             filledFrame: {},
             message: false,
-            update: false,
+            update: documentObject.update,
             loading: <Loading message={`Creating new ${documentObject.type} ...`} type={PROGRESS_BAR_COMPONENT}/>
         })
     }

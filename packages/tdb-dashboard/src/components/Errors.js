@@ -11,6 +11,12 @@ export const QueryErrors = ({error}) => {
 
 export const ResultErrors = ({error}) => {
     if(!error) return 
-    let message = error.error.data["api:message"]
+    var message
+    if(error && error.error && error.error.data["api:message"]) {
+        message=error.error.data["api:message"]
+    }
+    else {
+        message = error
+    } 
     return <Alerts message={message} type={TERMINUS_DANGER}/>
 }

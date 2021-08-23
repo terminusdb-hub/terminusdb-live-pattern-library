@@ -5,6 +5,8 @@ import {FaHeartbeat} from "react-icons/fa"
 import {
     BarChart,
     Bar,
+    LineChart, 
+    Line,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -17,8 +19,9 @@ import {TimeTravelControl} from "../hooks/TimeTravelControl"
 import {printtsDate, printtsTime} from "./utils"
 import {BiTimer} from "react-icons/bi"
 
+
+
 export const DataProductActivityGraph = () => {
-    
 
     const [commits, setCommits] = useState([])
     const [json, setJson] = useState({})
@@ -27,6 +30,7 @@ export const DataProductActivityGraph = () => {
     const {
         dataProvider
     } = TimeTravelControl(50)
+
 
     useEffect(() => {
         if(!dataProvider) return 
@@ -68,39 +72,6 @@ export const DataProductActivityGraph = () => {
         setGraphData(arr)
     }, [json])
 
-    /*return <div className="col-4 col">
-        <div className="card">
-            <div className="card-body">
-                <div className="row align-items-center gx-0">
-                    <div className="col">
-                        <h6 className="text-uppercase text-muted mb-2">
-                            Recent Activity
-                        </h6>
-                        <span className="h2 mb-0">
-                        {graphData.length>0 && <BarChart
-                            width={500}
-                            height={300}
-                            data={graphData}
-                            margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5
-                            }}
-                            > 
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="commits" fill="#2a7aaf" />
-                        </BarChart>}
-                        </span>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div> */
-
     if(commits.length < 2) return <div/>
     if(graphData.length < 2 ) return <div/>
 
@@ -128,15 +99,39 @@ export const DataProductActivityGraph = () => {
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <Tooltip />
-                                <Area type="monotone" dataKey="commits" stroke="#82ca9d" fill="#82ca9d" />
+                                <Legend />
+                                {/*text-green*/}
+                                {<Area type="monotone" dataKey="commits" stroke="#82ca9d" fill="#82ca9d" />}
+                                {/*text-pink*/}
+                                {/*<Area type="monotone" dataKey="commits" stroke="#ee1ee0" fill="#de7dd8" />*/}
+                                {/*text-purple*/}
+                                {/*<Area type="monotone" dataKey="commits" stroke="#4312cc" fill="#8f75d8" />*/}
                             </AreaChart>
+                            {/*<LineChart
+                                width={500}
+                                height={200}
+                                data={graphData}
+                                margin={{
+                                    top: 10,
+                                    right: 30,
+                                    left: 0,
+                                    bottom: 0,
+                                }}
+                                >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Line type="monotone" dataKey="commits" stroke="#8f75d8" activeDot={{ r: 8 }} />
+                            </LineChart>*/}
                         </ResponsiveContainer>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+     
 }
 
 export const DataProductActivityBoard = () => {

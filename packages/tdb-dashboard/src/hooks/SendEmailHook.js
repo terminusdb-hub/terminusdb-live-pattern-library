@@ -14,6 +14,8 @@ export function SendEmailHook(props) {
 	//const bff_url="https://cloud-dev.dcm.ist/"
 	const baseUrl=`${bff_url}api`
 
+	console.log("baseurl",baseUrl)
+
     const options = {
 		mode: 'cors', // no-cors, cors, *same-origin
 		redirect: 'follow', // manual, *follow, error
