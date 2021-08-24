@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-//const CopyWebPackPlugin= require("copy-webpack-plugin");
+const CopyWebPackPlugin= require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 
@@ -25,7 +25,11 @@ module.exports = (env, argv) => ({
      new MiniCssExtractPlugin({
       filename: 'tdb-dashboard.main.css',
      }),
-   
+     new CopyWebPackPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, "./src/App.css"), to: "App.css", force:true },
+        
+      ]})
 
 
   //{ chunks:["contact", "vendor"], template: "src/pages/contact.html",  filename: "contact.html"}
