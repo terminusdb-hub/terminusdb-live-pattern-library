@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import moment from 'moment'
 import {WOQL} from '@terminusdb/terminusdb-client'
-import {commitsQueryByBranch, previousCommits} from '../queries/TimeTravelQueries'
+import {commitsQueryByBranch, previousCommits,commitsQueryByBranchFilteredByTime} from '../queries/TimeTravelQueries'
 const DATETIME_FULL = "hh:mm:ss, DD-MM-YYYY"
 
 const QUERY_TYPE_LOAD = 'QUERY_TYPE_LOAD';
@@ -70,7 +70,10 @@ export const TimeTravelControl = (limit=10) => {
                 default:
                     //when i change branch or dataprovider 
                     //I start from the head commit 
-                    queryObj = commitsQueryByBranch(branch, limit)
+                    /*if(startTime) {
+                        queryObj=commitsQueryByBranchFilteredByTime(branch, limit, startTime)
+                    }
+                    else */queryObj = commitsQueryByBranch(branch, limit)
 
             } 
             const tmpWoqlClient =  woqlClient.copy()

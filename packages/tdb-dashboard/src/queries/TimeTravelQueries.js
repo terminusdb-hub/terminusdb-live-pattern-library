@@ -15,6 +15,15 @@ export function commitsQueryByBranch(branch='main',limit=10){
     )
 }
 
+//when we open the timetravel
+export function commitsQueryByBranchFilteredByTime(branch='main',limit=10, ts){
+    let newLimit=limit + 1
+    return WOQL.and(
+        WOQL.lib().active_commit_id(branch, ts, "Active Commit ID"), 
+        WOQL.lib().commit_timeline("v:Active Commit ID", branch, limit)
+    )
+}
+
 
 //get the commits older that commit_id
 export function previousCommits(commit_id,limit){
