@@ -106,7 +106,7 @@ export const getUsing = (woqlClient, commit) =>  {
 }
 
 // pure js easy function to copy a string to clipboard
-export const copyToClipboard = str => {
+export const copyToClipboard = (str) => {
     const el = document.createElement('textarea');
     el.value = str;
     document.body.appendChild(el);

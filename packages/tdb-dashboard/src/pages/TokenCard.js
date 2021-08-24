@@ -1,6 +1,7 @@
 import React, {Fragment,useRef,useState} from "react";
 import { Button, Container, Card, Row,Col, Form} from "react-bootstrap"
 import {AccessTokenHook} from "../hooks/AccessTokenHook"
+import {BsClipboard} from "react-icons"
 
 export const TokenCard=()=>{
 	const {getToken,
@@ -52,7 +53,7 @@ export const TokenCard=()=>{
 	return(
 			<Card className="p-3">
 				<h4 className="mt-4"><strong>Personal access tokens</strong></h4>
-				<label className="description">The Tokens can be used to access the TerminusDB Api</label>
+				<label className="description text-muted">The Tokens can be used to access the TerminusDB Api</label>
 				<hr className="my-space mt-4 mb-2" />
 			<Row>
 			  <Col>
@@ -64,7 +65,7 @@ export const TokenCard=()=>{
 			            value={tokenLabel} onChange={onChange}
 			          />
 					  <div className="input-group-append">
-					    {!newTokenLoading &&  <Button onClick={callGetToken}> Generate New Token</Button>}
+					    {!newTokenLoading &&  <Button variant="info" onClick={callGetToken}> Generate New Token</Button>}
 					    {newTokenLoading && <button className="btn-lg disabled"><i className="fas fa-spinner fa-spin"></i> <span style={{marginLeft:"10px"}}>Loading</span></button>}
 					  </div>
 					  
@@ -79,10 +80,11 @@ export const TokenCard=()=>{
 				<Col>
 			 	<div className="alert alert-success" role="alert">
 				  <p className="mt-2 mb-2">Please, copy your new personal access token now. You won’t be able to see it again!</p>
-				  <hr/>
 				  <span className="mt-2 d-flex align-items-baseline">
 					<input className="tdb__token" ref={api_token} value={token} />
-				  	<button onClick={copyFunction} title="Copy to Clipboard" className="btn tdb__copy"><i className="fa fa-copy"></i></button>
+				  	<Button onClick={copyFunction} title="Copy Token" className="btn tdb__copy">
+						<BsClipboard className="mr-1"/> Copy
+					</Button>
 				  </span>			  
 				</div>
 				</Col>

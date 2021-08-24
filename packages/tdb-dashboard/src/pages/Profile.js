@@ -1,20 +1,34 @@
-import React from "react"
+import React, {useState} from "react"
 import {Layout} from "./Layout"
 import {LeftSideBar} from "../components/LeftSideBar"
 import {useAuth0} from "../react-auth0-spa"
-import {Alert, Form, Card, Row, Col} from "react-bootstrap"
+import {Button, Form, Card, Row, Col} from "react-bootstrap"
 import {TokenCard} from "./TokenCard"
-import { BiCloud } from "react-icons/bi"
+import { BsClipboard } from "react-icons/bs"
+import {UnControlled as CodeMirror} from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/ayu-dark.css'
+require('codemirror/mode/css/css')
+require('codemirror/mode/javascript/javascript')
+import {EDITOR_READ_OPTIONS} from "../components/constants"
+import {copyToClipboard} from "../components/utils"
 
 export const Profile = () => {
     const {user} = useAuth0()
     const team = user ? user['http://terminusdb.com/schema/system#team'] : ''
-    console.log("user", user)
+   
     let remote_url = ''
     if(process.env.FEEDBACK_URL ){
         remote_url += process.env.FEEDBACK_URL.endsWith('/') ? process.env.FEEDBACK_URL : process.env.FEEDBACK_URL+'/'
     }
     const cloud_url= `${remote_url}${team}/`
+
+    const [value, setValue]=useState(false)
+
+    function handleCopy () {
+        let snippet = `#!/usr/bin/python3 \nfrom terminusdb_client import WOQLClient\nkey = "eyJhbGciOiJSUzI1NiIsInR5cC..."\nclient = WOQLClient("${cloud_url}")\nclient.connect(account="${team}", jwt_token=key) `
+        copyToClipboard(snippet)
+    }
 
     return <Layout sideBarContent={<LeftSideBar/>}>
         <div style={{marginTop: "70px"}}>
@@ -75,25 +89,41 @@ export const Profile = () => {
                             </Form.Label>
                         </Col>
                     </Form.Group>
+                    <Form.Group as={Row} className="mb-3" controlId={"team"}>
+                        <Col sm="4">
+                            <Form.Label >
+                                Team
+                            </Form.Label>
+                        </Col>
+                        <Col sm="8">
+                            <Form.Label>
+                                {team}
+                            </Form.Label>
+                        </Col>
+                    </Form.Group>
                 </Form>
-            </Card>
+            </Card> 
             </Col>
             <Col className="mt-5 mr-5">
                 <Card className="p-3 mb-3">
-                    <h4 className="mt-4"><strong>Cloud Server Url</strong></h4>
-                    <label className="description">The Url can be used to access the TerminusDB Cloud Server</label>
-				    <hr className="my-space mt-4 mb-2" />
-                    <h5><strong className="text-success">{cloud_url}</strong></h5>
-                    <hr className="my-space mt-2 mb-2" />
-                    <label className="description">Python client example code to connect to the cloud</label>
-                    <Alert variant="secondary">
-                        <p>#!/usr/bin/python3</p>
-                        <p>from terminusdb_client import WOQLClient</p>
-                        <p>key = "eyJhbGciOiJSUzI1NiIsInR5cC..."</p>
-                        <p>{`client = WOQLClient("${cloud_url}")`}</p>
-                        <p>{`client.connect(account="${team}", jwt_token=key)`}</p>
-                        
-                    </Alert>
+                    <span className="d-block mb-4">
+                        <h4 className="mt-4"><strong>Cloud Server Url</strong></h4>
+                        <h6 className=" escription text-muted">(Copy the below URL into a browser to access TerminusDB Cloud Server)</h6>
+                        <h5><strong className="text-success">{cloud_url}</strong></h5>
+                    </span>
+                    
+                    <span className="d-flex">
+                        <h6 className="description fw-bold text-muted w-100 float-left">Python client example code to connect to the cloud</h6>
+                      
+                    </span>
+                    <CodeMirror
+                        value={`#!/usr/bin/python3 \nfrom terminusdb_client import WOQLClient\nkey = "eyJhbGciOiJSUzI1NiIsInR5cC..."\nclient = WOQLClient("${cloud_url}")\nclient.connect(account="${team}", jwt_token=key) `}
+                        options={EDITOR_READ_OPTIONS}
+                        onChange={(editor, data, value) => {
+                            setValue(value)
+                        }}
+                    />
+                    <span className="mb-4"/>
                 </Card>
                 <TokenCard/>           
             </Col>
@@ -101,3 +131,13 @@ export const Profile = () => {
         </div>
     </Layout>
 }
+
+/*
+
+ <Alert variant="secondary">
+                        <p>#!/usr/bin/python3</p>
+                        <p>from terminusdb_client import WOQLClient</p>
+                        <p>key = "eyJhbGciOiJSUzI1NiIsInR5cC..."</p>
+                        <p>{`client = WOQLClient("${cloud_url}")`}</p>
+                        <p>{`client.connect(account="${team}", jwt_token=key)`}</p>
+                    </Alert> */

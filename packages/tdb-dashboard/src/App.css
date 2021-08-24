@@ -616,7 +616,7 @@ input {
 
 .CodeMirror {
   height: auto !important;
-  min-height: 200px !important;
+  min-height: 150px !important;
 }
 
 .qp-CodeMirror {
