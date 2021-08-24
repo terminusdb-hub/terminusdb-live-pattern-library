@@ -62,13 +62,13 @@ export const DocumentControlProvider = ({children}) => {
         if(!Object.keys(documentObject.frames)) return
         console.log("documentObject", documentObject)
         if(documentObject.action == CREATE_DOCUMENT) {
-            addNewDocument(woqlClient, newDocumentInfo, setResult, setError)
+            addNewDocument(woqlClient, documentObject.frames, setResult, setError)
         }
         if(documentObject.action == EDIT_DOCUMENT) {
             updateDocument(woqlClient, documentObject, setDocumentObject, setError)
         }
     }, [documentObject.submit, documentObject.frames])
-
+ 
     
 
     useEffect(() => { // on success 
@@ -77,14 +77,31 @@ export const DocumentControlProvider = ({children}) => {
         }
     }, [result])
 
+    //constants on error 
+    const [originalFrames, setOriginalFrames]=useState(false)
     useEffect(() => { // reporting error
         if(error) {
             let docObj = documentObject
-            docObj.loading = false
-            docObj.message=<Alerts message={error} type={TERMINUS_DANGER} onCancel={setError}/>
-            setDocumentObjectWithFrames(docObj)
+            if((documentObject.action == CREATE_DOCUMENT) || (document.Object.actiob == EDIT_DOCUMENT)) {
+                // get back original frames on error 
+                getDocumentFrame(woqlClient, documentObject, setOriginalFrames, setError)
+            }
+            else { 
+                docObj.loading = false
+                docObj.message=<Alerts message={error} type={TERMINUS_DANGER} onCancel={setError}/>
+                setDocumentObjectWithFrames(docObj)
+            }
         }
     }, [error])
+
+    useEffect(() => {
+        if(originalFrames) {
+            let docObj = documentObject
+            docObj.loading = false
+            docObj.message=<Alerts message={error} type={TERMINUS_DANGER} onCancel={setError}/>
+            //setDocumentObjectWithFrames(docObj)
+        }
+    }, [originalFrames])
 
     return (
         <DocumentControlContext.Provider

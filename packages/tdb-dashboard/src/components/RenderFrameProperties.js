@@ -12,7 +12,11 @@ export const RenderFrameProperties = ({documentObject, documentClasses, handleCh
     function renderProperties (documentObject) {
         let props = [] 
         let frame = documentObject.frames
+        console.log("frame",frame)
         for(var item in frame){
+            console.log("item",item)
+            if(item == "@key") continue
+            if(item == "@type") continue
             if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
                 props.push(<DataTypeFrame documentObject={documentObject} property={item} type={frame[item]} onChange={handleChange} propertyID={propertyID}/>)
             }
@@ -28,7 +32,7 @@ export const RenderFrameProperties = ({documentObject, documentClasses, handleCh
             else if(frame[item] && isSetType(frame[item], documentClasses)) { // set documents
                 props.push(<ClassSetTypeFrame documentObject={documentObject}  property={item} object={frame[item]} onChange={handleSetSelect} setFormFields={setFormFields} formFields={formFields} propertyID={propertyID}/>)
             }
-            else if (frame[item] && isOptionalType(frame[item])) { // if Optional xsd:/ xdd:
+            else if (frame[item] && isOptionalType(frame[item])) { // if Optional 
                 props.push(<OptionalFrames documentObject={documentObject}  property={item} object={frame[item]} onChange={handleChange} propertyID={propertyID}/>)
             }
         }
