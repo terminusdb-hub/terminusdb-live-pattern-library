@@ -48,7 +48,7 @@ const BranchItem = (props) => {
           </Col>
         </Row>
       </ListGroup.Item>
-    )
+    ) 
 }
 
   const List = ({branchList, branch, setShowDefault, handleSwitch, handleBranchClick, handleDelete}) => {

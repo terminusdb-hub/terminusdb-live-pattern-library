@@ -54,10 +54,7 @@ export const graphViewConfig = (result) => {
     const graph=TerminusClient.View.graph();
     graph.height(800).width("1500")
 
-    //graph.show_force(true)
-
-    console.log("result", result)
-   
+    graph.show_force(true)
 
     if(propertyRelationType(result)){
         graph.edges(["Domain", "Range Label"])
@@ -72,7 +69,6 @@ export const graphViewConfig = (result) => {
         graph.node("Range Label").collisionRadius(100)
     }
     else {
-
         for (var item in result[0]){
             graph.node(item).color([40, 112, 194]).size(30).text(item).icon({label: true, color: [208, 212, 216]})
         }

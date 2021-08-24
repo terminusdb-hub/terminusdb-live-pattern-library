@@ -13,6 +13,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {FaPlus} from "react-icons/fa"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
+import {BranchSelector} from "./BranchSelector"
 
 export const TimeTravel = ({show}) => {
  
@@ -29,7 +30,7 @@ export const TimeTravel = ({show}) => {
         olderCommit, 
         loadPreviousPage,
         setReloadQuery
-        } = TimeTravelControl()
+        } = TimeTravelControl() 
 
     useEffect(() => { // when new commit logs are loaded on click of previous or next 
         if(dataProvider.length > 0) {
@@ -141,6 +142,7 @@ export const TimeTravel = ({show}) => {
     return <React.Fragment>
         {/*reportAlert && <React.Fragment>{reportAlert}</React.Fragment>*/}   
         {/*loading && <Loading message="Loading Commit Logs from History" type={PROGRESS_BAR_COMPONENT}/>*/}
+        <BranchSelector/>
         {dataProvider && <VerticalTimeline layout="1-column-left">
             <TimelineElements/>
             {/*olderCommit && olderCommit.parent && 

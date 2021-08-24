@@ -5,7 +5,6 @@ export const WOQLClientObj = () => useContext(WOQLContext)
 import { DATA_PRODUCTS } from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
 import {SCHEMA_GRAPH_TYPE, TERMINUS_SUCCESS, TERMINUS_DANGER, FORM_VIEW, CREATE_DOCUMENT, EDIT_DOCUMENT,VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT, GET_FRAMES_DOCUMENT} from "./components/constants"
-import {executeDocumentAction, resetDocumentObject, updateDocument, addNewDocument} from "./hooks/DocumentControl"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
 import { AiOutlineConsoleSql } from 'react-icons/ai'
@@ -21,7 +20,6 @@ export const WOQLClientProvider = ({children, params}) => {
 
    // const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
     const [branchesReload,setBranchReload] =useState(0)
-    const [documentObjectReload, setDocumentObjectReload]=useState(0)
     const [branch, setBranch] = useState(false)
     const [ref, setRef] = useState(false)
 
@@ -44,19 +42,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [opts, setOpts] = useState(params)
     const [connectionError, setError] = useState(false)
 
-    //const [needUpdate,setNeedUpdate] = useState(0)
-   
-    // document explorer consts 
-    const [documentObject, setDocumentObject] = useState({
-        type: false,
-        action: false,
-        view: FORM_VIEW,
-        submit: false,
-        currentDocument: false,
-        frames: {},
-        message: false,
-        loading: false
-    }) 
+    
     //document classes 
     const [documentClasses, setDocumentClasses] = useState(false)
 
@@ -74,12 +60,16 @@ export const WOQLClientProvider = ({children, params}) => {
     var [totalDocumentCountProvider]=executeQueryHook(woqlClient, totalDocumentsQuery)
 
     useEffect(() => {
-        setPerDocument(perDocumentCountProvider)
+        if(perDocumentCountProvider){
+            setPerDocument(perDocumentCountProvider)
+        }
     },[perDocumentCountProvider])
 
     useEffect(() => {
-        setTotalDocumentCount(totalDocumentCountProvider)
-    },[totalDocumentCountProvider])
+        if(totalDocumentCountProvider) {
+            setTotalDocumentCount(totalDocumentCountProvider)
+        }
+    },[totalDocumentCountProvider]) 
 
 
     useEffect(() => {
@@ -134,7 +124,6 @@ export const WOQLClientProvider = ({children, params}) => {
 
     function getUpdatedDocumentClasses(woqlClient, dataProduct) {
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
-            //console.log("classRes", classRes)
             setDocumentClasses(classRes)
             // get number document classes 
             let q=getCountOfDocumentClass(classRes)
@@ -161,11 +150,8 @@ export const WOQLClientProvider = ({children, params}) => {
         if(woqlClient && dataProduct){
             setBranches(false)
             setDocumentClasses(false)
-            // on change on data product re set document object
-            resetDocumentObject(setDocumentObject)
             setPerDocument(false)
             setTotalDocumentCount(false)
-
             //there is a bug with using in woql so we have to set commits as branch
             const tmpClient = woqlClient.copy()
             tmpClient.checkout("_commits")
@@ -205,46 +191,6 @@ export const WOQLClientProvider = ({children, params}) => {
     }, [route])
 
     
-    // on change of document action 
-    const [filledFrame, setFilledFrame]=useState(false)
-    useEffect(() => {
-        executeDocumentAction(woqlClient, documentObject, setDocumentObject, reloadDocumentObject)
-        //console.log("after execute action", documentObject)
-    }, [documentObject.action, documentObject.type, documentObject.update]) 
-
-    useEffect(() => {
-        console.log("reloading doc")
-        reloadDocumentObject()
-    }, [documentObject.update]) 
-
-
-    // on submit of form for create/ edit document
-    useEffect(() => {
-        if(!documentObject.submit) return
-        let newDocumentInfo=documentObject.frames
-        if(documentObject.action == CREATE_DOCUMENT) {
-            addNewDocument(woqlClient, setDocumentObject, newDocumentInfo, documentObject)
-        }
-        if(documentObject.action == EDIT_DOCUMENT) {
-            updateDocument(woqlClient, documentObject, setDocumentObject)
-        }
-    }, [documentObject.submit, documentObject.frames])
-
-
-    const reloadDocumentObject = () => {
-        //console.log("reloading man")
-        setDocumentObjectReload(Date.now())
-    }
-
-
-    //maybe we can combine this information
-    //I have this info with woqlClient
-    /* ref,
-       branch,
-    branches,
-                setBranches,
-                setRef,
-                setBranch,*/
     const branchNeedReload = ()=>{
         setBranchReload(Date.now())
     }
@@ -304,17 +250,11 @@ export const WOQLClientProvider = ({children, params}) => {
                 setSidebarDocumentListState,
                 sidebarSampleQueriesState, 
                 setSidebarSampleQueriesState,
-                documentObject, 
-                setDocumentObject,
-                reloadDocumentObject,
                 reconnectToServer,
                 documentClasses, 
                 setDocumentClasses,
-                filledFrame, 
-                setFilledFrame,
-                perDocumentCount,
+                perDocumentCount, 
                 totalDocumentCount,
-                documentObjectReload
             }}
         >
             {children}

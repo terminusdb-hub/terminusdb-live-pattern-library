@@ -7,19 +7,12 @@ import {DataProductItems} from "../components/DatabaseList"
 import {ConnectedDataProduct} from "../components/CurrentDataProductState"
 import {DataProductDocuments, DocumentExplorerDocuments} from "../components/DataProductDocuments"
 import {SampleQueries} from "../components/SampleQueries"
-import {resetDocumentObject} from "../hooks/DocumentControl"
 
 export const LeftSideBar = (props) => {
     const {
         dataProduct, 
-        route,
-        setDocumentObject
+        route
     } = WOQLClientObj()
-
-    useEffect(() =>{
-        resetDocumentObject(setDocumentObject)
-    }, [route])
-
 
     return <ProSidebar>
         <SidebarContent>

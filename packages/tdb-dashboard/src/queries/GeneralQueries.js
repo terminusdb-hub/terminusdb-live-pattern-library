@@ -58,9 +58,7 @@ export const getPropertyRelation = (id, dataProduct, woqlClient) => {
     let user=woqlClient.user()
     let dp = `${user.id}/${dataProduct}`
 
-    return WOQL.using(dp).triple("v:Domain", id, "v:Range").
-      triple("v:Domain", "label", "v:Domain Label").
-      quad(id, "label", "v:Range Label", "schema/main")
+    return WOQL.limit(1).triple("v:Subject",  id, "v:Predicate")
 }
 
 
