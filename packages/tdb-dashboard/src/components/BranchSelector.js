@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import Select from 'react-select'
 import {singleSelectStyle} from "./constants"
 import {BranchControl} from "../hooks/BranchControl"
-import {WOQLClientObj} from '../init-woql-client'
+import {WOQLClientObj} from '../init-woql-client' 
 
 export const BranchSelector = () =>{
 
@@ -31,8 +31,6 @@ export const BranchSelector = () =>{
         }
     }
 
-
-    
     useEffect(() => {
         if(!branch) return
         if(!branches) return

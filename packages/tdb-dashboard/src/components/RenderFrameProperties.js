@@ -14,7 +14,6 @@ export const RenderFrameProperties = ({documentObject, documentClasses, handleCh
         let frame = documentObject.frames
         console.log("frame",frame)
         for(var item in frame){
-            console.log("item",item)
             if(item == "@key") continue
             if(item == "@type") continue
             if(frame[item] && isDataType(frame[item])) { // datatype properties like xsd:/ xdd:
