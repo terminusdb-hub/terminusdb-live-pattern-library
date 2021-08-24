@@ -4,7 +4,7 @@ import {BsFillCircleFill, BsCalendar} from"react-icons/bs"
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component'
 import 'react-vertical-timeline-component/style.min.css'
 import {TimeTravelControl} from "../hooks/TimeTravelControl"
-import {Button, Card} from "react-bootstrap"
+import {Button, Card, Row, Col} from "react-bootstrap"
 import {TERMINUS_SUCCESS} from "./constants"
 import {Alerts} from "./Alerts"
 import {AiOutlineUser} from "react-icons/ai"
@@ -14,6 +14,9 @@ import {FaPlus} from "react-icons/fa"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {BranchSelector} from "./BranchSelector"
+import {DatePicker} from "./DatePicker"
+import {FaInfoCircle} from "react-icons/fa"
+
 
 export const TimeTravel = ({show}) => {
  
@@ -142,8 +145,19 @@ export const TimeTravel = ({show}) => {
     return <React.Fragment>
         {/*reportAlert && <React.Fragment>{reportAlert}</React.Fragment>*/}   
         {/*loading && <Loading message="Loading Commit Logs from History" type={PROGRESS_BAR_COMPONENT}/>*/}
-        <BranchSelector/>
-        {dataProvider && <VerticalTimeline layout="1-column-left">
+        
+        <Row>
+            <Col md={5}>
+                <h6 className="text-muted fw-bold"><FaInfoCircle className="mr-2"/>Time Travel to a selected Date</h6>
+                <DatePicker/>
+            </Col>
+            <Col md={7}>
+                <h6 className="text-muted fw-bold"><FaInfoCircle className="mr-2"/>Time travel on a selected Collection</h6>
+                <BranchSelector/>
+            </Col>
+        </Row>
+        
+        {dataProvider && <VerticalTimeline layout="1-column-left" className="mt-3">
             <TimelineElements/>
             {/*olderCommit && olderCommit.parent && 
                 <Button variant="link" className="float-right text-info" onClick={loadPreviousPage}>Load More</Button>

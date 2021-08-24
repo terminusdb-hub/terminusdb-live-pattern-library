@@ -46,7 +46,7 @@ export const BranchSelector = () =>{
         {defaultValue && <Select options={options}
             onChange={handleChange}
             styles={singleSelectStyle}
-            className="mb-3"
+            className="mb-3 basic-single"
             defaultValue={defaultValue} 
         />}
     </React.Fragment>

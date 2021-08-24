@@ -21,7 +21,7 @@ export const TimeTravelControl = (limit=10) => {
     const [gotoPosition,setGotoPosition] = useState(null);
     const [reloadQuery,setReloadQuery] = useState(0);
 
-    const [queryType,setQueryType] = useState(QUERY_TYPE_LOAD);
+    const [queryType,setQueryType] = useState(QUERY_TYPE_LOAD)
  
     const [dataProviderValues, setDataProviderValues] = useState({dataProvider:[],selectedValue:0})
  
@@ -42,6 +42,7 @@ export const TimeTravelControl = (limit=10) => {
         setCurrentPage(0);
         setGotoPosition(null)
         //setCurrentCommit(null)
+        console.log("time *********", time)
         setUpdateStartTime(time)
     }
 
@@ -194,5 +195,6 @@ export const TimeTravelControl = (limit=10) => {
             branch, 
             loadPreviousPage, 
             setReloadQuery,
+            currentDay,
             loadNextPage}
 }
