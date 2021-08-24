@@ -102,7 +102,9 @@ export const FrameViewer = () => {
         }
         setValidated(true)
        
-      }
+    }
+
+    console.log("after error in FV", documentObject)
 
 
     return <React.Fragment> 

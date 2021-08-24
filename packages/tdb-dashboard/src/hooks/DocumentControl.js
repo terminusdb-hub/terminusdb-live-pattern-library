@@ -70,15 +70,16 @@ export async function getSubDocumentFrame (woqlClient, documentType, setFrame) {
     })
 }
 
-//create a new document
+//create a new document  
 export const addNewDocument = async(woqlClient, newDocumentInfo, setResult, setError) => {
     try{
         let db=woqlClient.db()
-        const result = await woqlClient.addDocument(newDocumentInfo, null, db)
+        let commitMsg=`Adding new ${newDocumentInfo["@type"]}`
+        const result = await woqlClient.addDocument(newDocumentInfo, null, db, commitMsg)
         let message=`Success in creating new ${newDocumentInfo["@type"]}`
         let docObj={
             action: false, // reload everything and display all documents list
-            type: newDocumentInfo["@type"],
+            type: newDocumentInfo["type"],
             view: false,
             submit: false,
             currentDocument: false,
@@ -141,7 +142,8 @@ export async function updateDocument (woqlClient, documentObject, setUpdated, se
         let db=woqlClient.db()
         let params={}
         let json = documentObject.frames
-        const result = await woqlClient.updateDocument(json, params, db)
+        let commitMsg=`Updating document ${json["@id"]}`
+        const result = await woqlClient.updateDocument(json, params, db, commitMsg)
 
         let message = `Successfully updated document ${json["@id"]}`
         let docObj = {
@@ -181,8 +183,8 @@ export async function deleteDocument  (woqlClient, setDocumentObject, documentOb
 
     const params={}
     params['id'] = documentObject.currentDocument
-    
-    await woqlClient.deleteDocument(params, db).then((res) => {
+    let commitMsg=`Deleting document ${documentObject.currentDocument}`
+    await woqlClient.deleteDocument(params, db, commitMsg).then((res) => {
         let message=`Successfully deleted ${documentObject.currentDocument}`
         let docObj={
             action: false, // reload everything and display all documents list

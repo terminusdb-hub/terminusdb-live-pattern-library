@@ -41,7 +41,7 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
                 setShowModal(false)
                 setReportAlert(false)
             }).catch((err) => {
-                let messaage=`Error in creating database ${dataProductDetails.label}. ${err}`
+                let messaage=`Error in creating database ${dbInfo.label}. ${err}`
                 setReportAlert(messaage)
                 setLoading(false)
             })

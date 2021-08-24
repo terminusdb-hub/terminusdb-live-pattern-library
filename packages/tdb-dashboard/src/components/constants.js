@@ -352,7 +352,9 @@ export const multiSelectStyle = {
 
 export const singleSelectStyle = {
     singleValue: (base, state) => {
-      return state.data.isFixed ? { ...base, backgroundColor: 'gray' } : base;
+      return state.data.isFixed ? { ...base, backgroundColor: 'gray', "&:hover": {
+        borderColor: "red"
+      } } : base;
     }
 }
 
