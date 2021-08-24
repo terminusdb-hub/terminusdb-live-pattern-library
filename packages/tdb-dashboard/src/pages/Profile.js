@@ -30,6 +30,8 @@ export const Profile = () => {
         copyToClipboard(snippet)
     }
 
+    /* adding a comment for text */
+
     return <Layout sideBarContent={<LeftSideBar/>}>
         <div style={{marginTop: "70px"}}>
             {user && 
@@ -114,7 +116,7 @@ export const Profile = () => {
                     
                     <span className="d-flex">
                         <h6 className="description fw-bold text-muted w-100 float-left">Python client example code to connect to the cloud</h6>
-                      
+
                     </span>
                     <CodeMirror
                         value={`#!/usr/bin/python3 \nfrom terminusdb_client import WOQLClient\nkey = "eyJhbGciOiJSUzI1NiIsInR5cC..."\nclient = WOQLClient("${cloud_url}")\nclient.connect(account="${team}", jwt_token=key) `}
