@@ -31,8 +31,8 @@ export const DataProductsHome = (props) => {
     const [currentDay, setCurrentDay] = useState(moment())
     
     const [dataProvider, setDataProvider] = useState(false)
-
-    let list = woqlClient.databases()
+    
+    let list = woqlClient ? woqlClient.databases() : []
 
     useEffect (() => {
         if(!woqlClient) return

@@ -19,7 +19,6 @@ import {DocumentExplorer} from "./pages/DocumentExplorer"
 import {Feedback} from "./pages/Feedback"
 import {Profile} from "./pages/Profile"
 import {ExampleProducts} from "./pages/ExampleProducts"
-import {TokenPage} from "./pages/TokenPage"
 
 export function App (props){
     const { user, loading} = useAuth0()
@@ -50,9 +49,7 @@ export function App (props){
                         </Route>
                         <Route path="/verify" exact>
                             <VerifyEmail />
-                        </Route>               
-                        <PrivateRoute path={TOKENS} component = {TokenPage} exact/>                   
-                        
+                        </Route>                                                      
                         <PrivateRoute path={DATA_PRODUCTS} component = {DataProductsHome} exact/>
                         <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
                         <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>

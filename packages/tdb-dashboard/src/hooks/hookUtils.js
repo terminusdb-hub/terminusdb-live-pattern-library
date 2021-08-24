@@ -15,6 +15,6 @@ export function getBaseUrl(){
 	/*
     * link to the node server
     */
-    const bff_url= process.env.REACT_APP_BFF_URL || '/';
-	return `${bff_url}api`
+    const remote_url= process.env.FEEDBACK_URL || '/';
+	return `${remote_url}api`
 }
