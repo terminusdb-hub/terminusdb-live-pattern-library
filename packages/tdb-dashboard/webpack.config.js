@@ -28,6 +28,8 @@ module.exports = (env, argv) => ({
      new CopyWebPackPlugin({
       patterns: [
         { from: path.resolve(__dirname, "./src/App.css"), to: "App.css", force:true },
+        { from: path.resolve(__dirname, "./src/assets"), to: "assets/", force:true },
+        
         
       ]})
 
