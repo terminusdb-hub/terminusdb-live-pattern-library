@@ -2,37 +2,32 @@ import {WOQL} from '@terminusdb/terminusdb-client'
 
 //when we open the timetravel
 export function commitsQueryByBranch(branch='main',limit=10){
-    return WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author", "v:Branch ID","v:Message")
+    let newLimit=limit + 1
+    return WOQL.limit(newLimit).select("v:Parent ID","v:Commit ID","v:Time","v:Author", "v:Branch ID","v:Message")
         .and(
-        WOQL.triple("v:Branch", "@schema:name", WOQL.string(branch)),
-        WOQL.triple("v:Branch", "@schema:head", "v:Active Commit ID"),
-        WOQL.or(
-        WOQL.and( 
-            WOQL.triple("v:Active Commit ID","@schema:identifier","v:Commit ID"),
-            WOQL.triple("v:Active Commit ID","@schema:timestamp","v:Time"),
-            WOQL.triple("v:Active Commit ID","@schema:author","v:Author"),
-            WOQL.triple("v:Active Commit ID","@schema:message","v:Message"),
-            WOQL.triple("v:Branch","@schema:name","v:Branch ID"),
-            WOQL.limit(1).opt().triple("v:Parent","@schema:parent","v:Parent Node")
-                .triple("v:Parent Node","@schema:identifier","v:Parent ID")               
-            ),
-        WOQL.and(
-            WOQL.path("v:Active Commit ID", "@schema:parent+","v:Parent", "v:Path"),
-            WOQL.triple("v:Parent","@schema:identifier","v:Commit ID"),
-            WOQL.triple("v:Parent","@schema:timestamp","v:Time"),
-            WOQL.triple("v:Parent","@schema:author","v:Author"),
-            WOQL.triple("v:Parent","@schema:message","v:Message"),
-            WOQL.limit(1).opt().triple("v:Parent","@schema:parent","v:Parent Node")
-            .triple("v:Parent Node","@schema:identifier","v:Parent ID")
-            )
-        )
+            WOQL.triple("v:Branch", "name", WOQL.string(branch)),
+            WOQL.triple("v:Branch", "head", "v:Active Commit ID"),
+            WOQL.path("v:Active Commit ID", "parent*", "v:Parent", "v:Path"),
+            WOQL.triple("v:Parent","identifier","v:Commit ID"),
+            WOQL.triple("v:Parent","timestamp","v:Time"),
+            WOQL.triple("v:Parent","author","v:Author"),
+            WOQL.triple("v:Parent","message","v:Message"),
     )
 }
 
-//not include the commit_id
+//when we open the timetravel
+export function commitsQueryByBranchFilteredByTime(branch='main',limit=10, ts){
+    let newLimit=limit + 1
+    return WOQL.and(
+        WOQL.lib().active_commit_id(branch, ts, "Active Commit ID"), 
+        WOQL.lib().commit_timeline("v:Active Commit ID", branch, limit)
+    )
+}
+
+
 //get the commits older that commit_id
 export function previousCommits(commit_id,limit){
-    return WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author").and(
+    return WOQL.limit(limit).select("v:Parent ID","v:Message","v:Commit ID","v:Time","v:Author").and(
         WOQL.and(
             WOQL.triple("v:Active Commit ID","@schema:identifier",WOQL.string(commit_id)),
             WOQL.path("v:Active Commit ID", "@schema:parent+","v:Parent", "v:Path"),
@@ -43,7 +38,10 @@ export function previousCommits(commit_id,limit){
             WOQL.triple("v:Parent","@schema:parent","v:Parent ID")
             )
     )
-}
+} 
+
+
+
 //to be fix
 /*function getFromTime(branch='main',limit=10,startTime){
     WOQL.limit(limit).select("v:Parent ID","v:Commit ID","v:Time","v:Author", "v:Branch ID").and(

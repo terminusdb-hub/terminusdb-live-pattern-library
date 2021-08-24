@@ -14,15 +14,26 @@ require('codemirror/mode/javascript/javascript')
 import {BiEdit, BiEditAlt} from "react-icons/bi"
 import {checkIfObject} from "./utils"
 import {WOQLClientObj} from '../init-woql-client'
+import {DocumentControlObj} from '../hooks/DocumentControlContext'
+import {
+    CollapsibleComponent,
+    CollapsibleHead,
+    CollapsibleContent
+} from "react-collapsible-component"
 
 export const DocumentInfo = () => {
 
     const {
-        editDocument,
-        documentObject,
-        setDocumentObject,
         woqlClient
     } = WOQLClientObj()
+
+    const {
+        documentObjectWithFrames,
+        documentObject,
+        setDocumentObject
+    } = DocumentControlObj()
+
+    const [currentView, setCurrentView]=useState(documentObject.view)
     
     const FormField = ({id, val}) => {
         return <Form.Group as={Col} md="12" controlId={id} className="ml-5" style={{marginLeft: "100px !important"}}>
@@ -47,12 +58,33 @@ export const DocumentInfo = () => {
         </Form.Group>
     }
 
-    const DocumentContents = ({documentObject}) => {
-        if (documentObject.view == JSON_VIEW) return <JsonDocument documentObject={documentObject}/>
+    const DocumentContents = ({documentObject, currentView}) => {
+        if (currentView == JSON_VIEW) return <JsonDocument documentObject={documentObject}/>
         return <DocumentForm docInfo={documentObject.filledFrame}/>
     } 
 
-    
+
+    const showSubDocument = (subDoc, contents) => {
+
+        if(!subDoc["@id"]){
+            contents.push(
+                <Row className="ml-5">
+                    <Form.Group as={Col} md="12" controlId={subDoc} className="ml-5">
+                        <Form.Label className="mr-5" style={{minWidth: "150px"}}>
+                            {subDoc}
+                        </Form.Label>
+                    </Form.Group>
+                </Row>
+            )
+        }
+        else {
+            contents.push(
+                <Row className="ml-5">
+                    <DocumentForm docInfo={subDoc}/>
+                </Row>
+            )
+        } 
+    } 
 
     const DocumentForm = ({docInfo}) => {
         let contents = []
@@ -71,26 +103,16 @@ export const DocumentInfo = () => {
                     </Form.Label>
                 </Form.Group>
                 )
-                subDoc.map( thing => {
-                    if(!thing["@id"]){
-                        contents.push(
-                            <Row className="ml-5">
-                                <Form.Group as={Col} md="12" controlId={thing} className="ml-5">
-                                    <Form.Label className="mr-5" style={{minWidth: "150px"}}>
-                                        {thing}
-                                    </Form.Label>
-                                </Form.Group>
-                            </Row>
-                        )
-                    }
-                    else {
-                        contents.push(
-                            <Row className="ml-5">
-                                <DocumentForm docInfo={thing}/>
-                            </Row>
-                        )
-                    }
-                })
+               
+                if(Array.isArray(subDoc)){ // can be a list/set of subdocuments
+                    subDoc.map( thing => {
+                        showSubDocument(thing, contents)
+                    })
+                }
+                else { // can be a single subdocument
+                    showSubDocument(subDoc, contents)
+                }
+                
             }
         }
         return contents
@@ -114,33 +136,28 @@ export const DocumentInfo = () => {
 
 
     function handleClick (view) { // on toggle of json and form controls
-        setDocumentObject({
-            action: documentObject.action,
-            type: documentObject.type,
-            view: view,
-            submit: false,
-            currentDocument: documentObject.currentDocument,
-            frames: documentObject.frames,
-            filledFrame: false,
-            update: Date.now()
-        })
-
+        let docObj = documentObjectWithFrames
+        docObj.view=view
+        setCurrentView(view)
+        setDocumentObject(docObj)
     }
 
     function onDelete () {
+        let docObj = documentObject
+        docObj.loading =  <Loading message={`Deleting document ${documentObject.currentDocument} ...`} type={PROGRESS_BAR_COMPONENT}/>
         deleteDocument(woqlClient, setDocumentObject, documentObject)
     }
 
     function handleEdit () { 
         setDocumentObject({
             action: EDIT_DOCUMENT,
-            type: documentObject.type,
+            type: documentObjectWithFrames.type,
             view: documentObject.view,
             submit: false,
-            currentDocument: documentObject.currentDocument,
-            frames: documentObject.frames,
-            filledFrame: documentObject.filledFrame,
-            update: Date.now()
+            currentDocument: documentObjectWithFrames.currentDocument,
+            frames: documentObjectWithFrames.frames,
+            filledFrame: documentObjectWithFrames.filledFrame,
+            update:Date.now()
         })
     }
 
@@ -148,30 +165,30 @@ export const DocumentInfo = () => {
     return <main className="content mr-3 ml-5 w-100">
         <Row className="w-100 mb-5">  
             <Col md={11}> 
-                {documentObject.message && documentObject.message}
+                {documentObjectWithFrames.message && documentObjectWithFrames.message}
                 <Card className="d-flex w-100">
-                    {documentObject.loading && documentObject.loading}
+                    {documentObjectWithFrames.loading && documentObjectWithFrames.loading}
                     <Card.Header className="d-flex w-100">
                         <span className="float-left">
-                            <h5><strong className="text-success">{documentObject.currentDocument}</strong></h5>
+                            <h5><strong className="text-success">{documentObjectWithFrames.currentDocument}</strong></h5>
                         </span>    
                         <span className="w-100 float-right">  
-                            <Button className="float-right btn btn-sm btn-light mr-2 text-dark" onClick={handleEdit} title={`Edit ${documentObject.currentDocumen}`}>
+                            <Button className="float-right btn btn-sm btn-light mr-2 text-dark" onClick={handleEdit} title={`Edit ${documentObjectWithFrames.currentDocumen}`}>
                                 <BiEdit className="mr-1"/> Edit
                             </Button>
 
-                            <Button className="float-right btn btn-sm btn-danger mr-2" title={`Delete ${documentObject.currentDocument}`} onClick={onDelete}>
+                            <Button className="float-right btn btn-sm btn-danger mr-2" title={`Delete ${documentObjectWithFrames.currentDocument}`} onClick={onDelete}>
                                 <AiOutlineDelete className="mr-1"/> Delete
                             </Button>
 
-                            <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObject}/>
+                            <ToggleJsonAndFormControl onClick={handleClick} documentObject={documentObjectWithFrames}/>
                             
                         </span>
                     
                     </Card.Header>
                     <Card.Body> 
                         <Form>
-                            {documentObject.view && documentObject.update && <DocumentContents documentObject={documentObject}/>}
+                            {currentView && <DocumentContents documentObject={documentObjectWithFrames} currentView={currentView}/>}
                         </Form>
                     </Card.Body>
                 </Card>

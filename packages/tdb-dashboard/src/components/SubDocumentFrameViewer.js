@@ -5,17 +5,22 @@ import {BsPlus} from "react-icons/bs"
 import { v4 as uuidv4 } from 'uuid'
 import { CREATE_DOCUMENT, EDIT_DOCUMENT } from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
+import {DocumentControlObj} from '../hooks/DocumentControlContext'
 
-export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, formFields, set}) => {
+
+export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, formFields, set, type}) => {
     const [subDocArray, setSubDocArray] = useState([])
     const [propertyFill, setPropertyFill]=useState([])
 
     const [propertyFormFields, setPropertyFormFields]=useState([])
-
+ 
     const {
-        documentObject,
         documentClasses
     } = WOQLClientObj()
+
+    const {
+        documentObject
+    } = DocumentControlObj()
 
 
     /*{ example of forlm field to uuid of sub doc
@@ -38,7 +43,9 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
             "note": "some other blah"
         }
     ]
-    */
+    */ 
+
+  
 
     function gatherPropertiesToCreate(propertyFill) {
         let extractedJson = []
@@ -48,11 +55,16 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
             for (var x=0; x<arr.length; x++) {
                 let stuff = arr[x] 
                 for (var key in stuff) {
+                    if(documentObject.action == EDIT_DOCUMENT) { // we do not pass id while editing
+                        if(key == "@id") continue
+                    }
                     newJson[key] = stuff[key] 
                 } 
             }
+            newJson["@type"]=type
             extractedJson.push(newJson)
         }
+        
         return extractedJson
     }
 
@@ -75,7 +87,8 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                 submit: false,
                 frames: documentFrame,
                 filledFrame: {},
-                message: false
+                message: false,
+                update:false
             }
             setSubDocArray(arr => [...arr, <SubDoc 
                 property={property} 
@@ -87,22 +100,42 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
         if(documentObject.action == EDIT_DOCUMENT) {// on edit document display filled frames of sub documents 
             let subDocProperty = documentObject.filledFrame[property]
             
-            if(!subDocProperty) return
-            
-            subDocProperty.map(item => {
+            if(!subDocProperty) { //  no filled frame aavailable for subdocument, just pass the frames
                 let newDocumentObject={
                     action: EDIT_DOCUMENT,
                     type: property,
                     view: "form",
                     submit: false,
                     frames: documentFrame,
-                    filledFrame: item,
-                    message: false
+                    filledFrame: [],
+                    message: false,
+                    update:false
                 }
 
-                //setPropertyFormFields(gatherProperties(propertyFormFields, propertyID, e.target.id, e.target.value))
-                for(var filled in item){
-                    setPropertyFormFields(gatherProperties(propertyFormFields, newDocumentObject.filledFrame["@id"], filled, item[filled]))
+                setSubDocArray(arr => [...arr, <SubDoc 
+                    property={property} 
+                    documentFrame={newDocumentObject} 
+                    propertyID={newDocumentObject.filledFrame["@id"]}    
+                    documentClasses={documentClasses}
+                    setPropertyFill={setPropertyFill}/>])
+
+                return
+            }
+
+            function getSubDocumentObject (subDocProperty) {
+                let newDocumentObject={
+                    action: EDIT_DOCUMENT,
+                    type: property,
+                    view: "form",
+                    submit: false,
+                    frames: documentFrame,
+                    filledFrame: subDocProperty,
+                    message: false,
+                    update:false
+                }
+
+                for(var filled in subDocProperty){
+                    setPropertyFormFields(gatherProperties(propertyFormFields, newDocumentObject.filledFrame["@id"], filled, subDocProperty[filled]))
                 }
                    /* here we pass real sub document id instead of uuidv4 */
                 setSubDocArray(arr => [...arr, <SubDoc 
@@ -111,7 +144,17 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
                     propertyID={newDocumentObject.filledFrame["@id"]}    
                     documentClasses={documentClasses}
                     setPropertyFill={setPropertyFill}/>])
-            })
+            }
+            
+            if(Array.isArray(subDocProperty)) { // can be a list/ set of subdocuments
+                subDocProperty.map(item => {
+                    getSubDocumentObject(item)
+                })
+            }
+            else { // can be a single subdocument 
+                getSubDocumentObject(subDocProperty)
+            }
+            
         }
         
     }, [property])
@@ -199,7 +242,8 @@ export const SubDocumentFrameViewer = ({property, documentFrame, setFormFields, 
             submit: false,
             frames: documentFrame,
             filledFrame: {},
-            message: false
+            message: false,
+            update:false
         }
 
         setSubDocArray(arr => [...arr, <SubDoc 

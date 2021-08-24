@@ -19,6 +19,8 @@ export const Auth0Provider = ({
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
 
+  console.log("auth0Client", auth0Client)
+
   useEffect(() => {
    
     const initAuth0 = async () => {

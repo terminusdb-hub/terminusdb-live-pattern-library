@@ -8,7 +8,7 @@ import {Row} from "react-bootstrap"
 
 export const QueryView = (props) => {
     const {queryPaneList, addQueryPane} = QueryPaneObj()
-    const {dataProduct} = WOQLClientObj()
+    const {dataProduct} = WOQLClientObj() 
 
     const QueryPaneBox = (props) => {
         return (

@@ -6,7 +6,7 @@ export class PanelQueryObj {
         this.id = id
         this.isOpen = true
         this.resultObj = {
-            result: null, limit: 50, currentView: TABLE_VIEW,
+            result: null, limit: 10, currentView: TABLE_VIEW,
             start: 0,
             orderBy: null,
             totalRows: null,
@@ -18,7 +18,7 @@ export class PanelQueryObj {
 
     resetResultObj(){
         this.resultObj = {
-            result: null, limit: 50, currentView: TABLE_VIEW,
+            result: null, limit: 10, currentView: TABLE_VIEW,
             start: 0,
             orderBy: null,
             totalRows: null,

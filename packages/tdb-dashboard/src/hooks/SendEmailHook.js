@@ -10,8 +10,11 @@ export function SendEmailHook(props) {
     const [loadingEmail, setEmailLoading] = useState(false)
   
 
-	const bff_url=process.env.TERMINUS_BFF_URL
+	const bff_url=process.env.FEEDBACK_URL
+	//const bff_url="https://cloud-dev.dcm.ist/"
 	const baseUrl=`${bff_url}api`
+
+	console.log("baseurl",baseUrl)
 
     const options = {
 		mode: 'cors', // no-cors, cors, *same-origin

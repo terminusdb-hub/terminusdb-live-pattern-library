@@ -4,14 +4,14 @@ import {Form, Col} from "react-bootstrap"
 import Select from 'react-select'
 import {multiSelectStyle} from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
-import {Accordion} from 'react-accessible-accordion'
-import 'react-accessible-accordion/dist/fancy-example.css'
 import {getDocumentsOfClassOfInterest} from "../hooks/DocumentControl"
 import {DocumentFrameAccordian} from "./DocumentFrameAccordian"
 import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 import {SubDocumentTypeFrame} from "./SubDocumentTypeFrame"
+import {Accordion} from 'react-accessible-accordion'
+import 'react-accessible-accordion/dist/fancy-example.css'
 
-const SelectedDocumentAccordian = ({selected}) => {
+const SelectedDocumentAccordian = ({selected}) => { 
     let acc=[]
 
     // on click of sub frames

@@ -57,9 +57,9 @@ export const BranchActions = ({branch, handleClose, setRefresh}) => {
     return <Row>
         <Col lg={12}>
             <div className="flex-column flex-sm-row d-flex ">
-                <Button variant="light" className="m-1" title={branchActionConfig.merge.title}>
+                {/*<Button variant="light" className="m-1" title={branchActionConfig.merge.title}>
                     <BiGitMerge className="me-2" /> {branchActionConfig.merge.label}
-                </Button>
+                </Button>*/}
                 <Button variant="light" className="m-1" onClick={onReset}  title={branchActionConfig.reset.title}>
                     <AiOutlineUndo className="me-2" /> {branchActionConfig.reset.label}
                 </Button>

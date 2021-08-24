@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import moment from 'moment'
 import {WOQL} from '@terminusdb/terminusdb-client'
-import {commitsQueryByBranch,previousCommits} from './timetravelquery'
+import {commitsQueryByBranch, previousCommits,commitsQueryByBranchFilteredByTime} from '../queries/TimeTravelQueries'
 const DATETIME_FULL = "hh:mm:ss, DD-MM-YYYY"
 
 const QUERY_TYPE_LOAD = 'QUERY_TYPE_LOAD';
@@ -21,10 +21,10 @@ export const TimeTravelControl = (limit=10) => {
     const [gotoPosition,setGotoPosition] = useState(null);
     const [reloadQuery,setReloadQuery] = useState(0);
 
-    const [queryType,setQueryType] = useState(QUERY_TYPE_LOAD);
-
-    const [dataProviderValues,setDataProviderValues] = useState({dataProvider:[],selectedValue:0})
-
+    const [queryType,setQueryType] = useState(QUERY_TYPE_LOAD)
+ 
+    const [dataProviderValues, setDataProviderValues] = useState({dataProvider:[],selectedValue:0})
+ 
 
     const setSelectedValue=(value)=>{
         const newValue={dataProvider:dataProviderValues.dataProvider,
@@ -42,6 +42,7 @@ export const TimeTravelControl = (limit=10) => {
         setCurrentPage(0);
         setGotoPosition(null)
         //setCurrentCommit(null)
+        console.log("time *********", time)
         setUpdateStartTime(time)
     }
 
@@ -69,9 +70,12 @@ export const TimeTravelControl = (limit=10) => {
                 default:
                     //when i change branch or dataprovider 
                     //I start from the head commit 
-                    queryObj = commitsQueryByBranch(branch,limit)
+                    /*if(startTime) {
+                        queryObj=commitsQueryByBranchFilteredByTime(branch, limit, startTime)
+                    }
+                    else */queryObj = commitsQueryByBranch(branch, limit)
 
-            }
+            } 
             const tmpWoqlClient =  woqlClient.copy()
             
             tmpWoqlClient.checkout('_commits')
@@ -130,7 +134,7 @@ export const TimeTravelControl = (limit=10) => {
 
                if(chosenCommit && chosenCommit.commit===commitValue)toBeSelect=index;
                const parent = getValue(entry['Parent ID'])
-               
+                
                //if is the first commit or the last 
                //const isFirstCommit=branchId===branch || parent==='' ? true : false;
 
@@ -179,8 +183,11 @@ export const TimeTravelControl = (limit=10) => {
        setReloadQuery(Date.now());
     }
 
+   
+    let olderCommit = false
     const currentItem = dataProviderValues.dataProvider.length>0  ? dataProviderValues.dataProvider[dataProviderValues.selectedValue] : {label:'No Value',author:'',message:''}
-    const olderCommit= dataProviderValues.dataProvider.length>0 ? dataProviderValues.dataProvider.slice(-1)[0] : null
+    if(dataProviderValues.dataProvider.length>limit) olderCommit = true
+    //const olderCommit= dataProviderValues.dataProvider.length>0 ? dataProviderValues.dataProvider.slice(-1)[0] : null
 
     return {currentItem,
             gotoPosition, 
@@ -190,5 +197,7 @@ export const TimeTravelControl = (limit=10) => {
             olderCommit,
             branch, 
             loadPreviousPage, 
+            setReloadQuery,
+            currentDay,
             loadNextPage}
 }

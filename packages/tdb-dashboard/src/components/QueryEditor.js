@@ -7,7 +7,7 @@ export const QueryEditor = ({queryObj, handleLanguageChange, setMainError}) => {
     //every time it change we set the query
     //string and type
 
-    const {WOQLQueryChange} = QueryPaneObj()
+    const {WOQLQueryChange} = QueryPaneObj() 
 
     //save the change in the context obj
     const handleWOQLQueryChange =(query, text, language)=>{ 
@@ -22,6 +22,7 @@ export const QueryEditor = ({queryObj, handleLanguageChange, setMainError}) => {
     const handleLanguageSwitcher = (lang)=> {
         //setLanguage(lang)
     }
+
 
     //we don't use query prop in the query editor 
     return(

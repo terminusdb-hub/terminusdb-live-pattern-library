@@ -107,10 +107,10 @@ export const deleteDataProductForm = {
 
 //New Branch create button configurations
 export const CREATE_NEW_BRANCH_BUTTON ={label: "New Collection", title: "Create a new collection", icon: "fas fa-check", size:"sm", variant:"info"}// New Branch Form configurations
-export const NEW_BRANCH = "New Branch"
+export const NEW_BRANCH = "New Collection"
 export const newBranchForm = {
     id: {
-        placeholder: "ID for branch - include lowercase characters, numbers and underscores and be no more than 40 characters long",
+        placeholder: "ID for Collection - include lowercase characters, numbers and underscores and be no more than 40 characters long",
         type: "text",
         id: "id"
     },
@@ -119,7 +119,7 @@ export const newBranchForm = {
         empty: "Empty branch",
         choose: "Choose commit to branch from"
     },
-    header: "New Branch"
+    header: "New Collection"
 }
 
 // View history

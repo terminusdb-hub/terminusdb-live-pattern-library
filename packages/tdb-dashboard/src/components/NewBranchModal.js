@@ -9,6 +9,8 @@ import {TERMINUS_WARNING} from "./constants"
 import {legalURLID} from "./utils"
 import {WOQLClientObj} from '../init-woql-client'
 import {FaPlus} from "react-icons/fa"
+import {singleSelectStyle} from "./constants"
+import Select from 'react-select'
 
 export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => {
     const {branches, branch, ref}=WOQLClientObj()
@@ -28,9 +30,10 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
         setID(e.target.value)
     }
 
-    function handleOnChange (e) {
-        setSelect(e.target.value)
+    function handleOnChange (val) {
+        setSelect(val.value)
     }
+  
 
 
     return  <Modal size="lg" className="modal-dialog-right" show={newBranch} onHide={(e) => onCancel(false)}>
@@ -41,16 +44,21 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
         </Modal.Header>
         <Modal.Body className="p-5">
            {reportAlert && reportAlert}
-           <Form>
+           <Form> 
                 <Form.Group className="mb-3">
                     <Form.Control required id={newBranchForm.id.id} type={"text"} onBlur={handleOnBlur} placeholder={newBranchForm.id.placeholder} />
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Control as="select" onChange={handleOnChange} className="bg-transparent border-1-light text-light">
-                        <option defaultValue>{newBranchForm.select.head}</option>
-                        <option>{newBranchForm.select.empty}</option>
-                        <option>{newBranchForm.select.choose}</option>
-                    </Form.Control>
+                    <Select options={[
+                        {value: newBranchForm.select.head, label: newBranchForm.select.head},
+                        {value: newBranchForm.select.empty, label: newBranchForm.select.empty},
+                        {value: newBranchForm.select.choose, label: newBranchForm.select.choose}
+                    ]}
+                        onChange={handleOnChange}
+                        styles={singleSelectStyle}
+                        className="mb-3"
+                        defaultValue={{value: newBranchForm.select.head, label: newBranchForm.select.head}} 
+                    />
                 </Form.Group>
             </Form>
         </Modal.Body>

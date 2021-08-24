@@ -9,6 +9,7 @@ import {getUsing, printts, copyToClipboard} from "./utils"
 import {TERMINUS_MESSAGE, EMPTY_ADDED_DATA, EMPTY_REMOVED_DATA} from "./constants"
 import {Alerts} from "./Alerts"
 import {BsClipboard} from "react-icons/bs"
+import {commitsQueryByBranch} from "../queries/TimeTravelQueries"
 
 const AddedData = ({woqlClient, selectedCommit}) => {
     const [query, setQuery] = useState(getAddedTriplesQuery(getUsing(woqlClient, selectedCommit)))
@@ -155,7 +156,8 @@ export const CommitView = ({woqlClient, commit, onClose, setSelectedCommit, sele
 }
 
 export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => {
-    const [query, setQuery] = useState(getBranchCommits(branch))
+    //const [query, setQuery] = useState(getBranchCommits(branch)) 
+    const [query, setQuery]=useState(commitsQueryByBranch(branch))
     const [tableConfig, setTableConfig] = useState(false)
 
     const [copied, setCopied] = useState(false)
@@ -171,8 +173,12 @@ export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => 
     }
 
     useEffect(() => {
-        setQuery(getBranchCommits(branch))
+        //setQuery(getBranchCommits(branch))
+        setQuery(commitsQueryByBranch(branch), limit)
     }, [refresh]) 
+
+    const tmpWoqlClient =  woqlClient.copy()
+    tmpWoqlClient.checkout('_commits')
 
     const {
         updateQuery,
@@ -185,38 +191,39 @@ export const CommitLogs = ({woqlClient, branch, refresh, setSelectedCommit}) => 
         orderBy,
         loading,
         rowCount,
-    } = {} //ControlledQueryHook(woqlClient, query, false, 20)
+    } = ControlledQueryHook(tmpWoqlClient, query, false, 20)
 
     function handleCopy (commit) {
         copyToClipboard(commit)
-        setCopied(commit)
+        let copyMessage="Copied to clipboard !"
+        setCopied(copyMessage)
     }
 
     function getCopyButton (cell) {
         let cmt = cell.row.original["Commit ID"]["@value"]
-        return <Button variant="info" size="sm" title={`Copy - ${cmt}`} onClick={(e) => handleCopy(cmt)}>
-            <BsClipboard className="mr-2 mb-1"/> {"Copy"}
-        </Button>
+        return <span className="d-flex">
+            <Button variant="light" size="sm" className="ml-5" title={`Copy - ${cmt}`} onClick={(e) => handleCopy(cmt)}>
+                <BsClipboard/> 
+            </Button>
+        </span>
     }
 
     useEffect(() => {
         let tConf = getCommitsTabConfig(result, limit, cellClick, getCopyButton)
         setTableConfig(tConf)
     }, [result])
- 
+
 
     return <React.Fragment>
-        {copied && <Toast show={showCopiedMessage} onClose={handleCloseCopiedMessage} className="bg-light text-white my-3">
-            <Toast.Header className="text-white" closeButton={false}>
-                <BsClipboard className="me-2"/>
-                <strong className="me-auto ms-2">Copied below Text</strong>
-                <Button variant="close" size="xs" onClick={handleCloseCopiedMessage} />
-            </Toast.Header>
-            <Toast.Body>
-                {copied} !
-            </Toast.Body>
-        </Toast>}
-        <h6 className="fw-normal text-muted mb-2">{`Latest Updates on ${branch} branch`}</h6>
+        
+        {result && <h6> {`Last updated by ${result.bindings[0].Author["@value"]} ${printts(result.bindings[0].Time["@value"])} - ${result.bindings[0].Message["@value"]} `}</h6>}
+
+        <h6 className="fw-normal text-muted mb-2 fw-bol">{`Commit Logs on ${branch}`}</h6>
+        {copied && <p className="text-warning">
+            {copied} !
+        </p>
+        }
+
         {result && tableConfig && <WOQLTable
             result={result}
             freewidth={true}

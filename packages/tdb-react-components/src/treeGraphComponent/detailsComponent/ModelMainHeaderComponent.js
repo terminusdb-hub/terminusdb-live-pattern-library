@@ -1,7 +1,7 @@
 import React from 'react';
 import {TOOLBAR_LABELS} from '../../constants/details-labels';
 import {AiOutlineZoomIn, AiOutlineZoomOut} from "react-icons/ai"
-import {BiReset} from "react-icons/bi"
+import {MdCropFree} from "react-icons/md"
 
 export const ModelMainHeaderComponent =(props)=>{
 
@@ -17,7 +17,7 @@ export const ModelMainHeaderComponent =(props)=>{
 		props.setZoomEvent({type:'RESET_ZOOM','zoom':Date.now()});
 	}
 
-
+ 
 	return <div className="d-flex flex-grow-1 justify-content-end pr-4 pt-2">		
 				<div role="group" className="btn-group">
 					<button title={TOOLBAR_LABELS.ZoomInTooltip}  type="button" className="btn btn-outline-light btn-lg border-0" onClick={setZoomIn}>
@@ -27,7 +27,7 @@ export const ModelMainHeaderComponent =(props)=>{
 						<AiOutlineZoomOut size="1.6em"/>
 					</button>
 					<button title={TOOLBAR_LABELS.ResetViewPoint} type="button" className="btn btn-outline-light btn-lg border-0" onClick={setResetView}>
-						<BiReset size="1.6em"/>
+						<MdCropFree size="1.6em"/>
 					</button>
 				</div>
 			</div>	

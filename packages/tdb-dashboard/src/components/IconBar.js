@@ -75,9 +75,9 @@ export const IconBar =  () => {
                 </Nav.Link>
             </Nav.Item>
             <hr className="my-3" role="separator"></hr>
-            <div className="nav-icons-bottom">
+            {/*<div className="nav-icons-bottom">
                 <hr className="my-3" role="separator"></hr>
-                <Nav.Item> 
+                <Nav.Item className="mb-4"> 
                     <Nav.Link as={RouterNavLink} 
                         title={IconBarConfig.feedback.title} 
                         className="nav-icon"
@@ -89,7 +89,7 @@ export const IconBar =  () => {
                         {IconBarConfig.feedback.icon}
                     </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                <Nav.Item> // commenting this for now
                     <Nav.Link as={RouterNavLink} 
                         title={IconBarConfig.tutorials.title} 
                         className="nav-icon"
@@ -101,7 +101,7 @@ export const IconBar =  () => {
                         {IconBarConfig.tutorials.icon}
                     </Nav.Link>
                 </Nav.Item>
-            </div>
+            /</div>*/}
         </Nav>            
    </Navbar>
 }

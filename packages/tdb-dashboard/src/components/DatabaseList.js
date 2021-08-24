@@ -46,7 +46,7 @@ export const DataProductItems = (props) => {
             if(!searchDataProduct) {
                 return <DataProductMenu item={item} handleClick={handleClick} key={`key_${item.name}`}/>
             }
-            if(searchDataProduct && (item.name.includes(searchDataProduct))) {
+            if(searchDataProduct && (item.name.toUpperCase().includes(searchDataProduct.toUpperCase()))) {
                 return <DataProductMenu item={item} handleClick={handleClick} key={`key_${item.name}`}/>
             }
         })}

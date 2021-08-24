@@ -1,13 +1,12 @@
 import React, { useState } from "react"
-import {Card, Button} from "react-bootstrap"
-import {AiOutlinePlus, AiOutlineClose} from "react-icons/ai"
+import {Card} from "react-bootstrap"
 import {BsBriefcase} from "react-icons/bs"
 import {BranchInfoModal} from "../components/BranchInfo"
 import {BranchControl} from "../hooks/BranchControl"
 import {WOQLClientObj} from '../init-woql-client'
 import {DisplayBranchList} from "../components/DisplayBranchList"
 import {NewBranchModal} from "../components/NewBranchModal"
-import {MANAGE_COLLECTIONS, CREATE_NEW_BRANCH_BUTTON} from "./constants"
+
 
 export const ManageProducts = ({setDataProductSettings}) => {
     const {woqlClient, dataProduct,branches, branch} = WOQLClientObj()
@@ -37,7 +36,6 @@ export const ManageProducts = ({setDataProductSettings}) => {
         setShowDefault(false)
     }
 
-    
     return <React.Fragment>
             
             <Card.Text className="ms--2 mb-3 mt-3 h6 text-gray"> 
@@ -52,7 +50,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 loading={loading} 
                 branches={branches}
                 createBranch={createBranch}/> 
-
+ 
             <DisplayBranchList branchList={branches} 
                 branch={branch} 
                 setShowDefault={setShowDefault} 
@@ -60,9 +58,11 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 handleSwitch={handleSwitch} 
                 handleDelete={handleDelete}
                 handleBranchClick={handleBranchClick}
-                reportAlert={reportAlert}/>
+                reportAlert={reportAlert}
+                setDataProductSettings={setDataProductSettings}
+                setNewBranch={setNewBranch}/>
 
-            <BranchInfoModal woqlClient={woqlClient} 
+            {showDefault && <BranchInfoModal woqlClient={woqlClient} 
                 branch={branch} 
                 branches={branches}
                 showDefault={showDefault} 
@@ -70,18 +70,18 @@ export const ManageProducts = ({setDataProductSettings}) => {
                 handleSwitch={handleSwitch} 
                 dataProduct={dataProduct} 
                 setSelectedCommit={setSelectedCommit}
-                selectedCommit={selectedCommit}/>
-
+                selectedCommit={selectedCommit}/>}
+ 
             <div className="float-right text-right d-flex">
                 {/*<Button variant="light" className="mr-3" title={VIEW_HISTORY.title} onClick={(e) => setHistory(true)}>
                     <MdTimer className="me-2"/>{VIEW_HISTORY.label}
                 </Button>*/}
-                <Button variant="info" className="mr-3 btn btn-sm" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
+                {/*<Button variant="info" className="mr-3 btn btn-sm" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
                     <AiOutlinePlus className="me-2 "/>{CREATE_NEW_BRANCH_BUTTON.label}
                 </Button>
                 <Button variant="light" className="btn btn-sm text-dark" title={"Close Manage Products"}>
                     <AiOutlineClose className="me-2 " onClick={(e) => setDataProductSettings(false)}/>
-                </Button>
+                </Button>*/}
             </div>
 
        

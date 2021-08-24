@@ -3,18 +3,18 @@ import React from "react"
 import {CREATE_DOCUMENT, FORM_VIEW, PROGRESS_BAR_COMPONENT} from "./constants"
 import {Loading} from "./Loading"
 
-export function handleCreate (id, setDocumentObject) {  // on create on new document
+export function handleCreate (classType, documentObject, setDocumentObject) {  // on create on new document
     setDocumentObject({
         action: CREATE_DOCUMENT,
-        type: id,
-        view: FORM_VIEW,
+        type: classType,
+        view: documentObject.view,
         submit: false,
         currentDocument: false,
         frames: {},
         filledFrame: {},
-        update:Date.now(),
         message:false,
-        loading: <Loading message={`Fetching frames to create ${id} ...`} type={PROGRESS_BAR_COMPONENT}/>
+        update: Date.now(),
+        loading: <Loading message={`Fetching frames to create ${classType} ...`} type={PROGRESS_BAR_COMPONENT}/>
     }) 
 }
 

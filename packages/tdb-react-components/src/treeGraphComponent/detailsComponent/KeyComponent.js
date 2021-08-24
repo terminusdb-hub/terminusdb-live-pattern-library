@@ -10,7 +10,13 @@ export const KeyComponent = (props) => {
     const {type,fields} = mainGraphObj.getClassKey(selectedNodeObject)
 
     const [needUpdate,setNeedUpdate] = useState(0)
-    const keyTypeArr = ['Lexical','Hash','Random','ValueHash']
+    
+    var keyTypeArr = ['Lexical','Hash','Random','ValueHash']
+    // if selected node is a subdocument then we allow key to be only Random/ValueHash
+    if(selectedNodeObject.schema["@subdocument"]) {
+        keyTypeArr = ['Random','ValueHash']
+    }
+    
 
     const proDataP = mainGraphObj.getPropertyAsList(selectedNodeObject)
 
