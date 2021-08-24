@@ -1,7 +1,6 @@
 import React, {Fragment,useRef,useState} from "react";
 import { Button, Container, Card, Row,Col, Form} from "react-bootstrap"
 import {AccessTokenHook} from "../hooks/AccessTokenHook"
-import {BsClipboard} from "react-icons"
 
 export const TokenCard=()=>{
 	const {getToken,
@@ -82,9 +81,7 @@ export const TokenCard=()=>{
 				  <p className="mt-2 mb-2">Please, copy your new personal access token now. You won’t be able to see it again!</p>
 				  <span className="mt-2 d-flex align-items-baseline">
 					<input className="tdb__token" ref={api_token} value={token} />
-				  	<Button onClick={copyFunction} title="Copy Token" className="btn tdb__copy">
-						<BsClipboard className="mr-1"/> Copy
-					</Button>
+				  	<button onClick={copyFunction} title="Copy to Clipboard" className="btn tdb__copy"><i className="fa fa-copy"></i></button>
 				  </span>			  
 				</div>
 				</Col>
