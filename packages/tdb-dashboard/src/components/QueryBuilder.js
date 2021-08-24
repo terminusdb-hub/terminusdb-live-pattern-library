@@ -7,7 +7,6 @@ import {queryDescription} from "../queryDescription"
 import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 
 
-
 export const QueryBuilder = ({showQueryBuilder}) => {
  
     const [info, setinfo] = useState(false)
