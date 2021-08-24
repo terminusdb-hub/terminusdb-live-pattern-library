@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import moment from 'moment'
 import {WOQL} from '@terminusdb/terminusdb-client'
-import {commitsQueryByBranch, previousCommits} from '../queries/TimeTravelQueries'
+import {commitsQueryByBranch, previousCommits,commitsQueryByBranchFilteredByTime} from '../queries/TimeTravelQueries'
 const DATETIME_FULL = "hh:mm:ss, DD-MM-YYYY"
 
 const QUERY_TYPE_LOAD = 'QUERY_TYPE_LOAD';
@@ -21,7 +21,7 @@ export const TimeTravelControl = (limit=10) => {
     const [gotoPosition,setGotoPosition] = useState(null);
     const [reloadQuery,setReloadQuery] = useState(0);
 
-    const [queryType,setQueryType] = useState(QUERY_TYPE_LOAD);
+    const [queryType,setQueryType] = useState(QUERY_TYPE_LOAD)
  
     const [dataProviderValues, setDataProviderValues] = useState({dataProvider:[],selectedValue:0})
  
@@ -42,6 +42,7 @@ export const TimeTravelControl = (limit=10) => {
         setCurrentPage(0);
         setGotoPosition(null)
         //setCurrentCommit(null)
+        console.log("time *********", time)
         setUpdateStartTime(time)
     }
 
@@ -69,7 +70,10 @@ export const TimeTravelControl = (limit=10) => {
                 default:
                     //when i change branch or dataprovider 
                     //I start from the head commit 
-                    queryObj = commitsQueryByBranch(branch, limit)
+                    /*if(startTime) {
+                        queryObj=commitsQueryByBranchFilteredByTime(branch, limit, startTime)
+                    }
+                    else */queryObj = commitsQueryByBranch(branch, limit)
 
             } 
             const tmpWoqlClient =  woqlClient.copy()
@@ -194,5 +198,6 @@ export const TimeTravelControl = (limit=10) => {
             branch, 
             loadPreviousPage, 
             setReloadQuery,
+            currentDay,
             loadNextPage}
 }

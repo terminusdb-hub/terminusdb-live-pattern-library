@@ -70,7 +70,7 @@ export const TimelineCommits = ({woqlClient,setHead,branch,setError,currentStart
     const buttonVisible = setHead ? {} : {style:{visibility:'hidden'}};
 
     if(!currentItem) return null
-    return (
+    return ( 
       <div className="history__nav__content">
         <div className="history__nav__row">
             <SingleDatePicker

@@ -68,7 +68,7 @@ export const useCommitsControl = (woqlClient, setError, branch='main', currentSt
                     queryObj = WOQL.lib().commit_timeline(currentCommit, branch, limit)
                 }else {
                     queryObj.and(
-                        WOQL.lib().active_commit_id(branch, startTime, "Active Commit ID"),
+                        WOQL.lib().active_commit_id(branch, startTime, "Active Commit ID"), 
                         WOQL.lib().commit_timeline("v:Active Commit ID", branch, limit)
                     )
                 }
